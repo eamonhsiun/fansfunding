@@ -9,5 +9,3 @@
 `frontend`:前端
 
 `design`:设计图
-
-`doc`:文档

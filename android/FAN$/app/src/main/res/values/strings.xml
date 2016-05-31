@@ -9,6 +9,17 @@
     <string name="literature">文学</string>
     <string name="finance">已筹资:¥</string>
     <string name="supportNum">支持数:</string>
-    <string name="category_actionbar_title">category_Name</string>
-    <string name="activity_category">"android.intent.action.FANS.CATEGORY"</string>
+    <string name="actionbar_title">actionbar_Title</string>
+    <string name="activity_category">android.intent.action.FANS.CATEGORY</string>
+    <string name="activity_login">android.intent.action.FANS.LOGIN</string>
+    <string name="activity_news">android.intent.action.FANS.NEWS</string>
+    <string name="activity_project">android.intent.action.FANS.PROJECT</string>
+    <string name="activity_homepage">android.intent.action.FANS.HOMEPAGE</string>
+    <string name="activity_project_detail">android.intent.action.FANS.PROJECTDETAIL</string>
+    <string name="activity_chat">android.intent.action.FANS.CHAT</string>
+    <string name="activity_news_detail">android.intent.action.FANS.NEWSDETAIL</string>
+    <string name="activity_search">android.intent.action.FANS.SEARCH</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

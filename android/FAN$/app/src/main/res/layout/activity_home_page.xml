@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.HomepageActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_homepage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+
+    </android.support.v7.widget.Toolbar>
+    <!--用户信息-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/layout_padding"
+        android:orientation="vertical">
+
+        <!--用户头像和昵称-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--用户头像-->
+            <ImageView
+                android:id="@+id/iv_homepage_head"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pjimagetest"
+                android:paddingRight="@dimen/icon_padding"/>
+
+            <!--用户昵称-->
+            <TextView
+                android:id="@+id/tv_homepage_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_homepage_head"
+                android:layout_toLeftOf="@+id/rl_homepage_followOrChat"
+                android:layout_centerVertical="true"
+                android:text="冰冻vita"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/title_text_size" />
+
+            <!--关注和私信按钮-->
+
+            <RelativeLayout
+                android:id="@+id/rl_homepage_followOrChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/frame_homepage_followorchat"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:padding="2dp"
+                >
+
+                <!--关注/已关注-->
+                <TextView
+                    android:id="@+id/tv_homepage_select_follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:text="关注"
+                    android:padding="2dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"/>
+
+                <!--分割线-->
+                <View
+                    android:id="@+id/divider_homepage_followandchat"
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="@color/colorGrey"
+                    android:layout_toRightOf="@id/tv_homepage_select_follow"
+                    android:layout_centerVertical="true"/>
+
+                <!--聊天-->
+                <ImageView
+                    android:id="@+id/iv_homepage_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/divider_homepage_followandchat"
+                    android:src="@android:drawable/ic_dialog_email"
+                    android:adjustViewBounds="true"
+                    android:padding="2dp"/>
+
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+        <!--分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"
+            android:paddingTop="@dimen/layout_padding" />
+
+        <!--用户动态，关注，粉丝信息-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/layout_padding">
+
+            <!--动态信息-->
+            <LinearLayout
+                android:id="@+id/ll_homepage_news"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/body_text_size"
+                    android:text="动态"/>
+
+                <!--动态数量-->
+                <TextView
+                    android:id="@+id/tv_homepage_news_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/body_text_size"
+                    android:textStyle="bold"
+                    android:text="100"/>
+            </LinearLayout>
+
+            <!--关注信息-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/body_text_size"
+                    android:text="关注"/>
+
+                <!--关注数量-->
+                <TextView
+                    android:id="@+id/tv_homepage_follow_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/body_text_size"
+                    android:textStyle="bold"
+                    android:text="100"/>
+            </LinearLayout>
+
+            <!--粉丝信息-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/body_text_size"
+                    android:text="粉丝"/>
+
+                <!--粉丝数量-->
+                <TextView
+                    android:id="@+id/tv_homepage_fans_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/body_text_size"
+                    android:textStyle="bold"
+                    android:text="100"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!--项目列表的标题-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="项目"
+        android:textSize="@dimen/subhead_text_size"
+        android:padding="@dimen/layout_padding"
+        android:gravity="center_vertical"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorWhite">
+        <RelativeLayout
+            android:id="@+id/rl_homepage_PJ_publish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/layout_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发起的项目"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_homepage_PJ_publish_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:layout_alignParentRight="true"
+                android:text="2"/>
+        </RelativeLayout>
+
+
+
+        <!--分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"/>
+
+
+        <!--关注的项目-->
+        <RelativeLayout
+            android:id="@+id/rl_homepage_PJ_follow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/layout_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关注的项目"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_homepage_PJ_follow_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:layout_alignParentRight="true"
+                android:text="112"/>
+        </RelativeLayout>
+
+
+
+        <!--分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"/>
+
+        <!--支持的项目-->
+        <RelativeLayout
+            android:id="@+id/rl_homepage_PJ_support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/layout_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支持的项目"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_homepage_PJ_support_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:layout_alignParentRight="true"
+                android:text="10"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>

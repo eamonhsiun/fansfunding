@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.UnlogFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+        <!--头像-->
+        <ImageView
+            android:id="@+id/iv_unlog_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/headtest"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:background="#FFFFFFFF"
+            />
+        <!--请登录文字-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/iv_unlog_head"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:text="请登录"/>
+    </RelativeLayout>
+
+</RelativeLayout>

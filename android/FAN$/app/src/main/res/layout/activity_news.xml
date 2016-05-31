@@ -3,21 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoryActivity">
+    tools:context="com.fansfunding.fan.NewsActivity">
 
     <!--标题栏-->
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_category"
+        android:id="@+id/toolbar_news"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">
 
     </android.support.v7.widget.Toolbar>
 
-    <!--项目列表-->
+    <!--动态列表-->
     <ListView
-        android:id="@+id/lv_PJ_SingleType"
+        android:id="@+id/lv_news_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_category">
+        android:layout_below="@+id/toolbar_news">
     </ListView>
 </RelativeLayout>

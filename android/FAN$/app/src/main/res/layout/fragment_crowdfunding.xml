@@ -3,12 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="com.fansfunding.fan.FG_CrowdFunding">
+    android:orientation="vertical"
+    tools:context="com.fansfunding.fan.CrowdFundingFragment">
 
-        <ListView
-            android:id="@+id/lv_PopularRecommendation"
+    <!--搜索栏，只是用来跳转-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_crowdfundinghead"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:elevation="3dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:adjustViewBounds="true"
+            android:src="@android:drawable/ic_search_category_default" />
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:headerDividersEnabled="false">
-        </ListView>
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:text="搜索项目、网红名、用户"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/content_padding"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ListView
+        android:id="@+id/lv_popularRecommendation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:headerDividersEnabled="false">
+    </ListView>
 </LinearLayout>

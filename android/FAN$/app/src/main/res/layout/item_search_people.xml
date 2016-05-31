@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/layout_padding"
+    android:background="@color/colorWhite">
+
+    <!--搜索结果的人物头像-->
+    <ImageView
+        android:id="@+id/iv_search_people_head"
+        android:layout_width="@dimen/icon_size_message"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingRight="@dimen/layout_padding"
+        android:src="@drawable/pjimagetest"/>
+
+    <!--搜索结果的人物昵称-->
+    <TextView
+        android:id="@+id/tv_search_people_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_search_people_head"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="冰冻vita"
+        android:textSize="@dimen/subhead_text_size"/>
+
+    <!--搜索结果的人物个性签名-->
+    <TextView
+        android:id="@+id/tv_search_people_signature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_search_people_head"
+        android:layout_below="@id/tv_search_people_name"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="这是一段个性签名"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.NewsDetailActivity">
+
+    <!--标题-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_news_detail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <!--评论列表-->
+    <ListView
+        android:id="@+id/lv_news_detail_reply_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_news_detail"
+        android:layout_above="@+id/ll_news_detail_btn_group"
+        android:divider="#00000000">
+    </ListView>
+
+
+    <!--按钮-->
+    <LinearLayout
+        android:id="@+id/ll_news_detail_btn_group"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+        <!--评论按钮-->
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="评论"
+            android:background="#00000000"/>
+
+        <!--分割线-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorGrey"
+            android:layout_marginTop="@dimen/content_padding"
+            android:layout_marginBottom="@dimen/content_padding"/>
+
+        <!--转发按钮-->
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="转发"
+            android:background="#00000000"/>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -4,5 +4,42 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="item_padding">10dp</dimen>
+
+
+    <!--组件高度-->
+    <dimen name="tab_height">48dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="recyclerview_subtitle_height">48dp</dimen>
+    <dimen name="item_threeline_height">88dp</dimen>
+    <dimen name="item_twoline_height">72dp</dimen>
+    <dimen name="btn_height">48dp</dimen>
+
+    <!--字体大小-->
+    <dimen name="headline_text_size">24sp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="list_text_size">18sp</dimen>
+    <dimen name="subhead_text_size">16sp</dimen>
+    <dimen name="body_text_size">14sp</dimen>
+    <dimen name="caption_text_size">12sp</dimen>
+    <dimen name="menu_text_size">14sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+
+    <!--list中组件间距-->
+    <dimen name="item_image_padding">16dp</dimen>
+    <dimen name="item_content_padding_top">16dp</dimen>
+    <dimen name="item_content_padding_bottom">16dp</dimen>
+    <dimen name="item_content_padding_right">16dp</dimen>
+    <dimen name="item_content_padding_left">72dp</dimen>
+    <dimen name="item_content_padding_left_with_parent">56dp</dimen>
+
+
+    <dimen name="layout_padding">16dp</dimen>
+    <dimen name="icon_padding">16dp</dimen>
+    <dimen name="text_padding">16dp</dimen>
+    <dimen name="content_padding">8dp</dimen>
+    <dimen name="icon_size">80dp</dimen>
+    <dimen name="icon_size_small">72dp</dimen>
+    <dimen name="icon_size_message">56dp</dimen>
+    <dimen name="icon_size_normal">40dp</dimen>
+
 </resources>

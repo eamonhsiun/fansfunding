@@ -2,30 +2,115 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <ImageView
-        android:id="@+id/iv_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:src="@drawable/searchtest"
-        android:adjustViewBounds="true"
-        android:background="@color/colorGrey"/>
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
 
+    
+    <!--banner-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:src="@drawable/bannertest1"
+        android:src="@drawable/bannertest"
         android:adjustViewBounds="true"
         />
+
+    <!--分类按钮-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/appbar_padding_top"
         android:orientation="horizontal"
+        android:background="@color/colorWhite"
         >
-        <Button
+        <LinearLayout
+            android:id="@+id/ll_cosmetic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/iv_cosmetic_icon"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_cosmetic"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/cosmetic"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_food"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/iv_food_icon"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_food"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/food"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_game"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/iv_game_icon"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_game"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/game"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_literature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/iv_literature_icon"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_literature"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/literature"/>
+
+        </LinearLayout>
+        <!--<Button
             android:id="@+id/btn_cosmetic"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -55,8 +140,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#00000000"
-            android:drawableTop="@drawable/meizhuangtest1"
-            android:text="@string/literature" />
+            android:drawableTop="@drawable/icon_game"
+            android:text="@string/literature" />-->
     </LinearLayout>
     <!--热门推荐分割线-->
     <LinearLayout

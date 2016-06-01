@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProjectDetailActivity">
+
+    <!--可滚动区域-->
+    <ScrollView
+        android:id="@+id/sv_project_detail_information"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lv_project_detail_btn_group">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_project_detail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height">
+            </android.support.v7.widget.Toolbar>
+
+            <!--项目图片-->
+            <ImageView
+                android:id="@+id/iv_project_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_below="@id/toolbar_project_detail"
+                android:src="@drawable/social_picture_test"
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingRight="@dimen/layout_padding"
+                android:paddingTop="2dp"
+                android:background="@color/colorWhite"/>
+
+            <!--项目详情信息-->
+            <RelativeLayout
+                android:id="@+id/rl_project_detail_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/layout_padding"
+                android:layout_below="@id/iv_project_detail_image"
+                android:background="@color/colorWhite">
+                <!--项目发起人信息-->
+                <RelativeLayout
+                    android:id="@+id/rl_project_detail_publisher_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!--项目发起人头像-->
+                    <ImageView
+                        android:id="@+id/iv_project_detail_publisher_head"
+                        android:layout_width="@dimen/icon_size_message"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/icon_padding"
+                        android:adjustViewBounds="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/pjimagetest"/>
+                    <!--项目发起人昵称-->
+                    <TextView
+                        android:id="@+id/tv_project_detail_publisher_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="冰冻vita"
+                        android:layout_toRightOf="@id/iv_project_detail_publisher_head"
+                        android:textSize="@dimen/subhead_text_size"/>
+                    <!--项目发起时间-->
+                    <TextView
+                        android:id="@+id/tv_project_detail_starttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_toRightOf="@id/tv_project_detail_publisher_name"
+                        android:layout_toLeftOf="@+id/tv_project_detail_remainingtime"
+                        android:text="一周前"/>
+                    <!--项目剩余时间-->
+                    <TextView
+                        android:id="@+id/tv_project_detail_remainingtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="剩余10天" />
+                </RelativeLayout>
+                <!--项目名字-->
+                <TextView
+                    android:id="@+id/tv_project_detail_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/list_text_size"
+                    android:text="项目名字"
+                    android:paddingTop="@dimen/content_padding"
+                    android:layout_below="@id/rl_project_detail_publisher_information"/>
+
+                <!--金额等标签-->
+                <LinearLayout
+                    android:id="@+id/ll_project_detail_moneylabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/content_padding"
+                    android:layout_below="@id/tv_project_detail_name">
+
+                    <!--目标金额标签-->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/subhead_text_size"
+                        android:text="目标金额" />
+
+                    <!--已筹金额标签-->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="@dimen/subhead_text_size"
+                        android:text="已筹金额"/>
+
+                    <!--支持人数标签-->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:textSize="@dimen/subhead_text_size"
+                        android:text="支持次数"/>
+
+                </LinearLayout>
+
+                <!--分割线-->
+                <View
+                    android:id="@+id/divider_project_detail_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey"
+                    android:layout_marginTop="@dimen/content_padding"
+                    android:layout_below="@id/ll_project_detail_moneylabel"/>
+
+                <!--查看项目详情-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/content_padding"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:text="查看项目详情"
+                    android:gravity="center"
+                    android:layout_below="@id/divider_project_detail_information"/>
+
+
+            </RelativeLayout>   <!--结束项目详情信息部分-->
+
+
+            <!--产品回报-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_project_detail_information"
+                android:background="@color/colorWhite"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:padding="@dimen/layout_padding">
+
+                <TextView
+                    android:id="@+id/tv_project_detail_reward_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:gravity="center_vertical"
+                    android:text="产品回报"
+                    />
+                <!--分割线-->
+                <View
+                    android:id="@+id/divider_project_detail_reward"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey"
+                    android:layout_marginTop="@dimen/content_padding"
+                    android:layout_below="@id/tv_project_detail_reward_label"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/content_padding"
+                    android:layout_below="@id/divider_project_detail_reward"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>   <!--结束滚动区域-->
+    </ScrollView>   <!--结束滚动区域-->
+
+
+    <!--下方按钮-->
+
+    <LinearLayout
+        android:id="@+id/lv_project_detail_btn_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@color/colorGrey">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="关注"
+            android:drawableTop="@drawable/star_test"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:background="#00000000"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/frame_project_detial_btn_support"
+            android:text="我要支持"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分享"
+            android:drawableTop="@drawable/share_test"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="#00000000"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/layout_padding">
+
+    <TextView
+        android:id="@+id/tv_chat_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="今天11:47"
+        android:background="@drawable/frame_homepage_followorchat"
+        android:textColor="@color/colorWhite"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp" />
+    <TextView
+        android:id="@+id/tv_chat_item_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_homepage_followorchat"
+        android:text="你好呀,我不是很好"
+        android:layout_alignParentRight="true"
+        android:padding="4dp"
+        android:textSize="@dimen/subhead_text_size"
+        android:layout_marginTop="@dimen/content_padding"
+        android:layout_below="@id/tv_chat_item_time"/>
+
+</RelativeLayout>

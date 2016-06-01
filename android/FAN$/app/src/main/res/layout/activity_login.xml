@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.LoginActivity">
+    <!--标题栏-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+    </android.support.v7.widget.Toolbar>
+
+    <!--登陆选项-->
+    <RelativeLayout
+        android:id="@+id/rl_btn_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_login"
+        android:padding="@dimen/layout_padding">
+
+        <!--微信登陆选项-->
+        <Button
+            android:id="@+id/btn_login_wechat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/btn_logintest"
+            android:gravity="center"
+            android:text="微信"
+            android:textSize="@dimen/subhead_text_size"
+            android:paddingTop="16dp"/>
+
+        <!--微博登陆选项-->
+        <Button
+            android:id="@+id/btn_login_weibo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/btn_logintest"
+            android:gravity="center"
+            android:text="微博"
+            android:textSize="@dimen/subhead_text_size"
+            android:paddingTop="16dp"
+            android:layout_below="@id/btn_login_wechat"/>
+
+
+        <!--QQ登陆选项-->
+        <Button
+            android:id="@+id/btn_login_qq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/btn_logintest"
+            android:gravity="center"
+            android:text="QQ"
+            android:textSize="@dimen/subhead_text_size"
+            android:paddingTop="16dp"
+            android:layout_below="@id/btn_login_weibo"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/subhead_text_size"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="或者"
+        android:layout_below="@id/rl_btn_group"/>
+
+    <!--手机号登陆选项-->
+    <TextView
+        android:id="@+id/btn_login_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_or"
+        android:drawableLeft="@drawable/icon_login_phone_test"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="使用手机号登陆"
+        android:textSize="@dimen/subhead_text_size"
+        />
+
+</RelativeLayout>

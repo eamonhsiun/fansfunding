@@ -6,21 +6,95 @@
         android:allowBackup="true"
         android:icon="@drawable/icontest"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".AT_Main"
-            android:theme="@style/AppTheme.NoBar">
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <!-- 主界面 -->
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AT_Category"
-            android:theme="@style/AppTheme.TitleCenter">
+
+        <!-- 分类目录界面 -->
+        <activity android:name=".CategoryActivity">
             <intent-filter>
-                <action android:name="android.intent.action.FANS.CATEGORY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.FANS.CATEGORY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 我的项目界面 -->
+        <activity android:name=".MyProjectActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 登陆界面 -->
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.LOGIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 我的动态界面 -->
+        <activity android:name=".NewsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.NEWS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 个人主页 -->
+        <activity android:name=".HomepageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.HOMEPAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ProjectDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECTDETAIL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 聊天界面 -->
+        <activity android:name=".ChatActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.CHAT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 动态详情 -->
+        <activity android:name=".NewsDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.NEWSDETAIL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--搜索界面-->
+        <activity android:name=".SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

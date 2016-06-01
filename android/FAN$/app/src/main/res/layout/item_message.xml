@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/layout_padding"
+    android:background="@color/colorWhite">
+
+    <!--消息发送人头像-->
+    <ImageView
+        android:id="@+id/iv_msg"
+        android:layout_width="@dimen/icon_size_message"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/item_image_padding"
+        android:adjustViewBounds="true"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_msg">
+
+        <!--消息发送人名称-->
+        <TextView
+            android:id="@+id/tv_msg_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <!--消息内容-->
+        <TextView
+            android:id="@+id/tv_msg_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/body_text_size"
+            android:layout_below="@id/tv_msg_name"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -16,12 +16,25 @@
 
     <style name="AppTheme.NoBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.TitleCenter" parent="AppTheme">
-        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
-    <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Large">
-        <item name="android:textColor">@android:color/holo_blue_bright</item>
 
+
+    <!--登陆界面style-->
+    <style name="AppTheme.Login">
+        <item name="android:actionBarStyle" >@style/ActionBar_Login_Style</item>
+    </style>
+
+    <style name="ActionBar_Login_Style" parent="@android:style/Widget.Holo.Light.ActionBar" >
+        <item name="android:titleTextStyle">@style/ActionBar_Login_titleStyle</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:actionBarDivider">@null</item>
+
+    </style>
+    <style name="ActionBar_Login_titleStyle">
+        <item name="android:textColor">@color/colorBlack</item>
     </style>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.fansfunding.demo.utils.encrypt;
+package com.fansfunding.utils.encrypt;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

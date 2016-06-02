@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fansfunding.demo.dao.UserDao" >
+<mapper namespace="com.fansfunding.user.dao.UserDao" >
   <resultMap id="BaseResultMap" type="User" >
   	<result column="id" property="id" jdbcType="INTEGER" />
   	<result column="real_info_id" property="real_info_id" jdbcType="INTEGER" />
@@ -47,21 +47,20 @@
     from user where phone = #{phone}
   </select>
   
-  <insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.demo.entity.User">
+  <insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.User">
   	insert into user(name,nickname,password,phone,is_red,head,create_by,create_time,update_by,update_time,remark,del_flag,IMEI,token)
   		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{IMEI},#{token})
   </insert>
   
-  <update id="updateToken" parameterType="com.fansfunding.demo.entity.User">
+  <update id="updateToken" parameterType="com.fansfunding.user.entity.User">
   	update user
   	set token = #{token}
   	where id = #{id}
   </update>
-  <update id="updatePwd" parameterType="com.fansfunding.demo.entity.User">
+  <update id="updatePwd" parameterType="com.fansfunding.user.entity.User">
     update user
   	set password = #{password}
   	where id = #{id}
   </update>
-  
   
 </mapper>

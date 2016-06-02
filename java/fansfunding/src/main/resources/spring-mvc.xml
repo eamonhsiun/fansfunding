@@ -13,7 +13,7 @@
   		http://www.springframework.org/schema/mvc
    		http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
 	<context:annotation-config />
-	<context:component-scan base-package="com.fansfunding.demo.controller">
+	<context:component-scan base-package="com.fansfunding">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>

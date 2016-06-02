@@ -1,4 +1,4 @@
-package com.fansfunding.demo.utils.encrypt;
+package com.fansfunding.utils.encrypt;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;  

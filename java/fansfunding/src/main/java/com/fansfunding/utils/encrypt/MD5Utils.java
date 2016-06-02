@@ -1,4 +1,4 @@
-package com.fansfunding.demo.utils.encrypt;
+package com.fansfunding.utils.encrypt;
 
 import java.security.MessageDigest;
 

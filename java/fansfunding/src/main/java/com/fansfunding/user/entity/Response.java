@@ -1,4 +1,4 @@
-package com.fansfunding.demo.entity;
+package com.fansfunding.user.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

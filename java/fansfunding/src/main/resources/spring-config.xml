@@ -73,10 +73,10 @@
 	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<property name="dataSource" ref="dataSource"></property>
-		<property name="mapperLocations" value="classpath:mappers/*.xml"></property>
+		<property name="mapperLocations" value="classpath:mappers/**/*.xml"></property>
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.fansfunding.demo.dao" />
+		<property name="basePackage" value="com.fansfunding.user.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sessionFactory" />
 	</bean>
 	<!-- 缓存配置 -->

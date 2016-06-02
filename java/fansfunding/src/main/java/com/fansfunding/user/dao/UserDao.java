@@ -1,10 +1,10 @@
-package com.fansfunding.demo.dao;
+package com.fansfunding.user.dao;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.fansfunding.demo.entity.User;
+import com.fansfunding.user.entity.User;
 
 
 

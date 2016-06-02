@@ -1,4 +1,4 @@
-package com.fansfunding.demo.utils;
+package com.fansfunding.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

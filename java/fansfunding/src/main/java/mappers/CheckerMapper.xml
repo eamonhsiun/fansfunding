@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fansfunding.demo.dao.CheckerDao" >
+<mapper namespace="com.fansfunding.user.dao.CheckerDao" >
   <resultMap id="BaseResultMap" type="Checker" >
   	<result column="id" property="id" jdbcType="INTEGER" />
     <result column="IMEI" property="IMEI" jdbcType="VARCHAR" />
@@ -25,7 +25,7 @@
     from checker where id = #{id}
   </select>
   
-  <insert id="insertNewChecker" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.demo.entity.Checker">
+  <insert id="insertNewChecker" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.Checker">
 	insert into checker(id,IMEI,checknum,request_time,phone,token)
 		values(#{id},#{IMEI},#{checknum},#{request_time},#{phone},#{token})
   </insert>
@@ -41,7 +41,7 @@
   	delete from checker where IMEI=#{IMEI}
   </delete>
   
-    <update id="updateToken" parameterType="com.fansfunding.demo.entity.Checker">
+    <update id="updateToken" parameterType="com.fansfunding.user.entity.Checker">
   	update checker
   	set token = #{token}
   	where id = #{id}

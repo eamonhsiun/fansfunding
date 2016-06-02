@@ -1,4 +1,4 @@
-package com.fansfunding.demo.service;
+package com.fansfunding.user.service;
 
 
 import java.util.Date;
@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fansfunding.demo.dao.CheckerDao;
-import com.fansfunding.demo.dao.UserDao;
-import com.fansfunding.demo.entity.Checker;
-import com.fansfunding.demo.entity.User;
-import com.fansfunding.demo.entity.UserBasic;
+import com.fansfunding.user.dao.CheckerDao;
+import com.fansfunding.user.dao.UserDao;
+import com.fansfunding.user.entity.Checker;
+import com.fansfunding.user.entity.User;
+import com.fansfunding.user.entity.UserBasic;
 
 
 @Service

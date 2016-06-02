@@ -1,4 +1,4 @@
-package com.fansfunding.demo.utils.response;
+package com.fansfunding.utils.response;
 
 
 public class Status {

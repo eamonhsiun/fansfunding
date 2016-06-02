@@ -1,4 +1,4 @@
-package com.fansfunding.demo.utils;
+package com.fansfunding.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.fansfunding.demo.utils.encrypt.AESUtils;
-import com.fansfunding.demo.utils.encrypt.MD5Utils;
+import com.fansfunding.utils.encrypt.AESUtils;
+import com.fansfunding.utils.encrypt.MD5Utils;
 
 public class HeaderProc {
 	public static final String HEADER_DEFAULT = "http://localhost:8088/fansfunding/";

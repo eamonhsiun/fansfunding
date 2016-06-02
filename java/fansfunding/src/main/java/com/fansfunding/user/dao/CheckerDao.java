@@ -1,9 +1,9 @@
-package com.fansfunding.demo.dao;
+package com.fansfunding.user.dao;
 
 
 import org.springframework.stereotype.Repository;
 
-import com.fansfunding.demo.entity.Checker;
+import com.fansfunding.user.entity.Checker;
 
 
 @Repository

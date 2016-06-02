@@ -1,4 +1,4 @@
-package com.fansfunding.demo.controller;
+package com.fansfunding.user.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fansfunding.demo.entity.Checker;
-import com.fansfunding.demo.entity.User;
-import com.fansfunding.demo.service.CheckerService;
-import com.fansfunding.demo.service.UserService;
-import com.fansfunding.demo.utils.encrypt.AESUtils;
-import com.fansfunding.demo.utils.encrypt.MD5Utils;
-import com.fansfunding.demo.utils.response.Status;
-import com.fansfunding.demo.utils.response.StatusCode;
+import com.fansfunding.user.entity.Checker;
+import com.fansfunding.user.entity.User;
+import com.fansfunding.user.service.CheckerService;
+import com.fansfunding.user.service.UserService;
+import com.fansfunding.utils.encrypt.AESUtils;
+import com.fansfunding.utils.encrypt.MD5Utils;
+import com.fansfunding.utils.response.Status;
+import com.fansfunding.utils.response.StatusCode;
 
 
 
@@ -31,7 +31,7 @@ public class UserController {
 	public Status updatePwd(@RequestParam int uid,@RequestParam String cid,@RequestParam String pwd){
 		try{
 			User user = userService.getUserById(uid);
-			//用户不存在
+			//用户不存�?
 			if(user == null){
 				return new Status(false, StatusCode.USER_NULL, null);
 			}

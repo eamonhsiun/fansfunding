@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fansfunding.system.dao.SysHelpDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.system.entity.SysHelp" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="catagory" property="catagory" jdbcType="VARCHAR" />
+    <result column="question" property="question" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="answer" property="answer" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_help
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fansfunding.system.entity.SysHelp" >
+    insert into sys_help (id, catagory, question, 
+      create_by, create_time, update_by, 
+      update_time, del_flag, answer
+      )
+    values (#{id,jdbcType=INTEGER}, #{catagory,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{answer,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fansfunding.system.entity.SysHelp" >
+    update sys_help
+    set catagory = #{catagory,jdbcType=VARCHAR},
+      question = #{question,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      answer = #{answer,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, catagory, question, create_by, create_time, update_by, update_time, del_flag, 
+    answer
+    from sys_help
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, catagory, question, create_by, create_time, update_by, update_time, del_flag, 
+    answer
+    from sys_help
+  </select>
+</mapper>

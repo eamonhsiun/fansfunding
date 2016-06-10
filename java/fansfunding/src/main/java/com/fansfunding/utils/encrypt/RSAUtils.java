@@ -14,6 +14,7 @@ import java.util.HashMap;
 import javax.crypto.Cipher;  
   
 public class RSAUtils {  
+	private RSAUtils(){}
 	
     public static void main(String[] args) throws Exception {  
     	       

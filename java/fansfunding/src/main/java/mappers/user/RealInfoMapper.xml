@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fansfunding.user.dao.RealInfoDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.user.entity.RealInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+  	<result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="id_number" property="idNumber" jdbcType="VARCHAR" />
+    <result column="birth_place" property="birthPlace" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="is_validated" property="isValidated" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from real_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fansfunding.user.entity.RealInfo" >
+    insert into real_info (id, real_name,user_id, sex, 
+      id_number, birth_place, birthday, 
+      address, is_validated, create_by, 
+      create_time, update_by, update_time, 
+      del_flag)
+    values (#{id,jdbcType=INTEGER}, #{realName,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER} ,#{sex,jdbcType=TINYINT}, 
+      #{idNumber,jdbcType=VARCHAR}, #{birthPlace,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{address,jdbcType=VARCHAR}, #{isValidated,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.RealInfo" >
+    update real_info
+    set real_name = #{realName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      user_id=#{userId,jdbcType=INTEGER},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      birth_place = #{birthPlace,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      address = #{address,jdbcType=VARCHAR},
+      is_validated = #{isValidated,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, real_name, user_id , sex, id_number, birth_place, birthday, address, is_validated, 
+    create_by, create_time, update_by, update_time, del_flag
+    from real_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, real_name, user_id , sex, id_number, birth_place, birthday, address, is_validated, 
+    create_by, create_time, update_by, update_time, del_flag
+    from real_info
+  </select>
+</mapper>

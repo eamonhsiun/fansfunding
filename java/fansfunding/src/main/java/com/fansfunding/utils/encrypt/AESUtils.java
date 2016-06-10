@@ -6,7 +6,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 public class AESUtils {
-	 
+	private  AESUtils(){}
+	
     // 加密
     public static String Encrypt(String sSrc, String sKey) throws Exception {
         if (sKey == null) {

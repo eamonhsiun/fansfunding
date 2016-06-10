@@ -3,7 +3,9 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,7 +33,6 @@ public class UserController {
 	public Status updatePwd(@RequestParam int uid,@RequestParam String cid,@RequestParam String pwd){
 		try{
 			User user = userService.getUserById(uid);
-			//用户不存�?
 			if(user == null){
 				return new Status(false, StatusCode.USER_NULL, null);
 			}
@@ -49,7 +50,6 @@ public class UserController {
 			if(!(checker.getChecknum()==check)){
 				return new Status(false,StatusCode.CHECKER_ERROR,null);
 			}
-			//MD5加密密码
 			user.setPassword(MD5Utils.MD5(pwd));
 			return new Status(true,StatusCode.SUCCESS,userService.updatePwd(user,checker));
 		}catch(Exception e){
@@ -183,6 +183,16 @@ public class UserController {
 		}
 	}
 	
-		
+	/**
+	 * 获取用户信息
+	 * @param userId 用户ID
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/info",method=RequestMethod.GET)
+	@ResponseBody
+	public Status info(@PathVariable Integer userId){
+		return null;
+	}
+
 	
 }

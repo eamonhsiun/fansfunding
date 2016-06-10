@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 public class User extends UserBasic{
 
 	@JsonProperty
-	private String real_info_id;
-	@JsonProperty
 	private int is_red;
 	@JsonProperty
 	private String head;
@@ -46,13 +44,6 @@ public class User extends UserBasic{
 	@JsonProperty
 	private String id_qq;
 
-	public String getReal_info_id() {
-		return real_info_id;
-	}
-	public void setReal_info_id(String real_info_id) {
-		this.real_info_id = real_info_id;
-	}
-	
 	public int getIs_red() {
 		return is_red;
 	}

@@ -17,6 +17,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-config.xml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>fansfunding.root</param-value>
+	</context-param>
 	<!-- 日志配置文件夹位置 -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>

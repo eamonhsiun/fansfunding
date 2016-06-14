@@ -13,42 +13,33 @@
     <result column="images" property="images" jdbcType="LONGVARCHAR" />
     <result column="others" property="others" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from project_detail
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update project_detail
+    set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.ProjectDetail" >
-    insert into project_detail (id, video, create_by, 
-      create_time, update_by, update_time, 
-      del_flag, content, images, 
-      others)
-    values (#{id,jdbcType=INTEGER}, #{video,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR}, #{images,jdbcType=LONGVARCHAR}, 
-      #{others,jdbcType=LONGVARCHAR})
+    insert into project_detail (video, create_by, create_time, update_by, update_time, 
+      content, images,others)
+    values (#{video,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, NOW(), 
+      #{updateBy,jdbcType=VARCHAR},NOW(), #{content,jdbcType=LONGVARCHAR},
+      #{images,jdbcType=LONGVARCHAR}, #{others,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.ProjectDetail" >
     update project_detail
     set video = #{video,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR},
+      update_time = NOW(),
       content = #{content,jdbcType=LONGVARCHAR},
       images = #{images,jdbcType=LONGVARCHAR},
       others = #{others,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, video, create_by, create_time, update_by, update_time, del_flag, content, 
-    images, others
-    from project_detail
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, video, create_by, create_time, update_by, update_time, del_flag, content, 
-    images, others
-    from project_detail
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.id, d.video, d.create_by, d.create_time, d.update_by, d.update_time,
+    d.del_flag, d.content, d.images, d.others
+    from project_detail d,project p
+    where p.id=d.id
+    and d.id = #{projectId,jdbcType=INTEGER} and d.del_flag='0'
   </select>
 </mapper>

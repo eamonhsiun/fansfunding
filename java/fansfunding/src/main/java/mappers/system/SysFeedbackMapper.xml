@@ -12,29 +12,25 @@
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sys_feedback
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update sys_feedback
+    set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.system.entity.SysFeedback" >
-    insert into sys_feedback (id, user_id, is_replied, 
+    insert into sys_feedback (user_id, is_replied, 
       create_by, create_time, update_by, 
-      update_time, del_flag, content
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isReplied,jdbcType=TINYINT}, 
-      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR}
-      )
+      update_time,content)
+    values (#{userId,jdbcType=INTEGER}, #{isReplied,jdbcType=TINYINT}, 
+      #{createBy,jdbcType=VARCHAR}, NOW(), #{updateBy,jdbcType=VARCHAR}, 
+      NOW(), #{content,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.system.entity.SysFeedback" >
     update sys_feedback
     set user_id = #{userId,jdbcType=INTEGER},
       is_replied = #{isReplied,jdbcType=TINYINT},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR},
+      update_time = NOW(),
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -43,10 +39,20 @@
     content
     from sys_feedback
     where id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
+  <select id="selectReplied" resultMap="BaseResultMap">
     select id, user_id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
     content
     from sys_feedback
+    where is_replied=1
+    and del_flag='0'
+  </select>
+  <select id="selectUnreplied" resultMap="BaseResultMap">
+    select id, user_id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
+    content
+    from sys_feedback
+    where is_replied=0
+    and del_flag='0'
   </select>
 </mapper>

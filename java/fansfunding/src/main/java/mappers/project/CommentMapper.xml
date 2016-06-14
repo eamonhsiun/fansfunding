@@ -11,26 +11,22 @@
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from comment
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update comment
+    set del_flag= '1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.Comment" >
-    insert into comment (id, project_id, user_id, 
-      point_to, create_by, create_time, 
-      del_flag, content)
-    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{pointTo,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR})
+    insert into comment (project_id, user_id, 
+      point_to, create_by, create_time, content)
+    values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{pointTo,jdbcType=INTEGER},
+     #{createBy,jdbcType=VARCHAR}, NOW(), #{content,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Comment" >
     update comment
     set project_id = #{projectId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       point_to = #{pointTo,jdbcType=INTEGER},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -38,14 +34,12 @@
     select id, project_id, user_id, point_to, create_by, create_time, del_flag, content
     from comment
     where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, project_id, user_id, point_to, create_by, create_time, del_flag, content
-    from comment
+    and del_flag='0'
   </select>
   <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, project_id, user_id, point_to, create_by, create_time, del_flag, content
     from comment
     where project_id = #{projectId,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
 </mapper>

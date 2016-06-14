@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fansfunding.project.dao.CatagoryDao;
-import com.fansfunding.project.entity.Catagory;
 
 @Service
 public class CatagoryService {

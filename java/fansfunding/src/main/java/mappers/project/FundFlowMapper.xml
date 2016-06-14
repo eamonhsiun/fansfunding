@@ -13,19 +13,17 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from fund_flow
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update fund_flow
+    set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.FundFlow" >
-    insert into fund_flow (id, project_id, user_id, 
-      money, status, create_by, 
-      create_time, update_by, update_time, 
-      del_flag)
-    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    insert into fund_flow (project_id, user_id, money, status, create_by,
+      create_time, update_by, update_time)
+    values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{money,jdbcType=DECIMAL}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=CHAR})
+      NOW(), #{updateBy,jdbcType=VARCHAR}, NOW())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.FundFlow" >
     update fund_flow
@@ -33,11 +31,8 @@
       user_id = #{userId,jdbcType=INTEGER},
       money = #{money,jdbcType=DECIMAL},
       status = #{status,jdbcType=CHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR}
+      update_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -46,9 +41,18 @@
     from fund_flow
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, project_id, user_id, money, status, create_by, create_time, update_by, 
     update_time, del_flag
     from fund_flow
+    where project_id = #{projectId,jdbcType=INTEGER}
+    and del_flag='0'
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, user_id, money, status, create_by, create_time, update_by, 
+    update_time, del_flag
+    from fund_flow
+    where user_id = #{userId,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
 </mapper>

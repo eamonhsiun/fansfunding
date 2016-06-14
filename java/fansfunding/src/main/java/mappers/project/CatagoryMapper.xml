@@ -11,36 +11,34 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from catagory
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update catagory 
+    set del_flag= '1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.Catagory" >
-    insert into catagory (id, name, description, 
-      create_by, create_time, update_by, 
-      update_time, del_flag)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+    insert into catagory (name, description, create_by, create_time,
+    update_by, update_time)
+    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, NOW(), #{updateBy,jdbcType=VARCHAR}, NOW())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Catagory" >
     update catagory
     set name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR}
+      update_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, name, description, create_by, create_time, update_by, update_time, del_flag
     from catagory
     where id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, name, description, create_by, create_time, update_by, update_time, del_flag
     from catagory
+    where del_flag='0'
   </select>
 </mapper>

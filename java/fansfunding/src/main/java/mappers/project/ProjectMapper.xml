@@ -15,25 +15,27 @@
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
-    <result column="name" property="name" jdbcType="VARBINARY" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from project
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update project
+    set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.Project" >
-    insert into project (id, catagory_id, sponsor, 
+    insert into project (catagory_id, sponsor, 
       detail_id, target_money, target_deadline, 
       cover, status, create_by, 
       create_time, update_by, update_time, 
-      del_flag, name, description
+      name, description
       )
-    values (#{id,jdbcType=INTEGER}, #{catagoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
-      #{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL}, #{targetDeadline,jdbcType=TIMESTAMP}, 
+    values (#{catagoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
+      #{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL},
+      #{targetDeadline,jdbcType=TIMESTAMP}, 
       #{cover,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=CHAR}, #{name,jdbcType=VARBINARY}, #{description,jdbcType=LONGVARCHAR}
+      NOW(), #{updateBy,jdbcType=VARCHAR},NOW(), 
+      #{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Project" >
@@ -45,30 +47,24 @@
       target_deadline = #{targetDeadline,jdbcType=TIMESTAMP},
       cover = #{cover,jdbcType=VARCHAR},
       status = #{status,jdbcType=CHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR},
-      name = #{name,jdbcType=VARBINARY},
+      update_time = NOW(),
+      name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, catagory_id, sponsor, detail_id, target_money, target_deadline, cover, 
     status, create_by, create_time, update_by, update_time, del_flag, name, description
     from project
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, catagory_id, sponsor, detail_id, target_money, target_deadline, cover, 
-    status, create_by, create_time, update_by, update_time, del_flag, name, description
-    from project
+    where id = #{projectId,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
   <select id="selectByCatagoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select id, catagory_id, sponsor, detail_id, target_money, target_deadline, cover, 
     status, create_by, create_time, update_by, update_time, del_flag, name, description
     from project
     where catagory_id=#{catagoryId,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
 </mapper>

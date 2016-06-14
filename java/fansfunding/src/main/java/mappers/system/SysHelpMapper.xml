@@ -12,29 +12,27 @@
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
     <result column="answer" property="answer" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sys_help
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update sys_help
+    set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   <insert id="insert" parameterType="com.fansfunding.system.entity.SysHelp" >
-    insert into sys_help (id, catagory, question, 
+    insert into sys_help (catagory, question, 
       create_by, create_time, update_by, 
-      update_time, del_flag, answer
+      update_time, answer
       )
-    values (#{id,jdbcType=INTEGER}, #{catagory,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
-      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, #{answer,jdbcType=LONGVARCHAR}
+    values (#{catagory,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR},NOW(), #{updateBy,jdbcType=VARCHAR}, 
+      NOW(), #{answer,jdbcType=LONGVARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.system.entity.SysHelp" >
     update sys_help
     set catagory = #{catagory,jdbcType=VARCHAR},
       question = #{question,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR},
+      update_time = NOW(),
       answer = #{answer,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -43,10 +41,12 @@
     answer
     from sys_help
     where id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, catagory, question, create_by, create_time, update_by, update_time, del_flag, 
     answer
     from sys_help
+    where del_flag='0'
   </select>
 </mapper>

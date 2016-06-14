@@ -52,7 +52,7 @@ public class ProjectService {
 	 */
 	public Map<String,Object> getByProjectId(Integer projectId){
 		Map<String,Object> project=new HashMap<>();
-		Project e=projectDao.selectByPrimaryKey(projectId);
+		Project e=projectDao.selectByProjectId(projectId);
 
 		project.put("id", e.getId());
 		project.put("catagoryId", e.getCatagoryId());
@@ -74,7 +74,7 @@ public class ProjectService {
 	 */
 	public Map<String,Object> getDetails(Integer projectId){
 		Map<String,Object> details=new HashMap<String,Object>();
-		ProjectDetail pd=detailDao.selectByPrimaryKey(projectDao.selectByPrimaryKey(projectId).getDetailId());
+		ProjectDetail pd=detailDao.selectByProjectId(projectId);
 		
 		details.put("id", pd.getId());
 		details.put("content", pd.getContent());
@@ -91,7 +91,7 @@ public class ProjectService {
 	 * @return
 	 */
 	public boolean  inCatagory(int catagoryId,int projectId){
-		return projectDao.selectByPrimaryKey(projectId).getCatagoryId().intValue()==catagoryId;
+		return projectDao.selectByProjectId(projectId).getCatagoryId().intValue()==catagoryId;
 	}
 	
 	/**
@@ -102,19 +102,20 @@ public class ProjectService {
 	 * @return
 	 */
 	public boolean uploadAttachments(int catagoryId,int projectId,CommonsMultipartFile[] files){
-		ProjectDetail projectDetail=detailDao.selectByPrimaryKey(projectDao.selectByProjectId(projectId).getDetailId());
+		ProjectDetail projectDetail=detailDao.selectByProjectId(projectId);
 		if(projectDetail==null){
 			return false;
 		}
-		
+		//TO DO
+		//更新项目详情
 		for(CommonsMultipartFile file:files){
 			try {
 				FileUpload.save(file, FileUpload.Path.PROJECT_ATTACHMENT, catagoryId+"/"+projectId);
-//				project
 			} catch (IOException e) {
 				return false;
 			}
 		}
+		//TO DO
 		return true;
 	}
 }

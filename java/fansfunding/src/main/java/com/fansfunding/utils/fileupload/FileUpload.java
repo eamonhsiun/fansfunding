@@ -1,31 +1,142 @@
 package com.fansfunding.utils.fileupload;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
-import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
- * �ļ��ϴ�
+ * 文件上传
  * @author wangle
  *
  */
+
 public class FileUpload {
-	public enum PATH{
-		USER_HEAD,
-		PROJECT_ATTACHMENT,
-		CHAT_FILES
+	/**
+	 * 可以上传的最大文件大小（字节数）
+	 */
+	public static final int FILE_MAX_SIZE=1024000000;
+	/**
+	 * 文件存储的路径
+	 * @author wangle
+	 *
+	 */
+	public static enum Path{
+		USER_HEAD{
+			public String getPath(){
+				return FileUpload.userHead;
+			}
+		},
+		PROJECT_ATTACHMENT{
+			public String getPath(){
+				return FileUpload.projectAttachment;
+			}
+		},
+		CHAT_FILES{
+			public String getPath(){
+				return FileUpload.chatFiles;
+			}
+		};
+		public abstract String getPath();
 	}
-	private FileUpload(){}
-	
-	
-	
-	public void save(){
+	/**
+	 * 根目录
+	 */
+	private static String basePath;
+	/**
+	 * 头像
+	 */
+	private static String userHead;
+	/**
+	 * 项目附件
+	 */
+	private static String projectAttachment;
+	/**
+	 * 群聊文件（图片等）
+	 */
+	private static String chatFiles;
+
+	//加载配置
+	static{
+		Properties prop=new Properties();
+		Resource resource=new ClassPathResource("fileupload.properties");
+		try {
+			prop.load(resource.getInputStream());
+			basePath=prop.getProperty("base.path");
+			userHead=prop.getProperty("user.head");
+			projectAttachment=prop.getProperty("project.attachment");
+			chatFiles=prop.getProperty("chat.files");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	private byte[] parse(CommonsMultipartFile file){
-		return file.getBytes();
+	/**
+	 * 禁止实例化
+	 */
+	private FileUpload(){
+		throw new RuntimeException("You can not new an instance of this class!");
 	}
-	@Test
-	public void test(){
+	/**
+	 * 保存文件
+	 */
+	public static String save(CommonsMultipartFile file,Path path,String replace) throws IOException{
+		FileItem fileItem=FileUpload.parse(file);
+		String savePath=(path.getPath()+fileItem.getFileName()).replace("{placeholder}", replace);
+		FileUpload.save(fileItem,savePath);
+		return savePath;
+	}
+	private static void save(FileItem fileItem,String path) throws IOException{
+		File file=new File(FileUpload.basePath+path);
+		//如果文件存在，则删除
+		if(file.exists()){
+			file.delete();
+		}
+		if(!file.getParentFile().exists()){
+			file.getParentFile().mkdirs();
+		}
+		file.createNewFile();
+
+		FileOutputStream out=new FileOutputStream(file);
+		out.write(fileItem.getFileContent());
+		out.flush();
+		out.close();
+	}
+	/**
+	 * 解析上传的文件
+	 * @param file
+	 * @return
+	 */
+	private static FileItem parse(CommonsMultipartFile file){
+		return new FileItem(file.getBytes(),file.getOriginalFilename());
+	}
+
+	private static class FileItem{
+		private byte[] fileContent;
+		private String fileName;
+
+		FileItem(byte[] fileContent,String fileName){
+			this.setFileContent(fileContent);
+			this.setFileName(fileName);
+		}
+
+		byte[] getFileContent() {
+			return fileContent;
+		}
+
+		void setFileContent(byte[] fileContent) {
+			this.fileContent = fileContent;
+		}
+
+		String getFileName() {
+			return fileName;
+		}
+
+		void setFileName(String fileName) {
+			this.fileName = fileName;
+		}
 	}
 }

@@ -43,4 +43,9 @@
     select id, project_id, user_id, point_to, create_by, create_time, del_flag, content
     from comment
   </select>
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, user_id, point_to, create_by, create_time, del_flag, content
+    from comment
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
 </mapper>

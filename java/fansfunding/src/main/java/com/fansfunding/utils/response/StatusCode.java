@@ -43,17 +43,19 @@ public class StatusCode {
 	 * 密码错误
 	 */
 	public static final int PASSWORD_ERROR=208;
-	
+
+	/**
+	 * 文件上传失败
+	 */
+	public static final int FILEUPLOAD_ERROR=420;
+	/**
+	 * 文件过大
+	 */
+	public static final int FILE_TOO_LARGE=530;
 	/**
 	 * 邮箱错误
 	 */
 	/**
-	 * 无效参数
-	 */
-	/**
 	 * 邮箱已存在
-	 */
-	/**
-	 * 文件上传失败
 	 */
 }

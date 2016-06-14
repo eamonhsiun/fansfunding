@@ -13,4 +13,6 @@ public interface CommentDao {
     List<Comment> selectAll();
 
     int updateByPrimaryKey(Comment record);
+    
+    List<Comment> selectByProjectId(Integer projectId);
 }

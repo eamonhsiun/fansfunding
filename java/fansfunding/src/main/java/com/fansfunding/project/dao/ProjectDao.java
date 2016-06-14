@@ -16,5 +16,5 @@ public interface ProjectDao {
     
     List<Project> selectByCatagoryId(Integer catagoryId);
     
-    List<Project> selectByProjectId(Integer projectId);
+    Project selectByProjectId(Integer projectId);
 }

@@ -17,4 +17,5 @@ public interface UserDao {
 	void insertNewUser(User user);
 	void updateToken(User user);
 	void updatePwd(User user);
+	void updateHead(User user);
 }

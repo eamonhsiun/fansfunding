@@ -13,4 +13,6 @@ public interface FeedbackDao {
     List<Feedback> selectAll();
 
     int updateByPrimaryKey(Feedback record);
+    
+    List<Feedback> selectByProjectId(Integer projectId);
 }

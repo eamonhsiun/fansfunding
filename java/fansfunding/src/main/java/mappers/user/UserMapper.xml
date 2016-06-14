@@ -61,5 +61,10 @@
   	set password = #{password}
   	where id = #{id}
   </update>
+  <update id="updateHead" parameterType="com.fansfunding.user.entity.User">
+    update user
+  	set head = #{head}
+  	where id = #{id}
+  </update>
   
 </mapper>

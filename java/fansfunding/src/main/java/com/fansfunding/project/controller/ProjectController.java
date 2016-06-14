@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.service.ProjectService;
@@ -29,25 +32,31 @@ public class ProjectController {
 	}
 	/**
 	 * 根据项目ID获取项目
-	 * @param catagroyId 分类ID
+	 * @param catagoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
 	@RequestMapping("{catagoryId}/{projectId}")
 	@ResponseBody
-	public Status project(@PathVariable Integer catagroyId,@PathVariable Integer projectId){
+	public Status project(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
+		if(!projectService.inCatagory(catagoryId, projectId)){
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getByProjectId(projectId));
 	}
 	/**
 	 * 获取项目详情
-	 * @param catagroyId 分类ID
+	 * @param catagoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
 	@RequestMapping("{catagoryId}/{projectId}/detail")
 	@ResponseBody
-	public Status prjectDetail(@PathVariable Integer catagroyId,@PathVariable Integer projectId){
-		return null;
+	public Status prjectDetail(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
+		if(!projectService.inCatagory(catagoryId, projectId)){
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+		}
+		return new Status(true,StatusCode.SUCCESS,projectService.getDetails(projectId));
 	}
 	
 	/**
@@ -63,13 +72,37 @@ public class ProjectController {
 	/**
 	 * 
 	 * 支持项目
-	 * @param catagroyId 分类ID
+	 * @param catagoryId 分类ID
 	 * @param projectId 项目ID
-	 * @return
+	 * @return 
 	 */
 	@RequestMapping("{catagoryId}/{projectId}/support")
 	@ResponseBody
-	public Status support(@PathVariable Integer catagroyId,@PathVariable Integer projectId){
+	public Status support(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
 		return null;
+	}
+	/**
+	 * 上传项目相关的附件
+	 * @param files 上传的文件
+	 * @return
+	 */
+	@RequestMapping(path="{catagoryId}/{projectId}/attachments",method=RequestMethod.POST)
+	@ResponseBody
+	public Status uploadAttachment(@PathVariable Integer catagoryId,@PathVariable Integer projectId,@RequestParam CommonsMultipartFile[] files){
+		if(!projectService.inCatagory(catagoryId, projectId)){
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+		}
+		if(files.length==0){
+			return new Status(false,StatusCode.FAILD,"文件不可为空");
+		}
+		for(CommonsMultipartFile file:files){
+			if(file.isEmpty()){
+				return new Status(false,StatusCode.FAILD,"文件不可为空");
+			}
+		}
+		if(projectService.uploadAttachments(catagoryId, projectId, files)){
+			return new Status(true,StatusCode.SUCCESS,"文件上传成功");
+		}
+		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败");
 	}
 }

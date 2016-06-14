@@ -13,7 +13,7 @@ public class UserBasic {
 	private String nickname;
 	private String password;
 	private String phone;
-	private String imei;
+	private String IMEI;
 	private String token;
 	
 	public UserBasic(User user) {
@@ -23,7 +23,7 @@ public class UserBasic {
 		this.nickname = user.getNickname();
 		this.password = user.getPassword();
 		this.phone = user.getPhone();
-		this.imei = user.getImei();
+		this.IMEI = user.getIMEI();
 		this.token = user.getToken();
 	}
 

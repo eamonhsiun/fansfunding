@@ -34,7 +34,7 @@ public class UserService {
 		userDao.updateToken(user);
 		UserBasic userBaisc = new UserBasic(user);
 		userBaisc.setPassword("");
-		userBaisc.setImei("");
+		userBaisc.setIMEI("");
 		return userBaisc;
 	}
 	
@@ -44,7 +44,7 @@ public class UserService {
 		checkerDao.deleteById(checker.getId());
 		UserBasic userBaisc = new UserBasic(user);
 		userBaisc.setPassword("");
-		userBaisc.setImei("");
+		userBaisc.setIMEI("");
 		return userBaisc;
 	}
 	
@@ -56,7 +56,7 @@ public class UserService {
 		userDao.updateToken(user);
 		UserBasic userBaisc = new UserBasic(user);
 		userBaisc.setPassword("");
-		userBaisc.setImei("");
+		userBaisc.setIMEI("");
 		return userBaisc;
 
 	}
@@ -89,7 +89,7 @@ public class UserService {
 		user.setHead(UUID.randomUUID().toString().replace("-", ""));
 		user.setRemark("");
 		user.setDel_flag('0');
-		user.setImei(IMEI);
+		user.setIMEI(IMEI);
 		user.setToken(UUID.randomUUID().toString().replace("-", ""));
 		user.setCreate_by("me");
 		user.setUpdate_by("me");

@@ -1,6 +1,8 @@
-;(function(){
+// ;(function(){
   var $ = function (i) { return document.querySelector(i); };
   var $$ = function (i) { return document.querySelectorAll(i); };
+
+  var apiUrl = "http://192.168.0.113:8088/fansfunding";
 
   function addElementEvent () {
     // 登陆部分
@@ -51,6 +53,7 @@
     });
     $("#signup-icode-btn").addEventListener("click", function  (e) {
       e.preventDefault();
+      $("#signup-icode").classList.remove("error");
       getIcode();
     });
     $("#signup-pwd").addEventListener("keydown", function (e) {
@@ -80,6 +83,7 @@
   function login(){
     var loginTel = $("#login-phone").value;
     var loginPwd = $("#login-pwd").value;
+
     if(!loginTel){
       $("#login-phone").classList.add("error");
       $("#login-hint").innerHTML = "请输入手机号";
@@ -89,21 +93,23 @@
       $("#login-hint").innerHTML = "请输入密码";
       return;
     }
+    var encryptPwd = CryptoJS.MD5(CryptoJS.MD5(loginPwd).toString() + CryptoJS.MD5(localId));
     var loginRequest = ajax({
       method: 'post',
-      url: 'http://api.immortalfans.com/user/login',
+      url: apiUrl + '/user/' + localId + '/login',
       data: {
-        IMEI: 0,
-        Uid: 0,
-        Name: loginTel,
-        Pwd: loginPwd
+        name: loginTel,
+        password: encryptPwd
       }
     }).then(function (response, xhr) {
       if(response.result == "false"){
         $("#login-phone").classList.add("error");
         $("#login-pwd").classList.add("error");
         $("#login-hint").innerHTML = "用户名或密码错误";
+        return;
       }
+      localStorage.user.id = response.data.id;
+      localStorage.user.taken = response.data.value;
     }).catch(function (response, xhr) {
       $("#login-phone").classList.add("error");
       $("#login-pwd").classList.add("error");
@@ -123,9 +129,8 @@
     }
     var getIcodeRequest = ajax({
       method: 'post',
-      url: 'http://api.immortalfans.com/user/gen_checker',
+      url: apiUrl + '/common/newChecker',
       data: {
-        IMEI: 0,
         phone: signupTel
       }
     }).then(function (response, xhr) {
@@ -168,12 +173,17 @@
   function signup(){
     var signupTel = $("#signup-phone").value;
     var signupIcode = $("#signup-icode").value;
+
     var signupPwd = $("#signup-pwd").value;
     var signupPwd2 = $("#signup-pwd-2").value;
+
     if(!signupTel){
       $("#signup-phone").classList.add("error");
       $("#signup-hint").innerHTML = "请输入手机号";
       return;
+    }else if(!icodeId){
+      $("#signup-phone").classList.add("error");
+      $("#signup-hint").innerHTML = "请获取验证码";
     }else if(!signupIcode){
       $("#signup-icode").classList.add("error");
       $("#signup-hint").innerHTML = "请输入验证码";
@@ -182,7 +192,7 @@
       $("#signup-pwd").classList.add("error");
       $("#signup-hint").innerHTML = "请输入密码";
       return;
-    }else if(signupPwd.length<6 || signupPwd > 16){
+    }else if(signupPwd.length < 6 || signupPwd.length > 16){
       $("#signup-pwd").classList.add("error");
       $("#signup-hint").innerHTML = "密码位数错误";
       return;
@@ -192,21 +202,35 @@
       return;
     }
 
+    // var iv = CryptoJS.enc.Utf8.parse("0102030405060708");
+    // var encryptPwd = CryptoJS.AES.encrypt(CryptoJS.MD5(signupPwd).toString(),CryptoJS.MD5(icodeId).toString().substring(3,19),{ iv: iv, mode: CryptoJS.mode.CBC }).toString();
+
+    var encryptPwd = CryptoJS.MD5(signupPwd).toString().toUpperCase();
+
+    console.log(encryptPwd);
+
     var signupRequest = ajax({
       method: 'post',
-      url: 'http://api.immortalfans.com/user/register_check',
+      url: apiUrl + '/user/' + icodeId + '/newUser',
       data: {
-        id: icodeId,
-        Check: signupIcode
+        checker: signupIcode,
+        phone: signupTel,
+        password: encryptPwd
       }
     }).then(function (response, xhr) {
-      if(response.result == "false"){
-        $("#signup-phone").classList.add("error");
-        $("#signup-pwd").classList.add("error");
-        $("#signup-hint").innerHTML = "用户名或密码错误";
+      bbb=response;
+      if(!response.result){
+        clearInterval(icodeTimer);
+        $("#signup-icode-btn").removeAttribute("disabled");
+        $("#signup-icode-btn").innerHTML = "发送验证码";
+        icodeCounter = 60;
+        return;
       }
-      console.log('登录成功');
-      console.log(response.token);
+      console.log('注册成功');
+
+      localStorage.id = response.data.id;
+      localStorage.token = response.data.value;
+
     }).catch(function (response, xhr) {
       $("#signup-phone").classList.add("error");
       $("#signup-pwd").classList.add("error");
@@ -222,4 +246,8 @@
   if(window.location.hash.split("#")[1] === "signup"){
     $("#login-signup-btn").click();
   }
-})();
+// })();
+
+
+
+var bbb;

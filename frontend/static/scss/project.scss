@@ -190,8 +190,10 @@
       }
       .project-repay-list{
         width: 100%;
-        margin-top: 20px;
-        min-height: 110px;
+        margin-top: 10px;
+        min-height: 30px;
+        border-bottom: 1px solid #cccccc;
+        padding-bottom: 10px;
         .repay-money{
           font-size: 1.3rem;
           span{
@@ -212,7 +214,7 @@
             }
           }
           .repay-detail-content{
-            margin-left: 80px;
+            // margin-left: 80px;
             padding-left: 20px;
             font-size: 1.1rem;
             ul{
@@ -225,7 +227,13 @@
         }
       }
       .project-repay-button{
-        margin-top: 30px;
+        margin-top: 10px;
+        img{
+          width: 100%;
+          margin: auto;
+          display: block;
+          margin-bottom: 10px;
+        }
         a{
           display: block;
           width: 100%;

@@ -63,6 +63,9 @@
       }
     }
   }
+  .project-qrcode{
+    width: 40% !important;
+  }
 }
 @media screen and (max-width: 800px) {
   .project-main{
@@ -129,6 +132,9 @@
       }
     }
   }
+  .project-qrcode{
+    width: 60% !important;
+  }
 }
 @media screen and (max-width: 500px) {
   .project-main{
@@ -153,25 +159,32 @@
       }
     }
   }
+  .project-qrcode{
+    width: 80% !important;
+  }
 }
 @media screen and (max-width: 400px) {
   .project-contents{
     .project-content-right{
       .project-repay{
         .project-repay-list{
-          min-height: 95px;
+          // min-height: 95px;
           .repay-detail{
             .repay-detail-pic{
               width: 60px;
               height: 60px;
             }
             .repay-detail-content{
-              margin-left: 60px;
+              // margin-left: 60px;
+              margin-left: 0;
               padding-left: 20px;
             }
           }
         }
       }
     }
+  }
+  .project-qrcode{
+    width: 90% !important;
   }
 }

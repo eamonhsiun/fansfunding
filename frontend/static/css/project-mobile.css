@@ -35,7 +35,9 @@
       .project-contents .project-content-right .project-repay .project-repay-list .repay-detail:after {
         display: block;
         content: "";
-        clear: left; } }
+        clear: left; }
+  .project-qrcode {
+    width: 40% !important; } }
 
 @media screen and (max-width: 800px) {
   .project-main .project-main-pic {
@@ -75,7 +77,9 @@
   #project-feed .project-feed-block .feed-block-wrap .feed-block-right {
     margin-left: 50px; }
     #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail {
-      width: 98%; } }
+      width: 98%; }
+  .project-qrcode {
+    width: 60% !important; } }
 
 @media screen and (max-width: 500px) {
   .project-main .project-main-pic {
@@ -83,14 +87,16 @@
     padding: 10px; }
   #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic img {
     float: none;
-    width: 100%; } }
+    width: 100%; }
+  .project-qrcode {
+    width: 80% !important; } }
 
 @media screen and (max-width: 400px) {
-  .project-contents .project-content-right .project-repay .project-repay-list {
-    min-height: 95px; }
-    .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-pic {
-      width: 60px;
-      height: 60px; }
-    .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-content {
-      margin-left: 60px;
-      padding-left: 20px; } }
+  .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-pic {
+    width: 60px;
+    height: 60px; }
+  .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-content {
+    margin-left: 0;
+    padding-left: 20px; }
+  .project-qrcode {
+    width: 90% !important; } }

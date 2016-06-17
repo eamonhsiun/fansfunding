@@ -1,47 +1,113 @@
-function getCookie(cookieName){
-  var arrstr = document.cookie.split("; ");
-  for(var i = 0;i < arrstr.length;i ++){
-    var temp = arrstr[i].split("=");
-    if(temp[0] == cookieName) {
-      return unescape(temp[1]);
-    }
-  }
-  return null;
+
+var apiUrl = "http://192.168.0.113:8088/fansfunding";
+var localId = null;
+var localToken = null;
+var localUserInfo = null;
+function getUserId () {
+  return localStorage && localStorage.id ? localStorage.id : null;
+}
+function getUserToken () {
+  return localStorage && localStorage.token ? localStorage.token : null;
 }
 
-function getToken(){
-  return getCookie("token");
-}
-
-;(function(){
+// ;(function(){
   var $ = function (i) { return document.querySelector(i); };
   var $$ = function (i) { return document.querySelectorAll(i); };
-  function getLoginStatus (){
-    var token = getToken();
-    var request = ajax({
+
+  function getCommonToken () {
+    var commonTokenRequest = ajax({
       method: 'post',
-      url: 'api.immortalfans.com',
+      url: apiUrl + "/common/newToken",
       data: {
-        user: 'john'
+        phone: 13006128628
       }
     }).then(function (response, xhr) {
-
+      aaa = response;
+      if(response.result){
+        localId = response.data.id;
+        localToken = response.data.value;
+        changeDom({ info: {accountStatus : false}});
+        return;
+      }
     }).catch(function (response, xhr) {
-      // Do something
+      alert("服务器连接失败");
     }).always(function (response, xhr) {
       // Do something
     });
   }
 
-  function changeDom(data){
-    if(data.loginStatus){
+  function getUserInfo () {
+    var commonTokenRequest = ajax({
+      method: 'get',
+      url: apiUrl + "/user/" + localId + "/" + localToken + "/"
+    }).then(function (response, xhr) {
+      bbb = response;
+      var res = response.data;
+      if(!response.result){
+        res.accountStatus = false;
+      }
+      localUserInfo = res;
+      changeDom(res);
+    }).catch(function (response, xhr) {
+      alert("服务器连接失败");
+    }).always(function (response, xhr) {
+      // Do something
+    });
+  }
+
+  function checkAccountStatus(){
+    var userId = getUserId();
+    var userToken = getUserToken();
+    if(!userId || !userToken){
+      getCommonToken();
+    }else{
+      localId = userId;
+      localToken = userToken;
+      // getUserInfo();
+    }
+  }
+
+  function changeDom(info){
+    if(info.accountStatus){
       $("#profile-login").style.display = "block";
       $("#profile-not-login").style.display = "none";
     }else{
       $("#profile-login").style.display = "none";
       $("#profile-not-login").style.display = "block";
+      return;
     }
   }
-})();
+
+  function logout(){
+    var commonTokenRequest = ajax({
+      method: 'get',
+      url: apiUrl + "/user/" + localToken + "/logout",
+      data: {
+        id: localId
+      }
+    }).then(function (response, xhr) {
+      bbb = response;
+      var res = response.data;
+      if(response.result){
+        res.accountStatus = true;
+        localUserInfo = res;
+        localStorage.removeItem("id");
+        localStorage.removeItem("token");
+        getCommonToken();
+        changeDom(res);
+      }
+    }).catch(function (response, xhr) {
+      alert("服务器连接失败");
+    }).always(function (response, xhr) {
+      // Do something
+    });
+  }
+
+  function addElementEvent(){
+
+  }
+
+  checkAccountStatus();
+// })();
 
 

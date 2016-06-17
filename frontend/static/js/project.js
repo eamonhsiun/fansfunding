@@ -1,7 +1,7 @@
 var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 
-function addElementEvent (argument) {
+function addElementEvent () {
   $("#project-detail-btn").addEventListener("click", function(){
     tabs = this.parentNode.getElementsByClassName("project-wrap-tab");
     var i;

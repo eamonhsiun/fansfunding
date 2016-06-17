@@ -18,6 +18,8 @@ public class Feedback {
 
     private String description;
 
+    private Double limitation;
+    
     private String createBy;
 
     private Date createTime;

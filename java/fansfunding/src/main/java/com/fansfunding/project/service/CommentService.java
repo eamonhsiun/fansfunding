@@ -1,7 +1,6 @@
 package com.fansfunding.project.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +62,6 @@ public class CommentService {
 	 */
 	@Transactional
 	public void add(Comment comment){
-		comment.setCreateTime(new Date());
-		comment.setDelFlag("0");
 		comment.setCreateBy(userDao.selectById(comment.getUserId()).getName());
 		commentDao.insert(comment);
 	}

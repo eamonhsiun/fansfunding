@@ -30,7 +30,7 @@ public class FeedbackController {
 	@RequestMapping(path="{catagoryId}/{projectId}/feedbacks",method=RequestMethod.GET)
 	@ResponseBody
 	public Status feedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
-		if(projectService.inCatagory(catagoryId, projectId)){
+		if(!projectService.inCatagory(catagoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
 		}
 		return new Status(true,StatusCode.SUCCESS,feedbackService.getAll(projectId));
@@ -44,7 +44,7 @@ public class FeedbackController {
 	@RequestMapping(path="{catagoryId}/{projectId}/feedbacks",method=RequestMethod.POST)
 	@ResponseBody
 	public Status addFeedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId,Feedback feedback){
-		if(projectService.inCatagory(catagoryId, projectId)){
+		if(!projectService.inCatagory(catagoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
 		}
 		feedbackService.add(feedback);

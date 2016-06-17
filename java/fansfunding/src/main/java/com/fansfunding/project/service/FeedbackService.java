@@ -1,7 +1,6 @@
 package com.fansfunding.project.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,7 @@ public class FeedbackService {
 			feedback.put("projectId", e.getProjectId());
 			feedback.put("title", e.getTitle());
 			feedback.put("description", e.getDescription());
+			feedback.put("limitation", e.getLimitation());
 			feedback.put("images", e.getImages());
 			feedbacks.add(feedback);
 		});
@@ -40,10 +40,6 @@ public class FeedbackService {
 	 * @param feedback 回馈
 	 */
 	public void add(Feedback feedback){
-		feedback.setCreateTime(new Date());
-		feedback.setDelFlag("0");
-		feedback.setUpdateTime(new Date());
-		feedback.setUpdateBy(feedback.getCreateBy());
 		feedbackDao.insert(feedback);
 	}
 }

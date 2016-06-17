@@ -1,5 +1,7 @@
 package com.fansfunding.user.controller;
-import java.util.UUID;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fansfunding.user.entity.Checker;
+import com.fansfunding.common.entity.Token;
+import com.fansfunding.common.service.CheckerService;
+import com.fansfunding.common.service.TokenService;
 import com.fansfunding.user.entity.User;
-import com.fansfunding.user.service.CheckerService;
+import com.fansfunding.user.entity.UserBasic;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.encrypt.AESUtils;
 import com.fansfunding.utils.encrypt.MD5Utils;
+import com.fansfunding.utils.response.PermissionCode;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
@@ -28,170 +33,182 @@ public class UserController {
 	@Autowired	
 	private CheckerService checkerService;
 	
-	@RequestMapping(path="update_pwd")
+	@Autowired
+	private TokenService tokenService;
+	
+	/**
+	 * @param resp
+	 * @param cid
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(path="{cid}/newUser")
 	@ResponseBody
-	public Status updatePwd(@RequestParam int uid,@RequestParam String cid,@RequestParam String pwd){
+	public Status newUser(HttpServletResponse resp,@PathVariable int cid,@RequestParam String phone,@RequestParam String password){
 		try{
-			User user = userService.getUserById(uid);
-			if(user == null){
-				return new Status(false, StatusCode.USER_NULL, null);
-			}
-			String token = user.getToken();
-			int icid = Integer.parseInt(AESUtils.DecryptByMD5(cid,token));
-			Checker checker = checkerService.getCheckerByID(icid);
+			//TODO:Checker过期检测
+			//TODO:用户存在检测
+			password = AESUtils.DecryptByMD5(password, MD5Utils.MD5(checkerService.getCheckerByID(cid).getChecknum()+""));
+
+			Token token = tokenService.requestToken(
+					PermissionCode.PERMISSION_NORMAL, phone);
 			
-			if((!checkerService.isValid(icid))||(!checker.getToken().equals(token))){
-				return new Status(false, StatusCode.CHECKER_N_VAILD, null);
-			}
-			pwd =AESUtils.DecryptByMD5(pwd,token);
-			int check = Integer.parseInt(pwd.substring(0, 6));
-			pwd = pwd.substring(6);
-						
-			if(!(checker.getChecknum()==check)){
-				return new Status(false,StatusCode.CHECKER_ERROR,null);
-			}
-			user.setPassword(MD5Utils.MD5(pwd));
-			return new Status(true,StatusCode.SUCCESS,userService.updatePwd(user,checker));
+			//新建用户
+			User user = userService.createUser(
+					phone,
+					password,
+					token.getId()
+					);
+			user.setPassword("");
+
+			//ADD COOKIES
+			resp.addCookie(new Cookie("userId", user.getId()+""));
+			resp.addCookie(new Cookie("username", user.getName()));
+			resp.addCookie(new Cookie("nickname", user.getNickname()));
+			
+			//TODO:分配Token
+			resp.addCookie(new Cookie("token", token.getValue()));
+			//TODO:删除Checker
+			return new Status(true,StatusCode.SUCCESS,new UserBasic(user));
 		}catch(Exception e){
 			return new Status(false,StatusCode.ERROR_DATA,null);
 		}
+	}
+	/**
+	 * @param resp
+	 * @param cid
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(path="{cid}/forgetPwd")
+	@ResponseBody
+	public Status forgetPwd(HttpServletResponse resp,@PathVariable int cid,@RequestParam String phone,@RequestParam String password){
+		try{
+			//TODO:Checker过期检测
+			//TODO:用户存在检测
+			password = AESUtils.DecryptByMD5(password, MD5Utils.MD5(checkerService.getCheckerByID(cid).getChecknum()+""));
+
+			Token token = tokenService.requestToken(
+					PermissionCode.PERMISSION_NORMAL, phone);
+			
+			//更新密码
+			User user = userService.getUserByPhone(phone);
+			user.setPassword(password);
+			userService.updatePwd(user);
+
+			//ADD COOKIES
+			resp.addCookie(new Cookie("userId", user.getId()+""));
+			resp.addCookie(new Cookie("username", user.getName()));
+			resp.addCookie(new Cookie("nickname", user.getNickname()));
+			
+			//TODO:分配Token
+			resp.addCookie(new Cookie("token", token.getValue()));
+			//TODO:删除Checker
+			return new Status(true,StatusCode.SUCCESS,new UserBasic(user));
+		}catch(Exception e){
+			return new Status(false,StatusCode.ERROR_DATA,null);
+		}
+	}
+	
+	
+	
+	@RequestMapping(path="{userId}/{token}/newPwd")
+	@ResponseBody
+	public Status newPwd(HttpServletResponse resp,@PathVariable String userId,@PathVariable String token,@RequestParam String password){
+		User user = userService.getUserById(Integer.parseInt(userId));
+		//TODO:存在性验证
+		
+		Token rToken = tokenService.lookUpTokenById(user.getToken());
+		//TODO:此处审核token权限
+		
+		if(rToken.getValue().equals(token)){
+			user.setPassword(password);
+			userService.updatePwd(user);
+			return new Status(true, StatusCode.SUCCESS, null);
+		}else{
+			return new Status(true, StatusCode.FAILD, null);
+		}	
+	
+	}
+	
+	
+	
+	
+
+	/**
+	 * 用户登录
+	 * @param resp
+	 * @param tid
+	 * @param id
+	 * @param name
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(path="{tid}/login")
+	@ResponseBody
+	public Status login(HttpServletResponse resp,@PathVariable int tid,@RequestParam String id,@RequestParam String name,@RequestParam String password){
+		Token token = tokenService.lookUpTokenById(tid);
+		if(token ==null)
+			return new Status(false, StatusCode.ERROR_DATA, null);
+		
+		User user =userService.getUser(id, name);
+		if(user == null)
+			return new Status(false, StatusCode.USER_NULL, null);
+
+		if(!userService.CheckPwd(user.getPassword(), token.getValue(), password))
+			return new Status(false, StatusCode.PASSWORD_ERROR, null);
+		
+		tokenService.setPermission(token.getId(),PermissionCode.PERMISSION_NORMAL);
+		user.setPassword("");
+		
+		//ADD COOKIES
+		resp.addCookie(new Cookie("userId", user.getId()+""));
+		resp.addCookie(new Cookie("username", user.getName()));
+		resp.addCookie(new Cookie("nickname", user.getNickname()));
+		
+		return new Status(true, StatusCode.SUCCESS, new UserBasic(user));
+	}
+	
+	/**
+	 * 登出
+	 * @param token
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/{token}/logout")
+	@ResponseBody
+	public Status login(@PathVariable String userId,@PathVariable String token){
+
+		User user = userService.getUserById(Integer.parseInt(userId));
+		//TODO:存在性验证
+		
+		Token rToken = tokenService.lookUpTokenById(user.getToken());
+		//TODO:此处审核token权限
+		if(rToken.getValue().equals(token)){
+			userService.updateToken(0);
+			return new Status(true, StatusCode.SUCCESS, null);
+		}else{
+			return new Status(true, StatusCode.FAILD, null);
+		}	
 		
 	}
-	
-	
-	@RequestMapping(path="register_check")
-	@ResponseBody
-	public Status registerCheck(@RequestParam int id, @RequestParam String check){
-		try{
-			if(!checkerService.isValid(id)){
-				return new Status(false, StatusCode.CHECKER_N_VAILD, null);
-			}
-			Checker checker = checkerService.getCheckerByID(id);
-			User user =userService.getUserByPhone(checker.getPhone());
-			
-			if(user!=null){
-				return new Status(false, StatusCode.USER_EXIST, null);
-			}
-			if(AESUtils.DecryptByMD5(check,checker.getIMEI()).equals(checker.getChecknum()+"")) {		
-				user = userService.createUser(checker.getPhone(),checker.getIMEI());		
-				return new Status(true, StatusCode.SUCCESS, userService.RefreshToken(user, checker));
-			}else{
-				return new Status(false,StatusCode.CHECKER_ERROR,null);
-			}
-			
-		}catch(Exception e){
-			return new Status(false,StatusCode.ERROR_DATA,null);
-		}
-	}
-	
-	@RequestMapping(path="forget_check")
-	@ResponseBody
-	public Status forgetCheck(@RequestParam int id,@RequestParam String check){
-		try{
-			if(!checkerService.isValid(id)){
-				return new Status(false, StatusCode.CHECKER_N_VAILD, null);
-			}
-			Checker checker = checkerService.getCheckerByID(id);
-			User user =userService.getUserByPhone(checker.getPhone());
-			
-			if(user==null){
-				checkerService.deleteById(id);
-				return new Status(false, StatusCode.USER_NULL, null);
-			}
 
-			if(AESUtils.DecryptByMD5(check,checker.getIMEI()).equals(checker.getChecknum()+"")) {
-				return new Status(true, StatusCode.SUCCESS, userService.RefreshToken(user, checker));
-			}else{
-				return new Status(false,StatusCode.CHECKER_ERROR,null);
-			}
-			
-		}catch(Exception e){
-			return new Status(false,StatusCode.ERROR_DATA,null);
-		}
-	}
-	
-	
-	@RequestMapping(path="gen_checker")
-	@ResponseBody
-	public Status genChecker(@RequestParam String IMEI, @RequestParam String phone){
-		try {
-			phone = AESUtils.DecryptByMD5(phone,IMEI);
-			if(checkerService.isTimeTooShort(IMEI,phone)){
-				return new Status(false, StatusCode.TOO_FREQUENT, null);
-			}
-			int id =checkerService.genChecker(IMEI, phone);
-			
-			if(id > 0){
-				return new Status(true, StatusCode.SUCCESS, id);
-			}else{
-				return new Status(false,StatusCode.FAILD,null);
-			}
-		} catch (Exception e) {
-			return new Status(false,StatusCode.ERROR_DATA,null);
-		}
-	}
-	
-	
-	
-	@RequestMapping(path="login")
-	@ResponseBody
-	public Status login(@RequestParam String IMEI,@RequestParam String uid,@RequestParam String name,@RequestParam String pwd){
-		try{
-			String duid = AESUtils.DecryptByMD5(uid,IMEI);
-			String dname = AESUtils.DecryptByMD5(name,IMEI);
-			String dpwd = MD5Utils.MD5(AESUtils.DecryptByMD5(pwd,IMEI));
-			
-			User user;
-			if(duid.equals("")){
-				user = userService.getUserByName(dname);
-			}else{
-				user = userService.getUserById(Integer.parseInt(duid));
-			}
-			if(user==null){
-				return new Status(false,StatusCode.USER_NULL,null);
-			}
-			if(user.getPassword().equals(dpwd)){
-				user.setToken(UUID.randomUUID().toString().replace("-", ""));
-				return new Status(true,StatusCode.SUCCESS,userService.updateToken(user));
-			}else{
-				return new Status(false,StatusCode.PASSWORD_ERROR,null);
-			}
-		}catch(Exception e){
-			return new Status(false,StatusCode.ERROR_DATA,null);
-		}
-	}
-	
-	@RequestMapping(path="logout")
-	@ResponseBody
-	public Status logout(@RequestParam String uid, @RequestParam String name){
-
-		try{
-			int duid =Integer.parseInt(uid);
-			User user = userService.getUserById(duid);
-			if(user == null){
-				return new Status(false,StatusCode.USER_NULL,null);
-			}
-			String dname = AESUtils.DecryptByMD5(name, user.getToken());
-			if(!dname.equals(user.getName())){
-				return new Status(false,StatusCode.FAILD,null);
-			}
-			user.setToken("0");
-			userService.updateToken(user);
-			return new Status(true,StatusCode.SUCCESS,1);
-		}catch(Exception e){
-			return new Status(false,StatusCode.ERROR_DATA,null);
-		}
-	}
-	
 	/**
 	 * 获取用户信息
 	 * @param userId 用户ID
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/info",method=RequestMethod.GET)
+	@RequestMapping(path="{userId}/{token}/info",method=RequestMethod.GET)
 	@ResponseBody
-	public Status info(@PathVariable Integer userId){
-		return null;
+	public Status info(@PathVariable int userId,@PathVariable String token){
+		User user = userService.getUserById(userId);
+		//TODO:此处审核token权限
+		//Token rToken = tokenService.lookUpTokenById(user.getToken());
+		user.setPassword("");
+		return new Status(true, StatusCode.SUCCESS, user);
+		
 	}
 
 	

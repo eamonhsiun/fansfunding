@@ -6,98 +6,100 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.fansfunding.user.dao.CheckerDao;
 import com.fansfunding.user.dao.UserDao;
-import com.fansfunding.user.entity.Checker;
 import com.fansfunding.user.entity.User;
-import com.fansfunding.user.entity.UserBasic;
+import com.fansfunding.utils.encrypt.MD5Utils;
 
 
 @Service
 public class UserService {
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private CheckerDao checkerDao;
 
-	public User findUserByCheckerId(int id){
-		Checker checker = checkerDao.selectById(id);
-		return userDao.selectByName(checker.getPhone());
-	}
-	
-	public UserBasic RefreshToken(User user,Checker checker){
-		user.setToken(UUID.randomUUID().toString().replace("-", ""));
-		checker.setToken(user.getToken());
-		checkerDao.updateToken(checker);
-		userDao.updateToken(user);
-		UserBasic userBaisc = new UserBasic(user);
-		userBaisc.setPassword("");
-		userBaisc.setIMEI("");
-		return userBaisc;
-	}
-	
-	public UserBasic updatePwd(User user,Checker checker){
-		RefreshToken(user,checker);
-		userDao.updatePwd(user);
-		checkerDao.deleteById(checker.getId());
-		UserBasic userBaisc = new UserBasic(user);
-		userBaisc.setPassword("");
-		userBaisc.setIMEI("");
-		return userBaisc;
+	/**
+	 * @param id
+	 * @param name
+	 * @return
+	 */
+	public User getUser(String id,String name){
+		if(!id.equals(""))
+			return getUserById(Integer.parseInt(id));
+		else 
+			return getUserByName(name);
 	}
 	
 	
-	
-	
-	@Transactional
-	public UserBasic updateToken(User user){
-		userDao.updateToken(user);
-		UserBasic userBaisc = new UserBasic(user);
-		userBaisc.setPassword("");
-		userBaisc.setIMEI("");
-		return userBaisc;
-
-	}
-	
-	
-	@Transactional
+	/**
+	 * @param uid
+	 * @return
+	 */
 	public User getUserById(int uid){
 		return userDao.selectById(uid);
 	}
 	
-	@Transactional
+	/**
+	 * @param name
+	 * @return
+	 */
 	public User getUserByName(String name){
 		return userDao.selectByName(name);
 	}
 	
-	@Transactional
+
+	/**
+	 * @param phone
+	 * @return
+	 */
 	public User getUserByPhone(String phone){
 		return userDao.selectByPhone(phone);
 	}
 	
-	@Transactional
-	public User createUser(String phone,String IMEI){
-		User user = new User();
-		
+	/**
+	 * @param pwd1
+	 * @param token
+	 * @param pwd2
+	 * @return
+	 */
+	public boolean CheckPwd(String pwd1,String token,String pwd2){
+		return MD5Utils.MD5(MD5Utils.MD5(pwd1)+MD5Utils.MD5(token)).equals(pwd2);
+	}
+	
+	
+	
+	/**
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	public User createUser(String phone,String password,int tokenid){
+		User user = new User();	
 		user.setName(phone);
 		user.setNickname(phone);
-		user.setPassword(UUID.randomUUID().toString().replace("-", ""));
+		user.setPassword(password);
 		user.setPhone(phone);
 		user.setIs_red(0);
 		user.setHead(UUID.randomUUID().toString().replace("-", ""));
 		user.setRemark("");
 		user.setDel_flag('0');
-		user.setIMEI(IMEI);
-		user.setToken(UUID.randomUUID().toString().replace("-", ""));
+		user.setIMEI("");
+		user.setToken(tokenid);
 		user.setCreate_by("me");
 		user.setUpdate_by("me");
 		user.setCreate_time(new Date());
 		user.setUpdate_time(new Date());
 		userDao.insertNewUser(user);
-		
 		return user;
+	}
+
+
+	public void updateToken(int id) {
+		
+	}
+
+
+	public void updatePwd(User user) {
+		userDao.updatePwd(user);
 	}
 	
 	

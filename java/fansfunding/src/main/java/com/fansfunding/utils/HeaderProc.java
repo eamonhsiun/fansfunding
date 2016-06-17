@@ -10,8 +10,15 @@ import com.fansfunding.utils.encrypt.AESUtils;
 import com.fansfunding.utils.encrypt.MD5Utils;
 
 public class HeaderProc {
+	private HeaderProc(){}
 	public static final String HEADER_DEFAULT = "http://localhost:8088/fansfunding/";
 
+	public static String newToken(){
+		String header = HEADER_DEFAULT+"common/newToken";
+		return header;
+	}
+	
+	
 	public static String genLoginHeader(String IMEI,int uid,String name,String pwd) throws Exception{
 		String header = HEADER_DEFAULT+"user/login?";
 		String S1 = MD5Utils.MD5(IMEI);
@@ -110,44 +117,48 @@ public class HeaderProc {
 	
 	public static void main(String[] args) {
 		try {
-			String IMEI ="99000663283249";
-			String name ="17771842186";
-			String token ="";
-			String pwd ="xym123";
-			int uid = 10000001;
-			int cid = 10000001;
+			System.out.println(newToken());
+			System.out.println(request(newToken()));
 			
-			int check = 100000;
+			
+			//String IMEI ="99000663283249";
+			//String name ="17771842186";
+			//String token ="";
+			//String pwd ="xym123";
+			//int uid = 10000001;
+			//int cid = 10000001;
+			
+			//int check = 100000;
 			
 			//注册申请第一步，申请验证码
 			//System.out.println(genCheckerHeader(IMEI, name));
 			//System.out.println(request(genCheckerHeader(IMEI, name)));
 			//更新
-			cid=10000046;
-			check=706664;
+			//cid=10000046;
+			//check=706664;
 			
 			//注册申请第二步，确认验证码
 			//System.out.println(genRegisterHeader(IMEI, cid,check));
 			//System.out.println(request(genRegisterHeader(IMEI, cid,check)));
 			//更新
-			uid = 10000023;
-			token ="80e17339cec74aa8b1c3044070299a78";
+			//uid = 10000023;
+			//token ="80e17339cec74aa8b1c3044070299a78";
 			//设置
-			pwd = "xym1234567";
-			System.out.println(MD5Utils.MD5(pwd));
+			//pwd = "xym1234567";
+			//System.out.println(MD5Utils.MD5(pwd));
 			
 			//注册申请第三步，更新密码
 			//System.out.println(genUpPwdHeader(token,uid, cid,check,pwd));
 			//System.out.println(request(genUpPwdHeader(token,uid, cid,check,pwd)));
 			//测试错误密码
 			//pwd = "12321";
-			uid = 0;
+			//uid = 0;
 			//登陆
 			//System.out.println(genLoginHeader(IMEI ,uid, name,pwd));
 			//System.out.println(request(genLoginHeader(IMEI ,uid, name,pwd)));
 			//更新
-			uid = 10000023;
-			token ="f6130212415d4a82838ce29dcc26672d";
+			//uid = 10000023;
+			//token ="f6130212415d4a82838ce29dcc26672d";
 			
 			//登出
 			//System.out.println(genLogoutHeader(token ,uid, name));
@@ -157,24 +168,24 @@ public class HeaderProc {
 			//System.out.println(genCheckerHeader(IMEI, name));
 			//System.out.println(request(genCheckerHeader(IMEI, name)));
 			//更新
-			cid=10000047;
-			check=556328;
+			//cid=10000047;
+			//check=556328;
 			
 			//更新密码第二步，确认验证码（仅该请求与注册不同）
 			
 			//System.out.println(genForgetHeader(IMEI,cid,check));
 			//System.out.println(request(genForgetHeader(IMEI,cid,check)));
 			//更新
-			uid = 10000023;
-			token ="b076ce2a5eaf4cd69456273117704ec0";
+			//uid = 10000023;
+			//token ="b076ce2a5eaf4cd69456273117704ec0";
 			//设置
-			pwd = "xym123";
+			//pwd = "xym123";
 			
 			//更新密码第三步，更新密码
 			//System.out.println(request(genUpPwdHeader(token,uid, cid,check,pwd)));
 			
 			//登陆
-			System.out.println(request(genLoginHeader(IMEI ,uid, name,pwd)));
+			//System.out.println(request(genLoginHeader(IMEI ,uid, name,pwd)));
 
 			
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.fansfunding.user.entity;
+package com.fansfunding.common.entity;
 
 import java.util.Date;
 
@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Checker {
 	private int id;
-	
-	private String IMEI;
 	
 	private int checknum;
 	

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fansfunding.common.dao.TokenDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.common.entity.Token" >
+  	<result column="id" property="id" jdbcType="INTEGER" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+	<result column="permission" property="permission" jdbcType="INTEGER" />
+    <result column="request_time" property="request_time" jdbcType="DATE" />
+    <result column="expire_time" property="expire_time" jdbcType="DATE" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+    
+  <delete id="deleteByPrimaryKey" parameterType="int">
+    delete from token where id =#{id}
+  </delete>
+  
+  <insert id="insertNewToken" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.common.entity.Token">
+	insert into token(value,permission,request_time,expired_time,phone)
+		values(#{value},#{permission},now(),now(),#{phone})
+  </insert>
+  
+  <update id="updatePermission" parameterType="com.fansfunding.common.entity.Token">
+	update token
+	set permission=#{permission}
+	where id=#{id}
+  </update>
+  
+  <update id="updateExpireTime" parameterType="com.fansfunding.common.entity.Token">
+	update token
+	set expired_time=#{expired_time}
+	where id=#{id}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="int">
+	select id,value,permission,request_time,expired_time 
+		from token where id=#{id}
+  </select>
+  
+  <select id="selectByValue" parameterType="string">
+	select id,value,permission,request_time,expired_time 
+		from token where value=#{value}
+  </select>
+ 
+</mapper>

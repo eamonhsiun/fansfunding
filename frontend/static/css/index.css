@@ -1,0 +1,507 @@
+@charset "UTF-8";
+/* Clear */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong,
+sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  background: transparent; }
+
+* {
+  word-wrap: break-word; }
+
+body, textarea, pre, input {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  font: 14px/1.6 microsoft yahei,Helvetica,arial,sans-serif; }
+
+ol, ul {
+  list-style: none; }
+
+:focus {
+  outline: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+a {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  text-decoration: none; }
+
+input, textarea {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+textarea {
+  resize: none; }
+
+img {
+  border: 0 none;
+  margin: 0;
+  padding: 0; }
+
+input:focus, textarea:focus {
+  outline: none; }
+
+ul, dl, ol, li, dd, p, dt, h1, h2, h3, h4 {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+input, textarea {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+textarea, input[type="text"], input[type="password"] {
+  background: #fff; }
+
+a {
+  color: #888;
+  text-decoration: none; }
+
+a:focus {
+  outline: medium none; }
+
+.clear:before, .clear:after {
+  content: "";
+  display: table; }
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  height: 1px;
+  zoom: 1; }
+
+/* Clear Ends*/
+/*
+ * Swiper 2.7.6
+ * Mobile touch slider and framework with hardware accelerated transitions
+ *
+ * http://www.idangero.us/sliders/swiper/
+ *
+ * Copyright 2010-2015, Vladimir Kharlampidi
+ * The iDangero.us
+ * http://www.idangero.us/
+ *
+ * Licensed under GPL & MIT
+ *
+ * Released on: February 11, 2015
+*/
+/* ===============================================================
+Basic Swiper Styles 
+================================================================*/
+.swiper-container {
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  direction: ltr;
+  backface-visibility: hidden;
+  /* Fix of Webkit flickering */
+  z-index: 1; }
+
+.swiper-wrapper {
+  position: relative;
+  width: 100%;
+  -webkit-transition-property: -webkit-transform, left, top;
+  -webkit-transition-duration: 0s;
+  -webkit-transform: translate3d(0px, 0, 0);
+  -webkit-transition-timing-function: ease;
+  -moz-transition-property: -moz-transform, left, top;
+  -moz-transition-duration: 0s;
+  -moz-transform: translate3d(0px, 0, 0);
+  -moz-transition-timing-function: ease;
+  -o-transition-property: -o-transform, left, top;
+  -o-transition-duration: 0s;
+  -o-transform: translate3d(0px, 0, 0);
+  -o-transition-timing-function: ease;
+  -o-transform: translate(0px, 0px);
+  -ms-transition-property: -ms-transform, left, top;
+  -ms-transition-duration: 0s;
+  -ms-transform: translate3d(0px, 0, 0);
+  -ms-transition-timing-function: ease;
+  transition-property: transform, left, top;
+  transition-duration: 0s;
+  transform: translate3d(0px, 0, 0);
+  transition-timing-function: ease;
+  box-sizing: content-box; }
+
+.swiper-free-mode > .swiper-wrapper {
+  transition-timing-function: ease-out;
+  margin: 0 auto; }
+
+.swiper-slide {
+  float: left;
+  box-sizing: content-box; }
+
+/* IE10 Windows Phone 8 Fixes */
+.swiper-wp8-horizontal {
+  -ms-touch-action: pan-y; }
+
+.swiper-wp8-vertical {
+  -ms-touch-action: pan-x; }
+
+/* ===============================================================
+Your custom styles, here you need to specify container's and slide's
+sizes, pagination, etc.
+================================================================*/
+.swiper-container {
+  /* Specify Swiper's Size: */
+  /*width:200px;
+	height: 100px;*/ }
+
+.swiper-slide {
+  /* Specify Slides's Size: */
+  /*width: 100%;
+	height: 100%;*/ }
+
+.swiper-slide-active {
+  /* Specific active slide styling: */ }
+
+.swiper-slide-visible {
+  /* Specific visible slide styling: */ }
+
+/* ===============================================================
+Pagination Styles
+================================================================*/
+.swiper-pagination-switch {
+  /* Stylize pagination button: */ }
+
+.swiper-active-switch {
+  /* Specific active button style: */ }
+
+.swiper-visible-switch {
+  /* Specific visible button style: */ }
+
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../font/fontawesome-webfont.eot?v=3.2.1");
+  src: url("../font/fontawesome-webfont.eot?#iefix&v=3.2.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.2.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.2.1") format("truetype"), url("../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.project-card {
+  box-shadow: 0 1px 6px 1px #aaaaaa; }
+
+#header, #header .profile .profile-dropdown ul, .project-card:hover {
+  box-shadow: 0 1px 6px 1px #666666; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-size: 14px; }
+
+.container {
+  width: 1280px;
+  margin: auto; }
+
+#header {
+  height: 50px;
+  width: 100%;
+  background-color: #ff6268;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99; }
+  #header .logo {
+    line-height: 50px;
+    font-size: 2.1rem;
+    color: #ffffff;
+    float: left; }
+    #header .logo img {
+      display: block;
+      margin-top: 7.5px;
+      width: 35px;
+      height: 35px;
+      float: left; }
+    #header .logo span {
+      display: block;
+      float: left;
+      padding-left: 10px;
+      padding-right: 40px; }
+  #header .nav .nav-dropdown-arrow {
+    display: none; }
+  #header .nav ul li {
+    float: left;
+    height: 100%;
+    line-height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.4rem;
+    color: #ffffff;
+    transition: 0.3s all ease; }
+  #header .nav ul li.active, #header .nav ul li:hover {
+    background-color: rgba(0, 0, 0, 0.2); }
+  #header .search {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+    position: relative; }
+    #header .search label[for="search-text"] {
+      position: absolute;
+      top: 3px;
+      left: 9px;
+      cursor: pointer; }
+      #header .search label[for="search-text"]:before {
+        font-size: 1.1rem;
+        font-family: "FontAwesome";
+        content: ""; }
+    #header .search .search-text {
+      width: 145px;
+      height: 30px;
+      line-height: 30px;
+      font-size: 1.1rem;
+      border: 0;
+      border-radius: 15px;
+      padding-left: 30px;
+      padding-right: 15px; }
+    #header .search .search-submit {
+      display: none; }
+  #header .profile {
+    float: right; }
+    #header .profile .profile-login {
+      display: none; }
+    #header .profile .profile-avatar {
+      float: left;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; }
+      #header .profile .profile-avatar img {
+        display: block;
+        width: 40px;
+        height: 40px;
+        margin: auto;
+        margin-top: 5px;
+        border-radius: 50%; }
+    #header .profile .profile-dropdown {
+      float: left;
+      position: relative; }
+      #header .profile .profile-dropdown .profile-dropdown-arrow {
+        cursor: pointer;
+        width: 40px;
+        height: 50px;
+        padding-top: 10px;
+        box-sizing: border-box; }
+        #header .profile .profile-dropdown .profile-dropdown-arrow:before {
+          display: block;
+          line-height: 32px;
+          height: 30px;
+          font-size: 1.2rem;
+          content: "";
+          color: #ffffff;
+          font-family: "FontAwesome";
+          width: 30px;
+          text-align: center;
+          margin-left: 5px;
+          border-radius: 50%;
+          transition: all 0.3s ease; }
+      #header .profile .profile-dropdown ul {
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: -40px;
+        z-index: 999;
+        animation-duration: 0.3s;
+        animation-fill-mode: both; }
+        #header .profile .profile-dropdown ul li {
+          color: #000000;
+          height: 40px;
+          line-height: 40px;
+          width: 120px;
+          text-align: center;
+          background-color: #ffffff;
+          transition: all 0.3s ease; }
+          #header .profile .profile-dropdown ul li:hover {
+            background-color: #eeeeee; }
+      #header .profile .profile-dropdown:hover .profile-dropdown-arrow:before {
+        background-color: red; }
+      #header .profile .profile-dropdown:hover ul {
+        display: block;
+        animation-name: fadeInDown; }
+    #header .profile .profile-not-login {
+      line-height: 50px;
+      margin-right: 5px;
+      font-size: 1.1rem; }
+      #header .profile .profile-not-login a {
+        color: white;
+        padding-right: 5px;
+        padding-left: 5px; }
+        #header .profile .profile-not-login a:last-child {
+          padding-right: 5; }
+
+.banner {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  position: relative; }
+  .banner .swiper-slide {
+    width: 100%;
+    height: 100%; }
+    .banner .swiper-slide img {
+      width: 100%;
+      min-height: 100%; }
+  .banner #swiper-button-prev {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    z-index: 99; }
+
+.wrap {
+  width: 100%;
+  padding-top: 50px; }
+
+.mainwrap {
+  width: 100%; }
+
+.plate {
+  clear: both;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px; }
+  .plate .plate-title {
+    text-align: center;
+    font-size: 2.5rem; }
+  .plate .plate-class {
+    font-size: 1.3rem;
+    text-align: center; }
+    .plate .plate-class ul li {
+      padding: 2px 10px;
+      border: 1px solid #aaa;
+      border-radius: 15px;
+      color: black;
+      display: inline-block;
+      margin-top: 10px; }
+      .plate .plate-class ul li:hover {
+        transition: 0.3s all ease;
+        background-color: rgba(0, 0, 0, 0.1); }
+  .plate .plate-content > ul .plate-content-list {
+    float: left;
+    width: 25%;
+    margin-top: 20px;
+    height: 400px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    transition: all 0.3s ease; }
+  .plate .plate-content > ul:after {
+    display: block;
+    content: "";
+    clear: both;
+    visibility: hidden; }
+
+.project-card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease; }
+  .project-card .project-card-pic {
+    width: 100%;
+    height: 250px; }
+    .project-card .project-card-pic img {
+      width: 100%;
+      height: 100%; }
+  .project-card .project-card-detail {
+    color: black;
+    width: 100%;
+    height: 150px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    position: relative; }
+    .project-card .project-card-detail .project-card-detail-progressbar {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      width: 100%;
+      height: 5px;
+      background-color: gray; }
+      .project-card .project-card-detail .project-card-detail-progressbar span {
+        display: block;
+        height: 100%;
+        background-color: cyan; }
+    .project-card .project-card-detail .project-card-detail-name {
+      font-size: 1.2rem; }
+      .project-card .project-card-detail .project-card-detail-name span {
+        float: right; }
+
+.footer {
+  width: 100%;
+  text-align: center;
+  background-color: #dddddd; }
+  .footer .footer-bar {
+    width: 100%;
+    height: 80px;
+    background-color: #ff6268;
+    line-height: 80px;
+    font-size: 3rem;
+    color: white; }
+  .footer .footer-content {
+    width: 100%;
+    height: 200px; }
+    .footer .footer-content .footer-content-left {
+      float: left;
+      width: 50%;
+      height: 100%; }
+    .footer .footer-content .footer-content-right {
+      float: right;
+      width: 50%;
+      height: 100%; }
+  .footer .footer-copyright {
+    clear: both;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-size: 1rem; }
+
+.content-block {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  box-shadow: 0 3px 7px 2px #aaaaaa;
+  min-height: 600px;
+  width: 100%; }
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -5%, 0); }
+  100% {
+    opacity: 1;
+    transform: none; } }

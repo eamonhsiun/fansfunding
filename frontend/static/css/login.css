@@ -1,0 +1,137 @@
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../font/fontawesome-webfont.eot?v=3.2.1");
+  src: url("../font/fontawesome-webfont.eot?#iefix&v=3.2.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.2.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.2.1") format("truetype"), url("../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.account-block {
+  height: 600px;
+  text-align: center; }
+  .account-block:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+    /* Adjusts for spacing */ }
+
+.account-block.hide {
+  display: none; }
+
+.account-container {
+  width: 300px;
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center; }
+  .account-container .account-logo {
+    margin: auto;
+    width: 80px;
+    height: 80px; }
+    .account-container .account-logo img {
+      width: 100%;
+      height: 100%; }
+  .account-container .account-title {
+    font-size: 2rem;
+    line-height: 90px; }
+  .account-container .account-form input[type="text"], .account-container .account-form input[type="tel"], .account-container .account-form input[type="password"] {
+    display: block;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 3px 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid #cccccc; }
+    .account-container .account-form input[type="text"]:focus, .account-container .account-form input[type="tel"]:focus, .account-container .account-form input[type="password"]:focus {
+      border: 1px solid #57bff3; }
+  .account-container .account-form input[type="text"].error, .account-container .account-form input[type="tel"].error, .account-container .account-form input[type="password"].error {
+    border-color: #ff6268; }
+    .account-container .account-form input[type="text"].error:focus, .account-container .account-form input[type="tel"].error:focus, .account-container .account-form input[type="password"].error:focus {
+      border: 1px solid #57bff3; }
+  .account-container .account-form input#signup-icode {
+    width: 60%; }
+  .account-container .account-form .signup-icode-btn {
+    display: block;
+    float: right;
+    width: 35%;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    height: 34px;
+    line-height: 34px;
+    background-color: #57bff3;
+    border: 1px solid #57bff3;
+    color: white;
+    transition: all 0.3s ease; }
+    .account-container .account-form .signup-icode-btn:hover {
+      background-color: #27adf0; }
+    .account-container .account-form .signup-icode-btn:disabled {
+      background-color: #cccccc;
+      border-color: #cccccc;
+      cursor: not-allowed; }
+  .account-container .account-form .account-hint {
+    display: none;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #ff6268; }
+  .account-container .account-form input.error ~ .account-hint {
+    display: block; }
+  .account-container .account-form .account-btn {
+    display: block;
+    width: 100%;
+    font-size: 1.6rem;
+    margin: auto;
+    background-color: #ff6268;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transition: all 0.3s ease; }
+    .account-container .account-form .account-btn:hover {
+      background-color: #ff2f37; }
+  .account-container .login-signup-btn, .account-container .signup-login-btn {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px; }
+    .account-container .login-signup-btn a, .account-container .signup-login-btn a {
+      color: blue; }
+      .account-container .login-signup-btn a:hover, .account-container .signup-login-btn a:hover {
+        text-decoration: underline; }
+    .account-container .login-signup-btn a + a, .account-container .signup-login-btn a + a {
+      padding-left: 15px; }
+
+@media screen and (max-width: 400px) {
+  .account-container {
+    width: 250px; }
+    .account-container .account-form input#signup-icode {
+      width: 55%; }
+    .account-container .account-form .signup-icode-btn {
+      width: 40%; } }

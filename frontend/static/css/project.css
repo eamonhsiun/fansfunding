@@ -1,0 +1,365 @@
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../font/fontawesome-webfont.eot?v=3.2.1");
+  src: url("../font/fontawesome-webfont.eot?#iefix&v=3.2.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.2.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.2.1") format("truetype"), url("../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.project-info {
+  width: 100%;
+  height: 120px;
+  border-bottom: 1px solid #aaaaaa; }
+  .project-info .project-info-avatar {
+    width: 80px;
+    height: 80px;
+    padding-top: 20px;
+    padding-left: 50px;
+    float: left; }
+    .project-info .project-info-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%; }
+  .project-info .project-info-detail {
+    margin-left: 130px;
+    height: 100%;
+    padding-left: 30px; }
+    .project-info .project-info-detail .project-info-title {
+      padding-top: 25px; }
+      .project-info .project-info-detail .project-info-title h1 {
+        font-size: 2rem; }
+    .project-info .project-info-detail .project-info-username {
+      padding-top: 5px;
+      font-size: 1.1rem; }
+      .project-info .project-info-detail .project-info-username span {
+        font-size: 1.2rem; }
+
+.project-main {
+  width: 100%;
+  height: 450px;
+  border-bottom: 1px solid #aaaaaa; }
+  .project-main .project-main-pic {
+    width: 900px;
+    height: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+    float: left; }
+    .project-main .project-main-pic .project-main-pic-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; }
+      .project-main .project-main-pic .project-main-pic-wrap img {
+        width: 100%;
+        height: 100%; }
+  .project-main .project-main-content {
+    margin-left: 900px;
+    height: 100%;
+    padding: 30px;
+    box-sizing: border-box; }
+    .project-main .project-main-content .project-amout {
+      text-align: right;
+      margin-top: 50px;
+      font-size: 2rem; }
+      .project-main .project-main-content .project-amout span {
+        font-size: 2.3rem;
+        padding-right: 10px; }
+    .project-main .project-main-content .project-money {
+      text-align: right;
+      margin-top: 5px;
+      font-size: 2rem; }
+      .project-main .project-main-content .project-money span {
+        padding-right: 10px; }
+    .project-main .project-main-content .project-progressbar {
+      border-radius: 10px;
+      overflow: hidden;
+      height: 10px;
+      width: 100%;
+      background-color: blue;
+      margin-top: 50px;
+      margin-bottom: 50px; }
+      .project-main .project-main-content .project-progressbar span {
+        display: block;
+        height: 100%;
+        background-color: red; }
+    .project-main .project-main-content .project-button .project-button-subscribe {
+      margin-top: 20px; }
+      .project-main .project-main-content .project-button .project-button-subscribe a {
+        display: block;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        font-size: 2rem;
+        text-align: center;
+        background-color: #ff6268;
+        color: white;
+        transition: all 0.3s ease; }
+        .project-main .project-main-content .project-button .project-button-subscribe a:hover {
+          background-color: #ff2f37; }
+    .project-main .project-main-content .project-button .project-button-share {
+      margin-top: 20px; }
+      .project-main .project-main-content .project-button .project-button-share a {
+        display: block;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        font-size: 2rem;
+        text-align: center;
+        background-color: #ff6268;
+        color: white;
+        transition: all 0.3s ease; }
+        .project-main .project-main-content .project-button .project-button-share a:hover {
+          background-color: #ff2f37; }
+
+.project-wrap .project-wrap-tabs {
+  border-bottom: 1px solid #aaaaaa; }
+  .project-wrap .project-wrap-tabs ul {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px; }
+    .project-wrap .project-wrap-tabs ul .project-wrap-tab {
+      font-size: 1.3rem;
+      text-align: center;
+      width: 120px;
+      float: left;
+      height: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease; }
+    .project-wrap .project-wrap-tabs ul .project-wrap-tab:hover, .project-wrap .project-wrap-tabs ul .tab-active {
+      background-color: #ffc8ca; }
+
+.project-contents .project-content {
+  clear: both; }
+
+.project-contents .project-content.hide {
+  display: none; }
+
+.project-contents .project-content-left {
+  float: left;
+  width: 880px;
+  padding: 20px;
+  box-sizing: border-box; }
+
+.project-contents .project-content-right {
+  width: 400px;
+  margin-left: 880px;
+  box-sizing: border-box;
+  padding: 20px; }
+  .project-contents .project-content-right .project-repay {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #aaa; }
+    .project-contents .project-content-right .project-repay .project-repay-title {
+      font-size: 1.4rem;
+      line-height: 3rem;
+      font-weight: bold;
+      border-bottom: 1px solid #aaa; }
+    .project-contents .project-content-right .project-repay .project-repay-list {
+      width: 100%;
+      margin-top: 20px;
+      min-height: 110px; }
+      .project-contents .project-content-right .project-repay .project-repay-list .repay-money {
+        font-size: 1.3rem; }
+        .project-contents .project-content-right .project-repay .project-repay-list .repay-money span {
+          padding-left: 5px;
+          padding-right: 5px; }
+      .project-contents .project-content-right .project-repay .project-repay-list .repay-detail {
+        width: 100%;
+        margin-top: 5px; }
+        .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-pic {
+          width: 80px;
+          height: 80px;
+          float: left; }
+          .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-pic img {
+            width: 100%;
+            height: 100%; }
+        .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-content {
+          margin-left: 80px;
+          padding-left: 20px;
+          font-size: 1.1rem; }
+          .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-content ul li {
+            list-style-type: disc;
+            list-style-position: inside; }
+    .project-contents .project-content-right .project-repay .project-repay-button {
+      margin-top: 30px; }
+      .project-contents .project-content-right .project-repay .project-repay-button a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 1.3rem;
+        height: 60px;
+        line-height: 60px;
+        background-color: #ff6268;
+        color: white; }
+
+.project-contents:after {
+  display: block;
+  content: "";
+  clear: both;
+  visibility: hidden; }
+
+#project-detail .project-content-left {
+  padding-left: 20px; }
+  #project-detail .project-content-left h2 {
+    font-size: 2rem;
+    text-indent: 2em;
+    line-height: 5rem; }
+  #project-detail .project-content-left img {
+    display: block;
+    margin: auto;
+    width: 95%;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+  #project-detail .project-content-left p {
+    font-size: 1.1rem;
+    text-indent: 2em;
+    margin-bottom: 15px; }
+  #project-detail .project-content-left section {
+    margin-bottom: 15px; }
+    #project-detail .project-content-left section > p {
+      margin-bottom: 0; }
+  #project-detail .project-content-left a {
+    font-size: 1.1rem;
+    color: blue; }
+
+#project-feed .project-feed-card {
+  width: 100%;
+  border-bottom: 1px solid #aaaaaa;
+  margin-top: 10px; }
+  #project-feed .project-feed-card .feed-card-wrap {
+    width: 100%; }
+    #project-feed .project-feed-card .feed-card-wrap .feed-card-left {
+      float: left;
+      width: 80px; }
+      #project-feed .project-feed-card .feed-card-wrap .feed-card-left .feed-card-avatar {
+        width: 60px;
+        height: 60px;
+        margin-left: 20px;
+        margin-top: 10px; }
+        #project-feed .project-feed-card .feed-card-wrap .feed-card-left .feed-card-avatar img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+    #project-feed .project-feed-card .feed-card-wrap .feed-card-right {
+      margin-left: 80px; }
+      #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info {
+        height: 60px;
+        line-height: 60px; }
+        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info div {
+          float: left;
+          margin-left: 20px; }
+        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info .feed-card-info-username {
+          font-size: 1.2rem; }
+        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info .feed-card-info-type {
+          font-size: 1.1rem; }
+      #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail {
+        width: 100%;
+        padding: 20px;
+        padding-top: 0;
+        box-sizing: border-box; }
+        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic {
+          width: 100%; }
+          #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic img {
+            width: 50%;
+            max-width: 400px;
+            max-height: 300px;
+            padding: 10px;
+            box-sizing: border-box;
+            float: left; }
+          #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic:after {
+            display: block;
+            content: "";
+            clear: left; }
+
+#project-feed .project-feed-block {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px; }
+  #project-feed .project-feed-block .feed-block-wrap {
+    width: 100%; }
+    #project-feed .project-feed-block .feed-block-wrap .feed-block-left {
+      float: left;
+      width: 80px; }
+      #project-feed .project-feed-block .feed-block-wrap .feed-block-left .feed-block-avatar {
+        width: 60px;
+        height: 60px;
+        margin-left: 20px;
+        margin-top: 10px; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-left .feed-block-avatar img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%; }
+    #project-feed .project-feed-block .feed-block-wrap .feed-block-right {
+      margin-left: 80px; }
+      #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info {
+        height: 60px;
+        line-height: 60px; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info div {
+          float: left;
+          margin-left: 20px; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info .feed-block-info-username {
+          font-size: 1.2rem; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info .feed-block-info-type {
+          font-size: 1.1rem; }
+      #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail {
+        width: 95%;
+        padding: 20px;
+        padding-top: 0;
+        box-sizing: border-box; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail textarea {
+          display: block;
+          width: 100%;
+          box-sizing: border-box;
+          font-size: 1.2rem;
+          padding: 10px;
+          transition: all 0.3s ease; }
+          #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail textarea:focus {
+            border-color: #57bff3; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail #feed-submit {
+          display: block;
+          float: right;
+          margin-top: 20px;
+          background-color: #ff6268;
+          width: 100px;
+          height: 40px;
+          color: white;
+          text-align: center;
+          line-height: 40px;
+          font-size: 1.2rem;
+          transition: all 0.3s ease; }
+          #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail #feed-submit:hover {
+            background-color: #ff2f37; }
+        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail:after {
+          content: "";
+          display: block;
+          clear: both; }

@@ -20,6 +20,12 @@
 	<mvc:annotation-driven />
 	<!-- 静态资源访问 -->
 	<mvc:resources location="/" mapping="/**" />
+	
+	<mvc:interceptors>  
+        <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->  
+        <bean class="com.fansfunding.common.interceptor.AllInterceptor"/>  
+    </mvc:interceptors>  
+    
 	<!-- 避免IE在ajax请求时，返回json出现下载 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

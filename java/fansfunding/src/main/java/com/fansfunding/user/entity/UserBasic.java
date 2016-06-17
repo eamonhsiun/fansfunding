@@ -14,7 +14,7 @@ public class UserBasic {
 	private String password;
 	private String phone;
 	private String IMEI;
-	private String token;
+	private int token;
 	
 	public UserBasic(User user) {
 		super();

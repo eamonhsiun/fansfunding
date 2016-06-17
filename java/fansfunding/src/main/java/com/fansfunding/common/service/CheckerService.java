@@ -1,4 +1,4 @@
-package com.fansfunding.user.service;
+package com.fansfunding.common.service;
 
 import java.util.Date;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fansfunding.user.dao.CheckerDao;
-import com.fansfunding.user.entity.Checker;
+import com.fansfunding.common.dao.CheckerDao;
+import com.fansfunding.common.entity.Checker;
 import com.fansfunding.utils.MobileChecker;
 
 
@@ -35,7 +35,7 @@ public class CheckerService {
 	 * @param phone
 	 * @return
 	 */
-	public boolean isTimeTooShort(String IMEI,String phone){
+	public boolean isTimeTooShort(String phone){
 		//手机号请求唯一性验证
 		Date end = new Date();
 		Checker start=checkerDao.selectByPhone(phone);
@@ -46,18 +46,6 @@ public class CheckerService {
 				checkerDao.deleteByPhone(phone);
 			}
 		}
-		
-		//IMEI请求唯一性验证
-		end = new Date();
-		start=checkerDao.selectByPhone(IMEI);
-		if(start!=null){
-			if(end.getTime()-start.getRequest_time().getTime()<MIN_INTERVAL){
-				return true;
-			}else{
-				checkerDao.deleteByIMEI(IMEI);
-			}
-		}
-		
 		return false;
 	}
 	
@@ -67,13 +55,12 @@ public class CheckerService {
 	 * @param phone
 	 * @return cid
 	 */
-	public int genChecker(String IMEI,String phone){
+	public int genChecker(String phone){
 		int checknum = (int)(Math.random()*899999) +100000;
 		MobileChecker.sendMsg(phone, checknum);
 		Checker checker = new Checker();
-		checker.setIMEI(IMEI);
+		//TODO:这里还需要做token操作
 		checker.setChecknum(checknum);
-		checker.setRequest_time(new Date());
 		checker.setPhone(phone);
 		
 		checkerDao.insertNewChecker(checker);
@@ -100,46 +87,42 @@ public class CheckerService {
 	
 	
 	
-	@Transactional
+	/**
+	 * @param id
+	 * @return
+	 */
 	public Checker getCheckerByID(int id){
 		return checkerDao.selectById(id);
 	}
 	
-	@Transactional
+	/**
+	 * @param phone
+	 * @return
+	 */
 	public Checker getCheckerByPhone(String phone){
 		return checkerDao.selectByPhone(phone);
 	}
 	
-	@Transactional
-	public Checker getCheckerByIMEI(String IMEI){
-		return checkerDao.selectByIMEI(IMEI);
-	}
 	
-	@Transactional
-	public int createChecker(String IMEI,String phone,int num,Date date){
-		Checker checker = new Checker();
-		checker.setIMEI(IMEI);
-		checker.setChecknum(num);
-		checker.setRequest_time(date);
-		checker.setPhone(phone);
-		checkerDao.insertNewChecker(checker);
-		return checker.getId();
-	}
-	
-	
-	@Transactional
+	/**
+	 * @param id
+	 */
 	public void deleteById(int id){
 		checkerDao.deleteById(id);
 	}
+	
+	/**
+	 * @param phone
+	 */
 	@Transactional
 	public void deleteByPhone(String phone){
 		checkerDao.deleteByPhone(phone);
 	}
-	@Transactional
-	public void deleteByIMEI(String IMEI){
-		checkerDao.deleteByIMEI(IMEI);
-	}
+
 	
+	/**
+	 * @param checker
+	 */
 	public void updateToken(Checker checker){
 		checkerDao.updateToken(checker);
 	}

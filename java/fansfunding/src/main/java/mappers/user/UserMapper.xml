@@ -17,7 +17,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="del_flag" property="del_flag" jdbcType="CHAR" />
     <result column="IMEI" property="IMEI" jdbcType="VARCHAR" />
-    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="INTEGER" />
     <result column="token_wx" property="token_wx" jdbcType="VARCHAR" />
     <result column="token_wb" property="token_wb" jdbcType="VARCHAR" />
     <result column="token_qq" property="token_qq" jdbcType="VARCHAR" />

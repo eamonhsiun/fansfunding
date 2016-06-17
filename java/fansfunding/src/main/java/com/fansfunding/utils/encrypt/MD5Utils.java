@@ -31,9 +31,4 @@ public class MD5Utils {
             return null;
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println(MD5Utils.MD5("20121221"));
-        System.out.println(MD5Utils.MD5("加密"));
-    }
 }

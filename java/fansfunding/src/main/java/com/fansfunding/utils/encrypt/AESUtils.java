@@ -67,29 +67,4 @@ public class AESUtils {
     public static String DecryptByMD5(String Src, String md5) throws Exception{
     	return Decrypt(Src,md5.substring(3, 19));
     }
-    
-    
-    
-    public static void main(String[] args) throws Exception {
-
-//        String cKey = "56563EDF23B9D717";
-//        // 需要加密的字串
-//        String cSrc = "123456";
-//        System.out.println(cSrc);
-//        // 加密
-//        String enString = AESUtils.Encrypt(cSrc, cKey);
-//        System.out.println("加密后的字串是：" + enString);
-// 
-//        // 解密
-//        String DeString = AESUtils.Decrypt(enString, cKey);
-//        System.out.println("解密后的字串是：" + DeString);
-    	
-    	String MD5 = "56563EDF23B9D717DC63981B8836FC60";
-    	String Src = "123456";
-    	String enString = AESUtils.EncryptByMD5(Src, MD5);
-    	System.out.println("加密后的字串是：" + enString);
-    	String DeString = AESUtils.DecryptByMD5(enString, MD5);
-    	System.out.println("解密后的字串是：" + DeString);
-
-    }
 }

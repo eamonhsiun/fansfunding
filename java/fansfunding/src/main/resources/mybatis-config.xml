@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 命名空间 -->
 	<typeAliases>
 		<typeAlias alias="User" type="com.fansfunding.user.entity.User" />
-		<typeAlias alias="Checker" type="com.fansfunding.user.entity.Checker" />
+		<typeAlias alias="Checker" type="com.fansfunding.common.entity.Checker" />
+		<typeAlias alias="Token" type="com.fansfunding.common.entity.Token" />
 	</typeAliases>
 </configuration>

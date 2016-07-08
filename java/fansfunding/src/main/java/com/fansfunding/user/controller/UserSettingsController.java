@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
 import com.fansfunding.utils.fileupload.FileUpload;
 import com.fansfunding.utils.response.Status;
@@ -19,7 +20,8 @@ import com.fansfunding.utils.response.StatusCode;
 public class UserSettingsController {
 	@Autowired
 	private UserSettingsService settings;
-	
+	@Autowired
+	private UserService userService;
 	/**
 	 * 获取头像
 	 * @param userName
@@ -28,7 +30,7 @@ public class UserSettingsController {
 	@RequestMapping(path="{userId}/head",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getHead(@PathVariable Integer userId){
-		return new Status(true,StatusCode.SUCCESS,"GET");
+		return new Status(true,StatusCode.SUCCESS,userService.getUserById(userId).getHead());
 	}
 	/**
 	 * 上传头像

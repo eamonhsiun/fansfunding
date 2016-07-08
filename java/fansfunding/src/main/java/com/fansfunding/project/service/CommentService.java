@@ -52,6 +52,7 @@ public class CommentService {
 				comment.put("pointToName", pointTo.getName());
 				comment.put("pointToNickname", pointTo.getNickname());
 			}
+			comments.add(comment);
 		});
 		return comments;
 	}

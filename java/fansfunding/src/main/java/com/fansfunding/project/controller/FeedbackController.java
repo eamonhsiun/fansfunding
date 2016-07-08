@@ -31,9 +31,9 @@ public class FeedbackController {
 	@ResponseBody
 	public Status feedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
 		if(projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,feedbackService.getAll(projectId));
+		return new Status(true,StatusCode.SUCCESS,feedbackService.getAll(projectId),null);
 	}
 	/**
 	 * 添加回馈方式
@@ -45,9 +45,9 @@ public class FeedbackController {
 	@ResponseBody
 	public Status addFeedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId,Feedback feedback){
 		if(projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		feedbackService.add(feedback);
-		return new Status(true,StatusCode.SUCCESS,"回馈方式添加成功");
+		return new Status(true,StatusCode.SUCCESS,"回馈方式添加成功",null);
 	}
 }

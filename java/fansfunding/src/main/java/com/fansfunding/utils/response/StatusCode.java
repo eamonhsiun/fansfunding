@@ -43,7 +43,12 @@ public class StatusCode {
 	 * 密码错误
 	 */
 	public static final int PASSWORD_ERROR=208;
-
+	
+	/**
+	 * 没有权限
+	 */
+	public static final int PERMISSION_LOW=209;
+	
 	/**
 	 * 文件上传失败
 	 */

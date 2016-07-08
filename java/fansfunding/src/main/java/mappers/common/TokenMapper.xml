@@ -31,8 +31,8 @@
 	where id=#{id}
   </update>
   
-  <select id="selectByPrimaryKey" parameterType="int">
-	select id,value,permission,request_time,expired_time 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="int">
+	select id,value,permission,request_time,expired_time,phone
 		from token where id=#{id}
   </select>
   

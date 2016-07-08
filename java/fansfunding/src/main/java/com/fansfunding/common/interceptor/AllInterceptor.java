@@ -26,9 +26,11 @@ public class AllInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {}
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {}
- 
-
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse resp, Object handler, Exception ex)
+			throws Exception {
+		resp.addHeader("Access-Control-Allow-Origin", "*");
+		resp.addHeader("Access-Control-Allow-Methods", "*");
+		resp.addHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
+	}
 	
 }

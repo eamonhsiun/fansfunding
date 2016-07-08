@@ -22,6 +22,6 @@ public class CatagoryController {
 	@RequestMapping("catagorys")
 	@ResponseBody
 	public Status catagroys(){
-		return new Status(true,StatusCode.SUCCESS,catagoryService.getAll());
+		return new Status(true,StatusCode.SUCCESS,catagoryService.getAll(),null);
 	}
 }

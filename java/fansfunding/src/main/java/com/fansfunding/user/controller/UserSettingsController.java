@@ -30,7 +30,7 @@ public class UserSettingsController {
 	@RequestMapping(path="{userId}/head",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getHead(@PathVariable Integer userId){
-		return new Status(true,StatusCode.SUCCESS,userService.getUserById(userId).getHead());
+		return new Status(true,StatusCode.SUCCESS,"GET",null);
 	}
 	/**
 	 * 上传头像
@@ -42,14 +42,14 @@ public class UserSettingsController {
 	public Status postHead(@PathVariable Integer userId,@RequestParam CommonsMultipartFile file){
 		if(!file.isEmpty()){
 			if(file.getSize()>FileUpload.FILE_MAX_SIZE){
-				return new Status(false,StatusCode.FILE_TOO_LARGE,"文件大小超过了上传限制");
+				return new Status(false,StatusCode.FILE_TOO_LARGE,"文件大小超过了上传限制",null);
 			}
 			if(settings.uploadHead(userId, file)){
-				return new Status(true,StatusCode.FILEUPLOAD_ERROR,"文件上传成功");
+				return new Status(true,StatusCode.FILEUPLOAD_ERROR,"文件上传成功",null);
 			}
-			return new Status(false,StatusCode.SUCCESS,"文件上传失败");
+			return new Status(false,StatusCode.SUCCESS,"文件上传失败",null);
 		}
-		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空");
+		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空",null);
 	}
 	/**
 	 * 修改用户信息

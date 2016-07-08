@@ -16,7 +16,7 @@ public class MobileChecker {
 	public static String sendMsg(String mobile,int check){
 		String content;
 		try {
-			content = URLEncoder.encode("【ifan$】您的验证码是"+check+"，有效时间5分钟，请不要告诉他人","UTF-8");
+			content = URLEncoder.encode("【fan$】您的验证码是"+check+"，有效时间5分钟，请不要告诉他人","UTF-8");
 			String httpArg = "mobile="+mobile+"&content="+content;
 			return request(httpUrl, httpArg);
 		} catch (UnsupportedEncodingException e) {

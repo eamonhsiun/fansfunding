@@ -31,9 +31,9 @@ public class CommentController {
 	@ResponseBody
 	public Status comments(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
 		if(!projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,commentService.getAll(projectId));
+		return new Status(true,StatusCode.SUCCESS,commentService.getAll(projectId),null);
 	}
 	/**
 	 * 添加评论
@@ -45,12 +45,12 @@ public class CommentController {
 	@ResponseBody
 	public Status comment(@PathVariable Integer catagoryId,@PathVariable Integer projectId,Comment comment){
 		if(comment==null){
-			return new Status(false,StatusCode.ERROR_DATA,null);
+			return new Status(false,StatusCode.ERROR_DATA,null,null);
 		}
 		if(!projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		commentService.add(comment);
-		return new Status(true,StatusCode.SUCCESS,"评论成功");
+		return new Status(true,StatusCode.SUCCESS,"评论成功",null);
 	}
 }

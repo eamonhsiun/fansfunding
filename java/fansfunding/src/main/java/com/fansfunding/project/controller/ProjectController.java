@@ -28,7 +28,7 @@ public class ProjectController {
 	@RequestMapping("{catagoryId}")
 	@ResponseBody
 	public Status projects(@PathVariable Integer catagoryId){
-		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId));
+		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId),null);
 	}
 	/**
 	 * 根据项目ID获取项目
@@ -40,9 +40,9 @@ public class ProjectController {
 	@ResponseBody
 	public Status project(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
 		if(!projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,projectService.getByProjectId(projectId));
+		return new Status(true,StatusCode.SUCCESS,projectService.getByProjectId(projectId),null);
 	}
 	/**
 	 * 获取项目详情
@@ -54,9 +54,9 @@ public class ProjectController {
 	@ResponseBody
 	public Status prjectDetail(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
 		if(!projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,projectService.getDetails(projectId));
+		return new Status(true,StatusCode.SUCCESS,projectService.getDetails(projectId),null);
 	}
 	
 	/**
@@ -90,19 +90,19 @@ public class ProjectController {
 	@ResponseBody
 	public Status uploadAttachment(@PathVariable Integer catagoryId,@PathVariable Integer projectId,@RequestParam CommonsMultipartFile[] files){
 		if(!projectService.inCatagory(catagoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下");
+			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		if(files.length==0){
-			return new Status(false,StatusCode.FAILD,"文件不可为空");
+			return new Status(false,StatusCode.FAILD,"文件不可为空",null);
 		}
 		for(CommonsMultipartFile file:files){
 			if(file.isEmpty()){
-				return new Status(false,StatusCode.FAILD,"文件不可为空");
+				return new Status(false,StatusCode.FAILD,"文件不可为空",null);
 			}
 		}
 		if(projectService.uploadAttachments(catagoryId, projectId, files)){
-			return new Status(true,StatusCode.SUCCESS,"文件上传成功");
+			return new Status(true,StatusCode.SUCCESS,"文件上传成功",null);
 		}
-		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败");
+		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);
 	}
 }

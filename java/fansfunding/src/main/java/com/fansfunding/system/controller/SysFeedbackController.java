@@ -25,6 +25,6 @@ public class SysFeedbackController {
 	@ResponseBody
 	public Status addFeedback(SysFeedback feedback){
 		feedbackService.add(feedback);
-		return new Status(true,StatusCode.SUCCESS,"反馈成功");
+		return new Status(true,StatusCode.SUCCESS,"反馈成功",null);
 	}
 }

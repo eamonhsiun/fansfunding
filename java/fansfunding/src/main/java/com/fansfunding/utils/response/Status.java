@@ -13,15 +13,22 @@ public class Status {
 	private int errCode;
 	
 	/**
-	 * 额外数据
+	 * 需要让用户知道的数据
 	 */
 	private Object data;
+	
+	/**
+	 * 加密验证数据（保护内部逻辑）
+	 */
+	private Object token;
 
-	public Status(boolean result, int errCode, Object data) {
+
+	public Status(boolean result, int errCode, Object data,Object token) {
 		super();
 		this.result = result;
 		this.errCode = errCode;
 		this.data = data;
+		this.token = token;
 	}
 
 	public boolean isResult() {
@@ -47,4 +54,14 @@ public class Status {
 	public void setData(Object data) {
 		this.data = data;
 	}
+	
+	public Object getToken() {
+		return token;
+	}
+
+	public void setToken(Object token) {
+		this.token = token;
+	}
+
+	
 }

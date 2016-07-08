@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.User;
-import com.fansfunding.utils.encrypt.MD5Utils;
 
 
 @Service
@@ -61,8 +60,10 @@ public class UserService {
 	 * @param pwd2
 	 * @return
 	 */
-	public boolean CheckPwd(String pwd1,String token,String pwd2){
-		return MD5Utils.MD5(MD5Utils.MD5(pwd1)+MD5Utils.MD5(token)).equals(pwd2);
+	public boolean CheckPwd(String pwd1,String pwd2){
+		//System.err.println(pwd1+" "+salt+" "+pwd2);
+		return pwd1.equals(pwd2);
+				//MD5Utils.MD5(MD5Utils.MD5(pwd1)+salt).equals(pwd2);
 	}
 	
 	
@@ -82,7 +83,6 @@ public class UserService {
 		user.setHead(UUID.randomUUID().toString().replace("-", ""));
 		user.setRemark("");
 		user.setDel_flag('0');
-		user.setIMEI("");
 		user.setToken(tokenid);
 		user.setCreate_by("me");
 		user.setUpdate_by("me");

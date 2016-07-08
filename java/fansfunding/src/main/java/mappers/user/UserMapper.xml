@@ -16,7 +16,6 @@
     <result column="update_time" property="update_time" jdbcType="DATE" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="del_flag" property="del_flag" jdbcType="CHAR" />
-    <result column="IMEI" property="IMEI" jdbcType="VARCHAR" />
     <result column="token" property="token" jdbcType="INTEGER" />
     <result column="token_wx" property="token_wx" jdbcType="VARCHAR" />
     <result column="token_wb" property="token_wb" jdbcType="VARCHAR" />
@@ -27,28 +26,28 @@
   </resultMap>
   
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id,name,phone,nickname,email,IMEI,token,password
+    select id,name,phone,nickname,email,token,password
     from user
   </select>
   
   <select id="selectById" resultMap="BaseResultMap" parameterType="int">
-    select id,name,phone,nickname,email,IMEI,token,password
+    select id,name,phone,nickname,email,token,password
     from user where id = #{id}
   </select>
   
   <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,IMEI,token,password
+    select id,name,phone,nickname,email,token,password
     from user where name = #{name}
   </select>
   
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,IMEI,token,password
+    select id,name,phone,nickname,email,token,password
     from user where phone = #{phone}
   </select>
   
   <insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.User">
-  	insert into user(name,nickname,password,phone,is_red,head,create_by,create_time,update_by,update_time,remark,del_flag,IMEI,token)
-  		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{IMEI},#{token})
+  	insert into user(name,nickname,password,phone,is_red,head,create_by,create_time,update_by,update_time,remark,del_flag,token)
+  		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{token})
   </insert>
   
   <update id="updateToken" parameterType="com.fansfunding.user.entity.User">

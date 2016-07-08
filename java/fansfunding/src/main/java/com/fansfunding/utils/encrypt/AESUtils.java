@@ -7,6 +7,7 @@ import org.apache.commons.codec.binary.Base64;
 
 public class AESUtils {
 	private  AESUtils(){}
+	public static final String ENCRYPT_KEY="FANS$-*&^#$%^!~)";
 	
     // 加密
     public static String Encrypt(String sSrc, String sKey) throws Exception {

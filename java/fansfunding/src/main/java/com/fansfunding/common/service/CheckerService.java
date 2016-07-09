@@ -14,7 +14,7 @@ import com.fansfunding.utils.MobileChecker;
 @Service
 public class CheckerService {
 	
-	
+	public int check;
 	/**
 	 * 最小请求间隔
 	 */
@@ -63,11 +63,22 @@ public class CheckerService {
 		checker.setChecknum(checknum);
 		checker.setPhone(phone);
 		
+		check=checknum;
 		checkerDao.insertNewChecker(checker);
 		return checker.getId();
 	}
 	
-	
+	public int genCheckerT(String phone){
+		int checknum = (int)(Math.random()*899999) +100000;
+		Checker checker = new Checker();
+		//TODO:这里还需要做token操作
+		checker.setChecknum(checknum);
+		checker.setPhone(phone);
+		
+		check=checknum;
+		checkerDao.insertNewChecker(checker);
+		return checker.getId();
+	}
 	/**
 	 * 验证码过期验证
 	 * @return

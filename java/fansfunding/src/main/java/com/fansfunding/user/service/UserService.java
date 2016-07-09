@@ -61,9 +61,8 @@ public class UserService {
 	 * @return
 	 */
 	public boolean CheckPwd(String pwd1,String pwd2){
-		//System.err.println(pwd1+" "+salt+" "+pwd2);
 		return pwd1.equals(pwd2);
-				//MD5Utils.MD5(MD5Utils.MD5(pwd1)+salt).equals(pwd2);
+
 	}
 	
 	

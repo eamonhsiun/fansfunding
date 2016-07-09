@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.common.entity.Checker;
+
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.CheckerService;
 import com.fansfunding.common.service.TokenService;
@@ -17,6 +18,7 @@ import com.fansfunding.user.entity.User;
 import com.fansfunding.user.entity.UserBasic;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.encrypt.AESUtils;
+
 import com.fansfunding.utils.response.PermissionCode;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -29,8 +31,10 @@ public class UserController {
 	@Autowired
 	private CheckerService checkerService;
 
+
 	@Autowired
 	private TokenService tokenService;
+
 
 	/**
 	 * @param resp
@@ -38,6 +42,7 @@ public class UserController {
 	 * @param phone
 	 * @param password
 	 * @return
+<<<<<<< HEAD
 	 * @throws Exception
 	 */
 	@RequestMapping(path = "newUser")
@@ -69,6 +74,7 @@ public class UserController {
 			user.setPassword("");
 		} catch (Exception e) {
 			return new Status(false, StatusCode.USER_EXIST, null, null);
+
 		}
 		checkerService.deleteById(cid);
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
@@ -198,7 +204,6 @@ public class UserController {
 			return new Status(true, StatusCode.PERMISSION_LOW, null, null);
 		}
 		return new Status(true, StatusCode.SUCCESS, null, null);
-
 	}
 
 	/**

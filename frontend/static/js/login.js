@@ -190,6 +190,12 @@
     });
   }
 
+  var icodeCounterSignup = 60;
+  var icodeCounterForgetPwd = 60;
+  var icodeToken = null;
+  var icodeTimerSignup = null;
+  var icodeTimerForgetpwd = null;
+
   function getIcode(kind){
     if(!kind){
       return;
@@ -286,12 +292,6 @@
     }
 
   }
-
-  var icodeCounterSignup = 60;
-  var icodeCounterForgetPwd = 60;
-  var icodeToken = null;
-  var icodeTimerSignup = null;
-  var icodeTimerForgetpwd = null;
 
   function signup(){
     var signupTel = $("#signup-phone").value;
@@ -427,6 +427,14 @@
     });
   }
 
+  function redirect () {
+    var ref = getQueryString("ref");
+    if(ref){
+      window.location.href = ref;
+    }else{
+      window.location.href = "http://localhost:8000/index.html";
+    }
+  }
 
   //初始行为
   addElementEvent();
@@ -438,5 +446,3 @@
 // })();
 
 
-
-var bbb;

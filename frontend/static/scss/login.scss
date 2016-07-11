@@ -70,6 +70,7 @@
       border: 1px solid $color_second;
       color: white;
       transition: all 0.3s ease;
+      cursor: pointer;
       &:hover{
         background-color: darken($color_second,10%);
       }

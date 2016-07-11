@@ -9,6 +9,11 @@ function getUserId () {
 function getUserToken () {
   return localStorage && localStorage.token ? localStorage.token : null;
 }
+function getQueryString(arg){
+  var reg = new RegExp("(^|&)"+ arg +"=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if(r!==null)return unescape(r[2]); return null;
+}
 var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 
@@ -78,6 +83,7 @@ var $$ = function (i) { return document.querySelectorAll(i); };
       $("#profile-not-login").style.display = "block";
       return;
     }
+    $(".profile-avatar img").src = localUserInfo.head;
 
 
   }
@@ -111,7 +117,10 @@ var $$ = function (i) { return document.querySelectorAll(i); };
   }
 
   function addElementEvent(){
-
+    $("#logoutbtn").addEventListener("click", function  (e) {
+      e.preventDefault();
+      logout();
+    });
   }
 
   checkAccountStatus();

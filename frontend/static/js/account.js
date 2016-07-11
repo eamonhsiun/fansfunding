@@ -1,5 +1,5 @@
 
-var apiUrl = "http://192.168.0.113:8088/fansfunding";
+var apiUrl = "http://api.immortalfans.com";
 var localId = null;
 var localToken = null;
 var localUserInfo = null;
@@ -9,45 +9,45 @@ function getUserId () {
 function getUserToken () {
   return localStorage && localStorage.token ? localStorage.token : null;
 }
+var $ = function (i) { return document.querySelector(i); };
+var $$ = function (i) { return document.querySelectorAll(i); };
 
 // ;(function(){
-  var $ = function (i) { return document.querySelector(i); };
-  var $$ = function (i) { return document.querySelectorAll(i); };
 
-  function getCommonToken () {
-    var commonTokenRequest = ajax({
-      method: 'post',
-      url: apiUrl + "/common/newToken",
-      data: {
-        phone: 13006128628
-      }
-    }).then(function (response, xhr) {
-      aaa = response;
-      if(response.result){
-        localId = response.data.id;
-        localToken = response.data.value;
-        changeDom({ info: {accountStatus : false}});
-        return;
-      }
-    }).catch(function (response, xhr) {
-      alert("服务器连接失败");
-    }).always(function (response, xhr) {
-      // Do something
-    });
-  }
-
+  // function getCommonToken () {
+  //   var commonTokenRequest = ajax({
+  //     method: 'post',
+  //     url: apiUrl + "/common/newToken",
+  //     data: {
+  //       phone: 13006128628
+  //     }
+  //   }).then(function (response, xhr) {
+  //     if(response.result){
+  //       localId = response.data.id;
+  //       localToken = response.data.value;
+  //       changeLoginDom({ info: {accountStatus : false}});
+  //       return;
+  //     }
+  //   }).catch(function (response, xhr) {
+  //     alert("服务器连接失败");
+  //   }).always(function (response, xhr) {
+  //     // Do something
+  //   });
+  // }
   function getUserInfo () {
     var commonTokenRequest = ajax({
-      method: 'get',
-      url: apiUrl + "/user/" + localId + "/" + localToken + "/"
+      method: 'post',
+      url: apiUrl + "/user/" + localId + "/info",
+      data: {
+        token: localToken
+      }
     }).then(function (response, xhr) {
-      bbb = response;
       var res = response.data;
       if(!response.result){
-        res.accountStatus = false;
+        changeLoginDom(false);
       }
       localUserInfo = res;
-      changeDom(res);
+      changeLoginDom(true, res);
     }).catch(function (response, xhr) {
       alert("服务器连接失败");
     }).always(function (response, xhr) {
@@ -59,42 +59,49 @@ function getUserToken () {
     var userId = getUserId();
     var userToken = getUserToken();
     if(!userId || !userToken){
-      getCommonToken();
+      changeLoginDom(false);
     }else{
       localId = userId;
       localToken = userToken;
-      // getUserInfo();
+      getUserInfo();
     }
   }
 
-  function changeDom(info){
-    if(info.accountStatus){
+  function changeLoginDom(status, info){
+    if(status){
       $("#profile-login").style.display = "block";
       $("#profile-not-login").style.display = "none";
     }else{
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
       $("#profile-login").style.display = "none";
       $("#profile-not-login").style.display = "block";
       return;
     }
+
+
   }
+
+//res = {
+//  accountStatus,
+//  username,
+//  useravatar,
+//  other...
+//}
 
   function logout(){
     var commonTokenRequest = ajax({
-      method: 'get',
-      url: apiUrl + "/user/" + localToken + "/logout",
+      method: 'post',
+      url: apiUrl +"/user/" + localId + "/logout",
       data: {
-        id: localId
+        token: localToken
       }
     }).then(function (response, xhr) {
-      bbb = response;
-      var res = response.data;
-      if(response.result){
-        res.accountStatus = true;
-        localUserInfo = res;
-        localStorage.removeItem("id");
-        localStorage.removeItem("token");
-        getCommonToken();
-        changeDom(res);
+      if(!response.result){
+        alert("登出失败");
+      }else{
+        console.log("登出成功");
+        changeLoginDom(false);
       }
     }).catch(function (response, xhr) {
       alert("服务器连接失败");

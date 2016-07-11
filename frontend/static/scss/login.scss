@@ -55,10 +55,10 @@
         border: 1px solid $color_second;
       }
     }
-    input#signup-icode{
+    input#signup-icode, input#forgetpwd-icode{
       width: 60%;
     }
-    .signup-icode-btn{
+    .signup-icode-btn,.forgetpwd-icode-btn{
       display: block;
       float: right;
       width: 35%;
@@ -103,7 +103,7 @@
       }
     }
   }
-  .login-signup-btn,.signup-login-btn{
+  .login-signup-btn,.signup-login-btn,.forgetpwd-login-btn{
     width: 100%;
     text-align: center;
     margin: auto;

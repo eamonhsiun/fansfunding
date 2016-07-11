@@ -12,7 +12,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
   <meta name="apple-mobile-web-app-status-bar-style" content="#ff6268" />
   <meta name="msapplication-tap-highlight" content="no">
-  <title>项目详情 | FAN$</title>
+  <title>给四年的一封信 | FAN$</title>
+
+  <link rel="Shortcut Icon" href="static/img/logo.png" />
+
   <link rel="stylesheet" href="static/css/index.css">
   <link rel="stylesheet" href="static/css/project.css">
   <link rel="stylesheet" href="static/css/index-mobile.css">
@@ -21,11 +24,11 @@
 <body>
   <div id="header">
     <div class="container">
-      <a href="###" class="logo">
-        <img src="static/img/27.jpg" alt="">
+      <a href="###" class="logo" style="cursor: default;">
+        <img src="static/img/logo.png" alt="">
         <span>FAN$</span>
       </a>
-      <div class="profile">
+<!--       <div class="profile">
         <div class="profile-login" id="profile-login">
           <div class="profile-avatar">
             <a href="###"><img src="static/img/27.jpg" alt=""></a>
@@ -45,7 +48,7 @@
           <a href="###">注册</a>
         </div>
       </div>
-      <!-- <div class="nav">
+ -->      <!-- <div class="nav">
         <div class="nav-dropdown-arrow"></div>
         <ul>
           <a href="###"><li class="active">首页</li></a>
@@ -53,13 +56,13 @@
           <a href="###"><li>下载APP</li></a>
         </ul>
       </div> -->
-      <div class="search">
+      <!-- <div class="search">
         <form action="">
           <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
           <label for="search-text"></label>
           <input type="submit" class="search-submit">
         </form>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="wrap">
@@ -76,7 +79,7 @@
               </div>
               <div class="project-info-username">
                 发起人：
-                <span>???</span>
+                <span>芥末工作室</span>
               </div>
             </div>
           </div>
@@ -87,12 +90,39 @@
               </div>
             </div>
             <div class="project-main-content">
-              <div class="project-amout"><span>100</span>支持数</div>
-              <div class="project-money">￥<span>10000</span>已筹款</div>
-              <div class="project-progressbar"><span style="width:56%;"></span></div>
+              <div class="project-amout"><!-- <span>100</span> -->目标筹款</div>
+              <div class="project-money">￥<span>10000</span><!-- 目标筹款 --></div>
+              <!-- <div class="project-progressbar"><span style="width:56%;"></span></div> -->
               <div class="project-button">
                 <div class="project-button-subscribe"><a href="#project-repay" id="subscribe-now">立即支持</a></div>
-                <div class="project-button-share"><a href="###">分享</a></div>
+                <div class="project-button-share"><a id="share" href="javascript:void((function(s,d,e,r,l,p,t,z,c) {var%20f='http://v.t.sina.com.cn/share/share.php?appkey=962772401',u=z||d.location,p=['&url=',e(u),'& title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'& content=',c||'utf8','&pic=',e(p||'')].join('');function%20a() {if(!window.open([f,p].join(''),'mb', ['toolbar=0,status=0,resizable=1,width=600,height=500,left=',(s.width- 600)/2,',top=',(s.height-600)/2].join('')))u.href=[f,p].join('');}; if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();}) (screen,document,encodeURIComponent,'','','','给四年的一封信','','utf-8'));">分享到微博</a></div>
+                <!-- JiaThis Button BEGIN -->
+                <div id="ckepop">
+                  <span class="jiathis_txt">分享到：</span>
+                  <a class="jiathis_button_weixin">微信</a>
+                  <a href="http://www.jiathis.com/share"  class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+                  <a class="jiathis_counter_style"></a>
+                </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1" charset="utf-8"></script>
+<style>
+  #ckepop{
+    margin-top: 10px;
+    text-align: center;
+  }
+  #ckepop .button, #ckepop .jiathis_txt{
+    float: none;
+    text-align: center;
+  }
+  #ckepop .separator, #ckepop .jiathis_separator{
+    display: inline !important;
+    float: none;
+    text-align: center;
+  }
+  #ckepop .jiathis_counter.jiathis_bubble_style{
+    display: inline-block !important;
+    float: none;
+  }
+</style>
               </div>
             </div>
           </div>
@@ -269,7 +299,7 @@
                     </ul>
                     <div class="project-repay-button">
                       <img class="project-qrcode" src="static/img/qrcode.jpg" alt="">
-                      <a href="###">支持此项目</a>
+                      <!-- <a href="###">支持此项目</a> -->
                     </div>
                   </div>
                 </div>
@@ -320,8 +350,8 @@
   </div>
 
   <!-- Script -->
-  <script src="static/js/account.js"></script>
-  <script src="static/js/project.js"></script>
-  <script src="static/js/comment.js"></script>
+  <!-- <script src="static/js/account.js"></script>-->
+  <!-- <script src="static/js/project.js"></script>-->
+  <!-- <script src="static/js/comment.js"></script>-->
 </body>
 </html>

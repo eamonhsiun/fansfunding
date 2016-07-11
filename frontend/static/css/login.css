@@ -77,9 +77,9 @@
     border-color: #ff6268; }
     .account-container .account-form input[type="text"].error:focus, .account-container .account-form input[type="tel"].error:focus, .account-container .account-form input[type="password"].error:focus {
       border: 1px solid #57bff3; }
-  .account-container .account-form input#signup-icode {
+  .account-container .account-form input#signup-icode, .account-container .account-form input#forgetpwd-icode {
     width: 60%; }
-  .account-container .account-form .signup-icode-btn {
+  .account-container .account-form .signup-icode-btn, .account-container .account-form .forgetpwd-icode-btn {
     display: block;
     float: right;
     width: 35%;
@@ -91,9 +91,9 @@
     border: 1px solid #57bff3;
     color: white;
     transition: all 0.3s ease; }
-    .account-container .account-form .signup-icode-btn:hover {
+    .account-container .account-form .signup-icode-btn:hover, .account-container .account-form .forgetpwd-icode-btn:hover {
       background-color: #27adf0; }
-    .account-container .account-form .signup-icode-btn:disabled {
+    .account-container .account-form .signup-icode-btn:disabled, .account-container .account-form .forgetpwd-icode-btn:disabled {
       background-color: #cccccc;
       border-color: #cccccc;
       cursor: not-allowed; }
@@ -116,16 +116,16 @@
     transition: all 0.3s ease; }
     .account-container .account-form .account-btn:hover {
       background-color: #ff2f37; }
-  .account-container .login-signup-btn, .account-container .signup-login-btn {
+  .account-container .login-signup-btn, .account-container .signup-login-btn, .account-container .forgetpwd-login-btn {
     width: 100%;
     text-align: center;
     margin: auto;
     margin-top: 15px; }
-    .account-container .login-signup-btn a, .account-container .signup-login-btn a {
+    .account-container .login-signup-btn a, .account-container .signup-login-btn a, .account-container .forgetpwd-login-btn a {
       color: blue; }
-      .account-container .login-signup-btn a:hover, .account-container .signup-login-btn a:hover {
+      .account-container .login-signup-btn a:hover, .account-container .signup-login-btn a:hover, .account-container .forgetpwd-login-btn a:hover {
         text-decoration: underline; }
-    .account-container .login-signup-btn a + a, .account-container .signup-login-btn a + a {
+    .account-container .login-signup-btn a + a, .account-container .signup-login-btn a + a, .account-container .forgetpwd-login-btn a + a {
       padding-left: 15px; }
 
 @media screen and (max-width: 400px) {

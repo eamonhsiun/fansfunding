@@ -9,8 +9,12 @@ public interface RealInfoDao {
     int insert(RealInfo record);
 
     RealInfo selectByPrimaryKey(Integer id);
+    
+    RealInfo selectByUserId(Integer id);
 
     List<RealInfo> selectAll();
 
     int updateByPrimaryKey(RealInfo record);
+    
+    
 }

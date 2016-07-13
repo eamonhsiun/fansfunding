@@ -61,4 +61,10 @@
     create_by, create_time, update_by, update_time, del_flag
     from real_info
   </select>
+  
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, real_name, user_id , sex, id_number, birth_place, birthday, address, is_validated, 
+    create_by, create_time, update_by, update_time, del_flag
+    from real_info where user_id=#{id}
+  </select>
 </mapper>

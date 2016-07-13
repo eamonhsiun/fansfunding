@@ -11,6 +11,8 @@ public interface ShoppingAddressDao {
     ShoppingAddress selectByPrimaryKey(Integer id);
 
     List<ShoppingAddress> selectAll();
+    
+    List<ShoppingAddress> selectByUserId(Integer id);
 
     int updateByPrimaryKey(ShoppingAddress record);
 }

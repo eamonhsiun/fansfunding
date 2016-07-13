@@ -44,5 +44,6 @@ public class User extends UserBasic{
 	private String id_qq;
 	
 	private int token;
-
+	
+	private RealInfo realInfo;
 }

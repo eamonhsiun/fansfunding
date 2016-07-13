@@ -15,9 +15,6 @@ public class AllInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
 			throws Exception {
-		resp.addHeader("Access-Control-Allow-Origin", "*");
-		resp.addHeader("Access-Control-Allow-Methods", "*");
-		resp.addHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
 		return true;
 	}
 
@@ -26,11 +23,13 @@ public class AllInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {}
 
 	@Override
+
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse resp, Object handler, Exception ex)
 			throws Exception {
 		resp.addHeader("Access-Control-Allow-Origin", "*");
 		resp.addHeader("Access-Control-Allow-Methods", "*");
 		resp.addHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
 	}
+
 	
 }

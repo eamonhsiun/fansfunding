@@ -13,7 +13,10 @@
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from shopping_address
     where id = #{id,jdbcType=INTEGER}
@@ -25,8 +28,8 @@
       update_time, del_flag)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+      #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
+      now(), #{delFlag,jdbcType=CHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     update shopping_address
@@ -44,13 +47,21 @@
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, user_id, province, city, district, address, create_by, create_time, update_by, 
-    update_time, del_flag
+    update_time, del_flag,phone,name,post_code
     from shopping_address
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_id, province, city, district, address, create_by, create_time, update_by, 
+    update_time, del_flag, phone, name,post_code
+    from shopping_address
+    where user_id = #{id,jdbcType=INTEGER}
+  </select>
+  
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, user_id, province, city, district, address, create_by, create_time, update_by, 
-    update_time, del_flag
+    update_time, del_flag, phone, name,post_code
     from shopping_address
   </select>
 </mapper>

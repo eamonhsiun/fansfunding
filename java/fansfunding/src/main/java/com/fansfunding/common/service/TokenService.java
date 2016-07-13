@@ -54,7 +54,9 @@ public class TokenService {
 	 * @return
 	 */
 	public Token lookUpTokenById(int id){
+
 		return tokenDao.selectByPrimaryKey(id);
+
 	}
 	
 	/**

@@ -38,7 +38,7 @@ public class UserShoppingAddressController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/shopping_address",method=RequestMethod.PATCH)
+	@RequestMapping(path="{userId}/update_shopping_address")
 	@ResponseBody
 	public Status updateShoppingAddress(@PathVariable Integer userId){
 		return null;
@@ -48,7 +48,7 @@ public class UserShoppingAddressController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/shopping_address",method=RequestMethod.DELETE)
+	@RequestMapping(path="{userId}/delete_shopping_address")
 	@ResponseBody
 	public Status deleteShoppingAddress(@PathVariable Integer userId){
 		return null;

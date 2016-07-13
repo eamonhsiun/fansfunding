@@ -2,12 +2,15 @@ package com.fansfunding.user.service;
 
 
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fansfunding.user.dao.RealInfoDao;
 import com.fansfunding.user.dao.UserDao;
+import com.fansfunding.user.entity.RealInfo;
 import com.fansfunding.user.entity.User;
 
 
@@ -15,7 +18,9 @@ import com.fansfunding.user.entity.User;
 public class UserService {
 	@Autowired
 	private UserDao userDao;
-
+	
+	@Autowired
+	private RealInfoDao realInfoDao;
 	/**
 	 * @param id
 	 * @param name
@@ -34,7 +39,9 @@ public class UserService {
 	 * @return
 	 */
 	public User getUserById(int uid){
-		return userDao.selectById(uid);
+		User user = userDao.selectById(uid);
+		user.setRealInfo(realInfoDao.selectByUserId(uid));
+		return user;
 	}
 	
 	/**
@@ -65,7 +72,7 @@ public class UserService {
 
 	}
 	
-	
+
 	
 	/**
 	 * @param phone
@@ -90,6 +97,7 @@ public class UserService {
 		userDao.insertNewUser(user);
 		return user;
 	}
+		
 
 
 	public void updateToken(int id) {
@@ -99,6 +107,39 @@ public class UserService {
 
 	public void updatePwd(User user) {
 		userDao.updatePwd(user);
+	}
+	
+	public void updateNickName(int userid,String nickname){
+		User user =userDao.selectById(userid);
+		user.setNickname(nickname);
+		userDao.updateUser(user);
+	}
+	
+	public User updateUserInfo(int userid,String email,Byte sex,String idNumber,Date birthday){
+		RealInfo realinfo = realInfoDao.selectByUserId(userid);
+		realinfo.setBirthday(birthday);
+		realinfo.setSex(sex);
+		realinfo.setIdNumber(idNumber);
+		realInfoDao.updateByPrimaryKey(realinfo);
+		
+		User user = userDao.selectById(userid);
+		user.setEmail(email);
+		userDao.updateUser(user);
+		user.setRealInfo(realinfo);
+		return user;
+	}
+	
+	
+	
+	
+
+	public Set<String> findRoles(String username){
+		return null;
+	}
+	
+
+	public Set<String> findPermissions(String username) {
+		return null;
 	}
 	
 	

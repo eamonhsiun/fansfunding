@@ -13,6 +13,10 @@ public class ShoppingAddress {
     private Integer id;
 
     private Integer userId;
+    
+    private String phone;
+    
+    private String name;
 
     private String province;
 

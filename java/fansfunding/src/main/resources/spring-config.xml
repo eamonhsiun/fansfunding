@@ -17,7 +17,9 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://www.springframework.org/schema/jdbc
-		http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd">
+		http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/util  
+		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 	<context:component-scan base-package="com.fansfunding">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -75,6 +77,7 @@
 		<property name="basePackage" value="com.fansfunding.*.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sessionFactory" />
 	</bean>
+
 	<!-- 缓存配置 -->
 	<cache:annotation-driven cache-manager="cacheManager" />
 	<!-- Spring提供的基于的Ehcache实现的缓存管理器 -->
@@ -85,11 +88,73 @@
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
 		<property name="cacheManager" ref="cacheManagerFactory" />
 	</bean>
+
+
 	<!-- 事务相关控制 -->
 	<bean name="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<!-- 使用注解配置事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+
+
+	<!-- Realm实现 -->
+	<bean id="statelessRealm" class="com.fansfunding.common.entity.TokenRealm">
+		<property name="cachingEnabled" value="false" />
+	</bean>
+
+
+	<!-- Shiro安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="statelessRealm"></property>
+	</bean>
+
+	<!-- 相当于 调 用 SecurityUtils.setSecurityManager(securityManager) -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+		<property name="arguments" ref="securityManager" />
+	</bean>
+
+	<bean id="statelessAuthcFilter" class="com.fansfunding.common.interceptor.StatelessAuthcFilter" />
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- Shiro的核心安全接口，这个属性是必须的 -->
+		<property name="securityManager" ref="securityManager"></property>
+		<!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 <property 
+			name="loginUrl" value="/security/login"></property> -->
+		<!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) -->
+		<!-- <property name="successUrl" value="/" ></property> -->
+		<!-- 用户访问未对其授权的资源时，所显示的连接 -->
+		<property name="unauthorizedUrl" value="/"></property>
+		<property name="filters">
+			<util:map>
+				<entry key="statelessAuthc" value-ref="statelessAuthcFilter" />
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/userbasic/**=anon
+				/user/**=statelessAuthc
+			</value>
+		</property>
+	</bean>
+
+
+
+
+	<!-- shiro注解 
+	<aop:config proxy-target-class="true"></aop:config> 
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"></property>
+	</bean>
+	-->
+
+
+
 </beans> 

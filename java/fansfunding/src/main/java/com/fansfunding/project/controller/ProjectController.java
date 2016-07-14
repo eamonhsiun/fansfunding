@@ -29,7 +29,7 @@ public class ProjectController {
 	@ResponseBody
 	public Status projects(@PathVariable Integer catagoryId,
 			@RequestParam(required=false,defaultValue="1") Integer page,
-			@RequestParam(required=false,defaultValue="1") Integer rows){
+			@RequestParam(required=false,defaultValue="10") Integer rows){
 		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId,page,rows),null);
 	}
 	/**

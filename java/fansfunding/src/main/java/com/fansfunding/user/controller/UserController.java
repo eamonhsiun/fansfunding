@@ -1,7 +1,5 @@
 package com.fansfunding.user.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -98,19 +96,5 @@ public class UserController {
 		userService.updateNickName(userId, nickname);
 		return new Status(true,StatusCode.SUCCESS,nickname,null);
 	}
-	
-	/**
-	 * POST NICKNAME
-	 * @param userId
-	 * @param nickname
-	 * @return
-	 */
-	@RequestMapping(path = "{userId}/info", method = RequestMethod.POST)
-	@ResponseBody
-	public Status postInfo(@PathVariable int userId,@RequestParam String email,@RequestParam Byte sex,@RequestParam String idNumber,@RequestParam Date birthday) {
-
-		return new Status(true,StatusCode.SUCCESS,userService.updateUserInfo(userId, email, sex, idNumber, birthday),null);
-	}
-	
 
 }

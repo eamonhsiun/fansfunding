@@ -27,8 +27,10 @@ public class ProjectController {
 	 */
 	@RequestMapping("{catagoryId}")
 	@ResponseBody
-	public Status projects(@PathVariable Integer catagoryId){
-		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId),null);
+	public Status projects(@PathVariable Integer catagoryId,
+			@RequestParam(required=false,defaultValue="1") Integer page,
+			@RequestParam(required=false,defaultValue="1") Integer rows){
+		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId,page,rows),null);
 	}
 	/**
 	 * 根据项目ID获取项目

@@ -15,6 +15,10 @@ import com.fansfunding.project.dao.ProjectDetailDao;
 import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.entity.ProjectDetail;
 import com.fansfunding.utils.fileupload.FileUpload;
+import com.fansfunding.utils.pagination.Page;
+import com.fansfunding.utils.pagination.PageAdapter;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class ProjectService {
@@ -27,9 +31,14 @@ public class ProjectService {
 	 * @param catagroyId 分类ID
 	 * @return
 	 */
-	public List<Map<String,Object>> getByCatagoryId(int catagoryId){
+	public Page getByCatagoryId(int catagoryId,int page,int rows){
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
-		projectDao.selectByCatagoryId(catagoryId).stream().forEach((e)->{
+		
+		PageHelper.startPage(page, rows);
+		List<Project> list=projectDao.selectByCatagoryId(catagoryId);
+		PageInfo<Project> info=new PageInfo<>(list);
+		
+		list.forEach((e)->{
 			Map<String,Object> project=new HashMap<>();
 			project.put("id", e.getId());
 			project.put("catagoryId", e.getCatagoryId());
@@ -43,7 +52,8 @@ public class ProjectService {
 			project.put("targetMoney", e.getTargetMoney());
 			projects.add(project);
 		});
-		return projects;
+		
+		return PageAdapter.adapt(info, projects);
 	}
 	/**
 	 * 根据项目ID获取项目详情
@@ -106,8 +116,7 @@ public class ProjectService {
 		if(projectDetail==null){
 			return false;
 		}
-		//TO DO
-		//更新项目详情
+		//TODO 更新项目详情
 		for(CommonsMultipartFile file:files){
 			try {
 				FileUpload.save(file, FileUpload.Path.PROJECT_ATTACHMENT, catagoryId+"/"+projectId);

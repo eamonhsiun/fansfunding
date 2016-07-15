@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
 import com.fansfunding.utils.fileupload.FileUpload;
@@ -22,6 +23,8 @@ import com.fansfunding.utils.response.StatusCode;
 public class UserSettingsController {
 	@Autowired
 	private UserSettingsService settings;
+	
+	@Autowired
 	private UserService userService;
 	
 	/**
@@ -53,11 +56,29 @@ public class UserSettingsController {
 		}
 		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空",null);
 	}
+	
+	/**
+	 * 获取用户信息
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @return
+	 */
+	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
+	@ResponseBody
+	public Status info(@PathVariable int userId) {
+		System.err.println("===================");
+		User user = userService.getUserById(userId);
+		
+		
+		user.setPassword("");
+		return new Status(true, StatusCode.SUCCESS, user, null);
+	}
+	
 
 	/**
-	 * POST NICKNAME
+	 * POST Info
 	 * @param userId
-	 * @param nickname
 	 * @return
 	 */
 	@RequestMapping(path = "{userId}/info", method = RequestMethod.POST)
@@ -66,4 +87,32 @@ public class UserSettingsController {
 
 		return new Status(true,StatusCode.SUCCESS,userService.updateUserInfo(userId, email, sex, idNumber, birthday),null);
 	}
+	
+	
+	/**
+	 * GET NICKNAME
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.GET)
+	@ResponseBody
+	public Status getNickName(@PathVariable int userId) {
+		User user = userService.getUserById(userId);
+		return new Status(true,StatusCode.SUCCESS,user.getNickname(),null);
+	}
+	
+	
+	/**
+	 * POST NICKNAME
+	 * @param userId
+	 * @param nickname
+	 * @return
+	 */
+	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.POST)
+	@ResponseBody
+	public Status postNickName(@PathVariable int userId,@RequestParam String nickname) {
+		userService.updateNickName(userId, nickname);
+		return new Status(true,StatusCode.SUCCESS,nickname,null);
+	}
+	
 }

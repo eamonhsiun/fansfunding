@@ -17,7 +17,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 
 		String token = request.getParameter("token");
-
+		System.err.println(token);
 		try {
 			// TODO:NOT FINISHED!!!
 			StatelessToken upt = new StatelessToken(token);

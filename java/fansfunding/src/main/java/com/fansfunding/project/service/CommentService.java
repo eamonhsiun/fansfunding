@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fansfunding.project.dao.CommentDao;
-import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.entity.Comment;
 import com.fansfunding.user.dao.UserDao;import com.fansfunding.user.entity.User;
 
@@ -25,8 +24,7 @@ import com.fansfunding.user.dao.UserDao;import com.fansfunding.user.entity.User;
 public class CommentService {
 	@Autowired
 	private CommentDao commentDao;
-	@Autowired
-	private ProjectDao projectDao;
+	
 	@Autowired
 	private UserDao userDao;
 	/**

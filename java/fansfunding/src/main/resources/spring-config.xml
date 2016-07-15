@@ -139,7 +139,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/userbasic/**=anon
-				/user/**=statelessAuthc
+				<!-- /user/**=statelessAuthc -->
 			</value>
 		</property>
 	</bean>

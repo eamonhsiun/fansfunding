@@ -68,6 +68,12 @@
   	where id = #{id}
   </update>
   
+    <update id="updateNickName" parameterType="com.fansfunding.user.entity.User">
+    update user
+  	set nickname = #{nickname}
+  	where id = #{id}
+  </update>
+  
   <update id="updateUser" parameterType="com.fansfunding.user.entity.User">
     update user
   	set nickname=#{nickname},

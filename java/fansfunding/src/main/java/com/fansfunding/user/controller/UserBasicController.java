@@ -2,7 +2,6 @@ package com.fansfunding.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +47,7 @@ public class UserBasicController {
 		int cid;
 		Checker c;
 		User user;
+		System.err.println("<>token<>"+token);
 		try {
 			// TODO:Checker过期检测
 			cid = Integer.valueOf(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
@@ -117,30 +117,10 @@ public class UserBasicController {
 		
 		checkerService.deleteById(cid);
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
 		
 
 
-	}
-
-	@RequestMapping(path = "{userId}/newPwd")
-	@ResponseBody
-	public Status newPwd(@PathVariable String userId, @RequestParam String token,@RequestParam String password) throws Exception {
-		User user = userService.getUserById(Integer.parseInt(userId));
-		// TODO:存在性验证
-		int tid;
-		try {
-			tid = Integer.parseInt(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
-		} catch (Exception e) {
-			return new Status(false, StatusCode.ERROR_DATA, null, null);
-		}
-		Token rToken = tokenService.lookUpTokenById(tid);
-		if(rToken.getPermission()==PermissionCode.PERMISSION_NORMAL){
-			user.setPassword(password);
-			userService.updatePwd(user);
-		}
-		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
-				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
 	}
 
 	/**
@@ -169,7 +149,7 @@ public class UserBasicController {
 
 		user.setPassword("");
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
 	}
 	
 }

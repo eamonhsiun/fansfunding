@@ -112,7 +112,7 @@ public class UserService {
 	public void updateNickName(int userid,String nickname){
 		User user =userDao.selectById(userid);
 		user.setNickname(nickname);
-		userDao.updateUser(user);
+		userDao.updateNickName(user);
 	}
 	
 	public User updateUserInfo(int userid,String email,Byte sex,String idNumber,Date birthday){

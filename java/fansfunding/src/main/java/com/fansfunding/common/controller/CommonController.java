@@ -39,7 +39,7 @@ public class CommonController {
 		int id =checkerService.genChecker(phone);
 		
 		if(id > 0){
-			return new Status(true, StatusCode.SUCCESS,null,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
+			return new Status(true, StatusCode.SUCCESS,null,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY));
 		}else{
 			return new Status(false,StatusCode.FAILD,null,null);
 		}
@@ -55,7 +55,7 @@ public class CommonController {
 		int id =checkerService.genCheckerT(phone);
 		
 		if(id > 0){
-			return new Status(true, StatusCode.SUCCESS,checkerService.check,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
+			return new Status(true, StatusCode.SUCCESS,checkerService.check,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY));
 		}else{
 			return new Status(false,StatusCode.FAILD,null,null);
 		}

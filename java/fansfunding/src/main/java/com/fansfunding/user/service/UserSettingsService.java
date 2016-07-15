@@ -27,6 +27,7 @@ public class UserSettingsService {
 			String head=FileUpload.save(file, FileUpload.Path.USER_HEAD, userId.toString());
 			user.setHead(head);
 			userDao.updateHead(user);
+			
 		}
 		catch(IOException e){
 			return false;

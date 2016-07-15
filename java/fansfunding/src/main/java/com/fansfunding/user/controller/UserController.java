@@ -1,12 +1,10 @@
 package com.fansfunding.user.controller;
 
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.TokenService;
 import com.fansfunding.user.entity.User;
+import com.fansfunding.user.entity.UserBasic;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.encrypt.AESUtils;
 
@@ -57,60 +56,30 @@ public class UserController {
 		return new Status(true, StatusCode.SUCCESS, null, null);
 	}
 
-	/**
-	 * 获取用户信息
-	 * 
-	 * @param userId
-	 *            用户ID
-	 * @return
-	 */
-	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
-	@ResponseBody
-	public Status info(@PathVariable int userId) {
-		User user = userService.getUserById(userId);
-		user.setPassword("");
-		
-		return new Status(true, StatusCode.SUCCESS, user, null);
-	}
-	
-	/**
-	 * GET NICKNAME
-	 * @param userId
-	 * @return
-	 */
-	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.GET)
-	@ResponseBody
-	public Status getNickName(@PathVariable int userId) {
-		User user = userService.getUserById(userId);
-		return new Status(true,StatusCode.SUCCESS,user.getNickname(),null);
-	}
-	
-	
-	/**
-	 * POST NICKNAME
-	 * @param userId
-	 * @param nickname
-	 * @return
-	 */
-	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.POST)
-	@ResponseBody
-	public Status postNickName(@PathVariable int userId,@RequestParam String nickname) {
-		userService.updateNickName(userId, nickname);
-		return new Status(true,StatusCode.SUCCESS,nickname,null);
-	}
-	
-	/**
-	 * POST NICKNAME
-	 * @param userId
-	 * @param nickname
-	 * @return
-	 */
-	@RequestMapping(path = "{userId}/info", method = RequestMethod.POST)
-	@ResponseBody
-	public Status postInfo(@PathVariable int userId,@RequestParam String email,@RequestParam Byte sex,@RequestParam String idNumber,@RequestParam Date birthday) {
 
-		return new Status(true,StatusCode.SUCCESS,userService.updateUserInfo(userId, email, sex, idNumber, birthday),null);
+
+	
+	@RequestMapping(path = "{userId}/newPwd")
+	@ResponseBody
+	public Status newPwd(@PathVariable String userId, @RequestParam String token,@RequestParam String password) throws Exception {
+		User user = userService.getUserById(Integer.parseInt(userId));
+		// TODO:存在性验证
+		int tid;
+		try {
+			tid = Integer.parseInt(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
+		} catch (Exception e) {
+			return new Status(false, StatusCode.ERROR_DATA, null, null);
+		}
+		Token rToken = tokenService.lookUpTokenById(tid);
+		if(rToken.getPermission()==PermissionCode.PERMISSION_NORMAL){
+			user.setPassword(password);
+			userService.updatePwd(user);
+		}
+		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
+				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
 	}
+
+
 	
 
 }

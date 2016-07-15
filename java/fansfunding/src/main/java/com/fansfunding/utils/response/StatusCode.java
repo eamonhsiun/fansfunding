@@ -53,6 +53,7 @@ public class StatusCode {
 	 * 文件上传失败
 	 */
 	public static final int FILEUPLOAD_ERROR=420;
+	
 	/**
 	 * 文件过大
 	 */

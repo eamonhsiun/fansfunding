@@ -1,6 +1,5 @@
 package com.fansfunding.user.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,8 +77,5 @@ public class UserController {
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
 				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
 	}
-
-
-	
 
 }

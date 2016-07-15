@@ -1,23 +1,21 @@
 package com.fansfunding.project.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fansfunding.project.dao.CommentDao;
 import com.fansfunding.project.entity.Comment;
 import com.fansfunding.user.dao.UserDao;import com.fansfunding.user.entity.User;
+import com.fansfunding.utils.pagination.Page;
+import com.fansfunding.utils.pagination.PageAdapter;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 
 @Service
@@ -32,9 +30,14 @@ public class CommentService {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	public List<Map<String,Object>> getAll(int projectId){
+	public Page getComments(int projectId,int page,int rows){
 		List<Map<String,Object>> comments=new ArrayList<>();
-		commentDao.selectByProjectId(projectId).stream().forEach((e)->{
+		
+		PageHelper.startPage(page, rows);
+		List<Comment> list=commentDao.selectByProjectId(projectId);
+		PageInfo<Comment> info=new PageInfo<Comment>(list);
+		
+		list.forEach((e)->{
 			Map<String,Object> comment=new HashMap<>();
 			User commenter=userDao.selectById(e.getUserId());
 			comment.put("id", e.getId());
@@ -51,8 +54,10 @@ public class CommentService {
 				comment.put("pointToName", pointTo.getName());
 				comment.put("pointToNickname", pointTo.getNickname());
 			}
+			comments.add(comment);
 		});
-		return comments;
+		
+		return PageAdapter.adapt(info, comments);
 	}
 	/**
 	 * 添加评论
@@ -61,8 +66,6 @@ public class CommentService {
 	 */
 	@Transactional
 	public void add(Comment comment){
-		comment.setCreateTime(new Date());
-		comment.setDelFlag("0");
 		comment.setCreateBy(userDao.selectById(comment.getUserId()).getName());
 		commentDao.insert(comment);
 	}

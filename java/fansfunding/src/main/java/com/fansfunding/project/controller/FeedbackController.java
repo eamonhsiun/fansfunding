@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.project.entity.Feedback;
@@ -29,11 +30,13 @@ public class FeedbackController {
 	 */
 	@RequestMapping(path="{catagoryId}/{projectId}/feedbacks",method=RequestMethod.GET)
 	@ResponseBody
-	public Status feedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
+	public Status feedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId,
+			@RequestParam(required = false, defaultValue = "1") Integer page,
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(projectService.inCatagory(catagoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,feedbackService.getAll(projectId),null);
+		return new Status(true,StatusCode.SUCCESS,feedbackService.getFeedbacks(projectId,page,rows),null);
 	}
 	/**
 	 * 添加回馈方式

@@ -9,6 +9,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.fansfunding.utils.encrypt.MD5Utils;
+
 /**
  * 文件上传
  * @author wangle
@@ -19,7 +21,7 @@ public class FileUpload {
 	/**
 	 * 可以上传的最大文件大小（字节数）
 	 */
-	public static final int FILE_MAX_SIZE=1024000000;
+	public static final int FILE_MAX_SIZE=10240000;
 	/**
 	 * 文件存储的路径
 	 * @author wangle
@@ -70,6 +72,7 @@ public class FileUpload {
 			userHead=prop.getProperty("user.head");
 			projectAttachment=prop.getProperty("project.attachment");
 			chatFiles=prop.getProperty("chat.files");
+			System.out.println("类加载完成");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -115,9 +118,12 @@ public class FileUpload {
 	 * 解析上传的文件
 	 * @param file
 	 * @return
+	 * @throws IOException 
 	 */
-	private static FileItem parse(CommonsMultipartFile file){
-		return new FileItem(file.getBytes(),file.getOriginalFilename());
+	private static FileItem parse(CommonsMultipartFile file) throws IOException{
+		return new FileItem(file.getBytes(),
+				MD5Utils.MD5(file.getOriginalFilename())+"."
+						+FileFormat.judge(file.getInputStream()).toString().toLowerCase());
 	}
 
 	private static class FileItem{

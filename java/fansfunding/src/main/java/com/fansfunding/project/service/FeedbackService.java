@@ -1,7 +1,6 @@
 package com.fansfunding.project.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.project.dao.FeedbackDao;
 import com.fansfunding.project.entity.Feedback;
+import com.fansfunding.utils.pagination.Page;
+import com.fansfunding.utils.pagination.PageAdapter;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class FeedbackService {
@@ -22,28 +25,30 @@ public class FeedbackService {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	public List<Map<String,Object>> getAll(Integer projectId){
+	public Page getFeedbacks(int projectId,int page,int rows){
 		List<Map<String,Object>> feedbacks=new ArrayList<>();
+		
+		PageHelper.startPage(page, rows);
+		List<Feedback> list=feedbackDao.selectByProjectId(projectId);
+		PageInfo<Feedback> info=new PageInfo<Feedback>(list);
+		
 		feedbackDao.selectByProjectId(projectId).forEach((e)->{
 			Map<String,Object> feedback=new HashMap<>();
 			feedback.put("id", e.getId());
 			feedback.put("projectId", e.getProjectId());
 			feedback.put("title", e.getTitle());
 			feedback.put("description", e.getDescription());
+			feedback.put("limitation", e.getLimitation());
 			feedback.put("images", e.getImages());
 			feedbacks.add(feedback);
 		});
-		return feedbacks;
+		return PageAdapter.adapt(info, feedbacks);
 	}
 	/**
 	 * 添加回馈
 	 * @param feedback 回馈
 	 */
 	public void add(Feedback feedback){
-		feedback.setCreateTime(new Date());
-		feedback.setDelFlag("0");
-		feedback.setUpdateTime(new Date());
-		feedback.setUpdateBy(feedback.getCreateBy());
 		feedbackDao.insert(feedback);
 	}
 }

@@ -1,5 +1,6 @@
 package com.fansfunding.user.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
+import com.fansfunding.utils.fileupload.FileFormat;
 import com.fansfunding.utils.fileupload.FileUpload;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -24,9 +26,9 @@ public class UserSettingsController {
 	@Autowired
 	private UserSettingsService settings;
 	
+	
 	@Autowired
 	private UserService userService;
-	
 	/**
 	 * 获取头像
 	 * @param userName
@@ -46,13 +48,22 @@ public class UserSettingsController {
 	@ResponseBody
 	public Status postHead(@PathVariable Integer userId,@RequestParam CommonsMultipartFile file){
 		if(!file.isEmpty()){
-			if(file.getSize()>FileUpload.FILE_MAX_SIZE){
-				return new Status(false,StatusCode.FILE_TOO_LARGE,"文件大小超过了上传限制",null);
+			try {
+				if(FileFormat.isImage(file.getInputStream())){
+					if(file.getSize()>FileUpload.FILE_MAX_SIZE){
+						return new Status(false,StatusCode.FILE_TOO_LARGE,"图片大小超过了上传限制",null);
+					}
+					if(settings.uploadHead(userId, file)){
+						return new Status(true,StatusCode.SUCCESS,"图片上传成功",null);
+					}
+					return new Status(false,StatusCode.FILEUPLOAD_ERROR,"图片上传失败",null);
+				}
+				else{
+					return new Status(false,StatusCode.UNSUPPORT_IMAGE_FORMAT,"不支持的图片格式",null);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			if(settings.uploadHead(userId, file)){
-				return new Status(true,StatusCode.SUCCESS,"文件上传成功",null);
-			}
-			return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);
 		}
 		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空",null);
 	}

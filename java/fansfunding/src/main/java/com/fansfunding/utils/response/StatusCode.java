@@ -52,12 +52,19 @@ public class StatusCode {
 	/**
 	 * 文件上传失败
 	 */
-	public static final int FILEUPLOAD_ERROR=420;
-	
+	public static final int FILEUPLOAD_ERROR=400;
 	/**
 	 * 文件过大
 	 */
-	public static final int FILE_TOO_LARGE=530;
+	public static final int FILE_TOO_LARGE=401;
+	/**
+	 * 不支持的图片格式
+	 */
+	public static final int UNSUPPORT_IMAGE_FORMAT=402;
+	/**
+	 * 不支持的文件格式
+	 */
+	public static final int UNSUPPORT_FILE_FORMAT=403;
 	/**
 	 * 邮箱错误
 	 */

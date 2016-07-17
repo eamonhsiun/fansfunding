@@ -7,6 +7,9 @@ public interface RealInfoDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(RealInfo record);
+    
+    int insertNew(RealInfo record);
+    
 
     RealInfo selectByPrimaryKey(Integer id);
     

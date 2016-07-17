@@ -23,6 +23,8 @@ public class ShoppingAddress {
     private String city;
 
     private String district;
+    
+    private int post_code;
 
     private String address;
 

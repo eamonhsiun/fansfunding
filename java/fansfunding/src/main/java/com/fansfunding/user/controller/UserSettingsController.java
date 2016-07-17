@@ -1,6 +1,8 @@
 package com.fansfunding.user.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
 import com.fansfunding.utils.fileupload.FileFormat;
@@ -22,8 +25,9 @@ import com.fansfunding.utils.response.StatusCode;
 @Controller
 @RequestMapping(path="user")
 public class UserSettingsController {
-	@Autowired
-	private UserSettingsService settings;
+	
+	
+	
 	@Autowired
 	private UserService userService;
 	/**
@@ -34,47 +38,67 @@ public class UserSettingsController {
 	@RequestMapping(path="{userId}/head",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getHead(@PathVariable Integer userId){
-		return new Status(true,StatusCode.SUCCESS,"GET",null);
+		User user = userService.getUserById(userId);
+		return new Status(true,StatusCode.SUCCESS,user.getHead(),null);
 	}
+	
+	
 	/**
-	 * 上传头像
-	 * @param userName
+	 * 获取用户信息
+	 * 
+	 * @param userId
+	 *            用户ID
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/head",method=RequestMethod.POST)
+	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
 	@ResponseBody
-	public Status postHead(@PathVariable Integer userId,@RequestParam CommonsMultipartFile file){
-		if(!file.isEmpty()){
-			try {
-				if(FileFormat.isImage(file.getInputStream())){
-					if(file.getSize()>FileUpload.FILE_MAX_SIZE){
-						return new Status(false,StatusCode.FILE_TOO_LARGE,"图片大小超过了上传限制",null);
-					}
-					if(settings.uploadHead(userId, file)){
-						return new Status(true,StatusCode.SUCCESS,"图片上传成功",null);
-					}
-					return new Status(false,StatusCode.FILEUPLOAD_ERROR,"图片上传失败",null);
-				}
-				else{
-					return new Status(false,StatusCode.UNSUPPORT_IMAGE_FORMAT,"不支持的图片格式",null);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空",null);
+	public Status info(@PathVariable int userId) {
+		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(userId)), null);
 	}
+	
 
+	/**
+	 * POST Info
+	 * @param userId
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(path = "{userId}/info", method = RequestMethod.POST)
+	@ResponseBody
+	public Status postInfo(@PathVariable int userId,
+			@RequestParam(required = false, defaultValue = "") String email,
+			@RequestParam(required = false, defaultValue = "") Byte sex,
+			@RequestParam(required = false, defaultValue = "") String idNumber,
+			@RequestParam(required = false, defaultValue = "1999-12-31") String birthday) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		return new Status(true,StatusCode.SUCCESS,userService.getUserMap(userService.updateUserInfo(userId, email, sex, idNumber, sdf.parse(birthday))),null);
+	}
+	
+	
+	/**
+	 * GET NICKNAME
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.GET)
+	@ResponseBody
+	public Status getNickName(@PathVariable int userId) {
+		User user = userService.getUserById(userId);
+		return new Status(true,StatusCode.SUCCESS,user.getNickname(),null);
+	}
+	
+	
 	/**
 	 * POST NICKNAME
 	 * @param userId
 	 * @param nickname
 	 * @return
 	 */
-	@RequestMapping(path = "{userId}/info", method = RequestMethod.POST)
+	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.POST)
 	@ResponseBody
-	public Status postInfo(@PathVariable int userId,@RequestParam String email,@RequestParam Byte sex,@RequestParam String idNumber,@RequestParam Date birthday) {
-
-		return new Status(true,StatusCode.SUCCESS,userService.updateUserInfo(userId, email, sex, idNumber, birthday),null);
+	public Status postNickName(@PathVariable int userId,@RequestParam String nickname) {
+		userService.updateNickName(userId, nickname);
+		return new Status(true,StatusCode.SUCCESS,nickname,null);
 	}
+	
 }

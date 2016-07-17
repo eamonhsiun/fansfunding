@@ -26,22 +26,22 @@
   </resultMap>
   
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id,name,phone,nickname,email,token,password
+    select id,name,phone,nickname,email,token,password,head
     from user
   </select>
   
   <select id="selectById" resultMap="BaseResultMap" parameterType="int">
-    select id,name,phone,nickname,email,token,password
+    select id,name,phone,nickname,email,token,password,head
     from user where id = #{id}
   </select>
   
   <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password
+    select id,name,phone,nickname,email,token,password,head
     from user where name = #{name}
   </select>
   
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password
+    select id,name,phone,nickname,email,token,password,head
     from user where phone = #{phone}
   </select>
   
@@ -65,6 +65,12 @@
   <update id="updateHead" parameterType="com.fansfunding.user.entity.User">
     update user
   	set head = #{head}
+  	where id = #{id}
+  </update>
+  
+    <update id="updateNickName" parameterType="com.fansfunding.user.entity.User">
+    update user
+  	set nickname = #{nickname}
   	where id = #{id}
   </update>
   

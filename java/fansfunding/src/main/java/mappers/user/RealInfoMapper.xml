@@ -21,18 +21,25 @@
     delete from real_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="com.fansfunding.user.entity.RealInfo" >
-    insert into real_info (id, real_name,user_id, sex, 
+    insert into real_info (real_name,user_id, sex, 
       id_number, birth_place, birthday, 
       address, is_validated, create_by, 
       create_time, update_by, update_time, 
       del_flag)
-    values (#{id,jdbcType=INTEGER}, #{realName,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER} ,#{sex,jdbcType=TINYINT}, 
+    values (#{realName,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER} ,#{sex,jdbcType=TINYINT}, 
       #{idNumber,jdbcType=VARCHAR}, #{birthPlace,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
       #{address,jdbcType=VARCHAR}, #{isValidated,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{delFlag,jdbcType=CHAR})
   </insert>
+  
+    <insert id="insertNew" parameterType="com.fansfunding.user.entity.RealInfo" >
+    insert into real_info (user_id)
+    values (#{userId,jdbcType=INTEGER})
+  </insert>
+  
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.RealInfo" >
     update real_info
     set real_name = #{realName,jdbcType=VARCHAR},

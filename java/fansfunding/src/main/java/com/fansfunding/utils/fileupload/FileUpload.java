@@ -87,26 +87,32 @@ public class FileUpload {
 	 * 保存文件
 	 */
 	public static String save(CommonsMultipartFile file,Path path,String replace) throws IOException{
+
 		FileItem fileItem=FileUpload.parse(file);
 		String savePath=(path.getPath()+fileItem.getFileName()).replace("{placeholder}", replace);
+
 		FileUpload.save(fileItem,savePath);
+
 		return savePath;
 	}
 	private static void save(FileItem fileItem,String path) throws IOException{
 		File file=new File(FileUpload.basePath+path);
+
 		//如果文件存在，则删除
 		if(file.exists()){
 			file.delete();
 		}
+
 		if(!file.getParentFile().exists()){
 			file.getParentFile().mkdirs();
 		}
+
 		file.createNewFile();
 
 		FileOutputStream out=new FileOutputStream(file);
 		out.write(fileItem.getFileContent());
 		out.flush();
-		out.close();
+		out.close();	
 	}
 	/**
 	 * 解析上传的文件

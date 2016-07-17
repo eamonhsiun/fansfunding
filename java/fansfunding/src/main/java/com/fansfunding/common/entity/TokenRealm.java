@@ -10,12 +10,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.fansfunding.common.interceptor.StatelessToken;
 import com.fansfunding.user.service.UserService;
 
-@Component("UserShiro")
 public class TokenRealm extends AuthorizingRealm{
 	
 	@Autowired
@@ -28,16 +26,15 @@ public class TokenRealm extends AuthorizingRealm{
 	
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		String username=(String)principals.getPrimaryPrincipal();
+//		String username=(String)principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		
 		//Subject subject = SecurityUtils.getSubject();
-		
+		System.err.println("======================");
 		//subject.checkRole("admin");
 		//TODO:NOT FINISHED!!!
-		authorizationInfo.setRoles(userService.findRoles(username));
-		authorizationInfo.setStringPermissions(userService.findPermissions(username));;
-		System.out.println(userService.findPermissions(username));
+//		authorizationInfo.setRoles(userService.findRoles(username));
+//		authorizationInfo.setStringPermissions(userService.findPermissions(username));;
 		return authorizationInfo;
 	}
 
@@ -45,12 +42,11 @@ public class TokenRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		
 		if(token instanceof StatelessToken){
-			int tokenId = (int)token.getPrincipal();
-			
+			//TODO:NOT FINISHED
+			int tokenId =(int)token.getPrincipal();
 			return new SimpleAuthenticationInfo(tokenId,tokenId,getName());
 		}		
 		return null;
-
 	}
 
 }

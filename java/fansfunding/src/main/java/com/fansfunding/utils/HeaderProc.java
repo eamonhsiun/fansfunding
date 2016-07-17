@@ -6,84 +6,57 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.fansfunding.utils.encrypt.AESUtils;
+
 import com.fansfunding.utils.encrypt.MD5Utils;
 
 public class HeaderProc {
 	private HeaderProc(){}
-	public static final String HEADER_DEFAULT = "http://localhost:8088/fansfunding/";
+	public static final String HEADER_DEFAULT = "http://localhost:8080/fansfunding/";
+	
+	//E807F1FCF82D132F9BB018CA6738A19F
+	
+	public static String newChecker(String phone){
 
-	public static String newToken(){
-		String header = HEADER_DEFAULT+"common/newToken";
+		String header = HEADER_DEFAULT+"common/newChecker?phone="+phone;
 		return header;
 	}
 	
-	
-	public static String genLoginHeader(String IMEI,int uid,String name,String pwd) throws Exception{
-		String header = HEADER_DEFAULT+"user/login?";
-		String S1 = MD5Utils.MD5(IMEI);
-		String id;
-		if(uid==0){
-			id="";
-		}else{
-			id=uid+"";
-		}
-		String S2 = AESUtils.EncryptByMD5(id, S1);
-		String S3 = AESUtils.EncryptByMD5(name, S1);
-		String S4 = AESUtils.EncryptByMD5(pwd, S1);
-		header +=("IMEI="+S1+"&"+"uid="+S2+"&"+"name="+S3+"&"+"pwd="+S4);
-		header = header.replace("+", "%2B");
-		return header;
+	public static String newUser(String checker, String password, String token) {
+		String header = HEADER_DEFAULT+"user/newUser";
+		header += ("?checker="+checker);
+		header += ("&password="+MD5Utils.MD5(password));
+		header += ("&token="+token);
+		return header;	
 	}
 	
-	public static String genLogoutHeader(String token,int uid,String name) throws Exception{
-		String header = HEADER_DEFAULT+"user/logout?";
-		String S2 = uid+"";
-		String S3 = AESUtils.EncryptByMD5(name+"", token);
-		header +=("uid="+S2+"&"+"name="+S3);
-		header = header.replace("+", "%2B");
-		return header;
+	public static String forgetPwd(String checker, String password, String token) {
+		String header = HEADER_DEFAULT+"user/forgetPwd";
+		header += ("?checker="+checker);
+		header += ("&password="+MD5Utils.MD5(password));
+		header += ("&token="+token);
+		return header;	
+	}
+	
+	public static String newPwd(String id, String password, String token) {
+		String header = HEADER_DEFAULT+"user/"+id+"/newPwd";
+		header += ("?password="+MD5Utils.MD5(password));
+		header += ("&token="+token);
+		return header;	
 	}
 	
 	
-	public static String genCheckerHeader(String IMEI,String phone) throws Exception{
-		String header = HEADER_DEFAULT+"user/gen_checker?";
-		String S1 = MD5Utils.MD5(IMEI);
-		String S2 = AESUtils.EncryptByMD5(phone, S1);
-		header +=("IMEI="+S1+"&"+"phone="+S2);
-		header = header.replace("+", "%2B");
+	public static String login(String name, String password) {
+		String header = HEADER_DEFAULT+"user/login";
+		header += ("?name="+name);
+		header += ("&password="+MD5Utils.MD5(password));
 		return header;
 	}
-	
-	public static String genRegisterHeader(String IMEI,int id,int check) throws Exception{
-		String header = HEADER_DEFAULT+"user/register_check?";
-		String S1 = MD5Utils.MD5(IMEI);
-		String S2 = AESUtils.EncryptByMD5(check+"",S1);
-		header +=("id="+id+"&"+"check="+S2);
-		header = header.replace("+", "%2B");
+
+	public static String logout(String id, String token) {
+		String header = HEADER_DEFAULT+"user/"+id+"/logout";
+		header += ("?token="+token);
 		return header;
 	}
-	
-	public static String genForgetHeader(String IMEI,int id,int check) throws Exception{
-		String header = HEADER_DEFAULT+"user/forget_check?";
-		String S1 = MD5Utils.MD5(IMEI);
-		String S2 = AESUtils.EncryptByMD5(check+"",S1);
-		header +=("id="+id+"&"+"check="+S2);
-		header = header.replace("+", "%2B");
-		return header;
-	}
-	
-	
-	public static String genUpPwdHeader(String token,int uid,int cid,int check,String pwd) throws Exception{
-		String header = HEADER_DEFAULT+"user/update_pwd?";
-		String S1 = uid+"";
-		String S2 = AESUtils.EncryptByMD5(cid+"",token);
-		String S3 = AESUtils.EncryptByMD5(check+""+pwd,token);
-		header +=("uid="+S1+"&"+"cid="+S2+"&"+"pwd="+S3);
-		header = header.replace("+", "%2B");
-		return header;
-	}
-	
 	
 	
 	private static String request(String httpUrl) {
@@ -117,80 +90,44 @@ public class HeaderProc {
 	
 	public static void main(String[] args) {
 		try {
-			System.out.println(newToken());
-			System.out.println(request(newToken()));
 			
+			String phone = "17771842186";
 			
-			//String IMEI ="99000663283249";
-			//String name ="17771842186";
-			//String token ="";
-			//String pwd ="xym123";
-			//int uid = 10000001;
-			//int cid = 10000001;
+			System.out.println(newChecker(phone));
+			//System.out.println(request(newChecker(phone)));
 			
-			//int check = 100000;
+			String checker="246723";
+			String password="qqq";
+			String token="ApW930aDcJUwwVimA6z1%2BQ==";
 			
-			//注册申请第一步，申请验证码
-			//System.out.println(genCheckerHeader(IMEI, name));
-			//System.out.println(request(genCheckerHeader(IMEI, name)));
-			//更新
-			//cid=10000046;
-			//check=706664;
+			System.out.println(newUser(checker,password,token));
+			//System.out.println(request(newUser(checker,password,token)));
 			
-			//注册申请第二步，确认验证码
-			//System.out.println(genRegisterHeader(IMEI, cid,check));
-			//System.out.println(request(genRegisterHeader(IMEI, cid,check)));
-			//更新
-			//uid = 10000023;
-			//token ="80e17339cec74aa8b1c3044070299a78";
-			//设置
-			//pwd = "xym1234567";
-			//System.out.println(MD5Utils.MD5(pwd));
+			System.out.println(login(phone,password));
+			//System.out.println(request(login(phone,password)));
+			int id =10000023;
 			
-			//注册申请第三步，更新密码
-			//System.out.println(genUpPwdHeader(token,uid, cid,check,pwd));
-			//System.out.println(request(genUpPwdHeader(token,uid, cid,check,pwd)));
-			//测试错误密码
-			//pwd = "12321";
-			//uid = 0;
-			//登陆
-			//System.out.println(genLoginHeader(IMEI ,uid, name,pwd));
-			//System.out.println(request(genLoginHeader(IMEI ,uid, name,pwd)));
-			//更新
-			//uid = 10000023;
-			//token ="f6130212415d4a82838ce29dcc26672d";
+			token = "oUJG/%2B6HpZQmwRX12B6JEQ==";
 			
-			//登出
-			//System.out.println(genLogoutHeader(token ,uid, name));
-			//System.out.println(request(genLogoutHeader(token ,uid, name)));
+			System.out.println(logout(id+"",token));
+			System.out.println(request(logout(id+"",token)));
 			
-			//更新密码第一步，申请验证码
-			//System.out.println(genCheckerHeader(IMEI, name));
-			//System.out.println(request(genCheckerHeader(IMEI, name)));
-			//更新
-			//cid=10000047;
-			//check=556328;
+			//checker="472041";
+			password="qqq";
+			//token ="9GAMctquO23PA6QE6JVSbQ==";
+			System.out.println(forgetPwd(checker,password,token));
+			//System.out.println(request(forgetPwd(checker,password,token)));
 			
-			//更新密码第二步，确认验证码（仅该请求与注册不同）
+			System.out.println(newPwd(id+"",password,token));
+			//System.out.println(request(newPwd(id+"",password,token)));
 			
-			//System.out.println(genForgetHeader(IMEI,cid,check));
-			//System.out.println(request(genForgetHeader(IMEI,cid,check)));
-			//更新
-			//uid = 10000023;
-			//token ="b076ce2a5eaf4cd69456273117704ec0";
-			//设置
-			//pwd = "xym123";
-			
-			//更新密码第三步，更新密码
-			//System.out.println(request(genUpPwdHeader(token,uid, cid,check,pwd)));
-			
-			//登陆
-			//System.out.println(request(genLoginHeader(IMEI ,uid, name,pwd)));
-
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+
+
 }

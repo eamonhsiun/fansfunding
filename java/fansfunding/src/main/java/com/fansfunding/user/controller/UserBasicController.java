@@ -1,10 +1,17 @@
 package com.fansfunding.user.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fansfunding.common.entity.Checker;
 
@@ -14,8 +21,10 @@ import com.fansfunding.common.service.TokenService;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.entity.UserBasic;
 import com.fansfunding.user.service.UserService;
+import com.fansfunding.user.service.UserSettingsService;
 import com.fansfunding.utils.encrypt.AESUtils;
-
+import com.fansfunding.utils.fileupload.FileFormat;
+import com.fansfunding.utils.fileupload.FileUpload;
 import com.fansfunding.utils.response.PermissionCode;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -29,7 +38,8 @@ public class UserBasicController {
 	private CheckerService checkerService;
 	@Autowired
 	private TokenService tokenService;
-
+	@Autowired
+	private UserSettingsService settings;
 
 	/**
 	 * @param resp
@@ -47,7 +57,6 @@ public class UserBasicController {
 		int cid;
 		Checker c;
 		User user;
-		System.err.println("<>token<>"+token);
 		try {
 			// TODO:Checker过期检测
 			cid = Integer.valueOf(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
@@ -73,7 +82,9 @@ public class UserBasicController {
 
 		}
 		checkerService.deleteById(cid);
-		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
+		
+
+		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
 				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
 	}
 
@@ -116,7 +127,7 @@ public class UserBasicController {
 		userService.updatePwd(user);
 		
 		checkerService.deleteById(cid);
-		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
+		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
 				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
 		
 
@@ -148,8 +159,37 @@ public class UserBasicController {
 		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user.getName());
 
 		user.setPassword("");
-		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
+		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
 				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
+	}
+	
+	/**
+	 * 上传头像
+	 * @param userName
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/head",method=RequestMethod.POST)
+	@ResponseBody
+	public Status postHead(@PathVariable Integer userId,@RequestParam CommonsMultipartFile file){
+		if(!file.isEmpty()){
+			try {
+				if(FileFormat.isImage(file.getInputStream())){
+					if(file.getSize()>FileUpload.FILE_MAX_SIZE){
+						return new Status(false,StatusCode.FILE_TOO_LARGE,"图片大小超过了上传限制",null);
+					}
+					if(settings.uploadHead(userId, file)){
+						return new Status(true,StatusCode.SUCCESS,"图片上传成功",null);
+					}
+					return new Status(false,StatusCode.FILEUPLOAD_ERROR,"图片上传失败",null);
+				}
+				else{
+					return new Status(false,StatusCode.UNSUPPORT_IMAGE_FORMAT,"不支持的图片格式",null);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空",null);
 	}
 	
 }

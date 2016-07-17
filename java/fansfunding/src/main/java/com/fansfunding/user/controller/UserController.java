@@ -75,7 +75,7 @@ public class UserController {
 			userService.updatePwd(user);
 		}
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
-				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%2B"));
+				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY));
 	}
 
 }

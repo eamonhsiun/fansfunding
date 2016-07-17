@@ -1,7 +1,11 @@
 package com.fansfunding.user.service;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -95,6 +99,32 @@ public class UserService {
 		user.setCreate_time(new Date());
 		user.setUpdate_time(new Date());
 		userDao.insertNewUser(user);
+		
+		RealInfo realInfo = new RealInfo();
+		realInfo.setUserId(user.getId());
+//		realInfo.setSex((byte) 0);
+//		realInfo.setAddress("");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+//		try {
+//			realInfo.setBirthday(sdf.parse("1999-12-31"));
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+		
+//		realInfo.setBirthPlace("");
+//		realInfo.setCreateBy("me");
+//		realInfo.setCreateTime(new Date());
+//		realInfo.setUpdateBy("me");
+//		realInfo.setUpdateTime(new Date());
+//		realInfo.setDelFlag("0");
+//		realInfo.setIdNumber("");
+//		realInfo.setIsValidated((byte)0);
+//		realInfo.setRealName("");
+//		realInfo.setSex((byte)0);
+		
+		realInfoDao.insertNew(realInfo);
+		
+		user.setRealInfo(realInfo);
 		return user;
 	}
 		
@@ -142,7 +172,35 @@ public class UserService {
 		return null;
 	}
 	
+	public Map<String,Object> getUserMap(User user){
+		RealInfo realInfo = user.getRealInfo();
+		Map<String,Object> info = new HashMap<>();
+		if(realInfo!=null){
+			info.put("realName", realInfo.getRealName());
+			info.put("sex", realInfo.getSex());
+			info.put("birthPlacr", realInfo.getBirthPlace());
+			info.put("birthday", realInfo.getBirthday());
+		}
+		
+		Map<String,Object> userbasic = new HashMap<>();
+		userbasic.put("id", user.getId());
+		userbasic.put("name", user.getName());
+		userbasic.put("nickname", user.getNickname());
+		userbasic.put("phone",user.getPhone());
+		userbasic.put("is_red", user.getIs_red());
+		userbasic.put("head", user.getHead());
+		userbasic.put("email", user.getEmail());
+		userbasic.put("realInfo", info);
+		return userbasic;
+	}
 	
-	
+	public Map<String,Object> getUserBasicMap(User user){
+		Map<String,Object> userbasic = new HashMap<>();
+		userbasic.put("id", user.getId());
+		userbasic.put("nickname", user.getNickname());
+		userbasic.put("head", user.getHead());
+		
+		return userbasic;
+	}
 	
 }

@@ -16,18 +16,20 @@
   <link rel="stylesheet" href="static/css/index.css">
   <link rel="stylesheet" href="static/css/index-mobile.css">
   <link rel="stylesheet" href="static/css/login.css">
+  <link rel="stylesheet" href="static/css/lib/wangEditor.min.css">
+  <link rel="stylesheet" href="static/css/lib/simditor.css">
 </head>
 <body>
   <div id="header">
     <div class="container">
-      <a href="###" class="logo">
+      <a href="index.html" class="logo">
         <img src="static/img/27.jpg" alt="">
         <span>FAN$</span>
       </a>
       <div class="profile">
         <div class="profile-login" id="profile-login">
           <div class="profile-avatar">
-            <a href="###"><img src="static/img/27.jpg" alt=""></a>
+            <a href="setting.html"><img src="static/img/27.jpg" alt=""></a>
           </div>
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
@@ -35,16 +37,16 @@
               <a href="###"><li>我的项目</li></a>
               <a href="###"><li>我的钱包</li></a>
               <a href="###"><li>个人设置</li></a>
-              <a href="###"><li>退出登录</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
             </ul>
           </div>
         </div>
         <div class="profile-not-login" id="profile-not-login">
-          <a href="###">登录</a>
-          <a href="###">注册</a>
+          <a href="login.html?#login">登录</a>
+          <a href="login.html?#signup">注册</a>
         </div>
       </div>
-<!--       <div class="nav">
+      <!--       <div class="nav">
         <div class="nav-dropdown-arrow"></div>
         <ul>
           <a href="###"><li class="active">首页</li></a>
@@ -64,28 +66,11 @@
   <div class="wrap">
     <div class="mainwrap">
       <div class="container">
-        <div class="account-block signup-block content-block">
-          <div class="account-container signup-container">
-            <div class="account-logo signup-logo"><img src="static/img/27.jpg" alt=""></div>
-            <div class="account-title signup-title">找回密码</div>
-            <form action="" class="account-form signup-form">
-              <input type="tel" id="signup-phone" placeholder="请输入手机号码">
-              <button class="signup-icode-btn" id="signup-icode-btn" >发送验证码<span></span></button>
-              <input type="text" id="signup-icode" placeholder="请输入验证码">
-              <input type="password" id="signup-pwd" placeholder="密码">
-              <input type="password" id="signup-pwd-2" placeholder="再次输入密码">
-              <div class="account-hint" id="signup-hint">用户名或密码错误</div>
-              <a href="###" id="signup-btn" class="account-btn signup-btn">重设密码</a>
-            </form>
-            <div class="signup-login-btn">
-              已有账号？<a href="" id="signup-login-btn">现在登录</a>
-            </div>
-          </div>
-        </div>
+        <textarea id="test" style="height: 600px">蛤蛤蛤</textarea>
+        <textarea id="test1" style="height: 600px">蛤蛤蛤</textarea>
       </div>
     </div>
   </div>
-
   <div class="footer">
     <!-- 随便弄弄 -->
     <div class="footer-bar">
@@ -101,9 +86,75 @@
     </div>
     <div class="footer-copyright">版权所有 ©1997-2016</div>
   </div>
-
-
   <script src="static/js/ajax.min.js"></script>
-  <script src="static/js/login.js"></script>
+  <script src="static/js/account.js"></script>
+  <script src="static/js/lib/jquery.min.js"></script>
+  <script src="static/js/lib/wangEditor/wangEditor.min.js"></script>
+
+  <script type="text/javascript" src="static/js/lib/simditor/module.min.js"></script>
+  <script type="text/javascript" src="static/js/lib/simditor/hotkeys.min.js"></script>
+  <script type="text/javascript" src="static/js/lib/simditor/uploader.min.js"></script>
+  <script type="text/javascript" src="static/js/lib/simditor/simditor.min.js"></script>
+  <script>
+    // $(function () {
+
+            var editor = new wangEditor('test');
+
+            // 自定义菜单
+            editor.config.menus = [
+                'undo',
+                'redo',
+                '|',
+                'bold',
+                'underline',
+                'italic',
+                'eraser',
+                'forecolor',
+                '|',
+                'fontfamily',
+                'fontsize',
+                'head',
+                'unorderlist',
+                'orderlist',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                '|',
+                'table',
+                'img',
+                'video',
+
+            ];
+
+            editor.create();
+
+        // });
+var editor1 = new Simditor({
+  textarea: $('#test1'),
+  toolbar: [
+  'title',
+  'bold',
+  'italic',
+  'underline',
+  'fontScale',
+  'color',
+  '|',
+  'ol',
+  'ul',
+  'table',
+  'hr',
+  '|',
+  'link',
+  'image',
+  'alignment',
+],
+upload: {url: '',
+    params: null,
+    fileKey: 'upload_file',
+    connectionCount: 3,
+    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
+  }
+  //optional options
+});
+  </script>
 </body>
-</html>

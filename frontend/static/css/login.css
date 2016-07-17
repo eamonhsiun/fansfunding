@@ -132,7 +132,15 @@
 @media screen and (max-width: 400px) {
   .account-container {
     width: 250px; }
-    .account-container .account-form input#signup-icode {
+    .account-container .account-form input#signup-icode, .account-container .account-form input#forgetpwd-icode {
       width: 55%; }
-    .account-container .account-form .signup-icode-btn {
+    .account-container .account-form .signup-icode-btn, .account-container .account-form .forgetpwd-icode-btn {
       width: 40%; } }
+
+@media screen and (max-width: 300px) {
+  .account-container {
+    width: 95%; }
+    .account-container .account-form input#signup-icode, .account-container .account-form input#forgetpwd-icode {
+      width: 45%; }
+    .account-container .account-form .signup-icode-btn, .account-container .account-form .forgetpwd-icode-btn {
+      width: 50%; } }

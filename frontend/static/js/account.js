@@ -1,5 +1,6 @@
 
 var apiUrl = "http://api.immortalfans.com";
+apiUrl = "http://192.168.204.203:8080/fansfunding";
 var localId = null;
 var localToken = null;
 var localUserInfo = null;
@@ -14,38 +15,40 @@ function getQueryString(arg){
   var r = window.location.search.substr(1).match(reg);
   if(r!==null)return unescape(r[2]); return null;
 }
-var $ = function (i) { return document.querySelector(i); };
-var $$ = function (i) { return document.querySelectorAll(i); };
+function getErrorMsg(errCode){
+  switch (errCode) {
+    case 200:
+      return "请求成功";
+    case 201:
+      return "请求失败";
+    case 202:
+      return "请求过于频繁";
+    case 203:
+      return "参数错误";
+    case 204:
+      return "用户不存在";
+    case 205:
+      return "用户名已注册";
+    case 206:
+      return "验证码过期";
+    case 207:
+      return "验证码错误";
+    case 208:
+      return "用户名或密码错误";
+    case 209:
+      return "权限不足";
+    default:
+      return null;
+  }
+}
+;(function(){
+  var $ = function (i) { return document.querySelector(i); };
+  var $$ = function (i) { return document.querySelectorAll(i); };
 
-// ;(function(){
-
-  // function getCommonToken () {
-  //   var commonTokenRequest = ajax({
-  //     method: 'post',
-  //     url: apiUrl + "/common/newToken",
-  //     data: {
-  //       phone: 13006128628
-  //     }
-  //   }).then(function (response, xhr) {
-  //     if(response.result){
-  //       localId = response.data.id;
-  //       localToken = response.data.value;
-  //       changeLoginDom({ info: {accountStatus : false}});
-  //       return;
-  //     }
-  //   }).catch(function (response, xhr) {
-  //     alert("服务器连接失败");
-  //   }).always(function (response, xhr) {
-  //     // Do something
-  //   });
-  // }
   function getUserInfo () {
     var commonTokenRequest = ajax({
-      method: 'post',
-      url: apiUrl + "/user/" + localId + "/info",
-      data: {
-        token: localToken
-      }
+      method: 'get',
+      url: apiUrl + "/user/" + localId + "/info?token=" + localToken,
     }).then(function (response, xhr) {
       var res = response.data;
       if(!response.result){
@@ -55,6 +58,7 @@ var $$ = function (i) { return document.querySelectorAll(i); };
       changeLoginDom(true, res);
     }).catch(function (response, xhr) {
       alert("服务器连接失败");
+      changeLoginDom(true, {});
     }).always(function (response, xhr) {
       // Do something
     });
@@ -79,6 +83,8 @@ var $$ = function (i) { return document.querySelectorAll(i); };
     }else{
       localStorage.removeItem("id");
       localStorage.removeItem("token");
+      localId = null;
+      localToken = null;
       $("#profile-login").style.display = "none";
       $("#profile-not-login").style.display = "block";
       return;
@@ -111,6 +117,7 @@ var $$ = function (i) { return document.querySelectorAll(i); };
       }
     }).catch(function (response, xhr) {
       alert("服务器连接失败");
+      changeLoginDom(false);
     }).always(function (response, xhr) {
       // Do something
     });
@@ -123,7 +130,8 @@ var $$ = function (i) { return document.querySelectorAll(i); };
     });
   }
 
+  addElementEvent();
   checkAccountStatus();
-// })();
+})();
 
 

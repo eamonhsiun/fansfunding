@@ -83,8 +83,8 @@
       text-align: center; }
       #header .search label[for="search-text"]:before {
         left: 0;
-        padding: 10px;
-        color: white;
+        padding: 10px 11px;
+        color: #ffffff;
         border-radius: 50%;
         transition: all 0.3s ease; }
     #header .search .search-text {
@@ -102,7 +102,7 @@
         padding-right: 15px;
         box-shadow: 0 1px 6px 1px #666666; }
       #header .search .search-text:focus ~ label[for="search-text"]:before {
-        background-color: red; }
+        background-color: #ec2c22; }
   .banner {
     height: 300px; }
   .plate .plate-content > ul .plate-content-list {
@@ -141,7 +141,7 @@
       animation-duration: 0.3s;
       animation-fill-mode: both; }
     #header .nav:hover .nav-dropdown-arrow:before {
-      background-color: red; }
+      background-color: #ec2c22; }
     #header .nav:hover ul {
       display: block;
       position: absolute;
@@ -198,6 +198,4 @@
     width: 200px;
     left: -80px;
     padding-left: 15px;
-    padding-right: 15px; }
-  #header .search .search-text:focus ~ label[for="search-text"]:before {
-    background-color: red; } }
+    padding-right: 15px; } }

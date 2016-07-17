@@ -1,5 +1,3 @@
-var $ = function (i) { return document.querySelector(i); };
-var $$ = function (i) { return document.querySelectorAll(i); };
 
 var bannerMain = new Swiper ('#banner-main', {
   // Optional parameters

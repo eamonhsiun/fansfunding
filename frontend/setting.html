@@ -20,14 +20,14 @@
 <body>
   <div id="header">
     <div class="container">
-      <a href="###" class="logo">
+      <a href="index.html" class="logo">
         <img src="static/img/27.jpg" alt="">
         <span>FAN$</span>
       </a>
       <div class="profile">
         <div class="profile-login" id="profile-login">
           <div class="profile-avatar">
-            <a href="###"><img src="static/img/27.jpg" alt=""></a>
+            <a href="setting.html"><img src="static/img/27.jpg" alt=""></a>
           </div>
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
@@ -35,16 +35,16 @@
               <a href="###"><li>我的项目</li></a>
               <a href="###"><li>我的钱包</li></a>
               <a href="###"><li>个人设置</li></a>
-              <a href="###"><li>退出登录</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
             </ul>
           </div>
         </div>
         <div class="profile-not-login" id="profile-not-login">
-          <a href="###">登录</a>
-          <a href="###">注册</a>
+          <a href="login.html?#login">登录</a>
+          <a href="login.html?#signup">注册</a>
         </div>
       </div>
-      <!-- <div class="nav">
+<!--       <div class="nav">
         <div class="nav-dropdown-arrow"></div>
         <ul>
           <a href="###"><li class="active">首页</li></a>
@@ -85,7 +85,7 @@
                   <span>头像：</span>
                   <div class="setting-avatar-wrap">
                     <img id="new-avatar" src="static/img/27.jpg"alt="">
-                    <input type="file" name="avatar" id="upload-avatar-input">
+                    <input type="file" name="file" id="upload-avatar-input">
                     <a href="###" id="upload-avatar-btn">上传头像</a>
                   </div>
                 </div>
@@ -122,6 +122,7 @@
     <div class="footer-copyright">版权所有 ©1997-2016</div>
   </div>
 
+  <script src="static/js/ajax.min.js"></script>
   <script src="static/js/account.js"></script>
   <script src="static/js/setting.js"></script>
 </body>

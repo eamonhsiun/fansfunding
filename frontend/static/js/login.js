@@ -1,4 +1,6 @@
-// ;(function(){
+;(function(){
+  var $ = function (i) { return document.querySelector(i); };
+  var $$ = function (i) { return document.querySelectorAll(i); };
 
   function addElementEvent () {
     // 登陆部分
@@ -163,10 +165,16 @@
       $("#login-hint").innerHTML = "请输入密码";
       return;
     }
+
+    var input = $(".login-form").getElementsByTagName("input");
+    for(var i = 0; i < input.length; i++){
+      input[i].classList.remove("error");
+    }
+
     var encryptPwd = CryptoJS.MD5(loginPwd).toString().toUpperCase();
     var loginRequest = ajax({
       method: 'post',
-      url: apiUrl + '/user/login',
+      url: apiUrl + '/userbasic/login',
       data: {
         name: loginTel,
         password: encryptPwd
@@ -175,11 +183,14 @@
       if(!response.result){
         $("#login-phone").classList.add("error");
         $("#login-pwd").classList.add("error");
-        $("#login-hint").innerHTML = "用户名或密码错误";
+        $("#login-hint").innerHTML = getErrorMsg(response.errCode);
         return;
       }
+
       localStorage.id = response.data.id;
-      localStorage.taken = response.token;
+      localStorage.token = response.token;
+
+      redirect();
       console.log("登陆成功");
     }).catch(function (response, xhr) {
       $("#login-phone").classList.add("error");
@@ -191,7 +202,7 @@
   }
 
   var icodeCounterSignup = 60;
-  var icodeCounterForgetPwd = 60;
+  var icodeCounterForgetpwd = 60;
   var icodeToken = null;
   var icodeTimerSignup = null;
   var icodeTimerForgetpwd = null;
@@ -209,6 +220,7 @@
         $("#signup-hint").innerHTML = "手机号输入错误";
         return;
       }
+      $("#signup-icode").classList.remove("error");
     }else if(kind == "forgetpwd"){
       tel = $("#forgetpwd-phone").value;
       if(!tel.match(telPattern)){
@@ -216,6 +228,7 @@
         $("#forgetpwd-hint").innerHTML = "手机号输入错误";
         return;
       }
+      $("#forgetpwd-icode").classList.remove("error");
     }
 
     var getIcodeRequest = ajax({
@@ -227,7 +240,9 @@
     }).then(function(kind){
       return function (response, xhr) {
         if(!response.result){
-          throw new Error();
+          $("#signup-icode").classList.add("error");
+          $("#signup-hint").innerHTML = getErrorMsg(response.errCode);
+          return;
         }
 
         icodeToken = response.token;
@@ -266,10 +281,10 @@
     if(kind == "signup"){
       $("#signup-icode-btn").setAttribute("disabled","disabled");
       $("#signup-icode-btn").innerHTML = "已发送(" + icodeCounterSignup + ")";
-      icodeCounter = 60;
+      icodeCounterSignup = 60;
       icodeTimerSignup = setInterval(function  () {
         $("#signup-icode-btn").innerHTML = "已发送(" + --icodeCounterSignup + ")";
-        if(icodeCounter < 0){
+        if(icodeCounterSignup < 0){
           clearInterval(icodeTimerSignup);
           $("#signup-icode-btn").removeAttribute("disabled");
           $("#signup-icode-btn").innerHTML = "发送验证码";
@@ -279,10 +294,10 @@
     }else if(kind == "forgetpwd"){
       $("#forgetpwd-icode-btn").setAttribute("disabled","disabled");
       $("#forgetpwd-icode-btn").innerHTML = "已发送(" + icodeCounterForgetpwd + ")";
-      icodeCounter = 60;
-      icodeTimerforgetpwd = setInterval(function  () {
+      icodeCounterForgetpwd = 60;
+      icodeTimerForgetpwd = setInterval(function  () {
         $("#forgetpwd-icode-btn").innerHTML = "已发送(" + --icodeCounterForgetpwd + ")";
-        if(icodeCounter < 0){
+        if(icodeCounterForgetpwd < 0){
           clearInterval(icodeTimerForgetpwd);
           $("#forgetpwd-icode-btn").removeAttribute("disabled");
           $("#forgetpwd-icode-btn").innerHTML = "发送验证码";
@@ -325,6 +340,10 @@
       $("#signup-hint").innerHTML = "两次密码不一致";
       return;
     }
+    var input = $(".signup-form").getElementsByTagName("input");
+    for(var i = 0; i < input.length; i++){
+      input[i].classList.remove("error");
+    }
 
     var encryptPwd = CryptoJS.MD5(signupPwd).toString().toUpperCase();
 
@@ -332,7 +351,7 @@
 
     var signupRequest = ajax({
       method: 'post',
-      url: apiUrl + '/user/newUser',
+      url: apiUrl + '/userbasic/newUser',
       data: {
         password: encryptPwd,
         checker: signupIcode,
@@ -344,14 +363,23 @@
         $("#signup-icode-btn").removeAttribute("disabled");
         $("#signup-icode-btn").innerHTML = "发送验证码";
         icodeCounterSignup = 60;
-        throw new Error();
+        $("#signup-phone").classList.add("error");
+        $("#signup-pwd").classList.add("error");
+        $("#signup-hint").innerHTML = getErrorMsg(response.errCode);
+        return;
       }
       console.log('注册成功');
 
       localStorage.id = response.data.id;
       localStorage.token = response.token;
 
+      redirect();
+
     }).catch(function (response, xhr) {
+      clearInterval(icodeTimerSignup);
+      $("#signup-icode-btn").removeAttribute("disabled");
+      $("#signup-icode-btn").innerHTML = "发送验证码";
+      icodeCounterSignup = 60;
       $("#signup-phone").classList.add("error");
       $("#signup-pwd").classList.add("error");
       $("#signup-hint").innerHTML = "注册失败";
@@ -392,6 +420,10 @@
       $("#forgetpwd-hint").innerHTML = "请输入验证码";
       return;
     }
+    var input = $(".forgetpwd-form").getElementsByTagName("input");
+    for(var i = 0; i < input.length; i++){
+      input[i].classList.remove("error");
+    }
 
     var encryptPwd = CryptoJS.MD5(forgetpwdPwd).toString().toUpperCase();
 
@@ -399,7 +431,7 @@
 
     var forgetpwdRequest = ajax({
       method: 'post',
-      url: apiUrl + '/user/forgetPwd',
+      url: apiUrl + '/userbasic/forgetPwd',
       data: {
         password: encryptPwd,
         checker: forgetpwdIcode,
@@ -411,14 +443,21 @@
         $("#forgetpwd-icode-btn").removeAttribute("disabled");
         $("#forgetpwd-icode-btn").innerHTML = "发送验证码";
         icodeCounterForgetpwd = 60;
-        throw new Error();
+        $("#forgetpwd-phone").classList.add("error");
+        $("#forgetpwd-pwd").classList.add("error");
+        $("#forgetpwd-hint").innerHTML = getErrorMsg(response.errCode);
+        return;
       }
       console.log('修改密码成功');
 
       localStorage.id = response.data.id;
       localStorage.token = response.token;
-
+      redirect();
     }).catch(function (response, xhr) {
+      clearInterval(icodeTimerForgetpwd);
+      $("#forgetpwd-icode-btn").removeAttribute("disabled");
+      $("#forgetpwd-icode-btn").innerHTML = "发送验证码";
+      icodeCounterForgetpwd = 60;
       $("#forgetpwd-phone").classList.add("error");
       $("#forgetpwd-pwd").classList.add("error");
       $("#forgetpwd-hint").innerHTML = "修改密码失败";
@@ -432,7 +471,7 @@
     if(ref){
       window.location.href = ref;
     }else{
-      window.location.href = "http://localhost:8000/index.html";
+      window.location.href = "index.html";
     }
   }
 
@@ -443,6 +482,9 @@
   }else if(window.location.hash.split("#")[1] === "forgetpwd"){
     $("#login-forgetpwd-btn").click();
   }
-// })();
+  if(localId && localToken){
+      redirect();
+    }
+})();
 
 

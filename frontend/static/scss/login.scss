@@ -125,11 +125,24 @@
   .account-container{
     width: 250px;
     .account-form{
-      input#signup-icode{
+      input#signup-icode,input#forgetpwd-icode{
         width: 55%;
       }
-      .signup-icode-btn{
+      .signup-icode-btn,.forgetpwd-icode-btn{
         width: 40%;
+      }
+    }
+  }
+}
+@media screen and (max-width: 300px) {
+  .account-container{
+    width: 95%;
+    .account-form{
+      input#signup-icode,input#forgetpwd-icode{
+        width: 45%;
+      }
+      .signup-icode-btn,.forgetpwd-icode-btn{
+        width: 50%;
       }
     }
   }

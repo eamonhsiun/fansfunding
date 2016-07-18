@@ -1,9 +1,7 @@
 package com.fansfunding.user.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,13 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
-import com.fansfunding.user.service.UserSettingsService;
-import com.fansfunding.utils.fileupload.FileFormat;
-import com.fansfunding.utils.fileupload.FileUpload;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
@@ -66,12 +60,14 @@ public class UserSettingsController {
 	@RequestMapping(path = "{userId}/info", method = RequestMethod.POST)
 	@ResponseBody
 	public Status postInfo(@PathVariable int userId,
+			@RequestParam(required = false, defaultValue = "") String nickname,
 			@RequestParam(required = false, defaultValue = "") String email,
-			@RequestParam(required = false, defaultValue = "") Byte sex,
+			@RequestParam(required = false, defaultValue = "0") String sex,
 			@RequestParam(required = false, defaultValue = "") String idNumber,
 			@RequestParam(required = false, defaultValue = "1999-12-31") String birthday) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-		return new Status(true,StatusCode.SUCCESS,userService.getUserMap(userService.updateUserInfo(userId, email, sex, idNumber, sdf.parse(birthday))),null);
+		
+		return new Status(true,StatusCode.SUCCESS,userService.getUserMap(userService.updateUserInfo(userId,nickname, email, Byte.parseByte(sex), idNumber, sdf.parse(birthday))),null);
 	}
 	
 	

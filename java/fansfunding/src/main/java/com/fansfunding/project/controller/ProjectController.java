@@ -1,5 +1,8 @@
 package com.fansfunding.project.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -32,6 +34,7 @@ public class ProjectController {
 			@RequestParam(required=false,defaultValue="10") Integer rows){
 		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId,page,rows),null);
 	}
+	
 	/**
 	 * 根据项目ID获取项目
 	 * @param catagoryId 分类ID
@@ -63,13 +66,40 @@ public class ProjectController {
 	
 	/**
 	 * 添加项目
-	 * @param project 项目
+	 * @param catagoryId 分类ID
+	 * @param name 项目名
+	 * @param targetDeadline 截止日期
+	 * @param targetMoney 目标金额
+	 * @param description 项目描述
+	 * @param sponsor 发起人
+	 * @param cover 封面
+	 * @param content 详细内容
+	 * @param images 详细图片
+	 * @param others 其他
+	 * @param video 详情视频
 	 * @return
+	 * @throws ParseException 
 	 */
-	@RequestMapping("add")
+	@RequestMapping("{catagoryId}/add")
 	@ResponseBody
-	public Status add(Project project){
-		return null;
+	public Status add(
+			@PathVariable Integer catagoryId, 
+			@RequestParam String name, 
+			@RequestParam String targetDeadline, 
+			@RequestParam Long targetMoney, 
+			@RequestParam String description, 
+			@RequestParam Integer sponsor, 
+			@RequestParam(required=false,defaultValue="")String cover, 
+			@RequestParam(required=false,defaultValue="")String content, 
+			@RequestParam(required=false,defaultValue="")String images, 
+			@RequestParam(required=false,defaultValue="")String others, 
+			@RequestParam(required=false,defaultValue="")String video) throws ParseException{
+		
+		//TODO:检测该分类是否存在
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		projectService.addProject(name, catagoryId, cover, sponsor, sdf.parse(targetDeadline), targetMoney, description, content, images, others, video);
+		return new Status(true,StatusCode.SUCCESS,"添加成功",null);
 	}
 	/**
 	 * 

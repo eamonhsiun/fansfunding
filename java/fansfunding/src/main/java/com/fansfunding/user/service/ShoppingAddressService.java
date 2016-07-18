@@ -21,6 +21,10 @@ public class ShoppingAddressService {
 	public List<ShoppingAddress> findByUserId(int id){
 		return shoppingAddressDao.selectByUserId(id);
 	}
+	
+	public void deleteById(int addressId){
+		shoppingAddressDao.deleteByPrimaryKey(addressId);
+	}
 
 	public void updateById(int id, String address, String city, String district, String province, String phone, int post_code, String name, Integer userId){
 		ShoppingAddress shoppingAddress = new ShoppingAddress();

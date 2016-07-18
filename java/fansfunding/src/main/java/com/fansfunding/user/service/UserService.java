@@ -145,7 +145,7 @@ public class UserService {
 		userDao.updateNickName(user);
 	}
 	
-	public User updateUserInfo(int userid,String email,Byte sex,String idNumber,Date birthday){
+	public User updateUserInfo(int userid,String nickname,String email,Byte sex,String idNumber,Date birthday){
 		RealInfo realinfo = realInfoDao.selectByUserId(userid);
 		realinfo.setBirthday(birthday);
 		realinfo.setSex(sex);
@@ -154,6 +154,7 @@ public class UserService {
 		
 		User user = userDao.selectById(userid);
 		user.setEmail(email);
+		user.setNickname(nickname);
 		userDao.updateUser(user);
 		user.setRealInfo(realinfo);
 		return user;

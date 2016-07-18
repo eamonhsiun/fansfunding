@@ -99,6 +99,7 @@ public class ProjectService {
 			project.put("status", e.getStatus());
 			project.put("targetDeadline", e.getTargetDeadline());
 			project.put("targetMoney", e.getTargetMoney());
+			project.put("sponsorNickname", userDao.selectById(e.getSponsor()).getNickname());
 			projects.add(project);
 		});
 		

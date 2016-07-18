@@ -34,7 +34,7 @@ public interface ProjectDao {
      * @param catagoryId 分类id
      * @return
      */
-    List<Project> selectByCatagoryId(Integer catagoryId);
+    List<Project> selectByCategoryId(Integer categoryId);
     
     /**
      * 根据项目id查询项目

@@ -24,35 +24,35 @@ public class CommentController {
 	/**
 	 * 
 	 * 获取所有的项目评论
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @param page 页数
 	 * @param rows 每页的记录数
 	 * @return
 	 */
-	@RequestMapping(path="{catagoryId}/{projectId}/comments",method=RequestMethod.GET)
+	@RequestMapping(path="{categoryId}/{projectId}/comments",method=RequestMethod.GET)
 	@ResponseBody
-	public Status comments(@PathVariable Integer catagoryId,@PathVariable Integer projectId,
+	public Status comments(@PathVariable Integer categoryId,@PathVariable Integer projectId,
 							@RequestParam(required = false, defaultValue = "1") Integer page,
 							@RequestParam(required = false, defaultValue = "10") Integer rows){
-		if(!projectService.inCatagory(catagoryId, projectId)){
+		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,commentService.getComments(projectId,page,rows),null);
 	}
 	/**
 	 * 添加评论
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{catagoryId}/{projectId}/comments",method=RequestMethod.POST)
+	@RequestMapping(path="{categoryId}/{projectId}/comments",method=RequestMethod.POST)
 	@ResponseBody
-	public Status comment(@PathVariable Integer catagoryId,@PathVariable Integer projectId,Comment comment){
+	public Status comment(@PathVariable Integer categoryId,@PathVariable Integer projectId,Comment comment){
 		if(comment==null){
 			return new Status(false,StatusCode.ERROR_DATA,null,null);
 		}
-		if(!projectService.inCatagory(catagoryId, projectId)){
+		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		commentService.add(comment);

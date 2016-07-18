@@ -8,12 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fansfunding.project.dao.CatagoryDao;
+import com.fansfunding.project.dao.CategoryDao;
 
 @Service
-public class CatagoryService {
+public class CategoryService {
 	@Autowired
-	private CatagoryDao catagoryDao;
+	private CategoryDao categoryDao;
 	
 	/**
 	 * 获取所有的分类
@@ -21,7 +21,7 @@ public class CatagoryService {
 	 */
 	public List<Map<String,Object>> getAll(){
 		List<Map<String,Object>> catagorys=new ArrayList<>();
-		catagoryDao.selectAll().stream().forEach((e)->{
+		categoryDao.selectAll().stream().forEach((e)->{
 			Map<String,Object> catagory=new HashMap<>();
 			catagory.put("id", e.getId());
 			catagory.put("name", e.getName());

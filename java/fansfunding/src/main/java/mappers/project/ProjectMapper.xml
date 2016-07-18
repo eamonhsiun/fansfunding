@@ -3,7 +3,7 @@
 <mapper namespace="com.fansfunding.project.dao.ProjectDao" >
   <resultMap id="BaseResultMap" type="com.fansfunding.project.entity.Project" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="catagory_id" property="catagoryId" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="sponsor" property="sponsor" jdbcType="INTEGER" />
     <result column="detail_id" property="detailId" jdbcType="INTEGER" />
     <result column="target_money" property="targetMoney" jdbcType="DECIMAL" />
@@ -24,13 +24,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.project.entity.Project" >
-    insert into project (catagory_id, sponsor, 
+    insert into project (category_id, sponsor, 
       detail_id, target_money, target_deadline, 
       cover, status, create_by, 
       create_time, update_time, 
       name, description
       )
-    values (#{catagoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
+    values (#{categoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
       #{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL},
       #{targetDeadline,jdbcType=TIMESTAMP}, 
       #{cover,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
@@ -40,7 +40,7 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Project" >
     update project
-    set catagory_id = #{catagoryId,jdbcType=INTEGER},
+    set category_id = #{categoryId,jdbcType=INTEGER},
       sponsor = #{sponsor,jdbcType=INTEGER},
       detail_id = #{detailId,jdbcType=INTEGER},
       target_money = #{targetMoney,jdbcType=DECIMAL},
@@ -54,17 +54,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, catagory_id, sponsor, detail_id, target_money, target_deadline, cover, 
+    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
     status, create_by, create_time, update_by, update_time, del_flag, name, description
     from project
     where id = #{projectId,jdbcType=INTEGER}
     and del_flag='0'
   </select>
-  <select id="selectByCatagoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select id, catagory_id, sponsor, detail_id, target_money, target_deadline, cover, 
+  <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
     status, create_by, create_time, update_by, update_time, del_flag, name, description
     from project
-    where catagory_id=#{catagoryId,jdbcType=INTEGER}
+    where category_id=#{categoryId,jdbcType=INTEGER}
     and del_flag='0'
   </select>
 </mapper>

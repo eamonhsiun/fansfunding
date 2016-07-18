@@ -24,30 +24,30 @@ public class FeedbackController {
 	
 	/**
 	 * 获取相关项目的回馈方式
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{catagoryId}/{projectId}/feedbacks",method=RequestMethod.GET)
+	@RequestMapping(path="{categoryId}/{projectId}/feedbacks",method=RequestMethod.GET)
 	@ResponseBody
-	public Status feedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId,
+	public Status feedbacks(@PathVariable Integer categoryId,@PathVariable Integer projectId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
-		if(projectService.inCatagory(catagoryId, projectId)){
+		if(projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,feedbackService.getFeedbacks(projectId,page,rows),null);
 	}
 	/**
 	 * 添加回馈方式
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{catagoryId}/{projectId}/feedbacks",method=RequestMethod.POST)
+	@RequestMapping(path="{categoryId}/{projectId}/feedbacks",method=RequestMethod.POST)
 	@ResponseBody
-	public Status addFeedbacks(@PathVariable Integer catagoryId,@PathVariable Integer projectId,Feedback feedback){
-		if(projectService.inCatagory(catagoryId, projectId)){
+	public Status addFeedbacks(@PathVariable Integer categoryId,@PathVariable Integer projectId,Feedback feedback){
+		if(projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		feedbackService.add(feedback);

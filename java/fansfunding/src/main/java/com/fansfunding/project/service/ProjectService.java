@@ -34,7 +34,7 @@ public class ProjectService {
 	/**
 	 * 添加项目
 	 * @param name 
-	 * @param catagoryId 
+	 * @param categoryId 
 	 * @param cover 
 	 * @param sponsor 
 	 * @param targetDeadline 
@@ -46,7 +46,7 @@ public class ProjectService {
 	 * @param video 
 	 * 
 	 */
-	public void addProject(String name, Integer catagoryId, String cover, Integer sponsor, Date targetDeadline, Long targetMoney, String description, String content, String images, String others, String video){
+	public void addProject(String name, Integer categoryId, String cover, Integer sponsor, Date targetDeadline, Long targetMoney, String description, String content, String images, String others, String video){
 		ProjectDetail projectDetail = new ProjectDetail();
 		projectDetail.setContent(content);
 		projectDetail.setCreateBy("admin");
@@ -58,7 +58,7 @@ public class ProjectService {
 		
 		
 		Project project = new Project();
-		project.setCatagoryId(catagoryId);
+		project.setCategoryId(categoryId);
 		project.setCover(cover);
 		project.setCreateBy("admin");
 		project.setDelFlag("0");
@@ -77,20 +77,20 @@ public class ProjectService {
 	
 	/**
 	 * 获取分类下所有项目
-	 * @param catagroyId 分类ID
+	 * @param categroyId 分类ID
 	 * @return
 	 */
-	public Page getByCatagoryId(int catagoryId,int page,int rows){
+	public Page getByCategoryId(int categoryId,int page,int rows){
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
 		
 		PageHelper.startPage(page, rows);
-		List<Project> list=projectDao.selectByCatagoryId(catagoryId);
+		List<Project> list=projectDao.selectByCategoryId(categoryId);
 		PageInfo<Project> info=new PageInfo<>(list);
 		
 		list.forEach((e)->{
 			Map<String,Object> project=new HashMap<>();
 			project.put("id", e.getId());
-			project.put("catagoryId", e.getCatagoryId());
+			project.put("categoryId", e.getCategoryId());
 			project.put("cover", e.getCover());
 			project.put("description", e.getDescription());
 			project.put("detailId", e.getDetailId());
@@ -115,7 +115,7 @@ public class ProjectService {
 		Project e=projectDao.selectByProjectId(projectId);
 
 		project.put("id", e.getId());
-		project.put("catagoryId", e.getCatagoryId());
+		project.put("categoryId", e.getCategoryId());
 		project.put("cover", e.getCover());
 		project.put("description", e.getDescription());
 		project.put("detailId", e.getDetailId());
@@ -146,22 +146,22 @@ public class ProjectService {
 	}
 	/**
 	 * 判断该项目是否在该分类目录下
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	public boolean  inCatagory(int catagoryId,int projectId){
-		return projectDao.selectByProjectId(projectId).getCatagoryId().intValue()==catagoryId;
+	public boolean  inCategory(int categoryId,int projectId){
+		return projectDao.selectByProjectId(projectId).getCategoryId().intValue()==categoryId;
 	}
 	
 	/**
 	 * 上传附件
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID 
 	 * @param files 附件
 	 * @return
 	 */
-	public boolean uploadAttachments(int catagoryId,int projectId,CommonsMultipartFile[] files){
+	public boolean uploadAttachments(int categoryId,int projectId,CommonsMultipartFile[] files){
 		ProjectDetail projectDetail=detailDao.selectByProjectId(projectId);
 		if(projectDetail==null){
 			return false;
@@ -169,7 +169,7 @@ public class ProjectService {
 		//TODO 更新项目详情
 		for(CommonsMultipartFile file:files){
 			try {
-				FileUpload.save(file, FileUpload.Path.PROJECT_ATTACHMENT, catagoryId+"/"+projectId);
+				FileUpload.save(file, FileUpload.Path.PROJECT_ATTACHMENT, categoryId+"/"+projectId);
 			} catch (IOException e) {
 				return false;
 			}

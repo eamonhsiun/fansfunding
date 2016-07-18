@@ -5,15 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fansfunding.project.service.CatagoryService;
+import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
 @Controller
 @RequestMapping("project")
-public class CatagoryController {
+public class CategoryController {
 	@Autowired
-	private CatagoryService catagoryService;
+	private CategoryService categoryService;
 	
 	/**
 	 * 获取项目分类
@@ -22,6 +22,6 @@ public class CatagoryController {
 	@RequestMapping("catagorys")
 	@ResponseBody
 	public Status catagroys(){
-		return new Status(true,StatusCode.SUCCESS,catagoryService.getAll(),null);
+		return new Status(true,StatusCode.SUCCESS,categoryService.getAll(),null);
 	}
 }

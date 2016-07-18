@@ -27,38 +27,38 @@ public class ProjectController {
 	 * @param catagroyId 分类ID
 	 * @return
 	 */
-	@RequestMapping("{catagoryId}")
+	@RequestMapping("{categoryId}")
 	@ResponseBody
-	public Status projects(@PathVariable Integer catagoryId,
+	public Status projects(@PathVariable Integer categoryId,
 			@RequestParam(required=false,defaultValue="1") Integer page,
 			@RequestParam(required=false,defaultValue="10") Integer rows){
-		return new Status(true,StatusCode.SUCCESS,projectService.getByCatagoryId(catagoryId,page,rows),null);
+		return new Status(true,StatusCode.SUCCESS,projectService.getByCategoryId(categoryId,page,rows),null);
 	}
 	
 	/**
 	 * 根据项目ID获取项目
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping("{catagoryId}/{projectId}")
+	@RequestMapping("{categoryId}/{projectId}")
 	@ResponseBody
-	public Status project(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
-		if(!projectService.inCatagory(catagoryId, projectId)){
+	public Status project(@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getByProjectId(projectId),null);
 	}
 	/**
 	 * 获取项目详情
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping("{catagoryId}/{projectId}/detail")
+	@RequestMapping("{categoryId}/{projectId}/detail")
 	@ResponseBody
-	public Status prjectDetail(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
-		if(!projectService.inCatagory(catagoryId, projectId)){
+	public Status prjectDetail(@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getDetails(projectId),null);
@@ -66,7 +66,7 @@ public class ProjectController {
 	
 	/**
 	 * 添加项目
-	 * @param catagoryId 分类ID
+	 * @param categoryId 分类ID
 	 * @param name 项目名
 	 * @param targetDeadline 截止日期
 	 * @param targetMoney 目标金额
@@ -80,10 +80,10 @@ public class ProjectController {
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping("{catagoryId}/add")
+	@RequestMapping("{categoryId}/add")
 	@ResponseBody
 	public Status add(
-			@PathVariable Integer catagoryId, 
+			@PathVariable Integer categoryId, 
 			@RequestParam String name, 
 			@RequestParam String targetDeadline, 
 			@RequestParam Long targetMoney, 
@@ -98,7 +98,7 @@ public class ProjectController {
 		//TODO:检测该分类是否存在
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-		projectService.addProject(name, catagoryId, cover, sponsor, sdf.parse(targetDeadline), targetMoney, description, content, images, others, video);
+		projectService.addProject(name, categoryId, cover, sponsor, sdf.parse(targetDeadline), targetMoney, description, content, images, others, video);
 		return new Status(true,StatusCode.SUCCESS,"添加成功",null);
 	}
 	/**
@@ -106,10 +106,10 @@ public class ProjectController {
 	 * @param files 上传的文件
 	 * @return
 	 */
-	@RequestMapping(path="{catagoryId}/{projectId}/attachments",method=RequestMethod.POST)
+	@RequestMapping(path="{categoryId}/{projectId}/attachments",method=RequestMethod.POST)
 	@ResponseBody
-	public Status uploadAttachment(@PathVariable Integer catagoryId,@PathVariable Integer projectId,@RequestParam CommonsMultipartFile[] files){
-		if(!projectService.inCatagory(catagoryId, projectId)){
+	public Status uploadAttachment(@PathVariable Integer categoryId,@PathVariable Integer projectId,@RequestParam CommonsMultipartFile[] files){
+		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
 		}
 		if(files.length==0){
@@ -120,7 +120,7 @@ public class ProjectController {
 				return new Status(false,StatusCode.FAILD,"文件不可为空",null);
 			}
 		}
-		if(projectService.uploadAttachments(catagoryId, projectId, files)){
+		if(projectService.uploadAttachments(categoryId, projectId, files)){
 			return new Status(true,StatusCode.SUCCESS,"文件上传成功",null);
 		}
 		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);

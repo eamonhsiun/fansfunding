@@ -24,7 +24,7 @@ public class TestProjectService {
 	private ProjectDao projectDao;
 	@Test
 	public void testGetByCatagoryId() {
-		System.out.println(projectService.getByCatagoryId(1,1,1));
+		System.out.println(projectService.getByCategoryId(1,1,1));
 	}
 
 	@Test
@@ -39,12 +39,12 @@ public class TestProjectService {
 
 	@Test
 	public void testInCatagory() {
-		System.out.println(projectService.inCatagory(1, 1));
+		System.out.println(projectService.inCategory(1, 1));
 	}
 	@Test
 	public void testPagination(){
 		PageHelper.startPage(3, 2);
-		List<Project> list=projectDao.selectByCatagoryId(1);
+		List<Project> list=projectDao.selectByCategoryId(1);
 		list.forEach((e)->{
 			System.out.println(e);
 		});

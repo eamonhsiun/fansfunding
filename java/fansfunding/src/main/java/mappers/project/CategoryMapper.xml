@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fansfunding.project.dao.CatagoryDao" >
-  <resultMap id="BaseResultMap" type="com.fansfunding.project.entity.Catagory" >
+<mapper namespace="com.fansfunding.project.dao.CategoryDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.project.entity.Category" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
@@ -12,18 +12,18 @@
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
   </resultMap>
   <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    update catagory 
+    update category 
     set del_flag= '1'
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <insert id="insert" parameterType="com.fansfunding.project.entity.Catagory" >
-    insert into catagory (name, description, create_by, create_time,
+  <insert id="insert" parameterType="com.fansfunding.project.entity.Category" >
+    insert into category (name, description, create_by, create_time,
     update_by, update_time)
     values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, NOW(), #{updateBy,jdbcType=VARCHAR}, NOW())
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Catagory" >
-    update catagory
+  <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Category" >
+    update category
     set name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       update_by = #{updateBy,jdbcType=VARCHAR},
@@ -32,13 +32,13 @@
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, name, description, create_by, create_time, update_by, update_time, del_flag
-    from catagory
+    from category
     where id = #{id,jdbcType=INTEGER}
     and del_flag='0'
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, name, description, create_by, create_time, update_by, update_time, del_flag
-    from catagory
+    from category
     where del_flag='0'
   </select>
 </mapper>

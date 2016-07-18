@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Project {
     private Integer id;
 
-    private Integer catagoryId;
+    private Integer categoryId;
 
     private Integer sponsor;
 

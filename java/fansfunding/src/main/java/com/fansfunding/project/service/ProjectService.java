@@ -2,6 +2,7 @@ package com.fansfunding.project.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,52 @@ public class ProjectService {
 	private ProjectDao projectDao;
 	@Autowired
 	private ProjectDetailDao detailDao;
+	
+	
+	/**
+	 * 添加项目
+	 * @param name 
+	 * @param catagoryId 
+	 * @param cover 
+	 * @param sponsor 
+	 * @param targetDeadline 
+	 * @param targetMoney 
+	 * @param description 
+	 * @param content 
+	 * @param images 
+	 * @param others 
+	 * @param video 
+	 * 
+	 */
+	public void addProject(String name, Integer catagoryId, String cover, Integer sponsor, Date targetDeadline, Long targetMoney, String description, String content, String images, String others, String video){
+		ProjectDetail projectDetail = new ProjectDetail();
+		projectDetail.setContent(content);
+		projectDetail.setCreateBy("admin");
+		projectDetail.setDelFlag("0");
+		projectDetail.setImages(images);
+		projectDetail.setOthers(others);
+		projectDetail.setVideo(video);
+		Integer detailId = detailDao.insert(projectDetail);
+		
+		
+		Project project = new Project();
+		project.setCatagoryId(catagoryId);
+		project.setCover(cover);
+		project.setCreateBy("admin");
+		project.setDelFlag("0");
+		project.setDescription(description);
+		
+		project.setDetailId(detailId);
+		project.setName(name);
+		project.setSponsor(sponsor);
+		project.setStatus("未完成");
+		project.setTargetDeadline(targetDeadline);
+		project.setTargetMoney(targetMoney);
+		projectDao.insert(project);
+	}
+	
+	
+	
 	/**
 	 * 获取分类下所有项目
 	 * @param catagroyId 分类ID
@@ -55,6 +102,7 @@ public class ProjectService {
 		
 		return PageAdapter.adapt(info, projects);
 	}
+	
 	/**
 	 * 根据项目ID获取项目详情
 	 * @param projectId 项目ID

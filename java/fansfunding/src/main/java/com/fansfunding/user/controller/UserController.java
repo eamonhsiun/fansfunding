@@ -39,7 +39,7 @@ public class UserController {
 	@ResponseBody
 	public Status logout(@PathVariable String userId, @RequestParam String token) {
 		User user = userService.getUserById(Integer.parseInt(userId));
-		// TODO:存在性验证
+		//TODO:存在性验证
 		int tid;
 		try {
 			tid = Integer.parseInt(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));

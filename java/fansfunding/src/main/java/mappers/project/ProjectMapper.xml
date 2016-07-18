@@ -23,18 +23,18 @@
     set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <insert id="insert" parameterType="com.fansfunding.project.entity.Project" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.project.entity.Project" >
     insert into project (catagory_id, sponsor, 
       detail_id, target_money, target_deadline, 
       cover, status, create_by, 
-      create_time, update_by, update_time, 
+      create_time, update_time, 
       name, description
       )
     values (#{catagoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
       #{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL},
       #{targetDeadline,jdbcType=TIMESTAMP}, 
       #{cover,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
-      NOW(), #{updateBy,jdbcType=VARCHAR},NOW(), 
+      NOW(),NOW(), 
       #{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
       )
   </insert>

@@ -78,16 +78,11 @@
     update user
   	set nickname=#{nickname},
   		password=#{password},
+  		email=#{email},
   		phone=#{phone},
   		is_red=#{is_red},
   		head=#{head},
-  		create_by=#{create_by},
-  		create_time=#{create_time},
-  		update_by=#{update_by},
-  		update_time=#{update_time},
-  		remark=#{remark},
-  		del_flag=#{del_flag},
-  		token=#{token}
+  		update_time=now()
   	where id = #{id}
   </update>
   

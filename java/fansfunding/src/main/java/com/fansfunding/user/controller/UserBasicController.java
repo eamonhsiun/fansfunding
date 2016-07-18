@@ -1,8 +1,6 @@
 package com.fansfunding.user.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,6 @@ import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.CheckerService;
 import com.fansfunding.common.service.TokenService;
 import com.fansfunding.user.entity.User;
-import com.fansfunding.user.entity.UserBasic;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
 import com.fansfunding.utils.encrypt.AESUtils;
@@ -85,7 +82,7 @@ public class UserBasicController {
 		
 
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%A-D"));
 	}
 
 	/**
@@ -128,7 +125,7 @@ public class UserBasicController {
 		
 		checkerService.deleteById(cid);
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%A-D"));
 		
 
 
@@ -160,7 +157,7 @@ public class UserBasicController {
 
 		user.setPassword("");
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%A-D"));
 	}
 	
 	/**

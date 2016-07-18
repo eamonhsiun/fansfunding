@@ -15,6 +15,7 @@ import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.dao.ProjectDetailDao;
 import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.entity.ProjectDetail;
+import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.utils.fileupload.FileUpload;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
@@ -27,7 +28,8 @@ public class ProjectService {
 	private ProjectDao projectDao;
 	@Autowired
 	private ProjectDetailDao detailDao;
-	
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * 添加项目
@@ -122,7 +124,7 @@ public class ProjectService {
 		project.put("status", e.getStatus());
 		project.put("targetDeadline", e.getTargetDeadline());
 		project.put("targetMoney", e.getTargetMoney());
-		
+		project.put("sponsorNickname", userDao.selectById(e.getSponsor()).getNickname());
 		return project;
 	}
 	/**
@@ -172,7 +174,6 @@ public class ProjectService {
 				return false;
 			}
 		}
-		//TO DO
 		return true;
 	}
 }

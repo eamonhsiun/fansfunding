@@ -102,18 +102,6 @@ public class ProjectController {
 		return new Status(true,StatusCode.SUCCESS,"添加成功",null);
 	}
 	/**
-	 * 
-	 * 支持项目
-	 * @param catagoryId 分类ID
-	 * @param projectId 项目ID
-	 * @return 
-	 */
-	@RequestMapping("{catagoryId}/{projectId}/support")
-	@ResponseBody
-	public Status support(@PathVariable Integer catagoryId,@PathVariable Integer projectId){
-		return null;
-	}
-	/**
 	 * 上传项目相关的附件
 	 * @param files 上传的文件
 	 * @return

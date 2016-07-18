@@ -40,7 +40,7 @@ public class PayResultService {
 	}
 
 	/**
-	 * 定单完成，在知乎完成后由支付宝配置的return_url的接口调用，保存订单信息
+	 * 定单完成，在支付完成后由支付宝配置的return_url的接口调用，保存订单信息
 	 * @param callbackParams 回调后的请求参数
 	 */
 	public void finishOrder(Map<String,String> callbackParams){
@@ -53,7 +53,7 @@ public class PayResultService {
 		orderDao.updateByPrimaryKey(order);
 	}
 	/**
-	 * 
+	 * 验证信息是否一致
 	 * @param callbackParams 回调后的请求参数
 	 * @return
 	 */
@@ -75,9 +75,7 @@ public class PayResultService {
 	 * @return
 	 */
 	public boolean isFinished(Map<String,String> callbackParams){
-		String orderNo=callbackParams.get("out_trade_no");
-		Order order=orderDao.selectByOrderNo(orderNo);
-		return order.getTradeStatus()!=null;
+		return orderDao.selectByOrderNo(callbackParams.get("out_trade_no")).getTradeStatus()!=null;
 	}
 	/**
 	 * 是否是合法的订单
@@ -85,8 +83,28 @@ public class PayResultService {
 	 * @return
 	 */
 	public boolean isIllegelOrder(Map<String,String> callbackParams){
-		String orderNo=callbackParams.get("out_trade_no");
-		Order order=orderDao.selectByOrderNo(orderNo);
-		return order!=null;
+		return orderDao.selectByOrderNo(callbackParams.get("out_trade_no"))!=null;
+	}
+	/**
+	 * 确认是否已经同步通知,是则无动作，否则更新return_time
+	 * @param callbackParams
+	 * @return
+	 */
+	public void confirmReturn(Map<String,String> callbackParams){
+		Order order=orderDao.selectByOrderNo(callbackParams.get("out_trade_no"));
+		if(order.getReturnTime()==null){
+			orderDao.updateReturnTime(order);
+		}
+	}
+	/**
+	 * 是否已经异步通知,是则无动作，否则更新notify_time
+	 * @param callbackParams
+	 * @return
+	 */
+	public void confirmNotify(Map<String,String> callbackParams){
+		Order order=orderDao.selectByOrderNo(callbackParams.get("out_trade_no"));
+		if(order.getNotifyTime()==null){
+			orderDao.updateNotifyTime(order);
+		}
 	}
 }

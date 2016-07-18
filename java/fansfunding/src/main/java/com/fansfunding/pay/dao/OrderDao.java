@@ -9,7 +9,9 @@ public interface OrderDao {
     int insert(Order order);
     Order selectByPrimaryKey(Integer id);
     List<Order> selectAll();
-    int updateByPrimaryKey(Order record);
+    int updateByPrimaryKey(Order order);
+    int updateReturnTime(Order order);
+    int updateNotifyTime(Order order);
     Order selectByOrderNo(String orderId);
     Order selectByTradeNo(String tradeId);
     List<Order> selectByUserId(Integer userId);

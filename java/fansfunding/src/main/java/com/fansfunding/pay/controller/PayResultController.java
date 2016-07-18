@@ -1,5 +1,7 @@
 package com.fansfunding.pay.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.pay.service.PayResultService;
@@ -21,9 +24,15 @@ public class PayResultController {
 	@Autowired
 	private PayResultService payResultService;
 
-	@RequestMapping(path="web")
+	/**
+	 * 支付宝同步支付结果通知
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(path="web/return",method=RequestMethod.GET)
 	@ResponseBody
-	public Status web(HttpServletRequest request,HttpServletResponse response){
+	public Status webReturn(HttpServletRequest request,HttpServletResponse response){
 		Map<String,String> params=payResultService.getParams(request);
 		//合法性验证
 		if(AlipayNotify.verify(params)){
@@ -36,23 +45,54 @@ public class PayResultController {
 					//如果有做过处理，不执行商户的业务程序
 					//注意：付款完成后，支付宝系统发送该交易状态通知
 					if(payResultService.verify(params)){
-						String trade_status = request.getParameter("trade_status");
-						if(trade_status.equals("TRADE_FINISHED")){
-							System.out.println(trade_status);
-						}
-						else if (trade_status.equals("TRADE_SUCCESS")){
-							System.out.println(trade_status);
-						}
 						payResultService.finishOrder(params);
+						payResultService.confirmReturn(params);
 						return new Status(true,StatusCode.SUCCESS,"订单完成支付成功",null);
 					}
-					return new Status(false,StatusCode.FAILD,"订单信息不一致",null);
+					return new Status(false,StatusCode.ORDER_INFO_DISAGREE,"订单信息不一致",null);
 				}
-				return new Status(false,StatusCode.FAILD,"订单已完成",null);
+				payResultService.confirmReturn(params);
+				return new Status(true,StatusCode.SUCCESS,"订单已完成",null);
 			}
-			return new Status(false,StatusCode.FAILD,"非本商户订单",null);
+			return new Status(false,StatusCode.NOT_ILLEGEL_ORDER,"非本商户订单",null);
 		}
-		return new Status(false,StatusCode.FAILD,"验证失败",null);
+		return new Status(false,StatusCode.PAY_VERIFY_FAILED,"验证失败",null);
+	}
+	/**
+	 * 支付宝异步通知接口
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(path="web/notify",method=RequestMethod.POST)
+	public void webNotify(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		PrintWriter out=response.getWriter();
+		response.setCharacterEncoding("UTF-8");
+		Map<String,String> params=payResultService.getParams(request);
+		if(AlipayNotify.verify(params)){
+			if(payResultService.isIllegelOrder(params)){
+				if(!payResultService.isFinished(params)){
+					if(payResultService.verify(params)){
+						payResultService.finishOrder(params);
+						payResultService.confirmNotify(params);
+						out.print("success");
+					}
+					else{
+						out.print("订单信息不一致");
+					}
+				}
+				else{
+					payResultService.confirmNotify(params);
+					out.print("success");
+				}
+			}
+			else{
+				out.print("非本商户订单");
+			}
+		}
+		else{
+			out.print("验证失败");
+		}
 	}
 
 }

@@ -14,6 +14,9 @@
     <result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
     <result column="seller_id" property="sellerId" jdbcType="VARCHAR" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="return_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="notify_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     update pay_order
@@ -24,11 +27,11 @@
     insert into pay_order (order_no, trade_no, 
       user_id, feedback_id, subject, 
       total_fee, trade_status, buyer_email, 
-      buyer_id,seller_id)
+      buyer_id,seller_id,create_time)
     values (#{orderNo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, 
       #{userId,jdbcType=INTEGER}, #{feedbackId,jdbcType=INTEGER}, #{subject,jdbcType=VARCHAR}, 
       #{totalFee,jdbcType=VARCHAR}, #{tradeStatus,jdbcType=VARCHAR}, #{buyerEmail,jdbcType=VARCHAR}, 
-      #{buyerId,jdbcType=VARCHAR},#{sellerId,jdbcType=VARCHAR})
+      #{buyerId,jdbcType=VARCHAR},#{sellerId,jdbcType=VARCHAR},NOW())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.pay.entity.Order" >
     update pay_order
@@ -42,6 +45,16 @@
       buyer_email = #{buyerEmail,jdbcType=VARCHAR},
       buyer_id = #{buyerId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateReturnTime" parameterType="com.fansfunding.pay.entity.Order" >
+    update pay_order
+    set return_time = NOW()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateNotifyTime" parameterType="com.fansfunding.pay.entity.Order" >
+    update pay_order
+    set notify_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

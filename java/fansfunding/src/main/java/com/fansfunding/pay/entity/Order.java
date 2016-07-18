@@ -1,5 +1,7 @@
 package com.fansfunding.pay.entity;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,7 @@ public class Order {
 	private String buyerId;
 	private String sellerId;
 	private Character delFlag;
+	private Date createTime;
+	private Date returnTime;
+	private Date notifyTime;
 }

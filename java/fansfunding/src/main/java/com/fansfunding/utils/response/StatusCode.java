@@ -66,6 +66,18 @@ public class StatusCode {
 	 */
 	public static final int UNSUPPORT_FILE_FORMAT=403;
 	/**
+	 * 支付验证失败
+	 */
+	public static final int PAY_VERIFY_FAILED=420;
+	/**
+	 * 非法订单（非本商户订单）
+	 */
+	public static final int NOT_ILLEGEL_ORDER=421;
+	/**
+	 * 订单信息不一致
+	 */
+	public static final int ORDER_INFO_DISAGREE=422;
+	/**
 	 * 邮箱错误
 	 */
 	/**

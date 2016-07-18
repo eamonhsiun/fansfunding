@@ -1,5 +1,7 @@
 package com.fansfunding.fan;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -7,18 +9,29 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.fansfunding.PullListView.XListView;
+import com.fansfunding.internal.AllProjectInCategory;
+import com.fansfunding.internal.ErrorCode;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 /**
@@ -30,9 +43,64 @@ import java.util.*;
  */
 public class CrowdFundingFragment extends Fragment {
 
+    //获取项目成功
+    private static final int GET_HOT_PROJECT_SUCCESS=100;
 
+    //获取项目失败
+    private static final int GET_HOT_PROJECT_FAILURE=101;
+
+    //是否已经完成了项目数据获取的请求
+    private boolean isFinishRequest=true;
+
+    //listview适配器
+    ListProjectAdapter adapter;
+
+    //获取到的项目列表
+    private List<AllProjectInCategory.ProjectDetail> projectDetailList=null;
+
+
+    //httpclient
+    private OkHttpClient httpClient;
     //热门项目列表
     private XListView lv_PR;
+    //消息处理
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case GET_HOT_PROJECT_FAILURE:
+                    endRefresh();
+                    if(CrowdFundingFragment.this.getActivity()==null){
+                        break;
+                    }
+                    Toast.makeText(CrowdFundingFragment.this.getActivity(),"获取项目失败",Toast.LENGTH_LONG).show();
+                    break;
+                case GET_HOT_PROJECT_SUCCESS:
+                    for(int i=0;i<projectDetailList.size();i++){
+                        adapter.addItemAtHead(projectDetailList.get(i));
+                    }
+                    adapter.notifyDataSetChanged();
+                    endRefresh();
+                    break;
+                case ErrorCode.REQUEST_TOO_FRENQUENTLY:
+                    endRefresh();
+                    if(CrowdFundingFragment.this.getActivity()==null){
+                        break;
+                    }
+                    Toast.makeText(CrowdFundingFragment.this.getActivity(),"请求过于频繁",Toast.LENGTH_LONG).show();
+
+                    break;
+                case ErrorCode.PARAMETER_ERROR:
+                    endRefresh();
+                    if(CrowdFundingFragment.this.getActivity()==null){
+                        break;
+                    }
+                    Toast.makeText(CrowdFundingFragment.this.getActivity(),"参数错误",Toast.LENGTH_LONG).show();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
 
     public CrowdFundingFragment() {
@@ -58,25 +126,33 @@ public class CrowdFundingFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //构建httpclient
+        httpClient=new OkHttpClient();
+
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_crowdfunding, container, false);
         //热门推荐的listview
         lv_PR=(XListView)rootView.findViewById(R.id.lv_popularRecommendation);
-        lv_PR.setAutoLoadEnable(true);
-        lv_PR.setPullLoadEnable(true);
+        lv_PR.setAutoLoadEnable(false);
+        lv_PR.setPullLoadEnable(false);
         lv_PR.setPullRefreshEnable(true);
         lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
         lv_PR.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(CrowdFundingFragment.this.getActivity(),"下拉更新",Toast.LENGTH_LONG).show();
-                lv_PR.stopRefresh();
-                lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                if(isFinishRequest==false){
+                    return;
+                }
+                getProject();
+                System.out.println("刷新操作");
+
             }
 
             @Override
@@ -89,31 +165,28 @@ public class CrowdFundingFragment extends Fragment {
         });
 
 
-        //构建simpleadapter
-        List<Map<String,Object>> listItems=new ArrayList<Map<String, Object>>();
-        for(int i=0;i<5;i++){
-            Map<String,Object> tempMap=new HashMap<String, Object>();
-            tempMap.put("tv_PJName","项目名称");
-            tempMap.put("tv_PJIntro","这是一个简介这是一个简介这是一个简介这是一个简介这是一个简介这是一个简介");
-            listItems.add(tempMap);
-        }
-        SimpleAdapter simpleAdapter=new SimpleAdapter(this.getContext(),listItems,R.layout.item_project,
-                new String[]{"tv_PJName","tv_PJIntro"},
-                new int[]{R.id.tv_PJ_name,R.id.tv_PJ_intro});
-
-
-        View listHeader=inflater.inflate(R.layout.fragment_crowdfundingheader, null, false);
+        adapter=new ListProjectAdapter(this.getActivity());
+        lv_PR.setAdapter(adapter);
+        getProject();
 
         //将其他view作为热门推荐listview的头部view
         /*
         * 先暂时取消banner和分类，以后再加上去
         * */
+        //View listHeader=inflater.inflate(R.layout.fragment_crowdfundingheader, null, false);
         //lv_PR.addHeaderView(listHeader,null,false);
 
 
-        lv_PR.setAdapter(simpleAdapter);
 
 
+        //获取项目信息
+
+
+
+
+
+
+        /*
 
         View view_cosmetic=listHeader.findViewById(R.id.ll_cosmetic);
         view_cosmetic.setOnClickListener(new View.OnClickListener() {
@@ -161,14 +234,19 @@ public class CrowdFundingFragment extends Fragment {
                 intent.setAction(getResources().getString(R.string.activity_category));
                 startActivity(intent);
             }
-        });
+        });*/
 
         lv_PR.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
+                AllProjectInCategory.ProjectDetail detail=(AllProjectInCategory.ProjectDetail)lv_PR.getAdapter().getItem(position);
+                int categoryId=detail.getCategoryId();
+                int projectId=detail.getId();
                 intent.setAction(getString(R.string.activity_project_detail));
+                intent.putExtra("detail",detail);
                 startActivity(intent);
+
             }
         });
 
@@ -198,6 +276,93 @@ public class CrowdFundingFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+    //获取
+    private void getProject(){
+        isFinishRequest=false;
+        int catagoryId=1;
+        Request request=new Request.Builder()
+                .get()
+                .url(getString(R.string.url_project)+catagoryId)
+                .build();
+
+        Call call=httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Message msg=new Message();
+                msg.what=GET_HOT_PROJECT_FAILURE;
+                handler.sendMessage(msg);
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //服务器响应失败
+                if(response==null||response.isSuccessful()==false){
+                    Message msg=new Message();
+                    msg.what=GET_HOT_PROJECT_FAILURE;
+                    handler.sendMessage(msg);
+                    return;
+                }
+                Gson gson=new GsonBuilder().create();
+                AllProjectInCategory project=new AllProjectInCategory();
+                String str_response=response.body().string();
+                System.out.println("response:"+str_response);
+                try {
+
+                    //用Gson进行解析，并判断结果是否为空
+                    if((project = gson.fromJson(str_response, project.getClass()))==null){
+                        Message msg=new Message();
+                        msg.what=GET_HOT_PROJECT_FAILURE;
+                        handler.sendMessage(msg);
+                        isFinishRequest=true;
+                    }
+                    //重置密码失败
+                    if(project.isResult()==false){
+                        Message msg=new Message();
+                        switch (project.getErrCode()){
+                            case ErrorCode.REQUEST_TOO_FRENQUENTLY:
+                                msg.what=ErrorCode.REQUEST_TOO_FRENQUENTLY;
+                                break;
+                            case ErrorCode.PARAMETER_ERROR:
+                                msg.what=ErrorCode.PARAMETER_ERROR;
+                                break;
+                            default:
+                                msg.what=GET_HOT_PROJECT_FAILURE;
+                                break;
+                        }
+                        handler.sendMessage(msg);
+                        return;
+                    }
+
+
+                    projectDetailList=project.getData().getList();
+                    //获取项目信息成功
+                    Message msg=new Message();
+                    msg.what=GET_HOT_PROJECT_SUCCESS;
+                    handler.sendMessage(msg);
+                }catch (IllegalStateException e){
+                    Message msg=new Message();
+                    msg.what=GET_HOT_PROJECT_FAILURE;
+                    handler.sendMessage(msg);
+                    e.printStackTrace();
+                }catch (JsonSyntaxException e){
+                    Message msg=new Message();
+                    msg.what=GET_HOT_PROJECT_FAILURE;
+                    handler.sendMessage(msg);
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //停止更新的动画
+    private void endRefresh(){
+        isFinishRequest=true;
+        lv_PR.stopRefresh();
+        lv_PR.stopLoadMore();
+        lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
 
 }

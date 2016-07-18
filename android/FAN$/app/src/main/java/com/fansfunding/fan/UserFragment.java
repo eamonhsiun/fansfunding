@@ -58,7 +58,12 @@ public class UserFragment extends Fragment {
 
 
     //打开用户个人信息设置界面
-    private static final int START_USER_INFO=301;
+    public static final int START_USER_INFO=301;
+
+    //打开设置界面
+    public static final int REQUEST_CODE_SETTING=302;
+
+
 
 
 
@@ -177,7 +182,7 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.setAction(getString(R.string.activity_setting));
-                startActivity(intent);
+                getActivity().startActivityForResult(intent,REQUEST_CODE_SETTING);
             }
         });
 

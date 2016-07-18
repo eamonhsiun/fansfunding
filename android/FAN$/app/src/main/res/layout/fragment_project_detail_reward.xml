@@ -13,10 +13,10 @@
         android:padding="@dimen/layout_padding"
         android:text="产品回报"/>
 
-    <ListView
+    <com.fansfunding.PullListView.XListView
         android:id="@+id/lv_project_detail_reward"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </com.fansfunding.PullListView.XListView>
 </LinearLayout>

@@ -8,8 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:allowBackup="true"
@@ -74,10 +73,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--项目详情-->
+        <!-- 项目详情 -->
         <activity android:name=".ProjectDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.PROJECTDETAIL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--项目评论详情-->
+        <activity android:name=".ProjectDetailCommentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECTDETAILCOMMENT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -165,7 +173,7 @@
             </intent-filter>
         </activity>
 
-        <!--用户信息修改界面-->
+        <!-- 用户信息修改界面 -->
         <activity android:name=".UserInfoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.USERINFO" />
@@ -183,12 +191,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <!-- 微博授权界面 -->
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ProjectCommentActivity" />
 
     </application>
 

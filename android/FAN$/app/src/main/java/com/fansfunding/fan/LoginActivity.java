@@ -47,11 +47,13 @@ public class LoginActivity extends AppCompatActivity {
             switch (msg.what){
                 //登陆成功
                 case LoginDialog.LOGIN_BY_PHONE_SUCCESS:
+                    setResult(RESULT_OK);
                     if(LoginActivity.this.isFinishing()==false){
                         LoginActivity.this.finish();
                     }
                     break;
                 case LoginDialog.LOGIN_BY_PHONE_FAILURE:
+                    setResult(RESULT_CANCELED);
                     if(LoginActivity.this.isFinishing()==false){
                         LoginActivity.this.finish();
                     }

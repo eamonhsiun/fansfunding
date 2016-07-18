@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.fansfunding.internal.AllProjectInCategory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,14 @@ import java.util.Map;
  */
 public class ProjectDetailDynamicFragment extends Fragment {
 
+    //项目分类
+    private int categoryId;
+
+    //项目Id
+    private int projectId;
+    //项目描述信息(比如目标金额之类的)
+    private AllProjectInCategory.ProjectDetail projectDetail;
+
     public ProjectDetailDynamicFragment() {
         // Required empty public constructor
     }
@@ -33,9 +43,10 @@ public class ProjectDetailDynamicFragment extends Fragment {
      * @return A new instance of fragment ProjectDetailDynamicFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProjectDetailDynamicFragment newInstance (){
+    public static ProjectDetailDynamicFragment newInstance (AllProjectInCategory.ProjectDetail projectDetail){
         ProjectDetailDynamicFragment fragment = new ProjectDetailDynamicFragment();
         Bundle args = new Bundle();
+        args.putSerializable("projectDetail",projectDetail);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,6 +55,9 @@ public class ProjectDetailDynamicFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            this.projectDetail= (AllProjectInCategory.ProjectDetail) getArguments().getSerializable("projectDetail");
+            categoryId=projectDetail.getCategoryId();
+            projectId=projectDetail.getId();
         }
     }
 

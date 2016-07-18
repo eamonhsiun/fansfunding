@@ -5,20 +5,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TooManyListenersException;
+
 /*
 * 用来显示单个目录下的所有项目，比如美妆下的所有项目
 * */
@@ -50,14 +47,11 @@ public class CategoryActivity extends AppCompatActivity {
             tempMap.put("tv_PJName","项目名称");
             tempMap.put("iv_PJImage",R.drawable.project_image_small_test);
             tempMap.put("tv_PJIntro","这是一个简介");
-            tempMap.put("tv_Finance",getResources().getString(R.string.finance)+"10000");
-            tempMap.put("tv_SupportNum",getResources().getString(R.string.supportNum)+"10000");
             listItems.add(tempMap);
         }
         SimpleAdapter simpleAdapter=new SimpleAdapter(this,listItems,R.layout.item_project,
-                new String[]{"tv_PJName","iv_PJImage","tv_PJIntro","tv_Finance","tv_SupportNum"},
-                new int[]{R.id.tv_PJ_Name,R.id.iv_PJ_Image,R.id.tv_PJ_Intro,R.id.tv_PJ_Finance,R.id.tv_PJ_SupportNum});
-
+                new String[]{"tv_PJName","iv_PJImage","tv_PJIntro"},
+                new int[]{R.id.tv_PJ_name,R.id.iv_PJ_publish_head,R.id.tv_PJ_intro});
 
         listView.setAdapter(simpleAdapter);
 

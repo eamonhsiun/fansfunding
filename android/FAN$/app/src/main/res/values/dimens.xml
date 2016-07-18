@@ -42,4 +42,10 @@
     <dimen name="icon_size_message">56dp</dimen>
     <dimen name="icon_size_normal">40dp</dimen>
 
+
+    <!--下拉更新-->
+    <dimen name="header_height">60dp</dimen>
+    <dimen name="footer_height">90dp</dimen>
+    <dimen name="footer_padding">10dp</dimen>
+
 </resources>

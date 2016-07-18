@@ -23,14 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_chat"
-        android:layout_above="@+id/ll_chat_input"
+        android:layout_above="@+id/rl_chat_input"
         android:divider="@null">
 
     </ListView>
 
     <!--发送按钮和输入内容-->
     <RelativeLayout
-        android:id="@+id/ll_chat_input"
+        android:id="@+id/rl_chat_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

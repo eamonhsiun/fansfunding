@@ -28,7 +28,7 @@ public class HomepageActivity extends AppCompatActivity {
         actionbar.setTitle("冰冻vita");
         actionbar.setDisplayHomeAsUpEnabled(true);
 
-        int [] view_list={R.id.rl_homepage_PJ_publish,R.id.rl_homepage_PJ_follow,R.id.rl_homepage_PJ_support};
+        //int [] view_list={R.id.rl_homepage_PJ_publish,R.id.rl_homepage_PJ_follow,R.id.rl_homepage_PJ_support};
         View view_publish=findViewById(R.id.rl_homepage_PJ_publish);
         view_publish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +39,7 @@ public class HomepageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         View view_follow=findViewById(R.id.rl_homepage_PJ_follow);
         view_follow.setOnClickListener(new View.OnClickListener() {

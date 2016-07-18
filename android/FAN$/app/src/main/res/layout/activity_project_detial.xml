@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProjectDetailActivity">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_project_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:background="@color/colorPrimaryRed"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-    <!--可滚动区域-->
-    <ScrollView
+        </android.support.v7.widget.Toolbar>
+        <!--滑动栏-->
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_project_detail"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_below="@id/toolbar_project_detail"
+            android:background="@color/colorImpressionRed"
+            app:tabTextColor="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabIndicatorColor="@color/colorWhite">
+            <!--
+
+            -->
+        </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_project_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_project_detail"
+        android:layout_above="@+id/btn_project_detail_support"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.view.ViewPager>
+    <Button
+        android:id="@+id/btn_project_detail_support"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="立即支持"
+        android:background="@color/colorSupportRed"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentBottom="true" />
+    <!--<ScrollView
         android:id="@+id/sv_project_detail_information"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +63,7 @@
                 android:layout_height="@dimen/toolbar_height">
             </android.support.v7.widget.Toolbar>
 
-            <!--项目图片-->
+            &lt;!&ndash;项目图片&ndash;&gt;
             <ImageView
                 android:id="@+id/iv_project_detail_image"
                 android:layout_width="match_parent"
@@ -31,12 +71,10 @@
                 android:adjustViewBounds="true"
                 android:layout_below="@id/toolbar_project_detail"
                 android:src="@drawable/social_picture_test"
-                android:paddingLeft="@dimen/layout_padding"
-                android:paddingRight="@dimen/layout_padding"
                 android:paddingTop="2dp"
                 android:background="@color/colorWhite"/>
 
-            <!--项目详情信息-->
+            &lt;!&ndash;项目详情信息&ndash;&gt;
             <RelativeLayout
                 android:id="@+id/rl_project_detail_information"
                 android:layout_width="match_parent"
@@ -44,12 +82,12 @@
                 android:padding="@dimen/layout_padding"
                 android:layout_below="@id/iv_project_detail_image"
                 android:background="@color/colorWhite">
-                <!--项目发起人信息-->
+                &lt;!&ndash;项目发起人信息&ndash;&gt;
                 <RelativeLayout
                     android:id="@+id/rl_project_detail_publisher_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <!--项目发起人头像-->
+                    &lt;!&ndash;项目发起人头像&ndash;&gt;
                     <ImageView
                         android:id="@+id/iv_project_detail_publisher_head"
                         android:layout_width="@dimen/icon_size_message"
@@ -58,7 +96,7 @@
                         android:adjustViewBounds="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/pjimagetest"/>
-                    <!--项目发起人昵称-->
+                    &lt;!&ndash;项目发起人昵称&ndash;&gt;
                     <TextView
                         android:id="@+id/tv_project_detail_publisher_name"
                         android:layout_width="wrap_content"
@@ -67,7 +105,7 @@
                         android:text="冰冻vita"
                         android:layout_toRightOf="@id/iv_project_detail_publisher_head"
                         android:textSize="@dimen/subhead_text_size"/>
-                    <!--项目发起时间-->
+                    &lt;!&ndash;项目发起时间&ndash;&gt;
                     <TextView
                         android:id="@+id/tv_project_detail_starttime"
                         android:layout_width="match_parent"
@@ -76,7 +114,7 @@
                         android:layout_toRightOf="@id/tv_project_detail_publisher_name"
                         android:layout_toLeftOf="@+id/tv_project_detail_remainingtime"
                         android:text="一周前"/>
-                    <!--项目剩余时间-->
+                    &lt;!&ndash;项目剩余时间&ndash;&gt;
                     <TextView
                         android:id="@+id/tv_project_detail_remainingtime"
                         android:layout_width="wrap_content"
@@ -85,7 +123,7 @@
                         android:gravity="center_vertical"
                         android:text="剩余10天" />
                 </RelativeLayout>
-                <!--项目名字-->
+                &lt;!&ndash;项目名字&ndash;&gt;
                 <TextView
                     android:id="@+id/tv_project_detail_name"
                     android:layout_width="match_parent"
@@ -95,7 +133,7 @@
                     android:paddingTop="@dimen/content_padding"
                     android:layout_below="@id/rl_project_detail_publisher_information"/>
 
-                <!--金额等标签-->
+                &lt;!&ndash;金额等标签&ndash;&gt;
                 <LinearLayout
                     android:id="@+id/ll_project_detail_moneylabel"
                     android:layout_width="match_parent"
@@ -103,7 +141,7 @@
                     android:paddingTop="@dimen/content_padding"
                     android:layout_below="@id/tv_project_detail_name">
 
-                    <!--目标金额标签-->
+                    &lt;!&ndash;目标金额标签&ndash;&gt;
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -113,7 +151,7 @@
                         android:textSize="@dimen/subhead_text_size"
                         android:text="目标金额" />
 
-                    <!--已筹金额标签-->
+                    &lt;!&ndash;已筹金额标签&ndash;&gt;
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -123,7 +161,7 @@
                         android:textSize="@dimen/subhead_text_size"
                         android:text="已筹金额"/>
 
-                    <!--支持人数标签-->
+                    &lt;!&ndash;支持人数标签&ndash;&gt;
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -135,7 +173,7 @@
 
                 </LinearLayout>
 
-                <!--分割线-->
+                &lt;!&ndash;分割线&ndash;&gt;
                 <View
                     android:id="@+id/divider_project_detail_information"
                     android:layout_width="match_parent"
@@ -144,21 +182,21 @@
                     android:layout_marginTop="@dimen/content_padding"
                     android:layout_below="@id/ll_project_detail_moneylabel"/>
 
-                <!--查看项目详情-->
+                &lt;!&ndash;查看项目详情&ndash;&gt;
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/content_padding"
-                    android:textSize="@dimen/subhead_text_size"
+                    android:textSize="12sp"
                     android:text="查看项目详情"
                     android:gravity="center"
                     android:layout_below="@id/divider_project_detail_information"/>
 
 
-            </RelativeLayout>   <!--结束项目详情信息部分-->
+            </RelativeLayout>   &lt;!&ndash;结束项目详情信息部分&ndash;&gt;
 
 
-            <!--产品回报-->
+            &lt;!&ndash;产品回报&ndash;&gt;
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,7 +213,7 @@
                     android:gravity="center_vertical"
                     android:text="产品回报"
                     />
-                <!--分割线-->
+                &lt;!&ndash;分割线&ndash;&gt;
                 <View
                     android:id="@+id/divider_project_detail_reward"
                     android:layout_width="match_parent"
@@ -191,11 +229,11 @@
             </RelativeLayout>
 
 
-        </RelativeLayout>   <!--结束滚动区域-->
-    </ScrollView>   <!--结束滚动区域-->
+        </RelativeLayout>   &lt;!&ndash;结束滚动区域&ndash;&gt;
+    </ScrollView>   &lt;!&ndash;结束滚动区域&ndash;&gt;
 
 
-    <!--下方按钮-->
+    &lt;!&ndash;下方按钮&ndash;&gt;
 
     <LinearLayout
         android:id="@+id/lv_project_detail_btn_group"
@@ -234,5 +272,4 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:background="#00000000"/>
-    </LinearLayout>
-</RelativeLayout>
+    </LinearLayout>--></RelativeLayout>

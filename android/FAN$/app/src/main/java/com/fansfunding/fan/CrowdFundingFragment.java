@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.fansfunding.PullListView.XListView;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -27,7 +29,11 @@ import java.util.*;
  * 用来创建众筹界面
  */
 public class CrowdFundingFragment extends Fragment {
-    //private OnFragmentInteractionListener mListener;
+
+
+    //热门项目列表
+    private XListView lv_PR;
+
 
     public CrowdFundingFragment() {
         // Required empty public constructor
@@ -60,28 +66,50 @@ public class CrowdFundingFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_crowdfunding, container, false);
         //热门推荐的listview
-        ListView lv_PR=(ListView)rootView.findViewById(R.id.lv_popularRecommendation);
+        lv_PR=(XListView)rootView.findViewById(R.id.lv_popularRecommendation);
+        lv_PR.setAutoLoadEnable(true);
+        lv_PR.setPullLoadEnable(true);
+        lv_PR.setPullRefreshEnable(true);
+        lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        lv_PR.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(CrowdFundingFragment.this.getActivity(),"下拉更新",Toast.LENGTH_LONG).show();
+                lv_PR.stopRefresh();
+                lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            }
+
+            @Override
+            public void onLoadMore() {
+                Toast.makeText(CrowdFundingFragment.this.getActivity(),"上啦加载",Toast.LENGTH_LONG).show();
+                lv_PR.stopRefresh();
+                lv_PR.stopLoadMore();
+                lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            }
+        });
+
 
         //构建simpleadapter
         List<Map<String,Object>> listItems=new ArrayList<Map<String, Object>>();
         for(int i=0;i<5;i++){
             Map<String,Object> tempMap=new HashMap<String, Object>();
             tempMap.put("tv_PJName","项目名称");
-            tempMap.put("iv_PJImage",R.drawable.project_image_small_test);
-            tempMap.put("tv_PJIntro","这是一个简介");
-            tempMap.put("tv_Finance",getResources().getString(R.string.finance)+" 10000");
-            tempMap.put("tv_SupportNum",getResources().getString(R.string.supportNum)+" 10000");
+            tempMap.put("tv_PJIntro","这是一个简介这是一个简介这是一个简介这是一个简介这是一个简介这是一个简介");
             listItems.add(tempMap);
         }
         SimpleAdapter simpleAdapter=new SimpleAdapter(this.getContext(),listItems,R.layout.item_project,
-                new String[]{"tv_PJName","iv_PJImage","tv_PJIntro","tv_Finance","tv_SupportNum"},//
-                new int[]{R.id.tv_PJ_Name,R.id.iv_PJ_Image,R.id.tv_PJ_Intro,R.id.tv_PJ_Finance,R.id.tv_PJ_SupportNum});//
+                new String[]{"tv_PJName","tv_PJIntro"},
+                new int[]{R.id.tv_PJ_name,R.id.tv_PJ_intro});
 
 
         View listHeader=inflater.inflate(R.layout.fragment_crowdfundingheader, null, false);
 
         //将其他view作为热门推荐listview的头部view
-        lv_PR.addHeaderView(listHeader,null,false);
+        /*
+        * 先暂时取消banner和分类，以后再加上去
+        * */
+        //lv_PR.addHeaderView(listHeader,null,false);
+
 
         lv_PR.setAdapter(simpleAdapter);
 
@@ -153,9 +181,9 @@ public class CrowdFundingFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         return rootView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

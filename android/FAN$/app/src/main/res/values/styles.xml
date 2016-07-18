@@ -37,4 +37,27 @@
         <item name="android:textColor">@color/colorBlack</item>
     </style>
 
+
+    <!--目前无用-->
+    <style name="AlertDialog.AppCompat.Light.Text" parent="AlertDialog.AppCompat.Light">
+        <item name="android:buttonBarButtonStyle">@style/Base.Widget.AppCompat.Button.Text</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+    </style>
+
+    <style name="Base.Widget.AppCompat.Button.Text" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textColor">@color/colorDeepGray</item>
+    </style>
+    <style name="Widget.Design.TextInputLayout.Test" parent="Widget.Design.TextInputLayout">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.Dialog.Alert.Red" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
 </resources>

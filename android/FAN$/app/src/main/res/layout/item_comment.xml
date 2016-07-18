@@ -7,59 +7,38 @@
     android:paddingRight="@dimen/layout_padding"
     android:paddingTop="@dimen/layout_padding">
 
-
-    <RelativeLayout
-        android:id="@+id/rl_news_detail_commenter_information"
+    <!--评论用户头像-->
+    <ImageView
+        android:id="@+id/tv_project_detail_dynamic_head"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:src="@drawable/pjimagetest"/>
+    <!--评论用户昵称-->
+    <TextView
+        android:id="@+id/tv_news_detail_commenter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_project_detail_dynamic_head"
+        android:text="冰冻vita" />
+    <!--评论时间-->
+    <TextView
+        android:id="@+id/tv_news_detail_comment_tine"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!--评论用户头像-->
-        <ImageView
-            android:id="@+id/tv_news_detail_commenter_head"
-            android:layout_width="@dimen/icon_size_message"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:paddingRight="@dimen/layout_padding"
-            android:src="@drawable/pjimagetest"/>
-
-        <!--评论用户昵称-->
-        <TextView
-            android:id="@+id/tv_news_detail_commenter_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_news_detail_commenter_head"
-            android:layout_toLeftOf="@+id/iv_news_detail_header_praise_small"
-            android:textSize="@dimen/subhead_text_size"
-            android:text="冰冻vita" />
-
-        <!--评论时间-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_news_detail_commenter_head"
-            android:layout_toLeftOf="@+id/iv_news_detail_header_praise_small"
-            android:layout_below="@id/tv_news_detail_commenter_name"
-            android:text="5分钟前"/>
-
-        <!--赞按钮-->
-        <ImageView
-            android:id="@+id/iv_news_detail_header_praise_small"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/praise_test"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
-
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_news_detail_commenter_name"
+        android:gravity="right"
+        android:text="5分钟前"/>
     <!--评论内容-->
     <TextView
         android:id="@+id/tv_news_detail_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_news_detail_commenter_information"
+        android:layout_below="@id/tv_news_detail_commenter_name"
+        android:layout_toRightOf="@id/tv_project_detail_dynamic_head"
         android:paddingTop="@dimen/content_padding"
-        android:text="这是一段评论内容"
-        android:paddingLeft="@dimen/item_content_padding_left_with_parent"/>
+        android:text="这是一段评论内容a"/>
     <!--分割线-->
     <View
         android:layout_width="match_parent"
@@ -67,6 +46,6 @@
         android:background="@color/colorGrey"
         android:layout_below="@id/tv_news_detail_comment"
         android:layout_marginLeft="@dimen/item_content_padding_left_with_parent"
-        android:layout_marginTop="@dimen/content_padding"/>
+        android:layout_marginTop="@dimen/layout_padding"/>
 
 </RelativeLayout>

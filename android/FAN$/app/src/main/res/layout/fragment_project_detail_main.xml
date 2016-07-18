@@ -1,0 +1,220 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    tools:context="com.fansfunding.fan.ProjectDetailMainFragment">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--项目图片-->
+    <ImageView
+        android:id="@+id/iv_project_detail_main_image"
+        android:layout_width="match_parent"
+        android:layout_height="207dp"
+        android:src="@drawable/bannertest1"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"/>
+    <!--项目详情信息-->
+    <RelativeLayout
+        android:id="@+id/rl_project_detail_main_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/layout_padding"
+        android:layout_below="@id/iv_project_detail_main_image"
+        android:background="@color/colorWhite">
+        <!--项目发起人信息-->
+        <RelativeLayout
+            android:id="@+id/rl_project_detail_main_publisher_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--项目发起人头像-->
+            <ImageView
+                android:id="@+id/iv_project_detail_main_publisher_head"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/icon_padding"
+                android:adjustViewBounds="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/pjimagetest"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/iv_project_detail_main_publisher_head">
+                <!--项目名字-->
+                <TextView
+                    android:id="@+id/tv_project_detail_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:text="武大难友：你的皮划艇已上线"
+                    android:paddingTop="@dimen/content_padding"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <!--发起人-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="发起人:"/>
+                    <TextView
+                        android:id="@+id/tv_project_detail_main_publisher_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Immortals"/>
+                    <TextView
+                        android:id="@+id/tv_project_detail_main_time_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="1天前"/>
+
+                </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar_project_detail_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:max="100"
+                    android:progress="50"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <!--金额等标签-->
+        <LinearLayout
+            android:id="@+id/ll_project_detail_main_moneylabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_padding"
+            android:layout_below="@id/rl_project_detail_main_publisher_information">
+
+            <!--目标金额标签-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:text="目标金额"
+               />
+
+            <!--已筹金额标签-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="已筹金额"/>
+
+           <!--支持人数标签-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:text="支持次数"/>
+
+        </LinearLayout>
+        <!--金额和支持次数-->
+        <LinearLayout
+            android:id="@+id/ll_project_detail_main_money_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_padding"
+            android:layout_below="@id/ll_project_detail_main_moneylabel">
+
+            <!--目标金额签-->
+            <TextView
+                android:id="@+id/tv_project_detail_main_target_money"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:text="600元"
+                android:textSize="@dimen/subhead_text_size"
+                android:textColor="@color/colorPrimaryRed"/>
+
+            <!--已筹金额-->
+            <TextView
+                android:id="@+id/tv_project_detail_main_get_money"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="233元"
+                android:textSize="@dimen/subhead_text_size"
+                android:textColor="@color/colorPrimaryRed"/>
+
+            <!--支持人数-->
+            <TextView
+                android:id="@+id/tv_project_detail_main_support_times"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textSize="@dimen/subhead_text_size"
+                android:textColor="@color/colorPrimaryRed"
+                android:text="24次"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_project_detail_main"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/colorForbiddenGrey"
+        android:layout_below="@id/rl_project_detail_main_information"/>
+    <!--项目评论-->
+    <TextView
+        android:id="@+id/tv_project_detail_main_comment_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_padding"
+        android:textSize="@dimen/subhead_text_size"
+        android:text="项目评论"
+        android:layout_below="@id/divider_project_detail_main"/>
+    <include
+        android:id="@+id/include_project_detail_main_comment"
+        layout="@layout/item_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_project_detail_main_comment_label">
+
+    </include>
+    <Button
+        android:id="@+id/btn_project_detail_main_all_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginBottom="@dimen/layout_padding"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:text="查看全部评论"
+        android:textColor="@color/colorPrimaryRed"
+        android:layout_below="@id/include_project_detail_main_comment"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_see_all_comment"/>
+
+
+</RelativeLayout>
+</ScrollView>

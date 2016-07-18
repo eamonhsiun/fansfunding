@@ -10,7 +10,7 @@ public class StatelessToken implements AuthenticationToken {
 	int tokenId;
 
 	public StatelessToken(String token) throws Exception {
-		tokenId=Integer.parseInt(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
+		tokenId=Integer.parseInt(AESUtils.Decrypt(token.replace("%A-D", "+"), AESUtils.ENCRYPT_KEY));
 	}
 	
 	

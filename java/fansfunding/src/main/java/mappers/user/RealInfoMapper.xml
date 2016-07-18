@@ -44,17 +44,11 @@
     update real_info
     set real_name = #{realName,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=TINYINT},
-      user_id=#{userId,jdbcType=INTEGER},
       id_number = #{idNumber,jdbcType=VARCHAR},
-      birth_place = #{birthPlace,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       address = #{address,jdbcType=VARCHAR},
-      is_validated = #{isValidated,jdbcType=TINYINT},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR}
+      update_time = now(),
+      create_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

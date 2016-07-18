@@ -52,16 +52,28 @@ public class UserShoppingAddressController {
 			@RequestParam String province,
 			@RequestParam String city,
 			@RequestParam String address){
-		return new Status(true, StatusCode.SUCCESS, "添加成功", null);
+		shoppingAddressService.AddNewAddress(userId, name, phone, province, city, district, address, post_code);
+		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
 	}
 	/**
 	 * 更新用户收货地址
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/update_shopping_address",method=RequestMethod.DELETE)
+	@RequestMapping(path="{userId}/{addressId}/shopping_address",method=RequestMethod.PATCH)
 	@ResponseBody
-	public Status updateShoppingAddress(@PathVariable Integer userId){
+	public Status deleteShoppingAddress(
+			@PathVariable Integer userId,
+			@PathVariable Integer addressId,
+			@RequestParam String name,
+			@RequestParam String phone,
+			@RequestParam String district,
+			@RequestParam int post_code,
+			@RequestParam String province,
+			@RequestParam String city,
+			@RequestParam String address
+			){
+		shoppingAddressService.updateById(addressId, address, city, district, province, phone, post_code, name, userId);
 		return null;
 	}
 	/**
@@ -69,17 +81,13 @@ public class UserShoppingAddressController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/delete_shopping_address",method=RequestMethod.PATCH)
+	@RequestMapping(path="{userId}/{addressId}/shopping_address",method=RequestMethod.DELETE)
 	@ResponseBody
-	public Status deleteShoppingAddress(@PathVariable Integer userId,
-			@RequestParam int AddressId,
-			@RequestParam String name,
-			@RequestParam String phone,
-			@RequestParam String district,
-			@RequestParam int post_code,
-			@RequestParam String province,
-			@RequestParam String city,
-			@RequestParam String address){
+	public Status updateShoppingAddress(
+			@PathVariable Integer userId,
+			@PathVariable Integer addressId
+			){
+		shoppingAddressService.deleteById(addressId);
 		return new Status(true, StatusCode.SUCCESS, "添加成功", null);
 	}
 	

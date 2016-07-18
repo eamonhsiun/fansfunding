@@ -19,9 +19,9 @@ public class CategoryController {
 	 * 获取项目分类
 	 * @return
 	 */
-	@RequestMapping("catagorys")
+	@RequestMapping("categorys")
 	@ResponseBody
-	public Status catagroys(){
+	public Status categroys(){
 		return new Status(true,StatusCode.SUCCESS,categoryService.getAll(),null);
 	}
 }

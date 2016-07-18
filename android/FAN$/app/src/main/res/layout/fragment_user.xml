@@ -1,17 +1,21 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.UserFragment">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context="com.fansfunding.fan.UserFragment"
     >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.Toolbar>
     <!--用户信息-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:padding="@dimen/layout_padding"
@@ -19,16 +23,18 @@
 
         <!--用户头像和昵称-->
         <RelativeLayout
+            android:id="@+id/rl_user_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <!--用户头像-->
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_user_head"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/pjimagetest"
-                android:paddingRight="@dimen/icon_padding"/>
+                android:layout_marginRight="@dimen/layout_padding"
+                />
 
             <!--用户昵称-->
             <TextView
@@ -36,107 +42,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_user_head"
-                android:layout_centerVertical="true"
                 android:text="冰冻vita"
-                android:gravity="center_vertical"
-                android:textSize="@dimen/title_text_size"/>
+                android:textSize="@dimen/subhead_text_size"/>
 
+            <!--查看或编辑个人主页-->
+            <TextView
+                android:id="@+id/tv_user_editor_homepage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_user_head"
+                android:layout_below="@id/tv_user_name"
+                android:paddingTop="10dp"
+                android:text="查看或编辑个人主页"/>
         </RelativeLayout>
 
         <!--分割线-->
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorGrey"
-            android:paddingTop="@dimen/layout_padding" />
-
-        <!--用户动态，关注，粉丝信息-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/layout_padding">
-
-            <!--动态信息-->
-            <LinearLayout
-                android:id="@+id/ll_user_news"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/body_text_size"
-                    android:text="动态"/>
-
-                <!--动态数量-->
-                <TextView
-                    android:id="@+id/tv_user_news_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/body_text_size"
-                    android:textStyle="bold"
-                    android:text="100"/>
-            </LinearLayout>
-
-            <!--关注信息-->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/body_text_size"
-                    android:text="关注"/>
-
-                <!--关注数量-->
-                <TextView
-                    android:id="@+id/tv_user_follow_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/body_text_size"
-                    android:textStyle="bold"
-                    android:text="100"/>
-            </LinearLayout>
-
-            <!--粉丝信息-->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/body_text_size"
-                    android:text="粉丝"/>
-
-                <!--粉丝数量-->
-                <TextView
-                    android:id="@+id/tv_user_fans_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/body_text_size"
-                    android:textStyle="bold"
-                    android:text="100"/>
-            </LinearLayout>
-
-        </LinearLayout>
+            android:paddingTop="@dimen/layout_padding" />-->
     </LinearLayout>
 
 
@@ -145,49 +70,94 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="@dimen/layout_padding">
-
-        <!--我的钱包-->
-        <TextView
-            android:id="@+id/tv_user_wallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subhead_text_size"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/layout_padding"
-            android:text="我的钱包"/>
-
-        <!--分割线-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+        android:layout_marginTop="@dimen/layout_padding"
+        android:background="@color/colorWhite">
 
         <!--我的订单-->
-        <TextView
-            android:id="@+id/tv_user_order"
+        <LinearLayout
+            android:id="@+id/ll_user_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subhead_text_size"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/layout_padding"
-            android:text="我的订单"/>
+            android:layout_height="56dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingTop="@dimen/layout_padding"
+                android:paddingBottom="@dimen/layout_padding"
+                android:src="@drawable/icon_food"/>
+            <TextView
+                android:id="@+id/tv_user_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/layout_padding"
+                android:text="我的订单"/>
+        </LinearLayout>
+       
 
         <!--分割线-->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:paddingLeft="@dimen/layout_padding"
-            android:paddingRight="@dimen/layout_padding"/>
+            android:layout_marginLeft="56dp"
+            android:background="@color/colorGrey"/>
+
+        <!--我的钱包-->
+        <LinearLayout
+            android:id="@+id/ll_user_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingTop="@dimen/layout_padding"
+                android:paddingBottom="@dimen/layout_padding"
+                android:src="@drawable/icon_food"/>
+            <TextView
+                android:id="@+id/tv_user_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/layout_padding"
+                android:text="我的钱包"/>
+        </LinearLayout>
+        
+        
+        <!--分割线-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="56dp"
+            android:background="@color/colorGrey"/>
 
         <!--我的项目-->
-        <TextView
-            android:id="@+id/tv_user_project"
+        <LinearLayout
+            android:id="@+id/ll_user_project"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subhead_text_size"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/layout_padding"
-            android:text="我的项目"/>
+            android:layout_height="56dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingTop="@dimen/layout_padding"
+                android:paddingBottom="@dimen/layout_padding"
+                android:src="@drawable/icon_food"/>
+            <TextView
+                android:id="@+id/tv_user_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/layout_padding"
+                android:text="我的项目"/>
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -196,30 +166,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="@dimen/layout_padding">
-        <!--我的钱包-->
-        <TextView
-            android:id="@+id/tv_user_accountManager"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:background="@color/colorWhite">
+        <LinearLayout
+            android:id="@+id/ll_user_setting"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subhead_text_size"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/layout_padding"
-            android:text="账户管理"/>
+            android:layout_height="56dp">
 
-        <!--分割线-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingTop="@dimen/layout_padding"
+                android:paddingBottom="@dimen/layout_padding"
+                android:src="@drawable/icon_food"/>
 
-        <TextView
-            android:id="@+id/tv_user_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subhead_text_size"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/layout_padding"
-            android:text="设置"/>
+            <TextView
+                android:id="@+id/tv_user_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/layout_padding"
+                android:text="设置"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-</ScrollView>

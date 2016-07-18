@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.LoginActivity">
+    >
     <!--标题栏-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_login"
@@ -31,7 +31,7 @@
             android:paddingTop="16dp"/>
 
         <!--微博登陆选项-->
-        <Button
+       <Button
             android:id="@+id/btn_login_weibo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,8 +41,6 @@
             android:textSize="@dimen/subhead_text_size"
             android:paddingTop="16dp"
             android:layout_below="@id/btn_login_wechat"/>
-
-
         <!--QQ登陆选项-->
         <Button
             android:id="@+id/btn_login_qq"
@@ -68,7 +66,7 @@
 
     <!--手机号登陆选项-->
     <TextView
-        android:id="@+id/btn_login_phone"
+        android:id="@+id/tv_login_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_or"

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+
+    <!--收货人姓名和电话-->
+    <LinearLayout
+        android:id="@+id/ll_address_name_and_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/layout_padding">
+
+        <!--收货人姓名-->
+        <TextView
+            android:id="@+id/tv_address_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="冰冻vita"
+            android:gravity="left"/>
+
+        <!--收获人电话-->
+        <TextView
+            android:id="@+id/tv_address_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="15809226555"
+            android:gravity="right"/>
+    </LinearLayout>
+
+    <!--收获地址-->
+    <TextView
+        android:id="@+id/tv_address_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_address_name_and_phone"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding"
+        android:text="湖北省武汉市洪山区珞喻路武汉大学南门信息学部国际软件学院"/>
+
+    <!--分割线-->
+    <View
+        android:id="@+id/divider_address"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:layout_below="@id/tv_address_address"
+         />
+
+    <!--收获地址管理 -->
+    <RelativeLayout
+        android:id="@+id/ll_address_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/divider_address"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding"
+        android:paddingBottom="@dimen/layout_padding">
+        <CheckBox
+            android:id="@+id/checkbox_address_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="设为默认"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/checkbox_address_default"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            >
+            <TextView
+                android:id="@+id/tv_address_editor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_gravity="center_vertical"
+                android:text="编辑"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/pjimagetest"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:id="@+id/tv_address_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:layout_gravity="center_vertical"
+                android:text="删除"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

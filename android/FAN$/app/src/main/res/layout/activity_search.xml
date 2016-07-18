@@ -20,7 +20,8 @@
             android:ellipsize="middle"
             android:layout_marginRight="@dimen/layout_padding"
             android:imeOptions="actionSearch"
-            android:hint="搜索项目、网红名、用户"/>
+            android:hint="搜索项目、网红名、用户"
+            android:textSize="14sp"/>
 
 
     </android.support.v7.widget.Toolbar>

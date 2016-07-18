@@ -1,5 +1,6 @@
 package com.fansfunding.fan;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.fansfunding.internal.Login;
 
 
 /**
@@ -53,11 +56,15 @@ public class UnlogFragment extends Fragment {
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent=new Intent();
                 intent.setAction(getResources().getString(R.string.activity_login));
                 startActivity(intent);
+
+
             }
         });
+
         return rootView;
     }
 
@@ -76,4 +83,8 @@ public class UnlogFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

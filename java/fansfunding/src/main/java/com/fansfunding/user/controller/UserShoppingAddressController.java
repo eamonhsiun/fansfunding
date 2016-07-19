@@ -88,7 +88,7 @@ public class UserShoppingAddressController {
 			@PathVariable Integer addressId
 			){
 		shoppingAddressService.deleteById(addressId);
-		return new Status(true, StatusCode.SUCCESS, "添加成功", null);
+		return new Status(true, StatusCode.SUCCESS, "删除成功", null);
 	}
 	
 }

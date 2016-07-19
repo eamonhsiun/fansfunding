@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fansfunding.project.entity.Comment;
 import com.fansfunding.project.service.CommentService;
 import com.fansfunding.project.service.ProjectService;
+import com.fansfunding.utils.CheckUtils;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
@@ -36,7 +38,7 @@ public class CommentController {
 							@RequestParam(required = false, defaultValue = "1") Integer page,
 							@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,commentService.getComments(projectId,page,rows),null);
 	}
@@ -53,10 +55,13 @@ public class CommentController {
 			return new Status(false,StatusCode.ERROR_DATA,null,null);
 		}
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		commentService.add(comment);
-		return new Status(true,StatusCode.SUCCESS,"评论成功",null);
+		if(!CheckUtils.isNullOrEmpty(comment)){
+			commentService.add(comment);
+			return new Status(true,StatusCode.SUCCESS,"评论成功",null);
+		}
+		return new Status(false,StatusCode.ERROR_DATA,"参数错误",null);
 	}
 
 }

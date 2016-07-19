@@ -47,6 +47,7 @@ public class CommentService {
 			comment.put("commenterName", commenter.getName());
 			comment.put("commenterNickname", commenter.getNickname());
 			comment.put("commenterHead", commenter.getHead());
+			comment.put("commentTime", e.getCreateTime());
 			comment.put("pointTo", e.getPointTo());
 			//如果该评论不是一级评论，添加评论指向人信息
 			if(e.getPointTo().intValue()!=0){

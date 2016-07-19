@@ -20,4 +20,5 @@ public interface UserDao {
 	void updateHead(User user);
 	void updateUser(User user);
 	void updateNickName(User user);
+	List<User> selectByKeyword(String keyword);
 }

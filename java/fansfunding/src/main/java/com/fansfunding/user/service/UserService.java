@@ -1,30 +1,45 @@
 package com.fansfunding.user.service;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import com.fansfunding.pay.dao.OrderDao;
+import com.fansfunding.pay.entity.Order;
+import com.fansfunding.project.dao.FeedbackDao;
+import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.user.dao.RealInfoDao;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.RealInfo;
 import com.fansfunding.user.entity.User;
+import com.fansfunding.utils.pagination.Page;
+import com.fansfunding.utils.pagination.PageAdapter;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 
 @Service
 public class UserService {
 	@Autowired
 	private UserDao userDao;
-	
 	@Autowired
 	private RealInfoDao realInfoDao;
+	@Autowired
+	private OrderDao orderDao;
+	@Autowired
+	private ProjectDao projectDao;
+	@Autowired
+	private FeedbackDao feedbackDao;
 	/**
 	 * @param id
 	 * @param name
@@ -191,6 +206,7 @@ public class UserService {
 		userbasic.put("is_red", user.getIs_red());
 		userbasic.put("head", user.getHead());
 		userbasic.put("email", user.getEmail());
+		userbasic.put("intro", user.getIntro());
 		userbasic.put("realInfo", info);
 		return userbasic;
 	}
@@ -200,8 +216,49 @@ public class UserService {
 		userbasic.put("id", user.getId());
 		userbasic.put("nickname", user.getNickname());
 		userbasic.put("head", user.getHead());
+		userbasic.put("intro", user.getIntro());
 		
 		return userbasic;
 	}
-	
+	/**
+	 * 搜索用户
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public Page search(String keyword,int page,int rows){
+		List<Map<String,Object>> users=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<User> list=userDao.selectByKeyword(keyword);
+		PageInfo<User> info=new PageInfo<>(list);
+		list.forEach((user)->{
+			users.add(getUserBasicMap(user));
+		});
+		return PageAdapter.adapt(info, users);
+	}
+	/**
+	 * 获取用户已付款的订单
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */ 
+	public Page paidOrder(int userId,int page,int rows){
+		List<Map<String,Object>> orders=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<Order> list=orderDao.selectByUserId(userId);
+		PageInfo<Order> info=new PageInfo<>(list);
+		list.forEach((payOrder)->{
+			Map<String,Object> order=new HashMap<>();
+			order.put("projectName", projectDao.selectByProjectId(payOrder.getProjectId()));
+			order.put("feedbackId",payOrder.getFeedbackId());
+			order.put("feedbackTitle", feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId()).getTitle());
+			order.put("paidTime", payOrder.getNotifyTime());
+			order.put("feedbackDesc", feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId()).getDescription());
+			order.put("totalFee",payOrder.getTotalFee());
+			order.put("orderStatus",payOrder.getTradeStatus());
+		});
+		return PageAdapter.adapt(info, orders);
+	}
 }

@@ -55,21 +55,21 @@ public class CheckUtils {
 	 */
 	public static boolean isNullOrEmpty(Object obj) {
 		if (obj == null){
-			return false;
+			return true;
 		}
 		if (obj instanceof String && obj.toString().trim().length()==0){
-			return false;
+			return true;
 		}
 		if (obj.getClass().isArray() && Array.getLength(obj)==0){
-			return false;
+			return true;
 		}
 		if (obj instanceof Collection && ((Collection<?>)obj).isEmpty()){
-			return false;
+			return true;
 		}
 		if (obj instanceof Map && ((Map<?,?>)obj).isEmpty()){
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
     
 }

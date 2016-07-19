@@ -30,4 +30,12 @@ public class CategoryService {
 		});
 		return catagorys;
 	}
+	/**
+	 * 判断是否存在
+	 * @param categoryId
+	 * @return
+	 */
+	public boolean isExist(int categoryId){
+		return categoryDao.selectByPrimaryKey(categoryId)!=null;
+	}
 }

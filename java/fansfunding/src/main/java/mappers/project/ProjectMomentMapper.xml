@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fansfunding.project.dao.ProjectMomentDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.project.entity.ProjectMoment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update project_moment
+    set del_flag='1'
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.project.entity.ProjectMoment" >
+    insert into project_moment (id, project_id, create_time, 
+      del_flag, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, NOW(), 
+      #{delFlag,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.ProjectMoment" >
+    update project_moment
+    set project_id = #{projectId,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, create_time, del_flag, content
+    from project_moment
+    where id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
+  </select>
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, project_id, create_time, del_flag, content
+    from project_moment
+    where project_id = #{projectId,jdbcType=INTEGER}
+    and del_flag='0'
+  </select>
+</mapper>

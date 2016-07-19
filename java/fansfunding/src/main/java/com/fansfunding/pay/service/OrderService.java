@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import com.fansfunding.pay.config.AlipayConfig;
 import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.pay.entity.Order;
-import com.fansfunding.pay.util.DateUtil;
 import com.fansfunding.project.dao.FeedbackDao;
 import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.entity.Feedback;
+import com.fansfunding.utils.DateUtil;
 
 @Service
 public class OrderService {
@@ -39,12 +39,13 @@ public class OrderService {
         String total_fee = String.format("%.2f", feedback.getLimitation());
         //商品描述，可空
         String body =feedback.getDescription();
-
+        
         //保存订单
 		Order order=new Order();
         order.setOrderNo(out_trade_no);
         order.setSubject(subject);
         order.setTotalFee(String.format("%.2f", feedback.getLimitation()));
+        order.setProjectId(projectDao.selectByProjectId(feedback.getProjectId()).getId());
         order.setFeedbackId(feedbackId);
         order.setUserId(userId);
         order.setSellerId(AlipayConfig.sellerId);

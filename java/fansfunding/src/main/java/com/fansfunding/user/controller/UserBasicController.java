@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fansfunding.common.entity.Checker;
-
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.CheckerService;
 import com.fansfunding.common.service.TokenService;
@@ -188,5 +187,5 @@ public class UserBasicController {
 		}
 		return new Status(false,StatusCode.ERROR_DATA,"文件不可为空",null);
 	}
-	
+
 }

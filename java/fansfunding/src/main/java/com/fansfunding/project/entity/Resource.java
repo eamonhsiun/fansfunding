@@ -7,26 +7,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Feedback {
+@AllArgsConstructor
+public class Resource {
     private Integer id;
 
-    private Integer projectId;
+    private String type;
 
-    private String title;
+    private String path;
 
-    private String description;
-
-    private Double limitation;
-    
-    private String createBy;
+    private Integer mappingId;
 
     private Date createTime;
-
-    private String updateBy;
-
-    private Date updateTime;
 
     private String delFlag;
 

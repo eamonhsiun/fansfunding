@@ -16,4 +16,5 @@ public interface OrderDao {
     Order selectByTradeNo(String tradeId);
     List<Order> selectByUserId(Integer userId);
     List<Order> selectByFeedbackId(Integer feedbackId);
+    List<Order> selectProjectSum(Integer projectId);
 }

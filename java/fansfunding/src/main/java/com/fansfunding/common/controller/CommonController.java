@@ -41,7 +41,7 @@ public class CommonController {
 		if(id > 0){
 			return new Status(true, StatusCode.SUCCESS,null,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY));
 		}else{
-			return new Status(false,StatusCode.FAILD,null,null);
+			return new Status(false,StatusCode.FAILED,null,null);
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class CommonController {
 		if(id > 0){
 			return new Status(true, StatusCode.SUCCESS,checkerService.check,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY));
 		}else{
-			return new Status(false,StatusCode.FAILD,null,null);
+			return new Status(false,StatusCode.FAILED,null,null);
 		}
 	}
 }

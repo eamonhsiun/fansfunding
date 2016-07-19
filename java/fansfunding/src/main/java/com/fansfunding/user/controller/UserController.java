@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+
 
 
 import com.fansfunding.common.entity.Token;
@@ -14,7 +17,6 @@ import com.fansfunding.user.entity.User;
 import com.fansfunding.user.entity.UserBasic;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.encrypt.AESUtils;
-
 import com.fansfunding.utils.response.PermissionCode;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -78,4 +80,25 @@ public class UserController {
 				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY));
 	}
 
+	/**
+	 * 用户搜索
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="search",method=RequestMethod.GET)
+	@ResponseBody
+	public Status search(@RequestParam String keyword,
+			@RequestParam(required = false, defaultValue = "1") Integer page,
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		return new Status(true,StatusCode.SUCCESS,userService.search(keyword,page,rows),null);
+	}
+	@RequestMapping(path="{userId}/orders",method=RequestMethod.GET)
+	@ResponseBody
+	public Status userOrder(@RequestParam int userId,
+			@RequestParam(required = false, defaultValue = "1") Integer page,
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		return new Status(true,StatusCode.SUCCESS,userService.paidOrder(userId,page,rows),null);
+	}
 }

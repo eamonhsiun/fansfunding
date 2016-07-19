@@ -8,7 +8,7 @@ public class StatusCode {
 	/**
 	 * 请求失败
 	 */
-	public static final int FAILD=201;
+	public static final int FAILED=201;
 	/**
 	 * 请求过于频繁
 	 */

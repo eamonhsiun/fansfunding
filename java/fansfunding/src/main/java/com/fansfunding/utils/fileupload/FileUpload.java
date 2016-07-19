@@ -122,7 +122,7 @@ public class FileUpload {
 	 */
 	private static FileItem parse(CommonsMultipartFile file) throws IOException{
 		return new FileItem(file.getBytes(),
-				MD5Utils.MD5(file.getOriginalFilename())+"."
+				MD5Utils.MD5(file.getOriginalFilename())+System.currentTimeMillis()+"."
 						+FileFormat.judge(file.getInputStream()).toString().toLowerCase());
 	}
 

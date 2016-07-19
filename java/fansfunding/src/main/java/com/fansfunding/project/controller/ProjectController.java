@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.fansfunding.project.entity.ProjectMoment;
+import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
+import com.fansfunding.utils.CheckUtils;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
@@ -21,6 +23,8 @@ import com.fansfunding.utils.response.StatusCode;
 public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
+	@Autowired
+	private CategoryService categoryService;
 	
 	/**
 	 * 获取分类下的所有项目
@@ -45,7 +49,7 @@ public class ProjectController {
 	@ResponseBody
 	public Status project(@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getByProjectId(projectId),null);
 	}
@@ -59,7 +63,7 @@ public class ProjectController {
 	@ResponseBody
 	public Status prjectDetail(@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getDetails(projectId),null);
 	}
@@ -80,7 +84,7 @@ public class ProjectController {
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping("{categoryId}/add")
+	@RequestMapping(path="{categoryId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Status add(
 			@PathVariable Integer categoryId, 
@@ -90,39 +94,74 @@ public class ProjectController {
 			@RequestParam String description, 
 			@RequestParam Integer sponsor, 
 			@RequestParam(required=false,defaultValue="")String cover, 
-			@RequestParam(required=false,defaultValue="")String content, 
-			@RequestParam(required=false,defaultValue="")String images, 
+			@RequestParam(required=false,defaultValue="")String content,
+			@RequestParam(required=false,defaultValue="")String images,
 			@RequestParam(required=false,defaultValue="")String others, 
 			@RequestParam(required=false,defaultValue="")String video) throws ParseException{
 		
 		//TODO:检测该分类是否存在
-		
+		if(!categoryService.isExist(categoryId)){
+			return new Status(false,StatusCode.FAILED,"分类不存在",null);
+		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-		projectService.addProject(name, categoryId, cover, sponsor, sdf.parse(targetDeadline), targetMoney, description, content, images, others, video);
+		projectService.addProject(name, categoryId, cover, sponsor, sdf.parse(targetDeadline),
+				targetMoney, description, content, images, others, video);
 		return new Status(true,StatusCode.SUCCESS,"添加成功",null);
 	}
 	/**
-	 * 上传项目相关的附件
-	 * @param files 上传的文件
+	 * 获取动态
+	 * @param categoryId
+	 * @param projectId
+	 * @param page
+	 * @param rows
 	 * @return
 	 */
-	@RequestMapping(path="{categoryId}/{projectId}/attachments",method=RequestMethod.POST)
+	@RequestMapping(path="{categoryId}/{projectId}/moment",method=RequestMethod.GET)
 	@ResponseBody
-	public Status uploadAttachment(@PathVariable Integer categoryId,@PathVariable Integer projectId,@RequestParam CommonsMultipartFile[] files){
+	public Status moment(@PathVariable int categoryId,@PathVariable int projectId,
+			@RequestParam(required = false, defaultValue = "1") Integer page,
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILD,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		if(files.length==0){
-			return new Status(false,StatusCode.FAILD,"文件不可为空",null);
+		return new Status(true,StatusCode.SUCCESS,projectService.moment(projectId, page, rows),null);
+	}
+	/**
+	 * 添加动态
+	 * @param categoryId
+	 * @param projectId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{categoryId}/{projectId}/moment",method=RequestMethod.POST)
+	@ResponseBody
+	public Status addMoment(@PathVariable int categoryId,@PathVariable int projectId,
+			ProjectMoment moment,@RequestParam(required=false,defaultValue="") String images
+			,@RequestParam int sponsorId){
+		if(!projectService.inCategory(categoryId, projectId)){
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		for(CommonsMultipartFile file:files){
-			if(file.isEmpty()){
-				return new Status(false,StatusCode.FAILD,"文件不可为空",null);
+		if(CheckUtils.isNullOrEmpty(moment)){
+			if(projectService.addMoment(categoryId,projectId,moment,images,sponsorId)){
+				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
 			}
+			return new Status(true,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
 		}
-		if(projectService.uploadAttachments(categoryId, projectId, files)){
-			return new Status(true,StatusCode.SUCCESS,"文件上传成功",null);
-		}
-		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);
+		return new Status(false,StatusCode.FAILED,"参数错误",null);
+	}
+	/**
+	 * 项目搜索
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="search",method=RequestMethod.GET)
+	@ResponseBody
+	public Status search(@RequestParam String keyword,
+			@RequestParam(required = false, defaultValue = "1") Integer page,
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		return new Status(true,StatusCode.SUCCESS,projectService.search(keyword,page,rows),null);
 	}
 }

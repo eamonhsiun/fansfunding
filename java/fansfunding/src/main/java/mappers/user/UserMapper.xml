@@ -23,31 +23,37 @@
     <result column="id_wx" property="id_wx" jdbcType="VARCHAR" />
     <result column="id_wb" property="id_wb" jdbcType="VARCHAR" />
     <result column="id_qq" property="id_qq" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id,name,phone,nickname,email,token,password,head
+    select id,name,phone,nickname,email,token,password,head,intro
     from user
   </select>
   
   <select id="selectById" resultMap="BaseResultMap" parameterType="int">
-    select id,name,phone,nickname,email,token,password,head
+    select id,name,phone,nickname,email,token,password,head,intro
     from user where id = #{id}
   </select>
   
   <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password,head
+    select id,name,phone,nickname,email,token,password,head,intro
     from user where name = #{name}
   </select>
   
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password,head
+    select id,name,phone,nickname,email,token,password,head,intro
     from user where phone = #{phone}
+  </select>
+  <select id="selectByKeyword" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id,name,phone,nickname,email,token,password,head,intro
+    from user 
+    where nickname like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
   </select>
   
   <insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.User">
-  	insert into user(name,nickname,password,phone,is_red,head,create_by,create_time,update_by,update_time,remark,del_flag,token)
-  		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{token})
+  	insert into user(name,nickname,password,phone,is_red,head,create_by,create_time,update_by,update_time,remark,del_flag,token,intro)
+  		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{token},#{intro})
   </insert>
   
   <update id="updateToken" parameterType="com.fansfunding.user.entity.User">
@@ -82,10 +88,9 @@
   		phone=#{phone},
   		is_red=#{is_red},
   		head=#{head},
+  		intro=#{intro},
   		update_time=now()
   	where id = #{id}
   </update>
-  
-  
   
 </mapper>

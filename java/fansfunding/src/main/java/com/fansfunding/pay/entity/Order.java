@@ -14,6 +14,7 @@ public class Order {
 	private String orderNo;
 	private String tradeNo;
 	private Integer userId;
+	private Integer projectId;
 	private Integer feedbackId;
 	private String subject;
 	private String totalFee;

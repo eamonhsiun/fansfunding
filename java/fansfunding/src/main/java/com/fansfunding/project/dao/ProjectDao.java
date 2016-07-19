@@ -42,4 +42,10 @@ public interface ProjectDao {
      * @return
      */
     Project selectByProjectId(Integer projectId);
+    /**
+     * 根据关键字查询
+     * @param keyword
+     * @return
+     */
+    List<Project> selectByKeyword(String keyword);
 }

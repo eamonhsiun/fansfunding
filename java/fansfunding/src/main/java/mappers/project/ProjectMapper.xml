@@ -67,4 +67,11 @@
     where category_id=#{categoryId,jdbcType=INTEGER}
     and del_flag='0'
   </select>
+  <select id="selectByKeyword" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
+    status, create_by, create_time, update_by, update_time, del_flag, name, description
+    from project
+    where (CONCAT(name,description) like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%' ))
+    and del_flag='0'
+  </select>
 </mapper>

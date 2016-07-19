@@ -1,5 +1,5 @@
 
-package com.fansfunding.pay.util;
+package com.fansfunding.utils;
 
 import java.util.Date;
 import java.util.Random;
@@ -55,5 +55,23 @@ public class DateUtil {
 	 */
 	public static String getThree(){
 		return String.valueOf(new Random().nextInt(1000));
+	}
+	/**
+	 * 根据相应的格式获取时间格式化字符
+	 * @param date 时间
+	 * @param format 格式
+	 * @return
+	 */
+	public static String format(Date date,String format){
+		SimpleDateFormat dateFormat=new SimpleDateFormat(format);
+		return dateFormat.format(date);
+	}
+	/**
+	 * 默认格式
+	 * @param date
+	 * @return
+	 */
+	public static String format(Date date){
+		return DateUtil.format(date, full);
 	}
 }

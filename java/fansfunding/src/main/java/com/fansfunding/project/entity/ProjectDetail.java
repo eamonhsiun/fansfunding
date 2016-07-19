@@ -26,8 +26,6 @@ public class ProjectDetail {
 
     private String content;
 
-    private String images;
-
     private String others;
 
 }

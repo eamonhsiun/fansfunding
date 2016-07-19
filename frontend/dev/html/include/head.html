@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-app-status-bar-style" content="black" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ff6268" />
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>@@title</title>
+  <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
+  <!-- 公有css -->
+
+  <link rel="stylesheet" href="static/css/common.css">
+  <!-- 私有css -->
+  @@if ( csstype === 'index' ) {
+    <link rel="stylesheet" type="text/css" href="static/css/index.css">
+  }
+  @@if ( csstype === 'login' ) {
+    <link rel="stylesheet" type="text/css" href="static/css/login.css">
+  }
+</head>
+<body>
+@@include('./header.html')

@@ -1,0 +1,264 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "theme/variables.scss";
+@import "import/font-awesome.scss";
+@import "import/mdtext.scss";
+
+.account-block{
+  height: 500px;
+  width: 500px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: auto;
+  margin-top: -250px;
+  margin-left: -250px;
+  overflow: visible;
+  &:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+  }
+  .account-title{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: left;
+    text-indent: 30px;
+    border-bottom: 2px solid $color_account_title_border;
+    font-size: 2rem;
+    line-height: 72px;
+  }
+  .account-right-btn{
+    position: absolute;
+    top: 50%;
+    right: -220px;
+    font-size: 1.1rem;
+    margin-top: -15px;
+    color: $color_text;
+    a{
+      color: $color_account_link;
+      &:after{
+        padding-left: 5px;
+        @include font_icon_content($play);
+      }
+    }
+  }
+  .account-left-btn{
+    position: absolute;
+    top: 50%;
+    left: -220px;
+    font-size: 1.1rem;
+    margin-top: -15px;
+    color: $color_text;
+    a{
+      color: $color_account_link;
+    }
+  }
+}
+.account-block.hide{
+  display: none;
+}
+.account-container{
+  width: 300px;
+  margin: auto;
+  margin-top: 32px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  .account-logo{
+    margin: auto;
+    width: 80px;
+    height: 80px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .account-form{
+    .inputtext{
+      height: 60px;
+    }
+    .account-icode{
+      width: 60%;
+      margin: 0;
+    }
+    .account-icode-btn{
+      display: block;
+      float: right;
+      width: 35%;
+      box-sizing: border-box;
+      font-size: 1.2rem;
+      height: 35px;
+      margin-top: 25px;
+      line-height: 33px;
+      background-color: $color_account_icode_btn_background;
+      border: 1px solid $color_account_icode_btn_background;
+      color: white;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      &:hover{
+        background-color: lighten($color_account_icode_btn_background,10%);
+      }
+      &:disabled{
+        background-color: #cccccc;
+        border-color: #cccccc;
+        cursor: not-allowed;
+      }
+    }
+    .account-hint{
+      margin-top: 20px;
+      display: none;
+      font-size: 1rem;
+      color: $color_main;
+    }
+    .account-hint.show{
+      display: block;
+      & ~ .account-btn{
+        margin-top: 10px;
+      }
+    }
+    .account-btn{
+      width: 50%;
+      float: left;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      cursor: pointer;
+      @include transition_all();
+      &:before{
+        content: "";
+        display: inline-block;
+        margin-right: 12px;
+        box-sizing: border-box;
+        width: 50px;
+        height: 15px;
+        background-image: url(../img/loginbtn.png);
+        background-size: cover;
+        @include transition_all();
+      }
+      &:last-child:before{
+        background-image: url(../img/loginbtn2.png);
+      }
+      &:hover:before{
+        margin-right: 5px;
+      }
+    }
+  }
+}
+#footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+@media screen and (max-height: 720px) {
+  .account-block{
+    position: relative !important;
+    margin: 30px auto !important;
+    top: 0;
+    left: 0;
+  }
+  #footer{
+    position: static;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .account-block{
+    width: 500px;
+    margin-left: -250px;
+    .account-right-btn{
+      right: -180px;
+    }
+    .account-left-btn{
+      left: -180px;
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .account-block{
+    .account-right-btn{
+      position: static;
+    }
+    .account-left-btn{
+      position: static;
+    }
+    .login-signup-btn{
+      margin-top: -110px;
+    }
+    .signup-login-btn{
+      margin-top: -65px;
+    }
+    .forgetpwd-login-btn{
+      margin-top: -75px;
+    }
+    .forgetpwd-signup-btn{
+      margin-top: 0;
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .account-block{
+    position: relative !important;
+    margin: 30px auto !important;
+    top: 0;
+    left: 0;
+  }
+  #footer{
+    position: static;
+  }
+}
+@media screen and (max-width: 500px) {
+  .account-block{
+    width: 100%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .account-block{
+    .login-signup-btn{
+      margin-top: -105px;
+    }
+    .signup-login-btn{
+      margin-top: -60px;
+    }
+    .forgetpwd-login-btn{
+      margin-top: -65px;
+    }
+  }
+  .account-container{
+    width: 250px;
+    .account-form{
+      .account-icode{
+        width: 55%;
+      }
+      .account-icode-btn{
+        width: 40%;
+      }
+    }
+    .account-form{
+      .account-btn{
+        width: 100%;
+        float: none;
+        &:last-child{
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 300px) {
+  .account-container{
+    width: 90%;
+    .account-form{
+      .account-icode{
+        width: 45%;
+      }
+      .account-icode-btn{
+        width: 50%;
+      }
+    }
+  }
+}

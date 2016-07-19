@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-app-status-bar-style" content="black" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ff6268" />
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>登录 | FAN$</title>
+  <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
+  <!-- 公有css -->
+
+  <link rel="stylesheet" href="static/css/common.css">
+  <!-- 私有css -->
+  
+  
+    <link rel="stylesheet" type="text/css" href="static/css/login.css">
+  
+</head>
+<body>
+  <div id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="static/img/fans.png" alt="">
+      </a>
+      <div class="profile">
+        <div class="profile-login" id="profile-login">
+          <div class="profile-avatar">
+            <a href="setting.html"><img src="static/img/27.jpg" alt=""></a>
+          </div>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown-arrow"></div>
+            <ul>
+              <a href="###"><li>我的项目</li></a>
+              <a href="###"><li>我的钱包</li></a>
+              <a href="setting.html"><li>个人设置</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="profile-not-login" id="profile-not-login">
+          <a href="login.html?#login">登录</a>
+          <a href="login.html?#signup">注册</a>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-dropdown-arrow"></div>
+        <ul>
+          <a href="###"><li class="active">首页</li></a>
+          <a href="###"><li>发起项目</li></a>
+          <a href="###"><li>圈子</li></a>
+          <a href="###"><li>下载APP</li></a>
+        </ul>
+      </div>
+      <div class="search">
+        <form action="">
+          <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
+          <label for="search-text"></label>
+          <input type="submit" class="search-submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+
+
+  <div class="container">
+    <div class="account-block login-block content-block">
+      <div class="account-title login-title">登录</div>
+      <div class="account-container login-container">
+        <form action="" class="account-form login-form">
+          <div class="inputtext">
+            <input type="tel" name="login-phone" id="login-phone">
+            <label for="login-phone">手机号</label>
+            <span class="hint">请输入手机号码</span>
+          </div>
+          <div class="inputtext">
+            <input type="password" name="login-pwd" id="login-pwd">
+            <label for="login-pwd">密码</label>
+            <span class="hint">请输入密码</span>
+          </div>
+          <div class="account-hint" id="login-hint">用户名或密码错误</div>
+          <div id="login-btn" class="account-btn login-btn">登录</div>
+          <div class="account-btn othertype-btn">第三方登陆</div>
+        </form>
+      </div>
+      <div class="login-signup-btn account-right-btn">
+        <div>没有账号？点此<a href="" id="login-signup-btn">注册</a></div>
+        <div>忘记密码？<a href="" id="login-forgetpwd-btn">找回密码</a></div>
+      </div>
+    </div>
+    <div class="account-block signup-block content-block hide">
+      <div class="account-title signup-title">注册</div>
+      <div class="account-container signup-container">
+        <form action="" class="account-form signup-form">
+          <div class="inputtext">
+            <input type="tel" name="signup-phone" id="signup-phone">
+            <label for="signup-phone">手机号</label>
+            <span class="hint">请输入手机号码</span>
+          </div>
+          <button class="account-icode-btn" id="signup-icode-btn" >发送验证码<span></span></button>
+          <div class="inputtext account-icode">
+            <input type="text" name="signup-icode" id="signup-icode">
+            <label for="signup-icode">验证码</label>
+            <span class="hint">请输入验证码</span>
+          </div>
+          <div class="inputtext">
+            <input type="password" name="signup-pwd" id="signup-pwd">
+            <label for="signup-pwd">密码</label>
+            <span class="hint">请输入密码</span>
+          </div>
+          <div class="inputtext">
+            <input type="password" name="signup-pwd-2" id="signup-pwd-2">
+            <label for="signup-pwd-2">再次输入密码</label>
+            <span class="hint">请输入一样的密码</span>
+          </div>
+          <div class="account-hint" id="signup-hint">用户名或密码错误</div>
+          <div id="signup-btn" class="account-btn signup-btn">注册</div>
+          <div class="account-btn othertype-btn">第三方登陆</div>
+        </form>
+      </div>
+      <div class="signup-login-btn account-left-btn">
+        已有账号？点此<a href="" id="signup-login-btn">登录</a>
+      </div>
+    </div>
+    <div class="account-block forgetpwd-block content-block hide">
+      <div class="account-title forgetpwd-title">忘记密码</div>
+      <div class="account-container forgetpwd-container">
+        <form action="" class="account-form forgetpwd-form">
+          <div class="inputtext">
+            <input type="tel" name="forgetpwd-phone" id="forgetpwd-phone">
+            <label for="forgetpwd-phone">手机号</label>
+            <span class="hint">请输入手机号码</span>
+          </div>
+          <div class="inputtext">
+            <input type="password" name="forgetpwd-pwd" id="forgetpwd-pwd">
+            <label for="forgetpwd-pwd">密码</label>
+            <span class="hint">请输入密码</span>
+          </div>
+          <div class="inputtext">
+            <input type="password" name="forgetpwd-pwd-2" id="forgetpwd-pwd-2">
+            <label for="forgetpwd-pwd-2">再次输入密码</label>
+            <span class="hint">请输入一样的密码</span>
+          </div>
+          <button class="account-icode-btn" id="forgetpwd-icode-btn" >发送验证码<span></span></button>
+          <div class="inputtext account-icode">
+            <input type="text" name="forgetpwd-icode" id="forgetpwd-icode">
+            <label for="forgetpwd-icode">验证码</label>
+            <span class="hint">请输入验证码</span>
+          </div>
+          <div class="account-hint" id="forgetpwd-hint">用户名或密码错误</div>
+          <div href="###" id="forgetpwd-btn" class="account-btn forgetpwd-btn">注册</div>
+          <div class="account-btn othertype-btn">第三方登陆</div>
+        </form>
+      </div>
+      <div class="forgetpwd-login-btn account-left-btn">
+        已有账号？点此<a href="" id="forgetpwd-login-btn">登录</a>
+      </div>
+      <div class="forgetpwd-signup-btn account-right-btn">
+        没有账号？点此<a href="" id="forgetpwd-signup-btn">注册</a>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-content-right">
+          <ul class="footer-logo">
+            <li><img src="static/img/fans.png" alt=""></li>
+            <li><img src="static/img/Icon_FansFunding.svg" alt=""></li>
+          </ul>
+        </div>
+        <div class="footer-content-left">
+          <div class="footer-copyright">Copyright ©1997-2016 FansFunding All Rights Reserved 武汉瑟瑟发抖公司</div>
+          <ul class="footer-link">
+            <li><a href="###">备案号</a></li>
+            <li><a href="###">认证</a></li>
+            <li><a href="###">获奖</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="static/js/ajax.min.js"></script>
+  <script src="static/js/account.js"></script>
+
+  
+
+  
+    <script src="static/js/aes/crypto-js.js"></script>
+    <script src="static/js/lib/mdtext/mdtext.js"></script>
+    <script src="static/js/login.js"></script>
+  
+
+  </body>
+</html>
+

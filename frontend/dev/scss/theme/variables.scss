@@ -1,0 +1,25 @@
+// ----------一些通用样式组------------
+%kit_shadow_default{
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+}
+%kit_margin_default{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+%kit_border_default{
+  border-radius: 8px;
+}
+%kit_style_default{
+  @extend %kit_shadow_default;
+  @extend %kit_margin_default;
+  @extend %kit_border_default;
+  overflow: hidden;
+}
+
+@mixin transition_all($duration: 0.3s, $property: all) {
+  transition: $property $duration ease;
+}
+
+%transition_default{
+  @include transition_all();
+}

@@ -51,7 +51,6 @@ public class AddressActivity extends AppCompatActivity {
         int id=item.getItemId();
         switch (id){
             case android.R.id.home:
-                setResult(0);
                 finish();
                 break;
             default:

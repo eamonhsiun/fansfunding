@@ -1,25 +1,11 @@
 package com.fansfunding.fan;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v4.content.SharedPreferencesCompat;
+import android.nfc.Tag;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.*;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 主界面
@@ -27,9 +13,19 @@ import java.util.Map;
  * */
 
 public class MainActivity extends AppCompatActivity{
+
+
+    //启动设置界面的activity的请求码
+
     private ViewPager vp_Main;
     private MainPaperAdapter paperAdapter;
     private TabLayout tabLayout;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +76,8 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
-
-
-
+        //将pviewpaper的缓存页设为3页
+        vp_Main.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -94,7 +89,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        paperAdapter.notifyDataSetChanged();
         for (int i = 0; i < paperAdapter.getCount(); i++) {
             if (i == vp_Main.getCurrentItem()) {
                 continue;
@@ -109,4 +103,21 @@ public class MainActivity extends AppCompatActivity{
         super.onStart();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case UnlogFragment.REQUEST_CODE_LOGIN:
+                if(resultCode==RESULT_OK){
+                    paperAdapter.notifyDataSetChanged();
+                }
+                break;
+            case UserFragment.REQUEST_CODE_SETTING:
+                if(resultCode==SettingActivity.REQUEST_CODE_LOGOUT_SUCCESS){
+                    paperAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

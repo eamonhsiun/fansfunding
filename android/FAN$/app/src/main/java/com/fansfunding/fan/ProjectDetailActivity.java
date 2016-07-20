@@ -1,6 +1,9 @@
 package com.fansfunding.fan;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -10,12 +13,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.fansfunding.internal.AllProjectInCategory;
+
 public class ProjectDetailActivity extends AppCompatActivity {
 
 
     private ViewPager vp_project_detail;
     private ProjectDetailAdapter adapter;
     private TabLayout tabLayout;
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +37,13 @@ public class ProjectDetailActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_project_detail);
         setSupportActionBar(toolbar);
         toolbar.setTitle("项目详情");
+
         ActionBar actionBar=getSupportActionBar();
-        actionBar.setTitle("项目详情");
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(Color.WHITE);
-        adapter=new ProjectDetailAdapter(getSupportFragmentManager());
+        Intent intent=getIntent();
+        AllProjectInCategory.ProjectDetail detail= (AllProjectInCategory.ProjectDetail) intent.getSerializableExtra("detail");
+        adapter=new ProjectDetailAdapter(getSupportFragmentManager(),detail);
 
         vp_project_detail=(ViewPager)findViewById(R.id.vp_project_detail) ;
         vp_project_detail.setAdapter(adapter);

@@ -5,23 +5,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.fansfunding.internal.AllProjectInCategory;
+
 /**
  * Created by 13616 on 2016/7/17.
  */
 public class ProjectDetailAdapter extends FragmentStatePagerAdapter {
 
-    public ProjectDetailAdapter(FragmentManager fm){
+    //项目信息
+    private AllProjectInCategory.ProjectDetail detail;
+
+    public ProjectDetailAdapter(FragmentManager fm, AllProjectInCategory.ProjectDetail detail){
         super(fm);
+        this.detail=detail;
     }
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return ProjectDetailMainFragment.newInstance();
+                return ProjectDetailMainFragment.newInstance(detail);
             case 1:
-                return ProjectDetailRewardFragment.newInstance();
+                return ProjectDetailRewardFragment.newInstance(detail);
             case 2:
-                return ProjectDetailDynamicFragment.newInstance();
+                return ProjectDetailDynamicFragment.newInstance(detail);
         }
         return null;
     }

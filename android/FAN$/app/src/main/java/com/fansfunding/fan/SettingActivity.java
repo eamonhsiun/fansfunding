@@ -41,6 +41,9 @@ public class SettingActivity extends AppCompatActivity {
     //登出成功
     private final static int LOGOUT_SUCCESS=101;
 
+    //登出成功的返回码
+    public static final int REQUEST_CODE_LOGOUT_SUCCESS =400;
+
     private AlertDialog dialog_waitting;
 
 
@@ -63,6 +66,7 @@ public class SettingActivity extends AppCompatActivity {
                                     if(dialog_waitting.isShowing()==true){
                                         dialog_waitting.cancel();
                                     }
+                                    setResult(REQUEST_CODE_LOGOUT_SUCCESS);
                                     SettingActivity.this.finish();
                                 }
 

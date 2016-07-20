@@ -96,7 +96,7 @@ public class XListView extends ListView implements OnScrollListener {
         mHeader = new XHeaderView(context);
         mHeaderContent = (RelativeLayout) mHeader.findViewById(R.id.header_content);
         mHeaderTime = (TextView) mHeader.findViewById(R.id.header_hint_time);
-        addHeaderView(mHeader);
+        addHeaderView(mHeader,null,false);
 
         // init footer view
         mFooterView = new XFooterView(context);
@@ -134,7 +134,7 @@ public class XListView extends ListView implements OnScrollListener {
         // make sure XFooterView is the last footer view, and only add once.
         if (!mIsFooterReady) {
             mIsFooterReady = true;
-            addFooterView(mFooterLayout);
+            addFooterView(mFooterLayout,null,false);
         }
 
         super.setAdapter(adapter);

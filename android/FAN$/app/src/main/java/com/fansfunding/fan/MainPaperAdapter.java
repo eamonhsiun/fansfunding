@@ -65,12 +65,10 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
         return null;
     }*/
 
-
     //重写这个方法
     @Override
     public int getItemPosition(Object object) {
         //return super.getItemPosition(object);
-
         return POSITION_NONE;
     }
 }

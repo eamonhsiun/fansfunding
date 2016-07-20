@@ -288,6 +288,7 @@ public class RegisterByPhoneActivity extends AppCompatActivity {
                         editor.putString("nickname",newUser.getData().getNickname());
                         editor.commit();
 
+
                         //写入到手机失败
                         if(!editor.commit()){
                             Message msg=new Message();

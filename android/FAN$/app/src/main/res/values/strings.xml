@@ -30,6 +30,7 @@
     <string name="activity_setting_account">android.intent.action.FANS.SETTINGACCOUNT</string>
     <string name="activity_reset_password">android.intent.action.FANS.RESETPASSWORD</string>
     <string name="activity_user_info">android.intent.action.FANS.USERINFO</string>
+    <string name="activity_project_detail_comment">android.intent.action.FANS.PROJECTDETAILCOMMENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -42,6 +43,8 @@
     <string name="url_user">http://api.immortalfans.com/user/</string><!---->
     <string name="url_resources">http://resources.immortalfans.com/</string>
     <string name="url_userbasic">http://api.immortalfans.com/userbasic/</string>
+    <string name="url_project">http://api.immortalfans.com/project/</string>
+
 
     <!--Sharepreference名称-->
 
@@ -67,15 +70,13 @@
     <!--api返回值的各个名称-->
 
 
-
-
     <!--下拉更新-->
-    <string name="header_hint_refresh_normal">Pull to refresh</string>
-    <string name="header_hint_refresh_ready">Release to refresh</string>
-    <string name="header_hint_refresh_loading">Refreshing&#8230;</string>
-    <string name="header_hint_refresh_time">Time：</string>
-    <string name="footer_hint_load_normal">Load more</string>
-    <string name="footer_hint_load_ready">Release to load more</string>
+    <string name="header_hint_refresh_normal">下拉刷新</string>
+    <string name="header_hint_refresh_ready">释放更新</string>
+    <string name="header_hint_refresh_loading">刷新&#8230;</string>
+    <string name="header_hint_refresh_time">更新时间：</string>
+    <string name="footer_hint_load_normal">加载更多</string>
+    <string name="footer_hint_load_ready">释放后加载</string>
 
 
     <!--微博-->

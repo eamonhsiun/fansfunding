@@ -10,7 +10,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
 
     </android.support.v7.widget.Toolbar>
     <!--用户信息-->
@@ -85,7 +86,7 @@
                 android:paddingLeft="@dimen/layout_padding"
                 android:paddingTop="@dimen/layout_padding"
                 android:paddingBottom="@dimen/layout_padding"
-                android:src="@drawable/icon_food"/>
+                android:src="@drawable/order"/>
             <TextView
                 android:id="@+id/tv_user_order"
                 android:layout_width="match_parent"
@@ -93,48 +94,18 @@
                 android:textSize="@dimen/subhead_text_size"
                 android:background="@color/colorWhite"
                 android:padding="@dimen/layout_padding"
+                android:textColor="@color/colorPublishGrey"
                 android:text="我的订单"/>
         </LinearLayout>
        
 
         <!--分割线-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="56dp"
-            android:background="@color/colorGrey"/>
-
-        <!--我的钱包-->
-        <LinearLayout
-            android:id="@+id/ll_user_wallet"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/layout_padding"
-                android:paddingTop="@dimen/layout_padding"
-                android:paddingBottom="@dimen/layout_padding"
-                android:src="@drawable/icon_food"/>
-            <TextView
-                android:id="@+id/tv_user_wallet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/subhead_text_size"
-                android:background="@color/colorWhite"
-                android:padding="@dimen/layout_padding"
-                android:text="我的钱包"/>
-        </LinearLayout>
-        
-        
-        <!--分割线-->
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="56dp"
-            android:background="@color/colorGrey"/>
+            android:background="@color/colorDividerGrey"/>
 
         <!--我的项目-->
         <LinearLayout
@@ -148,7 +119,7 @@
                 android:paddingLeft="@dimen/layout_padding"
                 android:paddingTop="@dimen/layout_padding"
                 android:paddingBottom="@dimen/layout_padding"
-                android:src="@drawable/icon_food"/>
+                android:src="@drawable/myproject"/>
             <TextView
                 android:id="@+id/tv_user_project"
                 android:layout_width="match_parent"
@@ -156,6 +127,7 @@
                 android:textSize="@dimen/subhead_text_size"
                 android:background="@color/colorWhite"
                 android:padding="@dimen/layout_padding"
+                android:textColor="@color/colorPublishGrey"
                 android:text="我的项目"/>
         </LinearLayout>
     </LinearLayout>
@@ -179,7 +151,7 @@
                 android:paddingLeft="@dimen/layout_padding"
                 android:paddingTop="@dimen/layout_padding"
                 android:paddingBottom="@dimen/layout_padding"
-                android:src="@drawable/icon_food"/>
+                android:src="@drawable/setting"/>
 
             <TextView
                 android:id="@+id/tv_user_setting"
@@ -188,6 +160,7 @@
                 android:textSize="@dimen/subhead_text_size"
                 android:background="@color/colorWhite"
                 android:padding="@dimen/layout_padding"
+                android:textColor="@color/colorPublishGrey"
                 android:text="设置"/>
         </LinearLayout>
     </LinearLayout>

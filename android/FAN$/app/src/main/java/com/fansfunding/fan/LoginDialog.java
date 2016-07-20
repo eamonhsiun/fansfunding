@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import org.w3c.dom.Text;
+import org.xml.sax.helpers.LocatorImpl;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -246,9 +248,14 @@ public class LoginDialog {
             }
         });
         //创建登录框
-        dialog_login_by_phone=new AlertDialog.Builder(context).setView(view_login_by_phone).setTitle("登陆")
-                .setPositiveButton("登陆", new LoginByPhoneListener())
-                .setNegativeButton("社交账号登陆",null)
+        dialog_login_by_phone=new AlertDialog.Builder(context).setView(view_login_by_phone).setTitle("登录")
+                .setPositiveButton("登录", new LoginByPhoneListener())
+                .setNegativeButton("社交账号登录", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        InitLoginByPhone();
+                    }
+                })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
@@ -262,6 +269,14 @@ public class LoginDialog {
                 .create();
         dialog_login_by_phone.setCanceledOnTouchOutside(false);
         dialog_login_by_phone.show();
+
+        //设置按钮颜色
+        Button btn_pos=dialog_login_by_phone.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        btn_pos.setTextSize(16);
+        Button btn_neg=dialog_login_by_phone.getButton(AlertDialog.BUTTON_NEGATIVE);
+        btn_neg.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        btn_neg.setTextSize(16);
     }
 
 
@@ -286,6 +301,11 @@ public class LoginDialog {
                 .create();
         dialog_forget_password.setCanceledOnTouchOutside(false);
         dialog_forget_password.show();
+
+        //设置按钮颜色
+        Button btn_pos=dialog_forget_password.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextSize(16);
+        btn_pos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
 
     }
 
@@ -314,6 +334,11 @@ public class LoginDialog {
                 .create();
         dialog_reset_password.setCanceledOnTouchOutside(false);
         dialog_reset_password.show();
+
+        //设置按钮颜色
+        Button btn_pos=dialog_reset_password.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextSize(16);
+        btn_pos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
     //找回密码
@@ -356,6 +381,10 @@ public class LoginDialog {
         dialog_verification_phone.setCanceledOnTouchOutside(false);
         dialog_verification_phone.show();
 
+        //设置按钮颜色
+        Button btn_pos=dialog_verification_phone.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextSize(16);
+        btn_pos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
 
@@ -370,7 +399,7 @@ public class LoginDialog {
         dialog_register=new AlertDialog.Builder(context)
                 .setTitle("注册")
                 .setView(view_register)
-                .setNeutralButton("已有账号?登陆", new DialogInterface.OnClickListener() {
+                .setNeutralButton("已有账号?登录", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         InitLoginByPhone();
@@ -409,6 +438,14 @@ public class LoginDialog {
         dialog_register.setCanceledOnTouchOutside(false);
         dialog_register.show();
 
+        //设置按钮颜色
+        Button btn_pos=dialog_register.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        btn_pos.setTextSize(16);
+        Button btn_neu=dialog_register.getButton(AlertDialog.BUTTON_NEUTRAL);
+        btn_neu.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        btn_neu.setTextSize(16);
+
     }
 
     //注册弹出框(手机号和验证码)
@@ -445,6 +482,11 @@ public class LoginDialog {
                 .create();
         dialog_register_verification.setCanceledOnTouchOutside(false);
         dialog_register_verification.show();
+
+        //设置按钮颜色
+        Button btn_pos=dialog_register_verification.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextSize(16);
+        btn_pos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
 
     }
     public AlertDialog abc(){
@@ -853,8 +895,8 @@ public class LoginDialog {
                         editor.commit();
 
                         //打印出验证码的值
-                        System.out.println("验证码:"+newChecker.getToken());
-                        System.out.println("验证码:"+newChecker.getData());
+                        Log.i("TAG","验证码token:"+newChecker.getToken());
+                        Log.i("TAG","验证码:"+newChecker.getData());
 
                         if(mode==VERIFICATION_CODE_BY_FORGET_PASSWORD){
                             Looper.prepare();

@@ -6,12 +6,6 @@
     android:orientation="vertical"
     tools:context="com.fansfunding.fan.ProjectDetailRewardFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/subhead_text_size"
-        android:padding="@dimen/layout_padding"
-        android:text="产品回报"/>
 
     <com.fansfunding.PullListView.XListView
         android:id="@+id/lv_project_detail_reward"

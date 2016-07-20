@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<color name="colorPrimary">#3F51B5</color>-->
-    <color name="colorPrimary">#ec2c22</color>
+    <color name="colorPrimary">#DC4B4B</color>
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <color name="colorPrimaryDark">#ec2c22</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#DC4B4B</color>
+    <color name="colorAccent">#DC4B4B</color>
     <color name="colorGrey">#d4cdcd</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorUnselectedWhite">#3CFFFFFF</color>
     <color name="colorDeepGray">#737373</color>
     <color name="colorPrimaryRed">#ec2c22</color>
     <color name="colorImpressionRed">#ee554d</color>
     <color name="colorSupportRed">#d65152</color>
+    <color name="colorButtonRed">#ED6969</color>
     <color name="colorTextGrey">#505050</color>
     <color name="colorForbiddenGrey">#ABABAB</color>
+    <color name="colorBackgroundGrey">#FAFAFA</color>
+    <color name="colorPublishGrey">#4A4A4A</color>
+    <color name="colorLabelGrey">#9B9B9B</color>
+    <color name="colorDividerGrey">#3CD4D3D4</color>
     <color name="colorSupportDeepOrange">#ee7419</color>
     <color name="colorSupportShallowGrey">#f49e16</color>
     <color name="colorSupportDeepGreen">#5aa133</color>
     <color name="colorSupportShallowGreen">#66b72e</color>
     <color name="colorSupportBlueGreen">#4caa79</color>
+    <color name="colorFabBlue">#5FB5EA</color>
     <color name="transparent">#00000000</color>
     <color name="background">#F7F4F0</color>
     <color name="title_color">#333333</color>

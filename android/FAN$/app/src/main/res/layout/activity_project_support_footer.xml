@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+    <!--支付宝选项-->
+    <LinearLayout
+        android:id="@+id/ll_project_support_alipay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:paddingLeft="@dimen/layout_padding"
+        android:background="@color/colorWhite">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/alipay_c"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="支付宝支付"
+            android:textSize="@dimen/subhead_text_size"
+            android:paddingLeft="@dimen/layout_padding"
+            android:textColor="@color/colorPublishGrey"/>
+        <CheckBox
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="@dimen/layout_padding"/>
+
+    </LinearLayout>
+
+    <!--地址选项-->
+    <LinearLayout
+        android:id="@+id/ll_project_support_address"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/layout_padding"
+        android:background="@color/colorWhite">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/address_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/layout_padding"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/layout_padding"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="收货地址"
+                android:textSize="@dimen/subhead_text_size"
+                android:textColor="@color/colorPublishGrey"/>
+            <TextView
+                android:id="@+id/tv_forget_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="武汉大学信息学部国际软件学院"
+                android:textColor="@color/colorLabelGrey"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -10,10 +10,10 @@
         <!--头像-->
         <ImageView
             android:id="@+id/iv_unlog_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/headtest"
+            android:src="@drawable/unlogprofile"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:background="#FFFFFFFF"
             />
@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_unlog_head"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:text="请登录"/>
+            android:layout_margin="8dp"
+            android:textSize="@dimen/subhead_text_size"
+            android:text="请点击头像登录"/>
     </RelativeLayout>
 
 </RelativeLayout>

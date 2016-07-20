@@ -91,14 +91,25 @@
             </intent-filter>
         </activity>
 
-        <!--发表评论-->
-        <activity android:name=".ProjectCommentActivity" >
-           <intent-filter>
-            <action android:name="android.intent.action.FANS.PROJECTCOMMENT" />
+        <!-- 发表评论 -->
+        <activity android:name=".ProjectCommentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECTCOMMENT" />
 
-            <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!--项目支持-->
+        <activity android:name=".ProjectSupportActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECTSUPPORT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
         <!-- 聊天界面 -->
         <activity android:name=".ChatActivity">
             <intent-filter>
@@ -192,7 +203,7 @@
         <!-- 修改密码界面 -->
         <activity
             android:name=".ResetPasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert.Red">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.RESETPASSWORD" />
 
@@ -206,7 +217,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
     </application>
 
 </manifest>

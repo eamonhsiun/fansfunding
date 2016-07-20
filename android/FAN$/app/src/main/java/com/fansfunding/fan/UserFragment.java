@@ -156,7 +156,6 @@ public class UserFragment extends Fragment {
 
         Toolbar toolbar=(Toolbar) rootView.findViewById(R.id.toolbar_user);
         toolbar.setTitle("更多");
-        toolbar.setBackgroundColor(Color.RED);
         toolbar.setTitleTextColor(Color.WHITE);
 
         SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),Context.MODE_PRIVATE);

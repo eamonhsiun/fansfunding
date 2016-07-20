@@ -43,6 +43,8 @@ public class ListProjectAdapter extends BaseAdapter{
                 //判断项目id和所属类别是否重复
                 if(listProjectDetail.get(i).getId()==detail.getId()
                         &&listProjectDetail.get(i).getCategoryId()==detail.getCategoryId()){
+                    listProjectDetail.remove(i);
+                    listProjectDetail.add(i,detail);
                     return;
                 }
             }
@@ -110,12 +112,14 @@ public class ListProjectAdapter extends BaseAdapter{
 
         //进度
         TextView tv_PJ_rate=(TextView)rootView.findViewById(R.id.tv_PJ_rate);
-        tv_PJ_rate.setText(String.valueOf((int)(detail.getSum().doubleValue()/detail.getTargetMoney().doubleValue())));
+
+
+        tv_PJ_rate.setText(String.valueOf((int)(100*(detail.getSum().doubleValue()/detail.getTargetMoney().doubleValue()))));
 
         //发起人头像
         CircleImageView iv_PJ_publish_head=(CircleImageView)rootView.findViewById(R.id.iv_PJ_publish_head);
         if(context!=null&&detail.getSponsorHead()!=null&&detail.getSponsorHead().equals("")==false){
-            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getSponsorHead()).into(iv_PJ_publish_head);
+            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getSponsorHead()).resize(300,200).into(iv_PJ_publish_head);
         }
         return rootView;
     }

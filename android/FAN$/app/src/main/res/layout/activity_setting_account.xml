@@ -9,7 +9,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_setting_account"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
     <!--FANS账号-->
@@ -17,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/layout_padding"
-        android:textSize="@dimen/subhead_text_size"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         android:text="FANS账号"/>
     <!--手机-->
     <RelativeLayout
@@ -30,18 +32,21 @@
             android:id="@+id/tv_setting_account_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/list_text_size"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"
             android:text="手机"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_setting_account_phone"
+            android:textColor="@color/colorLabelGrey"
+            android:paddingTop="4dp"
             android:text="绑定手机，账号更安全"/>
         <ImageView
             android:id="@+id/iv_setting_account_phone"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/pjimagetest"
+            android:src="@drawable/verified"
             android:adjustViewBounds="true"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
@@ -52,7 +57,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginRight="@dimen/layout_padding"
-        android:background="@color/colorGrey"/>
+        android:background="@color/colorDividerGrey"/>
 
 
     <!--修改账号密码-->
@@ -66,12 +71,15 @@
             android:id="@+id/tv_setting_account_reset_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/list_text_size"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"
             android:text="账号密码"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_setting_account_reset_password"
+            android:paddingTop="4dp"
+            android:textColor="@color/colorLabelGrey"
             android:text="修改密码"/>
     </RelativeLayout>
 
@@ -81,14 +89,15 @@
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginRight="@dimen/layout_padding"
-        android:background="@color/colorGrey"/>
+        android:background="@color/colorDividerGrey"/>
 
     <!--社交账号-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/layout_padding"
-        android:textSize="@dimen/subhead_text_size"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         android:text="社交账号"/>
 
     <!--微博绑定情况-->
@@ -103,13 +112,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="新浪微博"
-            android:textSize="@dimen/list_text_size"/>
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"/>
         <TextView
             android:id="@+id/tv_setting_account_weibo_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="兔子要跳墙"
-            android:textSize="@dimen/subhead_text_size"/>
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorLabelGrey"/>
 
     </LinearLayout>
     <!--分割线-->
@@ -118,7 +129,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginRight="@dimen/layout_padding"
-        android:background="@color/colorGrey"/>
+        android:background="@color/colorDividerGrey"/>
     <!--微信绑定情况-->
     <LinearLayout
         android:id="@+id/ll_setting_account_wechat"
@@ -131,13 +142,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="微信"
-            android:textSize="@dimen/list_text_size"/>
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"/>
         <TextView
             android:id="@+id/tv_setting_account_wechat_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="尚未绑定"
-            android:textSize="@dimen/subhead_text_size"/>
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorLabelGrey"/>
 
     </LinearLayout>
     <!--分割线-->
@@ -146,7 +159,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginRight="@dimen/layout_padding"
-        android:background="@color/colorGrey"/>
+        android:background="@color/colorDividerGrey"/>
 
     <!--QQ绑定情况-->
     <LinearLayout
@@ -160,13 +173,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="QQ"
-            android:textSize="@dimen/list_text_size"/>
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"/>
         <TextView
             android:id="@+id/tv_setting_account_qq_account"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="尚未绑定"
-            android:textSize="@dimen/subhead_text_size"/>
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorLabelGrey"/>
 
     </LinearLayout>
 </LinearLayout>

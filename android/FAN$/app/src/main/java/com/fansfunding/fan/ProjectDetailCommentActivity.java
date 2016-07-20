@@ -2,6 +2,7 @@ package com.fansfunding.fan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
@@ -113,11 +114,13 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project_detail_comment);
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_PJ_detail_comment);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("评论");
+
         actionBar.setDisplayHomeAsUpEnabled(true);
         adapter=new ProjectDetailCommentAdapter(this);
 

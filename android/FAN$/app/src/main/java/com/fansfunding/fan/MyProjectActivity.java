@@ -1,5 +1,6 @@
 package com.fansfunding.fan;
 
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -24,6 +25,7 @@ public class MyProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_project);
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_myProject);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar=getSupportActionBar();

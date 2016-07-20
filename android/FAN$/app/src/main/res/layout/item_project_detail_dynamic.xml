@@ -6,11 +6,10 @@
     android:paddingRight="@dimen/layout_padding"
     android:paddingTop="@dimen/layout_padding">
     <!--发布动态用户头像-->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_project_detail_dynamic_head"
         android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
+        android:layout_height="40dp"
         android:layout_marginRight="@dimen/layout_padding"
         android:src="@drawable/pjimagetest"/>
     <LinearLayout
@@ -28,32 +27,35 @@
                 android:id="@+id/tv_project_detail_dynamic_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Immortals" />
+                android:text="Immortals"
+                android:textColor="@color/colorPublishGrey"/>
+            <!--评论发表时间-->
             <TextView
+                android:id="@+id/tv_project_detail_dynamic_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:layout_toRightOf="@id/tv_project_detail_dynamic_name"
-                android:paddingLeft="@dimen/layout_padding"
-                android:text="发布项目进度"/>
+
+                android:textColor="@color/colorLabelGrey"
+                android:text="刚刚"/>
         </LinearLayout>
-        <!--评论发表时间-->
-        <TextView
-            android:id="@+id/tv_project_detail_dynamic_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="刚刚"/>
+
     <!--评论内容-->
     <TextView
         android:id="@+id/tv_project_detail_dynamic_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/content_padding"
-        android:text="这是一段评论内容a"/>
+        android:text="这是一段评论内容a"
+
+        android:textColor="@color/colorPublishGrey"
+        />
     <!--分割线-->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorGrey"
+        android:background="@color/colorDividerGrey"
         android:layout_below="@id/tv_news_detail_comment"
         android:layout_marginTop="@dimen/layout_padding"/>
     </LinearLayout>

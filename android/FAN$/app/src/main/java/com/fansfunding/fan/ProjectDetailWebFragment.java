@@ -231,7 +231,9 @@ public class ProjectDetailWebFragment extends Fragment {
         if(detail.getData().getContent()!=null&&detail.getData().getContent().equals("")){
             webView.loadData(detail.getData().getContent(),"text/html","utf-8");
         }else{
-            webView.loadData("<html><head><meta charset=\"utf-8\"></head><body><p>找不到项目详情资源</p></body></html>","text/html","utf-8");
+            webView.loadData("<html><head><meta contentType='text/html;charset=utf-8'><meta charset='utf-8'></head><body><p>" +
+                    "cannot find project detail resources" +
+                    "</p></body></html>","text/html","utf-8");
         }
     }
 }

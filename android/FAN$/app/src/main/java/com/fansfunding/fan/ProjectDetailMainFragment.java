@@ -201,7 +201,7 @@ public class ProjectDetailMainFragment extends Fragment {
 
         //项目进度
         ProgressBar progressBar=(ProgressBar)rootView.findViewById(R.id.progressBar_project_detail_main);
-        progressBar.setProgress((int)(projectDetail.getSum().doubleValue()/projectDetail.getTargetMoney().doubleValue()));
+        progressBar.setProgress((int)(100*(projectDetail.getSum().doubleValue()/projectDetail.getTargetMoney().doubleValue())));
 
         //项目名称
         TextView tv_project_detail_name=(TextView)rootView.findViewById(R.id.tv_project_detail_name);

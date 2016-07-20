@@ -7,30 +7,47 @@
     <!--项目回报图片-->
     <ImageView
         android:id="@+id/iv_project_detail_reward_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:adjustViewBounds="true"
-        android:layout_centerVertical="true"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginRight="@dimen/layout_padding"
-        android:src="@drawable/pjimagetest"/>
+        android:src="@drawable/ship"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_project_detail_reward_image"
         android:orientation="vertical"
         >
-        <TextView
-            android:id="@+id/tv_project_detail_reward_support"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="支持23元"
-            android:textSize="@dimen/subhead_text_size"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支持"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size"/>
+            <TextView
+                android:id="@+id/tv_project_detail_reward_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/tv_project_detail_reward_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
+            android:textColor="@color/colorPublishGrey"
             android:text="捐赠者请留下QQ号码，管理员会拉进珞珈山皮划艇小分队的群。进群者享有皮划艇的进击使用权和被救助权。"/>
 
     </LinearLayout>

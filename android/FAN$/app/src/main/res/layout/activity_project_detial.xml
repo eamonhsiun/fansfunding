@@ -8,9 +8,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_project_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:background="@color/colorImpressionRed"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways">
     </android.support.v7.widget.Toolbar>
     <!--滑动栏-->
@@ -56,9 +55,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="立即支持"
-        android:background="@color/colorSupportRed"
+        android:background="@color/colorButtonRed"
         android:textColor="@color/colorWhite"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        />
     <!--<ScrollView
         android:id="@+id/sv_project_detail_information"
         android:layout_width="match_parent"

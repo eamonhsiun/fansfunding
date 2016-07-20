@@ -12,7 +12,9 @@
         android:id="@+id/toolbar_crowdfundinghead"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:elevation="3dp">
+        android:elevation="3dp"
+        android:background="#DC4B4B">
+
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -23,6 +25,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/subhead_text_size"
             android:text="搜索项目、网红名、用户"
+            android:textColor="@color/colorWhite"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/content_padding"/>
     </android.support.v7.widget.Toolbar>
@@ -32,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="10dp"
+        android:divider="@color/colorBackgroundGrey"
         android:headerDividersEnabled="false"
         android:layout_below="@id/toolbar_crowdfundinghead">
     </com.fansfunding.PullListView.XListView>

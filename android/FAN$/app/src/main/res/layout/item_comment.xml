@@ -10,8 +10,8 @@
     <!--评论用户头像-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_project_detail_dynamic_head"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginRight="@dimen/layout_padding"
         android:src="@drawable/pjimagetest"/>
     <!--评论用户昵称-->
@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_project_detail_dynamic_head"
+        android:textColor="@color/colorPublishGrey"
         android:text="冰冻vita" />
     <!--评论时间-->
     <TextView
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tv_news_detail_commenter_name"
         android:gravity="right"
+        android:textColor="@color/colorLabelGrey"
         android:text="5分钟前"/>
     <!--评论内容-->
     <TextView
@@ -36,13 +38,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_news_detail_commenter_name"
         android:layout_toRightOf="@id/iv_project_detail_dynamic_head"
+
+        android:textColor="@color/colorPublishGrey"
         android:paddingTop="@dimen/content_padding"
         android:text="这是一段评论内容a"/>
     <!--分割线-->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorGrey"
+        android:background="@color/colorDividerGrey"
         android:layout_below="@id/tv_news_detail_comment"
         android:layout_marginLeft="@dimen/item_content_padding_left_with_parent"
         android:layout_marginTop="@dimen/layout_padding"/>

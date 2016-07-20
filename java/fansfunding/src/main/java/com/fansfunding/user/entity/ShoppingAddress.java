@@ -24,10 +24,12 @@ public class ShoppingAddress {
 
     private String district;
     
-    private int post_code;
+    private int postCode;
 
     private String address;
 
+    private int isDefault;
+    
     private String createBy;
 
     private Date createTime;

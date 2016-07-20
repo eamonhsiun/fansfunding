@@ -48,4 +48,16 @@ public interface ProjectDao {
      * @return
      */
     List<Project> selectByKeyword(String keyword);
+    /**
+     * 获取发起的项目
+     * @param keyword
+     * @return
+     */
+    List<Project> selectSponsor(int userId);
+    /**
+     * 获取关注的项目
+     * @param keyword
+     * @return
+     */
+    List<Project> selectFollow(int userId);
 }

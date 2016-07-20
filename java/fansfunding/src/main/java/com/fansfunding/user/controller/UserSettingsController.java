@@ -47,6 +47,9 @@ public class UserSettingsController {
 	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
 	@ResponseBody
 	public Status info(@PathVariable int userId) {
+		if(userService.getUserById(userId)==null){
+			return new Status(true, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(userId)), null);
 	}
 	
@@ -64,10 +67,11 @@ public class UserSettingsController {
 			@RequestParam(required = false, defaultValue = "") String email,
 			@RequestParam(required = false, defaultValue = "0") String sex,
 			@RequestParam(required = false, defaultValue = "") String idNumber,
-			@RequestParam(required = false, defaultValue = "1999-12-31") String birthday) throws ParseException {
+			@RequestParam(required = false, defaultValue = "") String intro,
+			@RequestParam(required = false, defaultValue = "1970-01-01") String birthday) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
 		
-		return new Status(true,StatusCode.SUCCESS,userService.getUserMap(userService.updateUserInfo(userId,nickname, email, Byte.parseByte(sex), idNumber, sdf.parse(birthday))),null);
+		return new Status(true,StatusCode.SUCCESS,userService.getUserMap(userService.updateUserInfo(userId,nickname, email, Byte.parseByte(sex), idNumber, intro, sdf.parse(birthday))),null);
 	}
 	
 	

@@ -60,6 +60,8 @@ public class ProjectDetailComment {
 
         //评论指向
         private int pointTo;
+        //评论指向的名字，即要回复的用户名称
+        private String pointToName;
 
         //评论人姓名
         private String commenterName;
@@ -78,6 +80,11 @@ public class ProjectDetailComment {
 
         //评论人id
         private int commenterId;
+
+        //评论时间
+        private long commentTime;
+
+
 
 
         public String getCommenterHead() {
@@ -142,6 +149,22 @@ public class ProjectDetailComment {
 
         public void setCommenterId(int commenterId) {
             this.commenterId = commenterId;
+        }
+
+        public long getCommentTime() {
+            return commentTime;
+        }
+
+        public void setCommentTime(long commentTime) {
+            this.commentTime = commentTime;
+        }
+
+        public String getPointToName() {
+            return pointToName;
+        }
+
+        public void setPointToName(String pointToName) {
+            this.pointToName = pointToName;
         }
     }
 }

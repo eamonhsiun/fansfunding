@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -245,7 +246,7 @@ public class UserFragment extends Fragment {
     }
 
     private void getUserInfo(){
-        OkHttpClient httpClient=new OkHttpClient();
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),Context.MODE_PRIVATE);
         int userId=share.getInt("id",0);
         String token=share.getString("token","token");
@@ -322,6 +323,8 @@ public class UserFragment extends Fragment {
                         editor.putString("email", personalInfo.getData().getEmail());
                         editor.putString("token", personalInfo.getToken());
                         editor.putInt("is_red", personalInfo.getData().getIs_red());
+                        editor.putString("intro",personalInfo.getData().getIntro());
+                        editor.putString("intro",personalInfo.getData().getIntro());
 
                         if (personalInfo.getData().getRealInfo() != null) {
                             editor.putInt("readInfo_sex", personalInfo.getData().getRealInfo().getSex());
@@ -358,7 +361,6 @@ public class UserFragment extends Fragment {
             case START_USER_INFO:
                 if(resultCode==getActivity().RESULT_OK){
                     isNeedChange=true;
-                    System.out.println("success");
                 }
         }
         super.onActivityResult(requestCode, resultCode, data);

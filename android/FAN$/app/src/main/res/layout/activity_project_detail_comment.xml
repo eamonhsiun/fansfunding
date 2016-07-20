@@ -17,7 +17,18 @@
         android:id="@+id/lv_PJ_detail_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_PJ_detail_comment">
+        android:layout_below="@id/toolbar_PJ_detail_comment"
+        android:divider="#00000000">
 
     </com.fansfunding.PullListView.XListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_PJ_detail_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginBottom="56dp"
+        android:src="@android:drawable/ic_input_add"/>
 </RelativeLayout>

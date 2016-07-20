@@ -26,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -140,7 +141,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
 
         //获取httpclient
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         //获取验证码按钮
         btn_forget_password_verification_code =(Button)findViewById(R.id.btn_forget_password_verification_code);

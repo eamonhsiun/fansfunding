@@ -14,10 +14,12 @@ import android.view.ViewGroup;
  */
 public class MainPaperAdapter extends FragmentStatePagerAdapter {
 
+    private boolean isLogin=false;
     Context context;
     public MainPaperAdapter(FragmentManager fm,Context context){
         super(fm);
         this.context=context;
+        isLogin=isLogin();
     }
 
     public boolean isLogin(){
@@ -28,9 +30,16 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
 
         return isLogin;
     }
+    public boolean isNeedChange(){
+        if(isLogin!=isLogin()){
+            isLogin=!isLogin;
+            return true;
+        }else {
+            return false;
+        }
+    }
     @Override
     public Fragment getItem(int position) {
-        boolean isLogin=isLogin();
         switch(position){
             case 0:
                 return CrowdFundingFragment.newInstance();

@@ -26,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -63,6 +64,13 @@ public class CrowdFundingFragment extends Fragment {
     private OkHttpClient httpClient;
     //热门项目列表
     private XListView lv_PR;
+
+    //每次获取的数量
+    private  final int rows=10;
+
+    //获取的页数
+    private int page=1;
+
     //消息处理
     private Handler handler=new Handler(){
         @Override
@@ -76,6 +84,13 @@ public class CrowdFundingFragment extends Fragment {
                     Toast.makeText(CrowdFundingFragment.this.getActivity(),"获取项目失败",Toast.LENGTH_LONG).show();
                     break;
                 case GET_HOT_PROJECT_SUCCESS:
+                    if(projectDetailList.size()<rows){
+                        //已结获取到最后一页，再从第一页开始获取
+                        page=1;
+                    }else {
+                        //获取完本页后，获取下一页的内容
+                        page++;
+                    }
                     for(int i=0;i<projectDetailList.size();i++){
                         adapter.addItemAtHead(projectDetailList.get(i));
                     }
@@ -134,7 +149,7 @@ public class CrowdFundingFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         //构建httpclient
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_crowdfunding, container, false);
@@ -151,13 +166,11 @@ public class CrowdFundingFragment extends Fragment {
                     return;
                 }
                 getProject();
-                System.out.println("刷新操作");
 
             }
 
             @Override
             public void onLoadMore() {
-                Toast.makeText(CrowdFundingFragment.this.getActivity(),"上啦加载",Toast.LENGTH_LONG).show();
                 lv_PR.stopRefresh();
                 lv_PR.stopLoadMore();
                 lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
@@ -283,7 +296,7 @@ public class CrowdFundingFragment extends Fragment {
         int catagoryId=1;
         Request request=new Request.Builder()
                 .get()
-                .url(getString(R.string.url_project)+catagoryId)
+                .url(getString(R.string.url_project)+catagoryId+"?rows="+rows+"&page="+page)
                 .build();
 
         Call call=httpClient.newCall(request);
@@ -308,7 +321,6 @@ public class CrowdFundingFragment extends Fragment {
                 Gson gson=new GsonBuilder().create();
                 AllProjectInCategory project=new AllProjectInCategory();
                 String str_response=response.body().string();
-                System.out.println("response:"+str_response);
                 try {
 
                     //用Gson进行解析，并判断结果是否为空
@@ -337,7 +349,9 @@ public class CrowdFundingFragment extends Fragment {
                     }
 
 
+                    Log.i("TAG","crowdfundingfragment:"+str_response);
                     projectDetailList=project.getData().getList();
+
                     //获取项目信息成功
                     Message msg=new Message();
                     msg.what=GET_HOT_PROJECT_SUCCESS;

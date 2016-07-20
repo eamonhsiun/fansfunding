@@ -5,40 +5,52 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProjectDetailActivity">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_project_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/colorPrimaryRed"
-            app:layout_scrollFlags="scroll|enterAlways">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_project_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:background="@color/colorImpressionRed"
+        app:layout_scrollFlags="scroll|enterAlways">
+    </android.support.v7.widget.Toolbar>
+    <!--滑动栏-->
+  <!--  <android.support.design.widget.TabLayout
+        android:id="@+id/tab_project_detail"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_below="@id/toolbar_project_detail"
+        android:background="@color/colorImpressionRed"
+        app:tabTextColor="@color/colorWhite"
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorWhite">
 
-        </android.support.v7.widget.Toolbar>
-        <!--滑动栏-->
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_project_detail"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_below="@id/toolbar_project_detail"
-            android:background="@color/colorImpressionRed"
-            app:tabTextColor="@color/colorWhite"
-            app:tabSelectedTextColor="@color/colorWhite"
-            app:tabIndicatorColor="@color/colorWhite">
-            <!--
-
-            -->
-        </android.support.design.widget.TabLayout>
+    </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_project_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tab_project_detail"
-        android:layout_above="@+id/btn_project_detail_support"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_above="@+id/btn_project_detail_support">
 
-    </android.support.v4.view.ViewPager>
+    </android.support.v4.view.ViewPager>-->
+
+    <com.fansfunding.verticalslide.DragLayout
+        android:id="@+id/drag_project_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_project_detail"
+        android:layout_above="@+id/btn_project_detail_support">
+        <FrameLayout
+            android:id="@+id/frame_project_detail_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+        <FrameLayout
+            android:id="@+id/frame_project_detail_second"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+
+    </com.fansfunding.verticalslide.DragLayout>
     <Button
         android:id="@+id/btn_project_detail_support"
         android:layout_width="match_parent"

@@ -12,9 +12,13 @@ import android.widget.TextView;
 import com.fansfunding.internal.AllProjectInCategory;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by 13616 on 2016/7/18.
@@ -89,8 +93,30 @@ public class ListProjectAdapter extends BaseAdapter{
         TextView tv_PJ_intro=(TextView)rootView.findViewById(R.id.tv_PJ_intro);
         tv_PJ_intro.setText(detail.getDescription());
 
+        //项目图片
         ImageView iv_PJ_image_1=(ImageView)rootView.findViewById(R.id.iv_PJ_image_1);
-        Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getCover()).into(iv_PJ_image_1);
+        if(context!=null&&detail.getCover()!=null&&detail.getCover().equals("")==false){
+            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getCover()).into(iv_PJ_image_1);
+        }
+
+
+        //已筹金额
+        TextView tv_PJ_get_money=(TextView)rootView.findViewById(R.id.tv_PJ_get_money);
+        tv_PJ_get_money.setText(detail.getSum().toString());
+
+        //目标金额
+        TextView tv_PJ_target_money=(TextView)rootView.findViewById(R.id.tv_PJ_target_money);
+        tv_PJ_target_money.setText(detail.getTargetMoney().toString());
+
+        //进度
+        TextView tv_PJ_rate=(TextView)rootView.findViewById(R.id.tv_PJ_rate);
+        tv_PJ_rate.setText(String.valueOf((int)(detail.getSum().doubleValue()/detail.getTargetMoney().doubleValue())));
+
+        //发起人头像
+        CircleImageView iv_PJ_publish_head=(CircleImageView)rootView.findViewById(R.id.iv_PJ_publish_head);
+        if(context!=null&&detail.getSponsorHead()!=null&&detail.getSponsorHead().equals("")==false){
+            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getSponsorHead()).into(iv_PJ_publish_head);
+        }
         return rootView;
     }
 }

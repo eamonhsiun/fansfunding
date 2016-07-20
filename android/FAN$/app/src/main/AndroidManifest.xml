@@ -82,7 +82,7 @@
             </intent-filter>
         </activity>
 
-        <!--项目评论详情-->
+        <!-- 项目评论详情 -->
         <activity android:name=".ProjectDetailCommentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.PROJECTDETAILCOMMENT" />
@@ -91,6 +91,14 @@
             </intent-filter>
         </activity>
 
+        <!--发表评论-->
+        <activity android:name=".ProjectCommentActivity" >
+           <intent-filter>
+            <action android:name="android.intent.action.FANS.PROJECTCOMMENT" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- 聊天界面 -->
         <activity android:name=".ChatActivity">
             <intent-filter>
@@ -198,7 +206,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ProjectCommentActivity" />
 
     </application>
 

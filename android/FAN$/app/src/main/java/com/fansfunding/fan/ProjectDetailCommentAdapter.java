@@ -10,6 +10,8 @@ import com.fansfunding.internal.AllProjectInCategory;
 import com.fansfunding.internal.ProjectDetailComment;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
     }
 
 
-    public void addItemAtHead(ProjectDetailComment.ProjectComment comment){
+    public void addItem(ProjectDetailComment.ProjectComment comment){
         if(comment==null){
             return;
         }
@@ -39,7 +41,7 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
                     return;
                 }
             }
-            list.add(0,comment);
+            list.add(comment);
 
         }else{
             list=new LinkedList<ProjectDetailComment.ProjectComment>();
@@ -78,23 +80,34 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
         de.hdodenhof.circleimageview.CircleImageView iv_project_detail_dynamic_head=(de.hdodenhof.circleimageview.CircleImageView)rootView.findViewById(R.id.iv_project_detail_dynamic_head);
         //评论人昵称
         TextView tv_news_detail_commenter_name=(TextView)rootView.findViewById(R.id.tv_news_detail_commenter_name);
-
         //评论内容
         TextView tv_news_detail_comment=(TextView)rootView.findViewById(R.id.tv_news_detail_comment);
+
+        //评论时间
+        TextView tv_news_detail_comment_tine=(TextView)rootView.findViewById(R.id.tv_news_detail_comment_tine);
 
         if(list.get(position)==null) {
             return null;
         }
         else {
             if(list.get(position).getCommenterHead()!=null&&list.get(position).getCommenterHead().equals("")==false){
-                Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getCommenterHead());
+                Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getCommenterHead()).into(iv_project_detail_dynamic_head);
             }
             if(list.get(position).getCommenterNickname()!=null){
                 tv_news_detail_commenter_name.setText(list.get(position).getCommenterName());
             }
             if(list.get(position).getContent()!=null){
-                tv_news_detail_comment.setText(list.get(position).getContent());
+                if(list.get(position).getPointTo()==0){
+                    tv_news_detail_comment.setText(list.get(position).getContent());
+                }else{
+                    String comment="回复 "+list.get(position).getPointToName()
+                            +": "
+                            +list.get(position).getContent();
+                    tv_news_detail_comment.setText(comment);
+                }
+
             }
+            tv_news_detail_comment_tine.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(list.get(position).getCommentTime())));
 
         }
         return rootView;

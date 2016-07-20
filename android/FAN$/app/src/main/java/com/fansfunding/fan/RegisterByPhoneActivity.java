@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.Proxy;
 import java.text.Normalizer;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -155,7 +156,7 @@ public class RegisterByPhoneActivity extends AppCompatActivity {
 
 
 
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         //获取验证码响应函数
         btn_register_verification_code=(Button)findViewById(R.id.btn_register_verification_code);

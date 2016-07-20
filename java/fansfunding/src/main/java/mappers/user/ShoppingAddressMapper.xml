@@ -21,6 +21,7 @@
     delete from shopping_address
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     insert into shopping_address (id, user_id, province, 
       city, district, address, 

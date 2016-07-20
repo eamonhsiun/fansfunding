@@ -15,13 +15,10 @@ import com.fansfunding.utils.response.StatusCode;
 @Controller
 @RequestMapping("common")
 public class CommonController {
-
 	@Autowired
 	TokenService tokenService;
-	
 	@Autowired
 	CheckerService checkerService;
-	
 	/**
 	 * 生成Checker
 	 * @param req
@@ -37,7 +34,6 @@ public class CommonController {
 		}
 		//TODO:这里还需要防止频繁请求
 		int id =checkerService.genChecker(phone);
-		
 		if(id > 0){
 			return new Status(true, StatusCode.SUCCESS,null,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY));
 		}else{
@@ -53,7 +49,6 @@ public class CommonController {
 		}
 		//TODO:这里还需要防止频繁请求
 		int id =checkerService.genCheckerT(phone);
-		
 		if(id > 0){
 			return new Status(true, StatusCode.SUCCESS,checkerService.check,AESUtils.Encrypt(id+"", AESUtils.ENCRYPT_KEY));
 		}else{

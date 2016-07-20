@@ -32,13 +32,10 @@ public class UpoadController {
 	 * @return
 	 * @throws IOException 
 	 */
-	@RequestMapping(path="{categoryId}/{projectId}/images",method=RequestMethod.POST)
+	@RequestMapping(path="{categoryId}/images",method=RequestMethod.POST)
 	@ResponseBody
-	public Status uploadProjectImages(@PathVariable Integer categoryId,@PathVariable Integer projectId,
+	public Status uploadProjectImages(@PathVariable Integer categoryId,
 						@RequestParam CommonsMultipartFile[] files) throws IOException{
-		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
-		}
 		if(files.length==0){
 			return new Status(false,StatusCode.FAILED,"文件不可为空",null);
 		}
@@ -54,7 +51,7 @@ public class UpoadController {
 			}
 		}
 		String[] paths=new String[files.length];
-		if((paths=uploadService.uploadProjectImages(categoryId, projectId, files))!=null){
+		if((paths=uploadService.uploadProjectImages(categoryId, files))!=null){
 			return new Status(true,StatusCode.SUCCESS,paths,null);
 		}
 		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);

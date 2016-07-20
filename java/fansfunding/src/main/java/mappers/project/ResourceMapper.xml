@@ -16,10 +16,10 @@
   </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.Resource" >
     insert into resource (type, path, 
-      mapping_id, create_time, del_flag
+      create_time, del_flag
       )
     values (#{type,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
-      #{mappingId,jdbcType=INTEGER}, NOW(), #{delFlag,jdbcType=CHAR}
+      NOW(), #{delFlag,jdbcType=CHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Resource" >

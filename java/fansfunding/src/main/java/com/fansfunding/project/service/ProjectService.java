@@ -60,7 +60,7 @@ public class ProjectService {
 	 * @param video 
 	 * 
 	 */
-	public void addProject(String name, Integer categoryId, String cover, Integer sponsor, 
+	public int addProject(String name, Integer categoryId, String cover, Integer sponsor, 
 			Date targetDeadline, Long targetMoney, String description, String content,String images,
 			String others, String video){
 		ProjectDetail projectDetail = new ProjectDetail();
@@ -70,7 +70,7 @@ public class ProjectService {
 		projectDetail.setDelFlag("0");
 		projectDetail.setOthers(others);
 		projectDetail.setVideo(video);
-		Integer detailId = detailDao.insert(projectDetail);
+		detailDao.insert(projectDetail);
 
 		Project project = new Project();
 		project.setCategoryId(categoryId);
@@ -79,25 +79,26 @@ public class ProjectService {
 		project.setDelFlag("0");
 		project.setDescription(description);
 		project.setUpdateBy(userDao.selectById(sponsor).getName());
-		project.setDetailId(detailId);
+		project.setDetailId(projectDetail.getId());
 		project.setName(name);
 		project.setSponsor(sponsor);
 		project.setStatus("2");
 		project.setTargetDeadline(targetDeadline);
 		project.setTargetMoney(targetMoney);
-		int projectId=projectDao.insert(project);
+		projectDao.insert(project);
 		Resource res=new Resource();
-		res.setMappingId(projectId);
+		res.setMappingId(project.getId());
 		res.setType("moment_image");
 		res.setPath(cover);
 		resourceDao.updateByPath(res);
 		for(String s:images.split(",")){
 			Resource resource=new Resource();
-			resource.setMappingId(projectId);
+			resource.setMappingId(project.getId());
 			resource.setType("project_image");
 			resource.setPath(s);
 			resourceDao.updateByPath(resource);
 		}
+		return project.getId();
 	}
 	
 	/**
@@ -226,10 +227,10 @@ public class ProjectService {
 		if(sponsorId!=projectDao.selectByProjectId(projectId).getSponsor().intValue()){
 			return false;
 		}
-		int momentId=momentDao.insert(moment);
+		momentDao.insert(moment);
 		for(String s:images.split(",")){
 			Resource resource=new Resource();
-			resource.setMappingId(momentId);
+			resource.setMappingId(moment.getId());
 			resource.setType("moment_image");
 			resource.setPath(s);
 			resourceDao.updateByPath(resource);

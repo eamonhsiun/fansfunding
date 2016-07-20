@@ -58,10 +58,10 @@ public class FeedbackService {
 	 * @param feedback 回馈
 	 */
 	public void add(Feedback feedback,String images){
-		int feedbackId=feedbackDao.insert(feedback);
+		feedbackDao.insert(feedback);
 		for(String s:images.split(",")){
 			Resource resource=new Resource();
-			resource.setMappingId(feedbackId);
+			resource.setMappingId(feedback.getId());
 			resource.setType("feedback_image");
 			resource.setPath(s);
 			resourceDao.updateByPath(resource);

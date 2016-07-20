@@ -22,15 +22,15 @@ public class UploadService {
 	 * @param files 图片
 	 * @return
 	 */
-	public String[] uploadProjectImages(int categoryId,int projectId,CommonsMultipartFile[] files){
+	public String[] uploadProjectImages(int categoryId,CommonsMultipartFile[] files){
+		String dir=categoryId+"/"+System.currentTimeMillis();
 		String[] paths=new String[files.length];
 		for(int i=0;i<files.length;i++){
 			try {
-				paths[i]=FileUpload.save(files[i], FileUpload.Path.PROJECT_ATTACHMENT, categoryId+"/"+projectId);
+				paths[i]=FileUpload.save(files[i], FileUpload.Path.PROJECT_ATTACHMENT, dir);
 				Resource resource=new Resource();
 				resource.setPath(paths[i]);
 				resource.setType("project_image");
-				resource.setMappingId(projectId);
 				resourceDao.insert(resource);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -41,7 +41,7 @@ public class UploadService {
 	}
 
 	/**
-	 * 
+	 * 上传回报图片
 	 * @param categoryId
 	 * @param projectId
 	 * @param files
@@ -63,8 +63,9 @@ public class UploadService {
 			}
 		}
 		return paths;
-	}/**
-	 * 
+	}
+	/**
+	 * 上传动态图片
 	 * @param categoryId
 	 * @param projectId
 	 * @param files

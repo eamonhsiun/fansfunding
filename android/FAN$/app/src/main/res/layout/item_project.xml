@@ -45,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/tv_PJ_name">
+        android:layout_below="@id/tv_PJ_name"
+        android:paddingTop="@dimen/layout_padding">
       <ImageView
           android:id="@+id/iv_PJ_image_1"
           android:layout_width="0dp"
@@ -81,4 +82,84 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:text="这是一个简介"/>
+    <View
+        android:id="@+id/divider_item_project"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_below="@id/tv_PJ_intro"
+        android:layout_marginTop="@dimen/layout_padding"/>
+    <!--筹集金额相关-->
+    <LinearLayout
+        android:id="@+id/ll_PJ_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_item_project"
+        android:paddingTop="@dimen/layout_padding"
+        android:orientation="horizontal">
+        <!--目标金额-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="目标"/>
+            <TextView
+                android:id="@+id/tv_PJ_target_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="600"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"/>
+        </LinearLayout>
+
+        <!--已筹金额-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已筹"/>
+            <TextView
+                android:id="@+id/tv_PJ_get_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="600"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"/>
+        </LinearLayout>
+
+        <!--进度-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进度"/>
+            <TextView
+                android:id="@+id/tv_PJ_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="34"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"/>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

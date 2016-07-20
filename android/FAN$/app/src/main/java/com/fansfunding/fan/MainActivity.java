@@ -89,13 +89,20 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        //如果登陆状态改变的话
+        if(paperAdapter.isNeedChange()==true){
+            paperAdapter.notifyDataSetChanged();
+        }
         for (int i = 0; i < paperAdapter.getCount(); i++) {
             if (i == vp_Main.getCurrentItem()) {
+                tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.pjimagetest));
                 continue;
             }
             tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.icon_food));
 
         }
+
+
     }
 
     @Override

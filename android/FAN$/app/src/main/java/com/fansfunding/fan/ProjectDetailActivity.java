@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +13,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
+import com.fansfunding.PullListView.XListView;
 import com.fansfunding.internal.AllProjectInCategory;
+import com.fansfunding.internal.ProjectDetailReward;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProjectDetailActivity extends AppCompatActivity {
 
@@ -22,12 +31,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
     private ProjectDetailAdapter adapter;
     private TabLayout tabLayout;
 
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
+    private Fragment fragment_first;
+    private Fragment fragment_second;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         Intent intent=getIntent();
         AllProjectInCategory.ProjectDetail detail= (AllProjectInCategory.ProjectDetail) intent.getSerializableExtra("detail");
-        adapter=new ProjectDetailAdapter(getSupportFragmentManager(),detail);
+        /* adapter=new ProjectDetailAdapter(getSupportFragmentManager(),detail);
 
         vp_project_detail=(ViewPager)findViewById(R.id.vp_project_detail) ;
         vp_project_detail.setAdapter(adapter);
@@ -51,6 +56,13 @@ public class ProjectDetailActivity extends AppCompatActivity {
         tabLayout=(TabLayout)findViewById(R.id.tab_project_detail);
 
         tabLayout.setupWithViewPager(vp_project_detail);
+        */
+        fragment_first=ProjectDetailMainFragment.newInstance(detail);
+        fragment_second= ProjectDetailViewPaperFragment.newInstance(detail);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frame_project_detail_first, fragment_first).add(R.id.frame_project_detail_second, fragment_second)
+                .commit();
+
     }
 
     @Override
@@ -73,4 +85,6 @@ public class ProjectDetailActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_project_detail, menu);
         return true;
     }
+
+
 }

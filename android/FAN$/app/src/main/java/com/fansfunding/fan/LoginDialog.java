@@ -28,6 +28,7 @@ import com.google.gson.JsonSyntaxException;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 import okhttp3.Call;
@@ -157,7 +158,7 @@ public class LoginDialog {
     public LoginDialog(AppCompatActivity context,Handler handler){
         this.context=context;
         this.handler=handler;
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         InitLoginByPhone();
 
     }

@@ -72,6 +72,8 @@ public class PersonalInfo {
         //email
         private String email;
 
+        //个人介绍
+        private String intro;
 
         private RealInfo realInfo;
 
@@ -129,6 +131,14 @@ public class PersonalInfo {
 
         public void setRealInfo(RealInfo realInfo) {
             this.realInfo = realInfo;
+        }
+
+        public String getIntro() {
+            return intro;
+        }
+
+        public void setIntro(String intro) {
+            this.intro = intro;
         }
 
 

@@ -81,12 +81,23 @@ public class AllProjectInCategory {
         //发起人昵称
         private String sponsorNickname;
 
+        //发起人头像
+        private String sponsorHead;
 
         //截止日期
         private long targetDeadline;
 
         //筹集金额
         private BigDecimal targetMoney;
+
+        //已筹金额
+        private BigDecimal sum;
+
+        //支持人数
+        private int supportNum;
+
+        //创建时期
+        private long createTime;
 
 
         public int getId() {
@@ -168,6 +179,38 @@ public class AllProjectInCategory {
 
         public void setSponsorNickname(String sponsorNickname) {
             this.sponsorNickname = sponsorNickname;
+        }
+
+        public BigDecimal getSum() {
+            return sum;
+        }
+
+        public void setSum(BigDecimal sum) {
+            this.sum = sum;
+        }
+
+        public int getSupportNum() {
+            return supportNum;
+        }
+
+        public void setSupportNum(int supportNum) {
+            this.supportNum = supportNum;
+        }
+
+        public long getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(long createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getSponsorHead() {
+            return sponsorHead;
+        }
+
+        public void setSponsorHead(String sponsorHead) {
+            this.sponsorHead = sponsorHead;
         }
     }
 

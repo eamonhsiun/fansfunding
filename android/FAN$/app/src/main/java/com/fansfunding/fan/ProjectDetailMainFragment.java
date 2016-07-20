@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fansfunding.internal.AllProjectInCategory;
 import com.fansfunding.internal.ErrorCode;
+import com.fansfunding.internal.Login;
 import com.fansfunding.internal.ProjectDetail;
 import com.fansfunding.internal.ProjectDetailComment;
 import com.google.gson.Gson;
@@ -28,7 +30,11 @@ import com.google.gson.JsonSyntaxException;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -82,6 +88,8 @@ public class ProjectDetailMainFragment extends Fragment {
     private ImageView iv_project_detail_dynamic_head;
     //项目评论人头像昵称
     private TextView tv_news_detail_commenter_name;
+    //评论时间
+    private TextView tv_news_detail_comment_tine;
 
 
 
@@ -160,32 +168,64 @@ public class ProjectDetailMainFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         View rootView=inflater.inflate(R.layout.fragment_project_detail_main, container, false);
         //项目图片
         iv_project_detail_main_image=(ImageView)rootView.findViewById(R.id.iv_project_detail_main_image);
+        if(projectDetail.getCover()!=null&&projectDetail.getCover().equals("")==false){
+            Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getCover()).into(iv_project_detail_main_image);
+        }
+
         //项目评论内容
         tv_news_detail_comment=(TextView)rootView.findViewById(R.id.tv_news_detail_comment);
         //项目评论人头像
         iv_project_detail_dynamic_head=(ImageView)rootView.findViewById(R.id.iv_project_detail_dynamic_head);
         //项目评论人昵称
         tv_news_detail_commenter_name=(TextView)rootView.findViewById(R.id.tv_news_detail_commenter_name);
+        //评论时间
+        tv_news_detail_comment_tine=(TextView) rootView.findViewById(R.id.tv_news_detail_comment_tine);
 
 
         //筹集金额
         TextView tv_project_detail_main_target_money=(TextView)rootView.findViewById(R.id.tv_project_detail_main_target_money);
-        tv_project_detail_main_target_money.setText(projectDetail.getTargetMoney().toString()+"元");
+        tv_project_detail_main_target_money.setText(projectDetail.getTargetMoney().toString());
+
+        //已筹金额
+        TextView tv_project_detail_main_get_money=(TextView)rootView.findViewById(R.id.tv_project_detail_main_get_money);
+        tv_project_detail_main_get_money.setText(projectDetail.getSum().toString());
+
+        //支持人数
+        TextView tv_project_detail_main_support_times=(TextView)rootView.findViewById(R.id.tv_project_detail_main_support_times);
+        tv_project_detail_main_support_times.setText(String.valueOf(projectDetail.getSupportNum()));
+
+        //项目进度
+        ProgressBar progressBar=(ProgressBar)rootView.findViewById(R.id.progressBar_project_detail_main);
+        progressBar.setProgress((int)(projectDetail.getSum().doubleValue()/projectDetail.getTargetMoney().doubleValue()));
 
         //项目名称
         TextView tv_project_detail_name=(TextView)rootView.findViewById(R.id.tv_project_detail_name);
         tv_project_detail_name.setText(projectDetail.getName());
 
+
         //项目发起人昵称
         TextView tv_project_detail_main_publisher_name=(TextView)rootView.findViewById(R.id.tv_project_detail_main_publisher_name);
         tv_project_detail_main_publisher_name.setText(projectDetail.getSponsorNickname());
 
+        //项目发起人头像
+        CircleImageView iv_project_detail_main_publisher_head=(CircleImageView)rootView.findViewById(R.id.iv_project_detail_main_publisher_head);
+        if(this.getActivity()!=null&&projectDetail.getSponsorHead()!=null&&projectDetail.getSponsorHead().equals("")==false){
+            Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getSponsorHead()).into(iv_project_detail_main_publisher_head);
+        }
 
+        //开始时间
+        TextView tv_project_detail_main_time_start=(TextView)rootView.findViewById(R.id.tv_project_detail_main_time_start);
+        tv_project_detail_main_time_start.setText(getStartTime(projectDetail.getCreateTime()));
+
+
+        //截止日期
+        TextView tv_project_detail_main_time_end=(TextView)rootView.findViewById(R.id.tv_project_detail_main_time_end);
+        tv_project_detail_main_time_end.setText(getEndTime(projectDetail.getTargetDeadline()));
 
         //获取全部评论按钮
         Button btn_project_detail_main_all_comment=(Button) rootView.findViewById(R.id.btn_project_detail_main_all_comment);
@@ -198,8 +238,14 @@ public class ProjectDetailMainFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        //获取项目详情
         getProjectDetailMain();
+
+        //获取项目第一条评论
         getProjectDetailComment();
+
         return rootView;
     }
 
@@ -221,9 +267,9 @@ public class ProjectDetailMainFragment extends Fragment {
     //通过获取的数据初始化各个控件的值
     private void initProject(){
         //初始化项目详情图片
-        if(detail.getData().getIamges()!=null&&detail.getData().getIamges().equals("")==false){
-            Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+detail.getData().getIamges()).into(iv_project_detail_main_image);
-        }
+
+        //初始化剩余时间
+
 
 
     }
@@ -232,17 +278,31 @@ public class ProjectDetailMainFragment extends Fragment {
     private void initComment(){
         if(projectDetailComment.getData().getList()!=null&&projectDetailComment.getData().getList().size()>0){
             //项目评论人内容
-            tv_news_detail_comment.setText(projectDetailComment.getData().getList().get(0).getContent());
+            if(projectDetailComment.getData().getList().get(0).getPointTo()==0){
+                tv_news_detail_comment.setText(projectDetailComment.getData().getList().get(0).getContent());
+            }else{
+                String comment="回复 "
+                        +projectDetailComment.getData().getList().get(0).getPointToName()
+                        + ": "
+                        +projectDetailComment.getData().getList().get(0).getContent();
+                tv_news_detail_comment.setText(comment);
+
+            }
+
             //项目评论人头像
-            Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetailComment.getData().getList().get(0).getCommenterHead()).into(iv_project_detail_dynamic_head);
+            if(this.getActivity()!=null)
+                Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetailComment.getData().getList().get(0).getCommenterHead()).into(iv_project_detail_dynamic_head);
 
             //项目评论人昵称
             tv_news_detail_commenter_name.setText(projectDetailComment.getData().getList().get(0).getCommenterNickname());
 
+            //评论时间
+            tv_news_detail_comment_tine.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(projectDetailComment.getData().getList().get(0).getCommentTime())));
         }
 
     }
 
+    //获取项目详情
     private void getProjectDetailMain(){
 
 
@@ -270,7 +330,6 @@ public class ProjectDetailMainFragment extends Fragment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-
                 detail =new ProjectDetail();
                 try {
 
@@ -318,7 +377,45 @@ public class ProjectDetailMainFragment extends Fragment {
         });
     }
 
+    //转化时间,获取开始的时间格式
+    private String getStartTime(long milliscond){
+        String time="";
+        Date startDate=new Date(milliscond);
+        Date now=new Date();
 
+        int differ=(int)(now.getTime()/(1000*3600*24))-(int)(startDate.getTime()/(1000*3600*24));
+        if(differ<0){
+            time="error";
+        }
+        else if(differ==0){
+            time="今天";
+        }else if(differ==1){
+            time="昨天";
+        }else if(differ==2){
+            time="前天";
+        }else if(differ>2&&differ<7){
+            time= new SimpleDateFormat("E").format(startDate);
+        }else if(differ>=7){
+            time=new SimpleDateFormat("MM-dd").format(startDate);
+        }
+
+        return time;
+    }
+
+    //获取截止时间格式
+    private String getEndTime(long milliscond){
+        String time="";
+        Date endtDate=new Date(milliscond);
+        Date now=new Date();
+        int differ=(int)(endtDate.getTime()/(1000*3600*24))-(int)(now.getTime()/(1000*3600*24));
+        if(differ<0){
+            time="error";
+        }else {
+            time="还剩"+(differ+1)+"天";
+        }
+        return time;
+    }
+    //获取评论
     private void getProjectDetailComment(){
         Request request=new Request.Builder()
                 .get()
@@ -344,6 +441,9 @@ public class ProjectDetailMainFragment extends Fragment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
+
+                Log.i("TAG",str_response);
+
                 projectDetailComment=new ProjectDetailComment();
                 try {
 

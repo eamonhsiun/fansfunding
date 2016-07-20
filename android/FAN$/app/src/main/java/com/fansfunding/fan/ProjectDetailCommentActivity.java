@@ -1,14 +1,18 @@
 package com.fansfunding.fan;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.fansfunding.PullListView.XListView;
@@ -22,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,9 +36,12 @@ import okhttp3.Response;
 
 public class ProjectDetailCommentActivity extends AppCompatActivity {
 
-    //获取第一条评论成功
+    //发表评论请求码
+    private static final int REQUEST_CODE_SEND_COMMENT=300;
+
+    //获取评论成功
     private static final int GET_PROJECT_COMMENT_SUCCESS=102;
-    //获取第一条评论失败
+    //获取评论失败
     private static final int GET_PROJECT_COMMENT_FAILURE=103;
 
     private XListView  lv_PJ_detail_comment;
@@ -64,6 +72,9 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                 //获取评论成功
                 case GET_PROJECT_COMMENT_SUCCESS:
                     endRefresh();
+                    for(int i=0;i<projectDetailComment.getData().getList().size();i++){
+                        adapter.addItem(projectDetailComment.getData().getList().get(i));
+                    }
                     adapter.notifyDataSetChanged();
 
                     break;
@@ -132,6 +143,31 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
 
         lv_PJ_detail_comment.setAdapter(adapter);
 
+        lv_PJ_detail_comment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
+                boolean isLogin=share.getBoolean("isLogin",false);
+                Intent intent=new Intent();
+                //如果没有登陆，则先登陆
+                if(isLogin==false){
+                    intent.setAction(getString(R.string.activity_login));
+                    startActivity(intent);
+                    return;
+                }
+                //打开评论页
+                ProjectDetailComment.ProjectComment comment=(ProjectDetailComment.ProjectComment)lv_PJ_detail_comment.getAdapter().getItem(position);
+                if(comment==null){
+                    return;
+                }
+                intent.setAction(getString(R.string.activity_project_comment));
+                intent.putExtra("categoryId",categoryId);
+                intent.putExtra("projectId",projectId);
+                intent.putExtra("pointTo",comment.getCommenterId());
+                startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
+            }
+        });
+
         Intent intent=getIntent();
         projectDetail= (AllProjectInCategory.ProjectDetail) intent.getSerializableExtra("detail");
         //项目分类
@@ -141,6 +177,29 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
         projectId=projectDetail.getId();
 
         getProjectDetailComment();
+
+        final FloatingActionButton fab_PJ_detail_comment=(FloatingActionButton)findViewById(R.id.fab_PJ_detail_comment);
+        fab_PJ_detail_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
+                boolean isLogin=share.getBoolean("isLogin",false);
+
+                Intent intent=new Intent();
+                //如果没有登陆，则先登陆
+                if(isLogin==false){
+                    intent.setAction(getString(R.string.activity_login));
+                    startActivity(intent);
+                    return;
+                }
+                //打开评论页
+                intent.setAction(getString(R.string.activity_project_comment));
+                intent.putExtra("categoryId",categoryId);
+                intent.putExtra("projectId",projectId);
+                intent.putExtra("pointTo",0);
+                startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
+            }
+        });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,7 +225,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
 
     private void getProjectDetailComment(){
         isFinishRequest=false;
-        OkHttpClient httpClient=new OkHttpClient();
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
                 .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/comments")
@@ -192,6 +251,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
                 projectDetailComment=new ProjectDetailComment();
+
                 try {
 
                     //用Gson进行解析，并判断结果是否为空
@@ -200,7 +260,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                         msg.what=GET_PROJECT_COMMENT_FAILURE;
                         handler.sendMessage(msg);
                     }
-                    //获取项目详情失败
+                    //获取评论失败
                     if(projectDetailComment.isResult()==false){
                         Message msg=new Message();
                         switch (projectDetailComment.getErrCode()){
@@ -217,9 +277,8 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                         handler.sendMessage(msg);
                         return;
                     }
-                    Log.i("TAG",str_response);
 
-                    //获取项目信息成功
+                    //获取评论成功
                     Message msg=new Message();
                     msg.what=GET_PROJECT_COMMENT_SUCCESS;
                     handler.sendMessage(msg);
@@ -238,4 +297,15 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_SEND_COMMENT:
+                if(resultCode==RESULT_OK){
+                    getProjectDetailComment();
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

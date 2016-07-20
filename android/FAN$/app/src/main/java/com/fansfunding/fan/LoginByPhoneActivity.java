@@ -28,6 +28,7 @@ import com.google.gson.JsonSyntaxException;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -188,7 +189,7 @@ public class LoginByPhoneActivity extends AppCompatActivity {
                     .add("name",phone)
                     .add("password", MD5Util.getMD5String(password))
                     .build();
-            OkHttpClient httpClient=new OkHttpClient();
+            OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
             Request request=new Request.Builder()
                     .url(getString(R.string.url_login_by_phone))
                     .post(formBody)

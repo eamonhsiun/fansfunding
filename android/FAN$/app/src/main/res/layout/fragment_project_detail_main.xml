@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fansfunding.verticalslide.CustScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,13 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <!--项目发起人头像-->
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_project_detail_main_publisher_head"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginRight="@dimen/icon_padding"
-                android:adjustViewBounds="true"
-                android:layout_centerVertical="true"
                 android:src="@drawable/pjimagetest"/>
 
             <LinearLayout
@@ -61,7 +59,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -71,19 +70,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Immortals"/>
-                    <TextView
-                        android:id="@+id/tv_project_detail_main_time_start"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="1天前"/>
-
+                        android:gravity="right">
+                        <TextView
+                            android:id="@+id/tv_project_detail_main_time_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1天前"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/"
+                            />
+                        <TextView
+                            android:id="@+id/tv_project_detail_main_time_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="还剩x天"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <ProgressBar
                     android:id="@+id/progressBar_project_detail_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:paddingTop="8dp"
                     android:max="100"
                     android:progress="50"
                     />
@@ -137,41 +150,80 @@
             android:paddingTop="@dimen/content_padding"
             android:layout_below="@id/ll_project_detail_main_moneylabel">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
             <!--目标金额签-->
             <TextView
                 android:id="@+id/tv_project_detail_main_target_money"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
-                android:text="600元"
+                android:text="600"
                 android:textSize="@dimen/subhead_text_size"
                 android:textColor="@color/colorPrimaryRed"/>
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:textColor="@color/colorPrimaryRed"
+                    android:text="元"/>
+            </LinearLayout>
             <!--已筹金额-->
-            <TextView
-                android:id="@+id/tv_project_detail_main_get_money"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="233元"
-                android:textSize="@dimen/subhead_text_size"
-                android:textColor="@color/colorPrimaryRed"/>
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <!--目标金额签-->
+                <TextView
+                    android:id="@+id/tv_project_detail_main_get_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:text="233"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:textColor="@color/colorPrimaryRed"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:textColor="@color/colorPrimaryRed"
+                    android:text="元"/>
+            </LinearLayout>
+
 
             <!--支持人数-->
-            <TextView
-                android:id="@+id/tv_project_detail_main_support_times"
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:textSize="@dimen/subhead_text_size"
-                android:textColor="@color/colorPrimaryRed"
-                android:text="24次"/>
+                android:orientation="horizontal"
+                android:gravity="right">
+                <!--目标金额签-->
+                <TextView
+                    android:id="@+id/tv_project_detail_main_support_times"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:textColor="@color/colorPrimaryRed"
+                    android:text="24"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:textColor="@color/colorPrimaryRed"
+                    android:text="次"/>
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -217,4 +269,4 @@
 
 
 </RelativeLayout>
-</ScrollView>
+</com.fansfunding.verticalslide.CustScrollView>

@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -174,7 +175,7 @@ public class SettingActivity extends AppCompatActivity {
             }
 
             System.out.println("token="+token);
-            OkHttpClient httpClient=new OkHttpClient();
+            OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
             FormBody formBody=new FormBody.Builder()
                     .add("token",token)
                     .build();

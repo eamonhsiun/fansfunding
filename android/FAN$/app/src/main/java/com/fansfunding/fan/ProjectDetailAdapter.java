@@ -23,7 +23,7 @@ public class ProjectDetailAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return ProjectDetailMainFragment.newInstance(detail);
+                return ProjectDetailWebFragment.newInstance(detail);
             case 1:
                 return ProjectDetailRewardFragment.newInstance(detail);
             case 2:

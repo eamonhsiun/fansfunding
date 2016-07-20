@@ -20,6 +20,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +47,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -127,6 +129,8 @@ public class UserInfoActivity extends AppCompatActivity {
     private Spinner spinner;
     //邮箱输入栏
     private TextInputEditText tiet_user_info_email;
+    //个人介绍控件
+    private TextInputEditText tiet_user_info_introduction;
 
     private Handler handler=new Handler(){
         @Override
@@ -254,7 +258,7 @@ public class UserInfoActivity extends AppCompatActivity {
         });
         spinner.setVisibility(View.VISIBLE);
 
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         //获取并设置修改头像按钮
         Button btn_user_info_head_change=(Button)findViewById(R.id.btn_user_info_head_change);
@@ -278,6 +282,12 @@ public class UserInfoActivity extends AppCompatActivity {
             Picasso.with(this).load(getString(R.string.url_resources)+head).into(iv_user_info_head);
         }
 
+        //个人介绍
+        tiet_user_info_introduction=(TextInputEditText)findViewById(R.id.tiet_user_info_introduction);
+        //昵称
+        tiet_user_info_nickname=(TextInputEditText)findViewById(R.id.tiet_user_info_nickname);
+        //邮箱
+        tiet_user_info_email=(TextInputEditText)findViewById(R.id.tiet_user_info_email);
     }
 
     @Override
@@ -404,6 +414,9 @@ public class UserInfoActivity extends AppCompatActivity {
         //获取修改后email地址
         String new_email=tiet_user_info_email.getText().toString();
 
+        //获取修改后的个人介绍
+        String new_intro=tiet_user_info_introduction.getText().toString();
+
         //昵称
         String old_nickname=share.getString("nickname","");
         //性别，默认为女，0为女，1为男
@@ -411,6 +424,8 @@ public class UserInfoActivity extends AppCompatActivity {
         //邮箱
         String old_email= share.getString("email","");
 
+        //个人介绍
+        String old_intro=share.getString("intro","");
 
 /*        System.out.println("new_nickname:"+new_nickname);
         System.out.println("old_nickname:"+old_nickname);
@@ -421,7 +436,8 @@ public class UserInfoActivity extends AppCompatActivity {
         //如果未做改动
         if(new_nickname.equals(old_nickname)
                 &&sex==old_sex
-                &&new_email.equals(old_email)){
+                &&new_email.equals(old_email)
+                &new_intro.equals(old_intro)){
             Message msg=new Message();
             msg.what=SEND_USER_INFO_SUCCESS;
             handler.sendMessage(msg);
@@ -431,12 +447,16 @@ public class UserInfoActivity extends AppCompatActivity {
         SharedPreferences share_token=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
         String token=share_token.getString("token"," ");
         int userId=share_token.getInt("id",0);
-        System.out.println("userID："+userId);
-        System.out.println("token："+token);
+
+        Log.i("TAG","userID："+userId);
+        Log.i("TAG","token："+token);
+
+
         FormBody.Builder builder=new FormBody.Builder()
                 .add("token",token)
                 .add("email",new_email)
                 .add("nickname",new_nickname)
+                .add("intro",new_intro)
                 ;
         if(sex!=-1){
             builder.add("sex",String.valueOf(sex));
@@ -515,6 +535,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         editor.putString("email", personalInfo.getData().getEmail());
                         editor.putString("token", personalInfo.getToken());
                         editor.putInt("is_red", personalInfo.getData().getIs_red());
+                        editor.putString("intro",personalInfo.getData().getIntro());
 
                         if (personalInfo.getData().getRealInfo() != null) {
                             editor.putInt("readInfo_sex", personalInfo.getData().getRealInfo().getSex());
@@ -651,27 +672,33 @@ public class UserInfoActivity extends AppCompatActivity {
         //昵称
         String nickname=share.getString("nickname","");
         //性别
-        sex=share.getInt("sex",-1);
+        sex=share.getInt("readInfo_sex",-1);
         //邮箱
         String email= share.getString("email","");
         //头像url
         String url_head=share.getString("head","");
 
+        //个人介绍
+        String intro=share.getString("intro","");
+
         //用户昵称初始化
-        tiet_user_info_nickname=(TextInputEditText)findViewById(R.id.tiet_user_info_nickname);
+
         tiet_user_info_nickname.setText(nickname);
 
         //用户性别初始化
-        spinner.setSelection(0);
+        spinner.setSelection(sex+1);
 
         //用户邮箱初始化
-        tiet_user_info_email=(TextInputEditText)findViewById(R.id.tiet_user_info_email);
+
         tiet_user_info_email.setText(email);
 
         //获取头像控件并设置
         if(url_head.equals("")==false){
             //Picasso.with(this).load(url_head).into(iv_user_info_head);
         }
+
+        //初始化个人介绍
+        tiet_user_info_introduction.setText(intro);
     }
 
     private void getUserInfo(){
@@ -701,7 +728,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 Message msg=new Message();
                 msg.what=GET_USER_INFO_FAILURE;
                 handler.sendMessage(msg);
-                System.out.println("error1");
             }
 
             @Override
@@ -711,21 +737,20 @@ public class UserInfoActivity extends AppCompatActivity {
                     Message msg=new Message();
                     msg.what=GET_USER_INFO_FAILURE;
                     handler.sendMessage(msg);
-                    System.out.println("error2");
                     return;
                 }
 
                 Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 PersonalInfo personalInfo=new PersonalInfo();
                 String str_response=response.body().string();
-                System.out.println(str_response);
+                Log.i("TAG","length:"+str_response.length());
+                Log.i("TAG","userInfoActivity:"+str_response);
                 try {
                     //用Gson进行解析，并判断结果是否为空
                     if((personalInfo = gson.fromJson(str_response, personalInfo.getClass()))==null){
                         Message msg = new Message();
                         msg.what = GET_USER_INFO_FAILURE;
                         handler.sendMessage(msg);
-                        System.out.println("error3");
                         return;
                     }
                     //处理获取个人信息失败
@@ -748,6 +773,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         handler.sendMessage(msg);
                         return;
                     }
+
                     //将验证码信息保存到SharePreference里
                     SharedPreferences share=UserInfoActivity.this.getSharedPreferences(getString(R.string.sharepreference_user_info),MODE_PRIVATE);
                     SharedPreferences.Editor editor=share.edit();
@@ -761,15 +787,17 @@ public class UserInfoActivity extends AppCompatActivity {
                         editor.putString("email", personalInfo.getData().getEmail());
                         editor.putString("token", personalInfo.getToken());
                         editor.putInt("is_red", personalInfo.getData().getIs_red());
+                        editor.putString("intro",personalInfo.getData().getIntro());
 
                         if (personalInfo.getData().getRealInfo() != null) {
-                            editor.putInt("readInfo_sex", personalInfo.getData().getRealInfo().getSex());
+                            editor.putInt("readInfo_sex", Integer.valueOf(personalInfo.getData().getRealInfo().getSex()));
                             editor.putString("readInfo_realName", personalInfo.getData().getRealInfo().getRealName());
                             editor.putString("readInfo_birthPlace", personalInfo.getData().getRealInfo().getBirthPlace());
 
                             editor.putLong("readInfo_birthday", personalInfo.getData().getRealInfo().getBirthday());
                         }
                     }
+
                     editor.commit();
                     //获取信息成功
                     Message msg=new Message();

@@ -48,7 +48,7 @@ public class UserController {
 		//TODO:存在性验证
 		int tid;
 		try {
-			tid = Integer.parseInt(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
+			tid = Integer.parseInt(AESUtils.Decrypt(token.replace("ADD_ADD", "+"), AESUtils.ENCRYPT_KEY));
 		} catch (Exception e) {
 			return new Status(false, StatusCode.ERROR_DATA, null, null);
 		}
@@ -71,7 +71,7 @@ public class UserController {
 		// TODO:存在性验证
 		int tid;
 		try {
-			tid = Integer.parseInt(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
+			tid = Integer.parseInt(AESUtils.Decrypt(token.replace("ADD_ADD", "+"), AESUtils.ENCRYPT_KEY));
 		} catch (Exception e) {
 			return new Status(false, StatusCode.ERROR_DATA, null, null);
 		}
@@ -80,8 +80,9 @@ public class UserController {
 			user.setPassword(password);
 			userService.updatePwd(user);
 		}
+		
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
-				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY));
+				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "ADD_ADD"));
 	}
 	/**
 	 * 用户的订单

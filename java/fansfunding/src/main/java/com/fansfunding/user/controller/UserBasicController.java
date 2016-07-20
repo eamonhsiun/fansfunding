@@ -55,7 +55,7 @@ public class UserBasicController {
 		User user;
 		try {
 			// TODO:Checker过期检测
-			cid = Integer.valueOf(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
+			cid = Integer.valueOf(AESUtils.Decrypt(token.replace("ADD_ADD", "+"), AESUtils.ENCRYPT_KEY));
 			c = checkerService.getCheckerByID(cid);
 
 			if (!(c.getChecknum() == checker)) {
@@ -68,20 +68,20 @@ public class UserBasicController {
 			return new Status(false, StatusCode.PASSWORD_ERROR, null, null);
 		}
 
-		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, c.getPhone());
+		
 
 		try {
-			user = userService.createUser(c.getPhone(), password, newToken.getId());
+			user = userService.createUser(c.getPhone(), password);
 			user.setPassword("");
 		} catch (Exception e) {
 			return new Status(false, StatusCode.USER_EXIST, null, null);
 
 		}
 		checkerService.deleteById(cid);
-		
+		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
 
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%A-D"));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%ADD_ADD"));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class UserBasicController {
 		User user;
 		try {
 			// TODO:Checker过期检测
-			cid = Integer.valueOf(AESUtils.Decrypt(token, AESUtils.ENCRYPT_KEY));
+			cid = Integer.valueOf(AESUtils.Decrypt(token.replace("ADD_ADD", "+"), AESUtils.ENCRYPT_KEY));
 			c = checkerService.getCheckerByID(cid);
 
 			if (!(c.getChecknum() == checker)) {
@@ -117,17 +117,16 @@ public class UserBasicController {
 			return new Status(false, StatusCode.PASSWORD_ERROR, null, null);
 		}
 
-		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, c.getPhone());
-
-
 		user = userService.getUserByPhone(c.getPhone());
+		
+		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
 		if(user==null)return new Status(false, StatusCode.USER_NULL, null, null);
 		user.setPassword(password);
 		userService.updatePwd(user);
 		
 		checkerService.deleteById(cid);
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%A-D"));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "ADD_ADD"));
 		
 
 
@@ -155,11 +154,11 @@ public class UserBasicController {
 			return new Status(false, StatusCode.PASSWORD_ERROR, null, null);
 		
 		// 权限控制
-		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user.getName());
+		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
 
 		user.setPassword("");
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
-				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%A-D"));
+				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "ADD_ADD"));
 	}
 	
 	/**

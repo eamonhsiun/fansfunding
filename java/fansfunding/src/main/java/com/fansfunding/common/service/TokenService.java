@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.common.dao.TokenDao;
 import com.fansfunding.common.entity.Token;
+import com.fansfunding.user.dao.UserDao;
+import com.fansfunding.user.entity.User;
 
 
 @Service
 public class TokenService {
 	@Autowired
 	private TokenDao tokenDao;
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * 是否过期
@@ -38,14 +42,18 @@ public class TokenService {
 	 * 请求Token
 	 * @return
 	 */
-	public Token requestToken(int permission,String phone){
-
+	public Token requestToken(int permission,User user){
 		Token token = new Token();
 		token.setValue(UUID.randomUUID().toString().replace("-", ""));
 		token.setPermission(permission);
-		token.setPhone(phone);
+		token.setPhone(user.getPhone());
 		tokenDao.insertNewToken(token);
 		token.setPermission(0);
+		
+		user.setToken(token.getId());
+		userDao.updateToken(user);
+		
+		
 		return token;
 	}
 	
@@ -69,6 +77,10 @@ public class TokenService {
 
 	
 	public void setPermission(int id,int permission){
+		Token token = new Token();
+		token.setId(id);
+		token.setPermission(permission);
+		tokenDao.updatePermission(token);
 		
 	}
 

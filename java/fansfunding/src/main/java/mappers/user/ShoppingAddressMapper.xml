@@ -8,6 +8,7 @@
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="district" property="district" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="is_default" property="isDefault" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
@@ -15,26 +16,35 @@
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="INTEGER" />
   </resultMap>
   
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from shopping_address
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update shopping_address
+    set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+  </update>
   
+
   <insert id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     insert into shopping_address (id, user_id, province, 
-      city, district, address, 
+      city, district, address, phone,name,post_code,is_default,
       create_by, create_time, update_by, 
       update_time, del_flag)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{postCode,jdbcType=INTEGER}, #{isDefault,jdbcType=INTEGER},
       #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
       now(), #{delFlag,jdbcType=CHAR})
   </insert>
+  
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     update shopping_address
     set user_id = #{userId,jdbcType=INTEGER},
+      is_default=#{isDefault,jdbcType=INTEGER},
+      phone=#{phone,jdbcType=VARCHAR},
+      name=#{name,jdbcType=VARCHAR},
+      post_code=#{postCode,jdbcType=INTEGER},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       district = #{district,jdbcType=VARCHAR},
@@ -48,21 +58,24 @@
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, user_id, province, city, district, address, create_by, create_time, update_by, 
-    update_time, del_flag,phone,name,post_code
+    update_time, del_flag,phone,name,post_code,is_default
     from shopping_address
     where id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
   
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, user_id, province, city, district, address, create_by, create_time, update_by, 
-    update_time, del_flag, phone, name,post_code
+    update_time, del_flag, phone, name,post_code,is_default
     from shopping_address
     where user_id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
   </select>
   
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, user_id, province, city, district, address, create_by, create_time, update_by, 
-    update_time, del_flag, phone, name,post_code
+    update_time, del_flag, phone, name,post_code,is_default
     from shopping_address
+    where del_flag='0'
   </select>
 </mapper>

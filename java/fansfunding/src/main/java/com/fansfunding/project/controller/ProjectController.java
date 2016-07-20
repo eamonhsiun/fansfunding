@@ -31,7 +31,7 @@ public class ProjectController {
 	 * @param catagroyId 分类ID
 	 * @return
 	 */
-	@RequestMapping("{categoryId}")
+	@RequestMapping(path="{categoryId}",method=RequestMethod.GET)
 	@ResponseBody
 	public Status projects(@PathVariable Integer categoryId,
 			@RequestParam(required=false,defaultValue="1") Integer page,
@@ -45,7 +45,7 @@ public class ProjectController {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping("{categoryId}/{projectId}")
+	@RequestMapping(path="{categoryId}/{projectId}",method=RequestMethod.GET)
 	@ResponseBody
 	public Status project(@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!projectService.inCategory(categoryId, projectId)){
@@ -59,7 +59,7 @@ public class ProjectController {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping("{categoryId}/{projectId}/detail")
+	@RequestMapping(path="{categoryId}/{projectId}/detail",method=RequestMethod.GET)
 	@ResponseBody
 	public Status prjectDetail(@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!projectService.inCategory(categoryId, projectId)){
@@ -149,19 +149,5 @@ public class ProjectController {
 			return new Status(true,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);
-	}
-	/**
-	 * 项目搜索
-	 * @param keyword
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-	@RequestMapping(path="search",method=RequestMethod.GET)
-	@ResponseBody
-	public Status search(@RequestParam String keyword,
-			@RequestParam(required = false, defaultValue = "1") Integer page,
-			@RequestParam(required = false, defaultValue = "10") Integer rows){
-		return new Status(true,StatusCode.SUCCESS,projectService.search(keyword,page,rows),null);
 	}
 }

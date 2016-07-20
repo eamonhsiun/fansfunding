@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fansfunding.project.dao.FollowProjectDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.project.entity.FollowProject" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <update id="delete" parameterType="java.lang.Integer" >
+    update follow_project
+    set del_flag='1'
+    where user_id=#{userId,jdbcType=INTEGER}
+    and
+    project_id=#{projectId,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" parameterType="com.fansfunding.project.entity.FollowProject" >
+    insert into follow_project (id, user_id, project_id,create_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER},NOW())
+  </insert>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.fansfunding.project.entity.FollowProject">
+  	select id, user_id,project_id,create_time,del_flag
+  	from follow_project
+    where user_id=#{userId,jdbcType=INTEGER}
+    and
+    project_id=#{projectId,jdbcType=INTEGER}
+  </select>
+  <update id="disdelete" parameterType="com.fansfunding.project.entity.FollowProject" >
+    update follow_project
+    set del_flag='0'
+    where user_id=#{userId,jdbcType=INTEGER}
+    and
+    project_id=#{projectId,jdbcType=INTEGER}
+  </update>
+</mapper>

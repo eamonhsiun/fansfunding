@@ -8,13 +8,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.pay.entity.Order;
 import com.fansfunding.project.dao.FeedbackDao;
+import com.fansfunding.project.dao.FollowProjectDao;
 import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.dao.ProjectDetailDao;
 import com.fansfunding.project.dao.ProjectMomentDao;
 import com.fansfunding.project.dao.ResourceDao;
+import com.fansfunding.project.entity.FollowProject;
 import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.entity.ProjectDetail;
 import com.fansfunding.project.entity.ProjectMoment;
@@ -41,6 +44,8 @@ public class ProjectService {
 	private ProjectMomentDao momentDao;
 	@Autowired
 	private ResourceDao resourceDao;
+	@Autowired
+	private FollowProjectDao followProjectDao;
 	/**
 	 * 添加项目
 	 * @param name 
@@ -60,7 +65,8 @@ public class ProjectService {
 			String others, String video){
 		ProjectDetail projectDetail = new ProjectDetail();
 		projectDetail.setContent(content);
-		projectDetail.setCreateBy("admin");
+		projectDetail.setCreateBy(userDao.selectById(sponsor).getName());
+		projectDetail.setUpdateBy(userDao.selectById(sponsor).getName());
 		projectDetail.setDelFlag("0");
 		projectDetail.setOthers(others);
 		projectDetail.setVideo(video);
@@ -69,10 +75,10 @@ public class ProjectService {
 		Project project = new Project();
 		project.setCategoryId(categoryId);
 		project.setCover(cover);
-		project.setCreateBy("admin");
+		project.setCreateBy(userDao.selectById(sponsor).getName());
 		project.setDelFlag("0");
 		project.setDescription(description);
-		
+		project.setUpdateBy(userDao.selectById(sponsor).getName());
 		project.setDetailId(detailId);
 		project.setName(name);
 		project.setSponsor(sponsor);
@@ -246,6 +252,14 @@ public class ProjectService {
 		supports.put("supportNum",orders.size());
 		return supports;
 	}
+	/**
+	 * 
+	 * 搜索项目
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
 	public Page search(String keyword,int page,int rows){
 
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
@@ -258,4 +272,76 @@ public class ProjectService {
 		});
 		return PageAdapter.adapt(info, projects);
 	}
+	/**
+	 * 获取用户发起的项目
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public Page getSponsor(int userId,int page,int rows){
+		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<Project> list=projectDao.selectSponsor(userId);
+		PageInfo<Project> info=new PageInfo<>(list);
+		list.forEach((e)->{
+			projects.add(this.buildMap(e));
+		});
+		return PageAdapter.adapt(info, projects);
+	}
+	/**
+	 * 获取关注的项目
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public Page getFollow(int userId,int page,int rows){
+		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<Project> list=projectDao.selectSponsor(userId);
+		PageInfo<Project> info=new PageInfo<>(list);
+		list.forEach((e)->{
+			projects.add(this.buildMap(e));
+		});
+		return PageAdapter.adapt(info, projects);
+	}
+	/**
+	 * 关注
+	 * @param userId
+	 * @param category
+	 * @param projectId
+	 */
+	public boolean follow(int userId,int category,int projectId){
+		if(userDao.selectById(userId)==null){
+			return false;
+		}
+		FollowProject follow=new FollowProject();
+		follow.setProjectId(projectId);
+		follow.setUserId(userId);
+		if(followProjectDao.select(follow)!=null){
+			followProjectDao.disdelete(follow);
+		}
+		else{
+			followProjectDao.insert(follow);
+		}
+		return true;
+	}
+	/**
+	 * 取消关注
+	 * @param userId
+	 * @param category
+	 * @param projectId
+	 */
+	public boolean unfollow(int userId,int category,int projectId){
+		if(userDao.selectById(userId)==null){
+			return false;
+		}
+		FollowProject follow=new FollowProject();
+		follow.setProjectId(projectId);
+		follow.setUserId(userId);
+		followProjectDao.delete(follow);
+		return true;
+	}
+	
 }

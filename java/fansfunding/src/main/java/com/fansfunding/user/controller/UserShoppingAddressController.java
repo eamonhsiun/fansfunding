@@ -60,7 +60,7 @@ public class UserShoppingAddressController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/{addressId}/shopping_address",method=RequestMethod.PATCH)
+	@RequestMapping(path="{userId}/shopping_address/{addressId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Status deleteShoppingAddress(
 			@PathVariable Integer userId,
@@ -74,14 +74,14 @@ public class UserShoppingAddressController {
 			@RequestParam String address
 			){
 		shoppingAddressService.updateById(addressId, address, city, district, province, phone, post_code, name, userId);
-		return null;
+		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
 	}
 	/**
 	 * 删除用户收货地址
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/{addressId}/shopping_address",method=RequestMethod.DELETE)
+	@RequestMapping(path="{userId}/shopping_address/{addressId}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public Status updateShoppingAddress(
 			@PathVariable Integer userId,
@@ -89,6 +89,25 @@ public class UserShoppingAddressController {
 			){
 		shoppingAddressService.deleteById(addressId);
 		return new Status(true, StatusCode.SUCCESS, "删除成功", null);
+	}
+	/**
+	 * 获得默认地址
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/shopping_address/default",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getDefault(@PathVariable Integer userId){
+		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getDefault(userId),null);
+	}
+	/**
+	 * 设置默认地址
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/shopping_address/default",method=RequestMethod.POST)
+	@ResponseBody
+	public Status setDefault(@PathVariable Integer userId,@RequestParam int addressId){
+		shoppingAddressService.setDefault(userId, addressId);
+		return new Status(true, StatusCode.SUCCESS, "设置成功",null);
 	}
 	
 }

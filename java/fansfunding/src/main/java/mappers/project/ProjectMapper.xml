@@ -28,14 +28,14 @@
       detail_id, target_money, target_deadline, 
       cover, status, create_by, 
       create_time, update_time, 
-      name, description
+      name, description,update_by
       )
     values (#{categoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
       #{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL},
       #{targetDeadline,jdbcType=TIMESTAMP}, 
       #{cover,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
       NOW(),NOW(), 
-      #{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
+      #{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR},#{updateBy,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Project" >
@@ -72,6 +72,22 @@
     status, create_by, create_time, update_by, update_time, del_flag, name, description
     from project
     where (CONCAT(name,description) like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%' ))
+    and del_flag='0'
+  </select>
+  <select id="selectLike" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select p.id, p.category_id, p.sponsor, p.detail_id, p.target_money, p.target_deadline, p.cover, 
+    p.status, p.create_by, p.create_time, p.update_by, p.update_time, p.del_flag, p.name, p.description
+    from project p,follow_project f
+    where f.user_id=#{userId,jdbcType=INTEGER}
+    and p.id=f.project_id
+    and p.del_flag='0'
+    and f.del_flag='0'
+  </select>
+  <select id="selectFollow" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
+    status, create_by, create_time, update_by, update_time, del_flag, name, description
+    from project
+    where sponsor=#{userId,jdbcType=INTEGER}
     and del_flag='0'
   </select>
 </mapper>

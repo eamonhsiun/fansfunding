@@ -14,10 +14,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.project.entity.ProjectMoment" >
-    insert into project_moment (id, project_id, create_time, 
+    insert into project_moment (project_id, create_time, 
       del_flag, content
       )
-    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, NOW(), 
+    values (#{projectId,jdbcType=INTEGER}, NOW(), 
       #{delFlag,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>

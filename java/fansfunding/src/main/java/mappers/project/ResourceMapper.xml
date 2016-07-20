@@ -15,10 +15,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.Resource" >
-    insert into resource (id, type, path, 
+    insert into resource (type, path, 
       mapping_id, create_time, del_flag
       )
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+    values (#{type,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
       #{mappingId,jdbcType=INTEGER}, NOW(), #{delFlag,jdbcType=CHAR}
       )
   </insert>

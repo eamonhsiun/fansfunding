@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
+import com.fansfunding.utils.CheckUtils;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
@@ -70,8 +71,15 @@ public class UserSettingsController {
 			@RequestParam(required = false, defaultValue = "") String intro,
 			@RequestParam(required = false, defaultValue = "1970-01-01") String birthday) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-		
-		return new Status(true,StatusCode.SUCCESS,userService.getUserMap(userService.updateUserInfo(userId,nickname, email, Byte.parseByte(sex), idNumber, intro, sdf.parse(birthday))),null);
+		if(!CheckUtils.isEmail(email)){
+			return new Status(false,StatusCode.WRONG_EMAIL,"邮箱格式不正确",null);
+		}
+		if((!"0".equals(sex))||(!"1".equals(sex))){
+			return new Status(false,StatusCode.ERROR_DATA,"参数错误",null);
+		}
+		return new Status(true,StatusCode.SUCCESS,
+				userService.getUserMap(userService.updateUserInfo(userId,nickname, email,
+						Byte.parseByte(sex), idNumber, intro, sdf.parse(birthday))),null);
 	}
 	
 	

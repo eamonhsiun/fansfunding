@@ -80,7 +80,9 @@ public class StatusCode {
 	/**
 	 * 邮箱错误
 	 */
+	public static final int WRONG_EMAIL=423;
 	/**
 	 * 邮箱已存在
 	 */
+	public static final int EMAIL_EXIST=424;
 }

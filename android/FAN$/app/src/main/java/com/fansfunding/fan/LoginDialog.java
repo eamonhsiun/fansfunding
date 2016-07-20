@@ -1043,7 +1043,7 @@ public class LoginDialog {
                         editor.putString("nickname",login.getData().getNickname());
                         editor.commit();
 
-                        System.out.println(str_response);
+                        Log.e("TAH","token"+login.getToken());
                         //成功响应事件
                         //待写
                         Message msg=new Message();

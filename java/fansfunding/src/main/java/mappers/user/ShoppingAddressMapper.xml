@@ -24,6 +24,8 @@
     set del_flag='1'
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+
   <insert id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     insert into shopping_address (user_id, province, 
       city, district, address, phone,name,post_code,is_default,
@@ -35,6 +37,7 @@
       #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
       now(), '0')
   </insert>
+  
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     update shopping_address
     set user_id = #{userId,jdbcType=INTEGER},

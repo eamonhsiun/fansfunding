@@ -98,7 +98,7 @@ public class UserService {
 	 * @param password
 	 * @return
 	 */
-	public User createUser(String phone,String password,int tokenid){
+	public User createUser(String phone,String password){
 		User user = new User();	
 		user.setName(phone);
 		user.setNickname(phone);
@@ -108,7 +108,6 @@ public class UserService {
 		user.setHead(UUID.randomUUID().toString().replace("-", ""));
 		user.setRemark("");
 		user.setDel_flag('0');
-		user.setToken(tokenid);
 		user.setCreate_by("me");
 		user.setUpdate_by("me");
 		user.setCreate_time(new Date());

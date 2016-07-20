@@ -56,7 +56,7 @@
   		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{token},#{intro})
   </insert>
   
-  <update id="updateToken" parameterType="com.fansfunding.user.entity.User">
+  <update id="updateToken" parameterType="int">
   	update user
   	set token = #{token}
   	where id = #{id}

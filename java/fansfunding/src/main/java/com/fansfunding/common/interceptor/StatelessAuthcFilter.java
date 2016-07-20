@@ -5,6 +5,10 @@ import javax.servlet.ServletResponse;
 
 import org.apache.shiro.web.filter.AccessControlFilter;
 
+import com.fansfunding.utils.response.Status;
+import com.fansfunding.utils.response.StatusCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class StatelessAuthcFilter extends AccessControlFilter {
 
 	@Override
@@ -15,15 +19,18 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-
 		String token = request.getParameter("token");
+
 		System.err.println(token);
 		try {
 			// TODO:NOT FINISHED!!!
 			StatelessToken upt = new StatelessToken(token);
 			getSubject(request, response).login(upt);
 		} catch (Exception e) {
-			// onLoginFail(response); //6、登录失败
+			ObjectMapper mapper = new ObjectMapper();
+			response.getWriter().write(mapper.writeValueAsString(new Status(false, StatusCode.PERMISSION_LOW, "权限过低，请求已被拦截", null)));
+			
+			
 			return false;
 		}
 

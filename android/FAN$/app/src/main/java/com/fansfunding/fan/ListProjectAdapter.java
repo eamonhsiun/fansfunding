@@ -119,8 +119,9 @@ public class ListProjectAdapter extends BaseAdapter{
         //发起人头像
         CircleImageView iv_PJ_publish_head=(CircleImageView)rootView.findViewById(R.id.iv_PJ_publish_head);
         if(context!=null&&detail.getSponsorHead()!=null&&detail.getSponsorHead().equals("")==false){
-            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getSponsorHead()).resize(300,200).into(iv_PJ_publish_head);
+            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getSponsorHead()).into(iv_PJ_publish_head);
         }
+        Log.i("TAG","地址:"+context.getString(R.string.url_resources)+detail.getCover());
         return rootView;
     }
 }

@@ -359,6 +359,8 @@ public class UserInfoActivity extends AppCompatActivity {
                     tempFile=photoFile;
 
                     //获取压缩过后的bitmap
+                    Log.i("TAG","file路径:"+tempFile.getAbsolutePath());
+                    Log.i("TAG","photoFile::"+photoFile.getAbsolutePath());
                     bitmap=decodeUriAsBitmap(Uri.fromFile(photoFile));
                     iv_user_info_head.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
@@ -368,7 +370,6 @@ public class UserInfoActivity extends AppCompatActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
 
                 break;
             default:
@@ -389,6 +390,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         //先上传用户头像，如果没有头像修改，则直接上传其他信息
         if(tempFile!=null){
+            Log.i("TAG","file路径:"+tempFile.getAbsolutePath());
             UploadUserHead();
         }
         //上传用户其他信息
@@ -575,6 +577,7 @@ public class UserInfoActivity extends AppCompatActivity {
         int userId=share.getInt("id",0);
 
         RequestBody requestBodyTest= FormBody.create(MediaType.parse("image/jpeg"),tempFile);
+        Log.i("TAG","file路径shangchuan:"+tempFile.getAbsolutePath());
         RequestBody requestBody=new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", tempFile.getName(),requestBodyTest)

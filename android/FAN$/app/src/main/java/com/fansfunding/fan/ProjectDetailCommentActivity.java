@@ -59,6 +59,13 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
     //是否已经完成了项目数据获取的请求
     private boolean isFinishRequest=true;
 
+
+    //一次获取评论的数量
+    private final int rows=20;
+
+    //获取评论的页数
+    private int page=1;
+
     //项目评论
     private  ProjectDetailComment projectDetailComment;
 
@@ -73,6 +80,11 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                 //获取评论成功
                 case GET_PROJECT_COMMENT_SUCCESS:
                     endRefresh();
+                    if(projectDetailComment.getData().getList().size()<rows){
+                        page=1;
+                    }else{
+                        page++;
+                    }
                     for(int i=0;i<projectDetailComment.getData().getList().size();i++){
                         adapter.addItem(projectDetailComment.getData().getList().get(i));
                     }
@@ -89,7 +101,6 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                     Toast.makeText(ProjectDetailCommentActivity.this,"获取评论失败",Toast.LENGTH_LONG).show();
                     break;
                 case ErrorCode.REQUEST_TOO_FRENQUENTLY:
-
                     if(ProjectDetailCommentActivity.this.isFinishing()==true){
                         break;
                     }
@@ -231,7 +242,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
-                .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/comments")
+                .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/comments?rows="+rows+"&page="+page)
                 .build();
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {

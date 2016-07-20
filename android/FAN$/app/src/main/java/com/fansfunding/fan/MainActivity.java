@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity{
                         tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.more_pressed));
                         break;
                 }
-                Log.i("TAG","已选择:"+i);
                 continue;
             }
             switch (i){
@@ -110,7 +109,6 @@ public class MainActivity extends AppCompatActivity{
                     break;
             }
 
-            Log.i("TAG","未选择已选择:"+i);
         }
 
 

@@ -27,11 +27,11 @@
   
 
   <insert id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
-    insert into shopping_address (id, user_id, province, 
+    insert into shopping_address (user_id, province, 
       city, district, address, phone,name,post_code,is_default,
       create_by, create_time, update_by, 
       update_time, del_flag)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{postCode,jdbcType=INTEGER}, #{isDefault,jdbcType=INTEGER},
       #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 

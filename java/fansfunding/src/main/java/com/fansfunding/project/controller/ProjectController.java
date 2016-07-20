@@ -104,9 +104,9 @@ public class ProjectController {
 			return new Status(false,StatusCode.FAILED,"分类不存在",null);
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-		projectService.addProject(name, categoryId, cover, sponsor, sdf.parse(targetDeadline),
+		int projectId=projectService.addProject(name, categoryId, cover, sponsor, sdf.parse(targetDeadline),
 				targetMoney, description, content, images, others, video);
-		return new Status(true,StatusCode.SUCCESS,"添加成功",null);
+		return new Status(true,StatusCode.SUCCESS,projectId,null);
 	}
 	/**
 	 * 获取动态

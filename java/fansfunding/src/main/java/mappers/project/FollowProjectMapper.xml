@@ -16,8 +16,8 @@
     project_id=#{projectId,jdbcType=INTEGER}
   </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.FollowProject" >
-    insert into follow_project (id, user_id, project_id,create_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER},NOW())
+    insert into follow_project (user_id, project_id,create_time)
+    values (#{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER},NOW())
   </insert>
   <select id="select" resultMap="BaseResultMap" parameterType="com.fansfunding.project.entity.FollowProject">
   	select id, user_id,project_id,create_time,del_flag

@@ -83,21 +83,6 @@ public class UserController {
 		return new Status(true, StatusCode.SUCCESS, new UserBasic(user),
 				AESUtils.Encrypt(rToken.getId() + "", AESUtils.ENCRYPT_KEY));
 	}
-
-	/**
-	 * 用户搜索
-	 * @param keyword
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-	@RequestMapping(path="search",method=RequestMethod.GET)
-	@ResponseBody
-	public Status search(@RequestParam String keyword,
-			@RequestParam(required = false, defaultValue = "1") Integer page,
-			@RequestParam(required = false, defaultValue = "10") Integer rows){
-		return new Status(true,StatusCode.SUCCESS,userService.search(keyword,page,rows),null);
-	}
 	/**
 	 * 用户的订单
 	 * @param userId

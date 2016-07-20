@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fansfunding.project.entity.Feedback;
 import com.fansfunding.project.service.FeedbackService;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.utils.CheckUtils;
@@ -48,12 +47,13 @@ public class FeedbackController {
 	@RequestMapping(path="{categoryId}/{projectId}/feedbacks",method=RequestMethod.POST)
 	@ResponseBody
 	public Status addFeedbacks(@PathVariable Integer categoryId,@PathVariable Integer projectId,
-			Feedback feedback,@RequestParam(required=false,defaultValue="") String images){
+			@RequestParam String title,@RequestParam String description,@RequestParam double limitation, 
+			@RequestParam(required=false,defaultValue="") String images){
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		if(!CheckUtils.isNullOrEmpty(feedback)){
-			feedbackService.add(feedback,images);
+		if(!CheckUtils.isNullOrEmpty(title,description,images)){
+			feedbackService.add(projectId,title,description,limitation,images);
 			return new Status(true,StatusCode.SUCCESS,"回馈方式添加成功",null);
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);

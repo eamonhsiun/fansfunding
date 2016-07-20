@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fansfunding.project.dao.FeedbackDao;
+import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.dao.ResourceDao;
 import com.fansfunding.project.entity.Feedback;
 import com.fansfunding.project.entity.Resource;
+import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
 import com.github.pagehelper.PageHelper;
@@ -23,7 +25,10 @@ public class FeedbackService {
 	private FeedbackDao feedbackDao;
 	@Autowired
 	private ResourceDao resourceDao;
-	
+	@Autowired
+	private ProjectDao projectDao;
+	@Autowired
+	private UserDao userDao;
 	/**
 	 * 获取项目相关的回馈方式
 	 * @param projectId 项目ID
@@ -57,11 +62,18 @@ public class FeedbackService {
 	 * 添加回馈
 	 * @param feedback 回馈
 	 */
-	public void add(Feedback feedback,String images){
-		int feedbackId=feedbackDao.insert(feedback);
+	public void add(int projectId,String title,String description,double limitation ,String images){
+		Feedback feedback=new Feedback();
+		feedback.setProjectId(projectId);
+		feedback.setTitle(title);
+		feedback.setDescription(description);
+		feedback.setLimitation(limitation);
+		feedback.setCreateBy(userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getName());
+		feedback.setUpdateBy(userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getName());
+		feedbackDao.insert(feedback);
 		for(String s:images.split(",")){
 			Resource resource=new Resource();
-			resource.setMappingId(feedbackId);
+			resource.setMappingId(feedback.getId());
 			resource.setType("feedback_image");
 			resource.setPath(s);
 			resourceDao.updateByPath(resource);

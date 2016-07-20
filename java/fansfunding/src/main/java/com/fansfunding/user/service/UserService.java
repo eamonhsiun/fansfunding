@@ -117,25 +117,6 @@ public class UserService {
 		
 		RealInfo realInfo = new RealInfo();
 		realInfo.setUserId(user.getId());
-//		realInfo.setSex((byte) 0);
-//		realInfo.setAddress("");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-//		try {
-//			realInfo.setBirthday(sdf.parse("1999-12-31"));
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-		
-//		realInfo.setBirthPlace("");
-//		realInfo.setCreateBy("me");
-//		realInfo.setCreateTime(new Date());
-//		realInfo.setUpdateBy("me");
-//		realInfo.setUpdateTime(new Date());
-//		realInfo.setDelFlag("0");
-//		realInfo.setIdNumber("");
-//		realInfo.setIsValidated((byte)0);
-//		realInfo.setRealName("");
-//		realInfo.setSex((byte)0);
 		
 		realInfoDao.insertNew(realInfo);
 		
@@ -143,7 +124,6 @@ public class UserService {
 		return user;
 	}
 		
-
 
 	public void updateToken(int id) {
 		

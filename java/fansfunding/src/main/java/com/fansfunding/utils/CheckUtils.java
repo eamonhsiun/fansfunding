@@ -53,21 +53,23 @@ public class CheckUtils {
 	 * @param obj 被验证的对象
 	 * @param message 异常信息
 	 */
-	public static boolean isNullOrEmpty(Object obj) {
-		if (obj == null){
-			return true;
-		}
-		if (obj instanceof String && obj.toString().trim().length()==0){
-			return true;
-		}
-		if (obj.getClass().isArray() && Array.getLength(obj)==0){
-			return true;
-		}
-		if (obj instanceof Collection && ((Collection<?>)obj).isEmpty()){
-			return true;
-		}
-		if (obj instanceof Map && ((Map<?,?>)obj).isEmpty()){
-			return true;
+	public static boolean isNullOrEmpty(Object... objs) {
+		for(Object obj:objs){
+			if (obj == null){
+				return true;
+			}
+			if (obj instanceof String && obj.toString().trim().length()==0){
+				return true;
+			}
+			if (obj.getClass().isArray() && Array.getLength(obj)==0){
+				return true;
+			}
+			if (obj instanceof Collection && ((Collection<?>)obj).isEmpty()){
+				return true;
+			}
+			if (obj instanceof Map && ((Map<?,?>)obj).isEmpty()){
+				return true;
+			}
 		}
 		return false;
 	}

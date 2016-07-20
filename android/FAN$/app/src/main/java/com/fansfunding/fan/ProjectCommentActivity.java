@@ -2,6 +2,7 @@ package com.fansfunding.fan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TextInputEditText;
@@ -106,11 +107,13 @@ public class ProjectCommentActivity extends AppCompatActivity {
 
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_PJ_comment);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("写评论");
+
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.fansfunding.internal.ErrorCode;
@@ -113,6 +114,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 .create();
         dialog_reset_password.setCanceledOnTouchOutside(false);
         dialog_reset_password.show();
+
+        Button btn_pos=dialog_reset_password.getButton(AlertDialog.BUTTON_POSITIVE);
+        btn_pos.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private class ResetPasswordListener implements DialogInterface.OnClickListener{

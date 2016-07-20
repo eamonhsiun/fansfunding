@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.*;
+import android.util.Log;
 
 /**
  * 主界面
@@ -43,31 +44,25 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab==tabLayout.getTabAt(0)){
-                    tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.pjimagetest));
+                    tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.dollar_pressed));
                     vp_Main.setCurrentItem(0);
 
                 }
                 else if(tab==tabLayout.getTabAt(1)){
-                    tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.pjimagetest));
+                    tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.more_pressed));
                     vp_Main.setCurrentItem(1);
                 }
-                else if(tab==tabLayout.getTabAt(2)){
-                    tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.pjimagetest));
-                    vp_Main.setCurrentItem(2);
-                }
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 if(tab==tabLayout.getTabAt(0)){
-                    tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.icon_food));
+                    tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.dollar));
 
                 }
                 else if(tab==tabLayout.getTabAt(1)){
-                    tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.icon_food));
-                }
-                else if(tab==tabLayout.getTabAt(2)){
-                    tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.icon_food));
+                    tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.more));
                 }
             }
 
@@ -95,11 +90,27 @@ public class MainActivity extends AppCompatActivity{
         }
         for (int i = 0; i < paperAdapter.getCount(); i++) {
             if (i == vp_Main.getCurrentItem()) {
-                tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.pjimagetest));
+                switch (i){
+                    case 0:
+                        tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.dollar_pressed));
+                        break;
+                    case 1:
+                        tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.more_pressed));
+                        break;
+                }
+                Log.i("TAG","已选择:"+i);
                 continue;
             }
-            tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.icon_food));
+            switch (i){
+                case 0:
+                    tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.dollar));
+                    break;
+                case 1:
+                    tabLayout.getTabAt(i).setIcon(getResources().getDrawable(R.drawable.more));
+                    break;
+            }
 
+            Log.i("TAG","未选择已选择:"+i);
         }
 
 

@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_user_info_finish"
         android:orderInCategory="100"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/correct"
         android:title="完成"
         app:showAsAction="always" />
 </menu>

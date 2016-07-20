@@ -13,7 +13,7 @@
     <ImageView
         android:id="@+id/iv_project_detail_main_image"
         android:layout_width="match_parent"
-        android:layout_height="207dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/bannertest1"
         android:adjustViewBounds="true"
         android:layout_centerHorizontal="true"/>
@@ -53,7 +53,8 @@
                     android:paddingTop="@dimen/content_padding"
                     android:singleLine="true"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:ellipsize="end"
+                    android:textColor="@color/colorBlack"/>
 
                 <!--发起人-->
                 <LinearLayout
@@ -64,7 +65,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="发起人:"/>
+                        android:text="发起人:"
+                        android:textColor="@color/colorPublishGrey"/>
                     <TextView
                         android:id="@+id/tv_project_detail_main_publisher_name"
                         android:layout_width="wrap_content"
@@ -78,17 +80,22 @@
                             android:id="@+id/tv_project_detail_main_time_start"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1天前"/>
+                            android:text="1天前"
+                            android:textColor="@color/colorPublishGrey"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="/"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
+                            android:textColor="@color/colorPublishGrey"
+                            android:text="|"
                             />
                         <TextView
                             android:id="@+id/tv_project_detail_main_time_end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="还剩x天"/>
+                            android:textColor="@color/colorPublishGrey"
+                            android:text="还剩 天"/>
                     </LinearLayout>
                 </LinearLayout>
                 <ProgressBar
@@ -121,6 +128,7 @@
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:text="目标金额"
+                android:textColor="@color/colorLabelGrey"
                />
 
             <!--已筹金额标签-->
@@ -130,6 +138,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:textColor="@color/colorLabelGrey"
                 android:text="已筹金额"/>
 
            <!--支持人数标签-->
@@ -139,6 +148,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="right"
                 android:gravity="right"
+                android:textColor="@color/colorLabelGrey"
                 android:text="支持次数"/>
 
         </LinearLayout>
@@ -164,12 +174,12 @@
                 android:gravity="center_vertical"
                 android:text="600"
                 android:textSize="@dimen/subhead_text_size"
-                android:textColor="@color/colorPrimaryRed"/>
+                android:textColor="@color/colorPrimary"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/subhead_text_size"
-                    android:textColor="@color/colorPrimaryRed"
+                    android:textColor="@color/colorPrimary"
                     android:text="元"/>
             </LinearLayout>
             <!--已筹金额-->
@@ -188,12 +198,12 @@
                     android:gravity="center_vertical"
                     android:text="233"
                     android:textSize="@dimen/subhead_text_size"
-                    android:textColor="@color/colorPrimaryRed"/>
+                    android:textColor="@color/colorPrimary"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/subhead_text_size"
-                    android:textColor="@color/colorPrimaryRed"
+                    android:textColor="@color/colorPrimary"
                     android:text="元"/>
             </LinearLayout>
 
@@ -214,13 +224,13 @@
                     android:layout_gravity="right"
                     android:gravity="right"
                     android:textSize="@dimen/subhead_text_size"
-                    android:textColor="@color/colorPrimaryRed"
+                    android:textColor="@color/colorPrimary"
                     android:text="24"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/subhead_text_size"
-                    android:textColor="@color/colorPrimaryRed"
+                    android:textColor="@color/colorPrimary"
                     android:text="次"/>
             </LinearLayout>
 
@@ -233,24 +243,42 @@
     <View
         android:id="@+id/divider_project_detail_main"
         android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:background="@color/colorForbiddenGrey"
+        android:layout_height="10dp"
+        android:background="@color/colorBackgroundGrey"
         android:layout_below="@id/rl_project_detail_main_information"/>
     <!--项目评论-->
-    <TextView
-        android:id="@+id/tv_project_detail_main_comment_label"
+    <LinearLayout
+        android:id="@+id/ll_project_detail_main_comment_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/divider_project_detail_main"
         android:paddingLeft="@dimen/layout_padding"
-        android:textSize="@dimen/subhead_text_size"
-        android:text="项目评论"
-        android:layout_below="@id/divider_project_detail_main"/>
+        android:paddingTop="@dimen/layout_padding"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/rectangle"/>
+        <TextView
+            android:id="@+id/tv_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:layout_gravity="center_vertical"
+
+            android:textColor="@color/colorLabelGrey"
+            android:paddingLeft="@dimen/layout_padding"
+            android:text="项目评论"
+            />
+    </LinearLayout>
+   
     <include
         android:id="@+id/include_project_detail_main_comment"
         layout="@layout/item_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_project_detail_main_comment_label">
+        android:layout_below="@id/ll_project_detail_main_comment_label">
 
     </include>
     <Button

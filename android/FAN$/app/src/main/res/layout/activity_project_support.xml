@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.ProjectSupportActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_PJ_support"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorImpressionRed"
+        ></android.support.v7.widget.Toolbar>
+    <!--标签展示-->
+    <LinearLayout
+        android:id="@+id/ll_project_support_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/layout_padding"
+        android:orientation="horizontal"
+        android:layout_below="@id/toolbar_PJ_support"
+        android:background="@color/colorWhite">
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="20dp"
+            android:src="@drawable/rectangle"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:paddingLeft="@dimen/layout_padding"
+            android:layout_gravity="center_vertical"
+            android:text="产品回报"/>
+    </LinearLayout>
+
+    <!--回报选择-->
+    <ListView
+        android:id="@+id/lv_PJ_support_reward"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_PJ_support_next"
+        android:layout_below="@id/ll_project_support_label"
+        >
+
+    </ListView>
+
+    <!--下一步-->
+    <LinearLayout
+        android:id="@+id/ll_PJ_support_next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding"
+        android:background="@color/colorWhite">
+        <!--合计-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计：￥"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"
+            />
+        <!--金额-->
+        <TextView
+            android:id="@+id/tv_PJ_support_need_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorSupportRed"
+            android:text="23"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:text="下一步"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/layout_padding"
+            android:textColor="@color/colorPublishGrey"/>
+    </LinearLayout>
+
+</RelativeLayout>

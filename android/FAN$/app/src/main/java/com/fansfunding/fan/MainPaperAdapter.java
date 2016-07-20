@@ -43,10 +43,10 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
         switch(position){
             case 0:
                 return CrowdFundingFragment.newInstance();
-            case 1:
-                return SocialFragment.newInstance();
+           /* case 1:
+                return SocialFragment.newInstance();*/
 
-            case 2:
+            case 1:
                 if(isLogin==true)
                     return UserFragment.newInstance();
                 else
@@ -57,7 +57,7 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
    /* @Override

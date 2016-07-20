@@ -6,12 +6,6 @@
     android:orientation="vertical"
     tools:context="com.fansfunding.fan.ProjectDetailDynamicFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/subhead_text_size"
-        android:padding="@dimen/layout_padding"
-        android:text="众筹动态"/>
 
     <ListView
         android:id="@+id/lv_project_detail_dynamic"

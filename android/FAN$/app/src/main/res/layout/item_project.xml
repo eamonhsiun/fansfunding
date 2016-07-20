@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_PJ_publish_head"
             android:paddingLeft="@dimen/layout_padding"
-            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"
             android:text="Immortals"/>
     </RelativeLayout>
     <!--项目名称-->
@@ -38,6 +39,7 @@
         android:singleLine="true"
         android:maxLines="1"
         android:ellipsize="end"
+        android:textColor="@color/colorBlack"
         android:text="武大难友:你的皮划艇已上线"/>
     <!--项目图片-->
     <LinearLayout
@@ -53,10 +55,9 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:adjustViewBounds="true"
-          android:layout_marginRight="@dimen/layout_padding"
           android:layout_gravity="center_horizontal"/>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/iv_PJ_image_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -71,24 +72,25 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"/>-->
     </LinearLayout>
    <TextView
         android:id="@+id/tv_PJ_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_PJ_image"
-        android:paddingTop="@dimen/layout_padding"
-        android:maxLines="2"
+        android:paddingTop="10dp"
+        android:maxLines="4"
         android:ellipsize="end"
+       android:textColor="@color/colorPublishGrey"
         android:text="这是一个简介"/>
     <View
         android:id="@+id/divider_item_project"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorGrey"
+        android:background="@color/colorDividerGrey"
         android:layout_below="@id/tv_PJ_intro"
-        android:layout_marginTop="@dimen/layout_padding"/>
+        android:layout_marginTop="10dp"/>
     <!--筹集金额相关-->
     <LinearLayout
         android:id="@+id/ll_PJ_money"
@@ -106,15 +108,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="目标"/>
+                android:text="目标"
+                android:textColor="@color/colorLabelGrey"/>
             <TextView
                 android:id="@+id/tv_PJ_target_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="600"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="元"/>
         </LinearLayout>
 
@@ -128,15 +133,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="已筹"/>
             <TextView
                 android:id="@+id/tv_PJ_get_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="600"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="元"/>
         </LinearLayout>
 
@@ -150,15 +158,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="进度"/>
             <TextView
                 android:id="@+id/tv_PJ_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="34"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
                 android:text="%"/>
         </LinearLayout>
     </LinearLayout>

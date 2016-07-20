@@ -234,11 +234,11 @@ public class UserInfoActivity extends AppCompatActivity {
         Intent intent=getIntent();
 
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setBackgroundColor(Color.RED);
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("编辑个人信息");
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.cancel);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,sexString);
 
         //设置性别选择框
@@ -416,6 +416,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         //获取修改后的个人介绍
         String new_intro=tiet_user_info_introduction.getText().toString();
+        Log.i("TAG","个人介绍"+new_intro);
 
         //昵称
         String old_nickname=share.getString("nickname","");

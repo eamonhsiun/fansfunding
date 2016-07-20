@@ -23,7 +23,6 @@ public class SettingAccountActivity extends AppCompatActivity {
         Intent intent=getIntent();
 
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setBackgroundColor(Color.RED);
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("账号和密码");

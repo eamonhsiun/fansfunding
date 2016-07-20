@@ -73,15 +73,15 @@ public class ShoppingAddressService {
 		List<Map<String,Object>> shoppingAddresses=new ArrayList<>();
 		shoppingAddressDao.selectByUserId(id).stream().forEach((e)->{
 			Map<String,Object> shoppingAddress=new HashMap<>();
-			shoppingAddress.put("id", e.getId());
+			shoppingAddress.put("addressId", e.getId());
 			shoppingAddress.put("province",e.getProvince());
 			shoppingAddress.put("city",e.getCity());
 			shoppingAddress.put("district",e.getDistrict());
 			shoppingAddress.put("address",e.getAddress());
 			shoppingAddress.put("phone",e.getPhone());
 			shoppingAddress.put("name", e.getName());
-			shoppingAddress.put("post_code",e.getPostCode());
-			shoppingAddress.put("is_default",e.getIsDefault());
+			shoppingAddress.put("postCode",e.getPostCode());
+			shoppingAddress.put("isDefault",e.getIsDefault());
 			shoppingAddresses.add(shoppingAddress);
 		});
 		return shoppingAddresses;
@@ -111,15 +111,15 @@ public class ShoppingAddressService {
 		Map<String,Object> shoppingAddress=new HashMap<>();
 		this.findByUserId(userId).forEach((e)->{
 			if(e.getIsDefault()==1){
-				shoppingAddress.put("id", e.getId());
+				shoppingAddress.put("addressId", e.getId());
 				shoppingAddress.put("province",e.getProvince());
 				shoppingAddress.put("city",e.getCity());
 				shoppingAddress.put("district",e.getDistrict());
 				shoppingAddress.put("address",e.getAddress());
 				shoppingAddress.put("phone",e.getPhone());
 				shoppingAddress.put("name", e.getName());
-				shoppingAddress.put("post_code",e.getPostCode());
-				shoppingAddress.put("is_default",e.getIsDefault());
+				shoppingAddress.put("postCode",e.getPostCode());
+				shoppingAddress.put("isDefault",e.getIsDefault());
 			}
 		});
 		return shoppingAddress;

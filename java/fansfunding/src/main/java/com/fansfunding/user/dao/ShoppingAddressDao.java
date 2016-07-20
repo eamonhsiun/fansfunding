@@ -12,7 +12,7 @@ public interface ShoppingAddressDao {
 
     List<ShoppingAddress> selectAll();
     
-    List<ShoppingAddress> selectByUserId(Integer id);
+    List<ShoppingAddress> selectByUserId(Integer userId);
 
     int updateByPrimaryKey(ShoppingAddress record);
 }

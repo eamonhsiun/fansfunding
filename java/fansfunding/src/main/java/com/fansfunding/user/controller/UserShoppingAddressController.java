@@ -36,7 +36,7 @@ public class UserShoppingAddressController {
 	 * @param name 
 	 * @param phone 
 	 * @param district 
-	 * @param post_code 
+	 * @param postCode 
 	 * @param province 
 	 * @param city 
 	 * @param address 
@@ -53,7 +53,7 @@ public class UserShoppingAddressController {
 			@RequestParam String city,
 			@RequestParam String address){
 		shoppingAddressService.AddNewAddress(userId, name, phone, province, city, district, address, post_code);
-		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
+		return new Status(true, StatusCode.SUCCESS,shoppingAddressService.getByUserId(userId) , null);
 	}
 	/**
 	 * 更新用户收货地址
@@ -68,12 +68,12 @@ public class UserShoppingAddressController {
 			@RequestParam String name,
 			@RequestParam String phone,
 			@RequestParam String district,
-			@RequestParam int post_code,
+			@RequestParam int postCode,
 			@RequestParam String province,
 			@RequestParam String city,
 			@RequestParam String address
 			){
-		shoppingAddressService.updateById(addressId, address, city, district, province, phone, post_code, name, userId);
+		shoppingAddressService.updateById(addressId, address, city, district, province, phone, postCode, name, userId);
 		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
 	}
 	/**

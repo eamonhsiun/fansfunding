@@ -48,7 +48,10 @@ public class StatusCode {
 	 * 没有权限
 	 */
 	public static final int PERMISSION_LOW=209;
-	
+	/**
+	 * 密码太短（6-20）
+	 */
+	public static final int PASSWORD_TOO_SHORT=210;
 	/**
 	 * 文件上传失败
 	 */

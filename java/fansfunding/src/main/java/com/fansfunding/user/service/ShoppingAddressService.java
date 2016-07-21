@@ -25,11 +25,28 @@ public class ShoppingAddressService {
 		return shoppingAddressDao.selectByUserId(id);
 	}
 
-	public void deleteById(int addressId){
-		shoppingAddressDao.deleteByPrimaryKey(addressId);
+	public boolean deleteById(int userId,int addressId){
+		if(shoppingAddressDao.selectByPrimaryKey(addressId).getUserId().intValue()!=userId){
+			return false;
+		}
+		if(shoppingAddressDao.selectByPrimaryKey(addressId).getIsDefault()==1){
+			shoppingAddressDao.deleteByPrimaryKey(addressId);
+			if(shoppingAddressDao.selectByUserId(userId).size()!=0){
+				ShoppingAddress address=shoppingAddressDao.selectByUserId(userId).get(0);
+				address.setIsDefault(1);
+				this.setDefault(userId, address.getId());
+			}
+		}
+		else{
+			shoppingAddressDao.deleteByPrimaryKey(addressId);
+		}
+		return true;
 	}
 
-	public void updateById(int id, String address, String city, String district, String province, String phone, int post_code, String name, Integer userId){
+	public boolean updateById(int id, String address, String city, String district, String province, String phone, int post_code, String name, Integer userId){
+		if(shoppingAddressDao.selectByPrimaryKey(id).getUserId().intValue()!=userId.intValue()){
+			return false;
+		}
 		ShoppingAddress shoppingAddress = shoppingAddressDao.selectByPrimaryKey(id);
 		shoppingAddress.setAddress(address);
 		shoppingAddress.setCity(city);
@@ -41,11 +58,12 @@ public class ShoppingAddressService {
 		shoppingAddress.setUserId(userId);
 		shoppingAddress.setUpdateBy(userDao.selectById(userId).getName());
 		shoppingAddressDao.updateByPrimaryKey(shoppingAddress);
+		return true;
 	}
 
 
 
-	public ShoppingAddress AddNewAddress(Integer userId, String name, String phone, String province, 
+	public int AddNewAddress(Integer userId, String name, String phone, String province, 
 			String city, String district, String address, int post_code){
 		ShoppingAddress shoppingAddress = new ShoppingAddress();
 		shoppingAddress.setAddress(address);
@@ -62,7 +80,7 @@ public class ShoppingAddressService {
 			shoppingAddress.setIsDefault(1);
 		}
 		shoppingAddressDao.insert(shoppingAddress);
-		return shoppingAddress;
+		return shoppingAddress.getId();
 	}
 
 	/**
@@ -90,7 +108,10 @@ public class ShoppingAddressService {
 	 * 设置默认地址
 	 * @param addressId
 	 */
-	public void setDefault(int userId,int addressId){
+	public boolean setDefault(int userId,int addressId){
+		if(shoppingAddressDao.selectByPrimaryKey(addressId).getUserId().intValue()!=userId){
+			return false;
+		}
 		this.findByUserId(userId).forEach((e)->{
 			if(e.getIsDefault()==1){
 				e.setIsDefault(0);
@@ -100,6 +121,7 @@ public class ShoppingAddressService {
 		ShoppingAddress address=shoppingAddressDao.selectByPrimaryKey(addressId);
 		address.setIsDefault(1);
 		shoppingAddressDao.updateByPrimaryKey(address);
+		return true;
 	}
 	/**
 	 * 获取默认地址

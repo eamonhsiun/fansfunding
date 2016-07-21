@@ -61,52 +61,55 @@
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, order_no, trade_no, user_id,project_id, feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where id = #{id,jdbcType=INTEGER}
     and del_flag='0'
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, order_no, trade_no, user_id,project_id, feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where del_flag='0'
   </select>
   <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
     select id, order_no, trade_no, user_id,project_id, feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where del_flag='0'
     and order_no= #{orderNo,jdbcType=VARCHAR}
   </select>
   <select id="selectByTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select id, order_no, trade_no, user_id,project_id, feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where del_flag='0'
     and trade_no= #{tradeNo,jdbcType=VARCHAR}
   </select>
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, order_no, trade_no, user_id,project_id, feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where del_flag='0'
     and trade_status='TRADE_SUCCESS'
     and user_id= #{userId,jdbcType=VARCHAR}
+    order by create_time desc
   </select>
   <select id="selectByFeedbackId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, order_no, trade_no, user_id,project_id, feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where del_flag='0'
     and feedback_id= #{feedbackId,jdbcType=VARCHAR}
+    order by create_time desc
   </select>
   <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, order_no, trade_no, user_id, project_id,feedback_id, subject, total_fee, trade_status, 
-    buyer_email, buyer_id, seller_id, del_flag
+    buyer_email, buyer_id, seller_id, del_flag,create_time,return_time,notify_time
     from pay_order
     where del_flag='0'
     and project_id= #{project_id,jdbcType=VARCHAR}
+    order by create_time desc
   </select>
   <select id="selectProjectSum" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, user_id, project_id,feedback_id, total_fee, trade_status

@@ -41,5 +41,6 @@
     from comment
     where project_id = #{projectId,jdbcType=INTEGER}
     and del_flag='0'
+    order by create_time desc
   </select>
 </mapper>

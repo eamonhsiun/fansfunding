@@ -66,6 +66,7 @@
     from project
     where category_id=#{categoryId,jdbcType=INTEGER}
     and del_flag='0'
+    order by create_time desc
   </select>
   <select id="selectByKeyword" resultMap="BaseResultMap" parameterType="java.lang.String">
     select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
@@ -73,8 +74,9 @@
     from project
     where (CONCAT(name,description) like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%' ))
     and del_flag='0'
+    order by create_time desc
   </select>
-  <select id="selectLike" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  <select id="selectFollow" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select p.id, p.category_id, p.sponsor, p.detail_id, p.target_money, p.target_deadline, p.cover, 
     p.status, p.create_by, p.create_time, p.update_by, p.update_time, p.del_flag, p.name, p.description
     from project p,follow_project f
@@ -82,12 +84,14 @@
     and p.id=f.project_id
     and p.del_flag='0'
     and f.del_flag='0'
+    order by p.create_time desc
   </select>
-  <select id="selectFollow" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  <select id="selectSponsor" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
     status, create_by, create_time, update_by, update_time, del_flag, name, description
     from project
     where sponsor=#{userId,jdbcType=INTEGER}
     and del_flag='0'
+    order by create_time desc
   </select>
 </mapper>

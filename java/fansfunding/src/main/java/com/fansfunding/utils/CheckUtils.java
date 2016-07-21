@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class CheckUtils {
 	private static Pattern email=
 			Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
-	private static Pattern phone=Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
+	private static Pattern phone=Pattern.compile("^((13[0-9])|(17[8,0,6,7])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
 	
 	/**
 	 * 验证邮箱合法性

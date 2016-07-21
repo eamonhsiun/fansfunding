@@ -52,7 +52,9 @@ public class UserService {
 			return getUserByName(name);
 	}
 	
-	
+	public boolean isEmailExist(String email){
+		return userDao.selectByEmail(email)!=null;
+	}
 	/**
 	 * @param uid
 	 * @return
@@ -62,7 +64,14 @@ public class UserService {
 		user.setRealInfo(realInfoDao.selectByUserId(uid));
 		return user;
 	}
-	
+	/**
+	 * 判断是否
+	 * @param userId
+	 * @return
+	 */
+	public boolean isExist(int userId){
+		return this.getUserById(userId)!=null;
+	}
 	/**
 	 * @param name
 	 * @return

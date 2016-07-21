@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fansfunding.pay.service.OrderService;
 import com.fansfunding.project.service.FeedbackService;
+import com.fansfunding.user.service.UserService;
 
 @Controller
 @RequestMapping("pay")
@@ -17,13 +18,18 @@ public class PayController {
 	private OrderService orderService;
 	@Autowired
 	private FeedbackService feedbackService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(path="web",method=RequestMethod.POST)
 	public ModelAndView webPay(@RequestParam int feedbackId,@RequestParam int userId){
-		ModelAndView mv=new ModelAndView("webPay");
+		if(!userService.isExist(userId)){
+			return null;
+		}
 		if(!feedbackService.isExist(feedbackId)){
 			return null;
 		}
+		ModelAndView mv=new ModelAndView("webPay");
 		mv.addObject("params", orderService.buildOrder(feedbackId,userId));
 		return mv;
 	}

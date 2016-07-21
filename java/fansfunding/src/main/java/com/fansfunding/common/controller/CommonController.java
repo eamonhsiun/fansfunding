@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.common.service.CheckerService;
 import com.fansfunding.common.service.TokenService;
+import com.fansfunding.utils.CheckUtils;
 import com.fansfunding.utils.encrypt.AESUtils;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -29,6 +30,9 @@ public class CommonController {
 	@RequestMapping(path="newChecker")
 	@ResponseBody
 	public Status newChecker(@RequestParam String phone) throws Exception{
+		if(!CheckUtils.isPhone(phone)){
+			return new Status(false, StatusCode.FAILED, "手机格式不正确", null);
+		}
 		if(checkerService.isTimeTooShort(phone)){
 			return new Status(false, StatusCode.TOO_FREQUENT, null, null);
 		}

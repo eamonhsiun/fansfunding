@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.project.dao.FeedbackDao;
 import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.dao.ResourceDao;
@@ -29,6 +30,8 @@ public class FeedbackService {
 	private ProjectDao projectDao;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private OrderDao orderDao;
 	/**
 	 * 获取项目相关的回馈方式
 	 * @param projectId 项目ID
@@ -54,6 +57,7 @@ public class FeedbackService {
 				paths[i]=images.get(i).getPath();
 			}
 			feedback.put("images", paths);
+			feedback.put("supportTimes", orderDao.selectByFeedbackId(e.getId()).size());
 			feedbacks.add(feedback);
 		});
 		return PageAdapter.adapt(info, feedbacks);

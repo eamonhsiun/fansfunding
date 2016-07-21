@@ -48,8 +48,8 @@ public class UserSettingsController {
 	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
 	@ResponseBody
 	public Status info(@PathVariable int userId) {
-		if(userService.getUserById(userId)==null){
-			return new Status(true, StatusCode.USER_NULL, "用户不存在", null);
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
 		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(userId)), null);
 	}
@@ -70,18 +70,22 @@ public class UserSettingsController {
 			@RequestParam(required = false, defaultValue = "") String idNumber,
 			@RequestParam(required = false, defaultValue = "") String intro,
 			@RequestParam(required = false, defaultValue = "1970-01-01") String birthday) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-		if(!CheckUtils.isEmail(email)){
-			return new Status(false,StatusCode.WRONG_EMAIL,"邮箱格式不正确",null);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		if((!"0".equals(sex))||(!"1".equals(sex))){
-			return new Status(false,StatusCode.ERROR_DATA,"参数错误",null);
+		if(!"".equals(email)){
+			if(!CheckUtils.isEmail(email)){
+				return new Status(false,StatusCode.WRONG_EMAIL,"邮箱格式错误",null);
+			}
+			if(!userService.isEmailExist(email)){
+				return new Status(false,StatusCode.EMAIL_EXIST,"邮箱已存在",null);
+			}
 		}
 		return new Status(true,StatusCode.SUCCESS,
 				userService.getUserMap(userService.updateUserInfo(userId,nickname, email,
 						Byte.parseByte(sex), idNumber, intro, sdf.parse(birthday))),null);
 	}
-	
 	
 	/**
 	 * GET NICKNAME
@@ -91,6 +95,9 @@ public class UserSettingsController {
 	@RequestMapping(path = "{userId}/nickname", method = RequestMethod.GET)
 	@ResponseBody
 	public Status getNickName(@PathVariable int userId) {
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		User user = userService.getUserById(userId);
 		return new Status(true,StatusCode.SUCCESS,user.getNickname(),null);
 	}

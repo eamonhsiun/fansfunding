@@ -14,6 +14,7 @@ public interface UserDao {
 	User selectById(int uid);
 	User selectByName(String name);
 	User selectByPhone(String phone);
+	User selectByEmail(String email);
 	void insertNewUser(User user);
 	void updateToken(User user);
 	void updatePwd(User user);

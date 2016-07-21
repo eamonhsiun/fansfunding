@@ -1,7 +1,5 @@
 package com.fansfunding.common.entity;
 
-import java.security.acl.Permission;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -33,15 +31,7 @@ public class TokenRealm extends AuthorizingRealm{
 	
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//		String username=(String)principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		
-		//Subject subject = SecurityUtils.getSubject();
-		System.err.println("======================");
-		//subject.checkRole("admin");
-		//TODO:NOT FINISHED!!!
-//		authorizationInfo.setRoles(userService.findRoles(username));
-//		authorizationInfo.setStringPermissions(userService.findPermissions(username));;
 		return authorizationInfo;
 	}
 
@@ -49,7 +39,6 @@ public class TokenRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		
 		if(token instanceof StatelessToken){
-			//TODO:NOT FINISHED
 			int tokenId =(int)token.getPrincipal();
 			Token myToken =tokenService.lookUpTokenById(tokenId);
 			if(myToken.getPermission()<PermissionCode.PERMISSION_NORMAL){

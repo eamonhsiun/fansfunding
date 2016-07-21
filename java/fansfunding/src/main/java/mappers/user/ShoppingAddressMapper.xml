@@ -26,7 +26,7 @@
   </update>
   
 
-  <insert id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
+  <insert useGeneratedKeys="true" keyProperty="id" id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     insert into shopping_address (user_id, province, 
       city, district, address, phone,name,post_code,is_default,
       create_by, create_time, update_by, 

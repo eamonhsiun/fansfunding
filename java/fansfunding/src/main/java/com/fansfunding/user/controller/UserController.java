@@ -44,6 +44,9 @@ public class UserController {
 	@RequestMapping(path = "{userId}/logout")
 	@ResponseBody
 	public Status logout(@PathVariable String userId, @RequestParam String token) {
+		if(!userService.isExist(Integer.parseInt(userId))){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		User user = userService.getUserById(Integer.parseInt(userId));
 		//TODO:存在性验证
 		int tid;
@@ -67,6 +70,9 @@ public class UserController {
 	@RequestMapping(path = "{userId}/newPwd")
 	@ResponseBody
 	public Status newPwd(@PathVariable String userId, @RequestParam String token,@RequestParam String password) throws Exception {
+		if(!userService.isExist(Integer.parseInt(userId))){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		User user = userService.getUserById(Integer.parseInt(userId));
 		// TODO:存在性验证
 		int tid;
@@ -96,6 +102,9 @@ public class UserController {
 	public Status userOrder(@RequestParam int userId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		return new Status(true,StatusCode.SUCCESS,userService.paidOrder(userId,page,rows),null);
 	}
 	/**
@@ -110,6 +119,9 @@ public class UserController {
 	public Status userProject(@RequestParam String type,@PathVariable int userId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		if("sponsor".equals(type)){
 			return new Status(true,StatusCode.SUCCESS,projectService.getSponsor(userId,page,rows),null);
 		}
@@ -127,6 +139,9 @@ public class UserController {
 	@RequestMapping(path="{userId}/follow/{categoryId}/{projectId}")
 	@ResponseBody
 	public Status follow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
@@ -144,6 +159,9 @@ public class UserController {
 	@RequestMapping(path="{userId}/unfollow/{categoryId}/{projectId}")
 	@ResponseBody
 	public Status unfollow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}

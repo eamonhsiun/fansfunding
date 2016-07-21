@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fansfunding.fan.project.utils.CheckUtils;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ForgetPwd;
 import com.fansfunding.internal.Login;
@@ -411,10 +412,13 @@ public class LoginDialog {
                     public void onClick(DialogInterface dialog, int which) {
                         String phone=tiet_register_account.getText().toString();
                         String password=tiet_register_password.getText().toString();
-                        if(phone.equals("")||(password.length()<6||password.length()>16)){
+                        if(phone.equals("")||(password.length()<6||password.length()>16)||CheckUtils.isPhone(phone)==false){
                             InitRegister();
                             if(phone.equals("")) {
                                 tiet_register_account.setError("请输入手机号");
+                            }
+                            if(CheckUtils.isPhone(phone)==false){
+                                tiet_register_account.setError("请输入正确的手机号码");
                             }
                             if(password.length()<6||password.length()>16){
                                 tiet_register_password.setError("密码长度应为于6-16位");
@@ -516,7 +520,7 @@ public class LoginDialog {
             String verificationCode=tiet_register_verification_verification_code.getText().toString();
 
             //如果验证码为空，则直接返回
-            if(tiet_register_verification_verification_code.equals("null")){
+            if(tiet_register_verification_verification_code.equals("")){
                 InitRegisterVerification();
                 tiet_register_verification_account.setText(phone);
                 tiet_register_verification_verification_code.setError("请输入验证码");
@@ -827,6 +831,14 @@ public class LoginDialog {
                 phoneInput.setError("请输入手机号");
                 return;
             }
+            //如果手机号格式错误
+
+            if(CheckUtils.isPhone(phone)==false){
+                InitVerificationDialog(mode);
+                phoneInput=getPhoneInput(mode);
+                phoneInput.setError("请输入正确的手机号");
+                return;
+            }
             //发送验证码请求
             FormBody formBody=new FormBody.Builder().add("phone",phone).build();
             Request request = new Request.Builder()
@@ -942,6 +954,13 @@ public class LoginDialog {
                 tiet_login_by_phone_account.setError("请输入手机号");
                 return;
             }
+
+            //手机号码格式错误的情况
+            if(CheckUtils.isPhone(phone)==false){
+                InitLoginByPhone();
+                tiet_login_by_phone_account.setError("账号或密码错误");
+                return;
+            }
             //密码未输入的情况
             if(password==null||password.equals("")){
                 InitLoginByPhone();
@@ -950,6 +969,7 @@ public class LoginDialog {
             }
             //密码长度不符合的情况
             if(password.length()<6||password.length()>16){
+                InitLoginByPhone();
                 tiet_login_by_phone_account.setError("账号或密码错误");
                 return;
             }
@@ -1043,9 +1063,7 @@ public class LoginDialog {
                         editor.putString("nickname",login.getData().getNickname());
                         editor.commit();
 
-                        Log.e("TAH","token"+login.getToken());
                         //成功响应事件
-                        //待写
                         Message msg=new Message();
                         msg.what=LOGIN_BY_PHONE_SUCCESS;
                         handler.sendMessage(msg);

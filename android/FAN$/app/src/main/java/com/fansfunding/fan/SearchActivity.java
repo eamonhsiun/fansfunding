@@ -27,6 +27,7 @@ public class SearchActivity extends AppCompatActivity {
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
         actionBar.setTitle(null);
 
 

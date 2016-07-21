@@ -91,7 +91,7 @@ public class ProjectDetailRewardAdapter extends BaseAdapter {
         else {
             //设置回报标题
             if(list.get(position).getTitle()!=null){
-                tv_project_detail_reward_support.setText(list.get(position).getTitle());
+                tv_project_detail_reward_support.setText(list.get(position).getLimitation().toString());
             }
             //设置回报描述
             if(list.get(position).getDescription()!=null){

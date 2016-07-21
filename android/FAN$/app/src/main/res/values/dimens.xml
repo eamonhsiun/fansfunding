@@ -32,7 +32,7 @@
     <dimen name="item_content_padding_left">72dp</dimen>
     <dimen name="item_content_padding_left_with_parent">56dp</dimen>
 
-
+    <dimen name="linearlayout_padding">32dp</dimen>
     <dimen name="layout_padding">16dp</dimen>
     <dimen name="icon_padding">16dp</dimen>
     <dimen name="text_padding">16dp</dimen>

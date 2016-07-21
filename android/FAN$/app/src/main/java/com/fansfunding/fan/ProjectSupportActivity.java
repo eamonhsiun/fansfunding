@@ -34,6 +34,7 @@ public class ProjectSupportActivity extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("支持");
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
         toolbar.setTitleTextColor(Color.WHITE);
         Intent intent=getIntent();
         detail= (AllProjectInCategory.ProjectDetail) intent.getSerializableExtra("detail");

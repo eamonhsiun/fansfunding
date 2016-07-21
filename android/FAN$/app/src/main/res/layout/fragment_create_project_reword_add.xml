@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".project.activity.CreateProjectActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/leanerlayout_subline"
+        android:dividerPadding="@dimen/layout_padding"
+        android:orientation="vertical"
+        android:showDividers="middle|end">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linearlayout_padding"
+                android:layout_weight="1"
+
+                android:gravity="center_vertical"
+                android:text="支持金额"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+               android:gravity="end"
+                >
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_support_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+                    android:gravity="center_vertical|right"
+                    android:cursorVisible="false"
+                    android:background="@null"
+                    android:hint="请输入支持金额"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/subhead_text_size"
+                    />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+
+                    android:text=" 元"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/subhead_text_size" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_reward_content"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_margin="@dimen/layout_padding"
+            android:background="@null"
+            android:textColor="@color/colorAccent"
+            android:hint="填写回报内容"
+            android:gravity="top"
+            android:textSize="@dimen/subhead_text_size"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="@dimen/layout_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:orientation="horizontal"
+        >
+        <android.support.v7.widget.AppCompatImageButton
+            android:layout_margin="@dimen/layout_padding"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/add"/>
+
+    </LinearLayout>
+    <com.fansfunding.fan.project.utils.HorizontalListView
+        android:id="@+id/lv_project_create_reward_add"
+        android:layout_width="match_parent"
+        android:layout_height="150dip"
+        android:layout_alignParentTop="true" >
+
+
+    </com.fansfunding.fan.project.utils.HorizontalListView>
+
+
+
+
+</LinearLayout>

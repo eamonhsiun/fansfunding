@@ -94,7 +94,7 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
                 Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getCommenterHead()).into(iv_project_detail_dynamic_head);
             }
             if(list.get(position).getCommenterNickname()!=null){
-                tv_news_detail_commenter_name.setText(list.get(position).getCommenterName());
+                tv_news_detail_commenter_name.setText(list.get(position).getCommenterNickname());
             }
             if(list.get(position).getContent()!=null){
                 if(list.get(position).getPointTo()==0){

@@ -52,6 +52,9 @@ public class ProjectCommentActivity extends AppCompatActivity {
     //指向
     private int pointTo;
 
+    //指向的昵称
+    private String pointToNickname;
+
     //循环等待框，不能取消
     private AlertDialog dialog_waitting;
     private Handler handler=new Handler(){
@@ -113,7 +116,7 @@ public class ProjectCommentActivity extends AppCompatActivity {
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("写评论");
-
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
@@ -124,6 +127,13 @@ public class ProjectCommentActivity extends AppCompatActivity {
         categoryId=intent.getIntExtra("categoryId",1);
         projectId=intent.getIntExtra("projectId",1);
         pointTo=intent.getIntExtra("pointTo",0);
+        pointToNickname=intent.getStringExtra("pointToNickname");
+
+        if(pointToNickname!=null){
+            et_PJ_comment.setHint("回复 : "+pointToNickname);
+        }else{
+            et_PJ_comment.setHint("评论");
+        }
     }
 
     @Override
@@ -158,12 +168,15 @@ public class ProjectCommentActivity extends AppCompatActivity {
                 .setView(R.layout.activity_internal_waiting)
                 .create();
         dialog_waitting.setCancelable(false);
-        dialog_waitting.show();
+        //dialog_waitting.show();
 
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         String comment=et_PJ_comment.getText().toString();
         //如果评论为空，则不作处理
         if(comment==null||comment.equals("")==true){
+            if(dialog_waitting.isShowing()==true){
+                dialog_waitting.cancel();
+            }
             return;
         }
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);

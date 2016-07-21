@@ -157,6 +157,7 @@ public class CrowdFundingFragment extends Fragment {
         lv_PR=(XListView)rootView.findViewById(R.id.lv_popularRecommendation);
         lv_PR.setAutoLoadEnable(false);
         lv_PR.setPullLoadEnable(false);
+
         lv_PR.setPullRefreshEnable(true);
         lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
         lv_PR.setXListViewListener(new XListView.IXListViewListener() {

@@ -217,6 +217,17 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- 发起项目界面 -->
+        <activity android:name=".project.activity.CreateProjectActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.CREATEPROJECT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
     </application>
 
 </manifest>

@@ -31,7 +31,7 @@ public class MyProjectActivity extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("我的项目");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
         TabLayout tabLayout=(TabLayout) findViewById(R.id.tab_myProject);
 
         paperAdapter=new MyProjectPaperAdapter(getSupportFragmentManager());

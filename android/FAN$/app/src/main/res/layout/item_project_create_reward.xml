@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:paddingLeft="@dimen/layout_padding"
+    android:paddingRight="@dimen/layout_padding"
+    android:paddingTop="@dimen/layout_padding">
+
+    <!--评论用户昵称-->
+    <TextView
+        android:id="@+id/tv_project_create_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="冰冻vita" />
+
+    <!--评论内容-->
+    <TextView
+        android:id="@+id/tv_project_create_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_news_detail_commenter_name"
+        android:paddingTop="@dimen/content_padding"
+        android:text="这是一段评论内容a"/>
+
+</LinearLayout>

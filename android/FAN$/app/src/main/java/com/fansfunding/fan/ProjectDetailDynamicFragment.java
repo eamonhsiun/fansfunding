@@ -51,16 +51,19 @@ public class ProjectDetailDynamicFragment extends Fragment {
     //动态内容
     private ProjectDetailDynamic dynamic;
 
+    //list适配器
+    private ProjectDetailDynamicAdapter adapter;
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_PROJECT_DETAIL_MOMENT_SUCCESS:
-                    /*for(int i=0;i<reward.getData().getList().size();i++){
-                        if(reward.getData().getList().get(i)!=null)
-                            adapter.addItem(reward.getData().getList().get(i));
+                    for(int i=0;i<dynamic.getData().getList().size();i++){
+                        if(dynamic.getData().getList().get(i)!=null)
+                            adapter.addItem(dynamic.getData().getList().get(i));
                     }
-                    adapter.notifyDataSetChanged();*/
+                    adapter.notifyDataSetChanged();
                     break;
                 case GET_PROJECT_DETAIL_MOMENT_FAILURE:
                     if (ProjectDetailDynamicFragment.this.getActivity() == null) {
@@ -129,17 +132,12 @@ public class ProjectDetailDynamicFragment extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_project_detail_dynamic, container, false);
         ListView lv_project_detail_reward=(ListView)rootView.findViewById(R.id.lv_project_detail_dynamic);
 
-        //构建simpleadapter
-        List<Map<String,Object>> listItems=new ArrayList<Map<String, Object>>();
-        for(int i=0;i<3;i++){
-            Map<String,Object> tempMap=new HashMap<String, Object>();
-            listItems.add(tempMap);
-        }
-        SimpleAdapter simpleAdapter=new SimpleAdapter(this.getContext(),listItems,R.layout.item_project_detail_dynamic,
-                new String[]{},
-                new int[]{});
-        lv_project_detail_reward.setAdapter(simpleAdapter);
-        getDynamic();
+
+
+        adapter=new ProjectDetailDynamicAdapter(this.getActivity());
+        lv_project_detail_reward.setAdapter(adapter);
+        //获取动态信息
+        getProjectDetailDynamic();
         return rootView;
     }
 
@@ -157,7 +155,9 @@ public class ProjectDetailDynamicFragment extends Fragment {
         super.onDetach();
     }
 
-    private void getDynamic(){
+
+    //获取动态信息
+    private void getProjectDetailDynamic(){
         OkHttpClient okHttpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
 

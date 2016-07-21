@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fansfunding.fan.project.utils.CheckUtils;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.PersonalInfo;
 import com.fansfunding.internal.UpLoadHead;
@@ -340,17 +341,23 @@ public class UserInfoActivity extends AppCompatActivity {
 
             case PHOTO_REQUEST_CUT:
                 if(data==null) {
+                    Log.i("TAG","DATA IS NULL");
                     break;
                 }
                 if(data.getData()==null){
-                    break;
+                    Log.i("TAG","GETDATA IS NULL");
+                    //break;
                 }
-                Uri uri=data.getData();
+                bitmap = data.getParcelableExtra("data");
+
+                /*Uri uri=data.getData();
                 bitmap = decodeUriAsBitmap(uri);
+                Log.i("TAG","uri"+uri.toString());*/
                 if (photoFile.exists()) {
                     photoFile.delete();
                 }
                 try {
+                    Log.i("TAG","执行到了try");
                     FileOutputStream out = new FileOutputStream(photoFile);
 
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
@@ -371,6 +378,7 @@ public class UserInfoActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -386,11 +394,11 @@ public class UserInfoActivity extends AppCompatActivity {
                 .setView(R.layout.activity_internal_waiting)
                 .create();
         dialog_waitting.setCancelable(false);
-        dialog_waitting.show();
+        //dialog_waitting.show();
 
         //先上传用户头像，如果没有头像修改，则直接上传其他信息
         if(tempFile!=null){
-            Log.i("TAG","file路径:"+tempFile.getAbsolutePath());
+            Log.i("TAG","file路径zaiupload:"+tempFile.getAbsolutePath());
             UploadUserHead();
         }
         //上传用户其他信息
@@ -444,6 +452,14 @@ public class UserInfoActivity extends AppCompatActivity {
             Message msg=new Message();
             msg.what=SEND_USER_INFO_SUCCESS;
             handler.sendMessage(msg);
+            return;
+        }
+
+        //如果邮箱填写错误
+        if(CheckUtils.isEmail(new_email)==false){
+            if(tiet_user_info_email!=null){
+                tiet_user_info_email.setError("请输入正确的邮箱格式");
+            }
             return;
         }
 
@@ -712,7 +728,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 .setView(R.layout.activity_internal_waiting)
                 .create();
         dialog_waitting.setCancelable(false);
-        dialog_waitting.show();
+        //dialog_waitting.show();
 
         httpClient=new OkHttpClient();
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
@@ -907,9 +923,10 @@ public class UserInfoActivity extends AppCompatActivity {
         intent.putExtra("outputY", 200);
         // 图片格式
         intent.putExtra(MediaStore.EXTRA_OUTPUT, newUri);
-        intent.putExtra("outputFormat", "Bitmap.CompressFormat.JPEG.toString()");
+        Log.i("TAG","bitmap格式"+Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
-        intent.putExtra("return-data", false);// true:不返回uri，false：返回uri
+        intent.putExtra("return-data", true);// true:不返回uri，false：返回uri
         startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 

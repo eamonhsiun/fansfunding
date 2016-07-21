@@ -131,7 +131,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("评论");
-
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
         actionBar.setDisplayHomeAsUpEnabled(true);
         adapter=new ProjectDetailCommentAdapter(this);
 
@@ -169,6 +169,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                     startActivity(intent);
                     return;
                 }
+
                 //打开评论页
                 ProjectDetailComment.ProjectComment comment=(ProjectDetailComment.ProjectComment)lv_PJ_detail_comment.getAdapter().getItem(position);
                 if(comment==null){
@@ -178,6 +179,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                 intent.putExtra("categoryId",categoryId);
                 intent.putExtra("projectId",projectId);
                 intent.putExtra("pointTo",comment.getCommenterId());
+                intent.putExtra("pointToNickname",comment.getCommenterNickname());
                 startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
             }
         });

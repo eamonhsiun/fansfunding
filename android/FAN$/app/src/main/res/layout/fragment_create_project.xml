@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".project.activity.CreateProjectActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/leanerlayout_subline"
+        android:dividerPadding="@dimen/layout_padding"
+        android:orientation="vertical"
+        android:showDividers="middle|end">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="截止日期"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_project_create_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:clickable="true"
+                android:gravity="end"
+                android:text="2016-7-10"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/subhead_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linearlayout_padding"
+                android:layout_weight="1"
+                android:text="需要支持者收货地址"
+                android:textColor="@color/colorBlack"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/subhead_text_size" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linearlayout_padding"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linearlayout_padding"
+                android:layout_weight="1"
+                android:text="筹款金额"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="end"
+
+                >
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_target_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+
+                    android:gravity="center_vertical|right"
+                    android:background="@null"
+                    android:hint="填写目标金额"
+                    android:cursorVisible="false"
+                    android:inputType="number"
+                    android:textSize="@dimen/subhead_text_size"
+                    />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+                    android:gravity="center_vertical"
+                    android:text=" 元"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/subhead_text_size" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_project_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:background="@null"
+            android:textColor="@color/colorAccent"
+            android:hint="请输入项目名称"
+            android:textSize="@dimen/subhead_text_size"
+            />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_project_desc"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/layout_padding"
+            android:background="@null"
+            android:textColor="@color/colorAccent"
+            android:hint="请详细描述您的项目"
+            android:gravity="top"
+            android:textSize="@dimen/subhead_text_size"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="@dimen/layout_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:orientation="horizontal"
+        >
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/btn_project_image"
+            android:layout_margin="@dimen/layout_padding"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/add"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

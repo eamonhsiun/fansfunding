@@ -52,10 +52,32 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
+
                 case LOGOUT_FAILURE:
-                    Toast.makeText(SettingActivity.this,"登出出错",Toast.LENGTH_LONG).show();
-                    if(dialog_waitting.isShowing()==true){
-                        dialog_waitting.cancel();
+                case ErrorCode.AUTHORITY_NOT_ENOUGH:
+                case ErrorCode.REQUEST_TOO_FRENQUENTLY:
+                    if(SettingActivity.this.isFinishing()==false){
+                        //将是否登陆写入sharePreference中,即逝登出错误也同样当做登出
+                        SharedPreferences share_is_login=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
+                        SharedPreferences.Editor editor_is_login=share_is_login.edit();
+                        editor_is_login.putBoolean("isLogin",false);
+                        editor_is_login.commit();
+                        new AlertDialog.Builder(SettingActivity.this).setTitle("登出出错").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (SettingActivity.this.isFinishing() == false){
+                                    if(dialog_waitting.isShowing()==true){
+                                        dialog_waitting.cancel();
+                                    }
+
+                                    setResult(REQUEST_CODE_LOGOUT_SUCCESS);
+                                    SettingActivity.this.finish();
+                                }
+
+                            }
+                        }).setCancelable(false)
+                                .show();
+
                     }
                     break;
                 case LOGOUT_SUCCESS:
@@ -74,18 +96,6 @@ public class SettingActivity extends AppCompatActivity {
                             }
                         }).setCancelable(false)
                                 .show();
-                    }
-                    break;
-                case ErrorCode.AUTHORITY_NOT_ENOUGH:
-                    Toast.makeText(SettingActivity.this,"权限错误",Toast.LENGTH_LONG).show();
-                    if(dialog_waitting.isShowing()==true){
-                        dialog_waitting.cancel();
-                    }
-                    break;
-                case ErrorCode.REQUEST_TOO_FRENQUENTLY:
-                    Toast.makeText(SettingActivity.this,"请求过于频繁",Toast.LENGTH_LONG).show();
-                    if(dialog_waitting.isShowing()==true){
-                        dialog_waitting.cancel();
                     }
                     break;
             }
@@ -107,7 +117,7 @@ public class SettingActivity extends AppCompatActivity {
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("设置");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
 
         //登出按钮
         Button btn_setting_logout=(Button)findViewById(R.id.btn_setting_logout);
@@ -159,7 +169,7 @@ public class SettingActivity extends AppCompatActivity {
                     .setView(R.layout.activity_internal_waiting)
                     .create();
             dialog_waitting.setCancelable(false);
-            dialog_waitting.show();
+            //dialog_waitting.show();
 
 
             SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);

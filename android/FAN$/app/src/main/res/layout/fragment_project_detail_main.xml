@@ -295,6 +295,12 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_see_all_comment"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_padding"
+        android:background="@color/transparent"
+        android:layout_below="@id/btn_project_detail_main_all_comment"/>
+
 
 </RelativeLayout>
 </com.fansfunding.verticalslide.CustScrollView>

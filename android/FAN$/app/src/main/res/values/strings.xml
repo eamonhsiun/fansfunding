@@ -30,6 +30,8 @@
     <string name="activity_setting_account">android.intent.action.FANS.SETTINGACCOUNT</string>
     <string name="activity_reset_password">android.intent.action.FANS.RESETPASSWORD</string>
     <string name="activity_user_info">android.intent.action.FANS.USERINFO</string>
+    <string name="activity_project_create">android.intent.action.FANS.CREATEPROJECT</string>
+
     <!--查看所有评论-->
     <string name="activity_project_detail_comment">android.intent.action.FANS.PROJECTDETAILCOMMENT</string>
     <!--发表评论-->
@@ -48,6 +50,10 @@
     <string name="url_resources">http://resources.immortalfans.com/</string>
     <string name="url_userbasic">http://api.immortalfans.com/userbasic/</string>
     <string name="url_project">http://api.immortalfans.com/project/</string>
+    <string name="url_add_project">http://api.immortalfans.com/project/1/</string>
+    <string name="url_add_feedback">http://api.immortalfans.com/project/1/</string>
+    <string name="url_project_image">http://api.immortalfans.com/project/1/</string>
+
 
 
     <!--Sharepreference名称-->

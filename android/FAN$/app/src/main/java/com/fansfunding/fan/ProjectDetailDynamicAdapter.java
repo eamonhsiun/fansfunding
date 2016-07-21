@@ -1,6 +1,7 @@
 package com.fansfunding.fan;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,7 +9,10 @@ import android.widget.TextView;
 
 import com.fansfunding.internal.ProjectDetailDynamic;
 import com.fansfunding.internal.ProjectDetailReward;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,11 +91,29 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
             return null;
         }
         else {
-            //if(list.get(1))
+            //初始化头像
+            if(context!=null&&list.get(position).getSponsorHead()!=null&&list.get(position).getSponsorHead().equals("")==false){
+                Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getSponsorHead()).into(iv_project_detail_dynamic_head);
 
+            }
+
+            //初始化发起人昵称
+            if(list.get(position).getSponsorNickname()!=null){
+                tv_project_detail_dynamic_name.setText(list.get(position).getSponsorNickname());
+            }
+
+            //初始化动态发起时间
+            tv_project_detail_dynamic_time.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(list.get(position).getUpdateTime())));
+
+
+            //初始化动态内容
+            if(list.get(position).getContent()!=null){
+                tv_project_detail_dynamic_content.setText((list.get(position).getContent()));
+            }
+            return rootView;
         }
 
 
-        return null;
+
     }
 }

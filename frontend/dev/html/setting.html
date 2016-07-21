@@ -1,0 +1,44 @@
+@@include('include/head.html',{"title": "设置 | FAN$","csstype": "setting"})
+  <div class="container">
+    <div class="setting content-block">
+      <div class="setting-info">
+        <div class="setting-info-detail">
+          <div class="setting-info-title">
+            <h1>个人设置</h1>
+          </div>
+        </div>
+      </div>
+      <div class="setting-wrap">
+        <div class="setting-wrap-tabs">
+          <ul>
+            <li class="setting-wrap-tab tab-active" id="setting-profile-btn">基本资料</li>
+            <li class="setting-wrap-tab" id="setting-address-btn">地址管理</li>
+          </ul>
+        </div>
+        <div class="setting-contents">
+          <div class="setting-content" id="setting-profile">
+            <div class="setting-profile-list" id="setting-avatar">
+              <span>头像：</span>
+              <div class="setting-avatar-wrap">
+                <img id="new-avatar" src="static/img/27.jpg"alt="">
+                <input type="file" name="file" id="upload-avatar-input">
+                <a href="###" id="upload-avatar-btn">上传头像</a>
+              </div>
+            </div>
+            <div class="setting-profile-list" id="setting-nickname">
+              <span>昵称：</span>
+              <div class="setting-nickname-wrap">
+                <input type="text" id="upload-nickname-input" value="name">
+              </div>
+            </div>
+            <div class="setting-profile-submit">
+              <a href="###">保存</a>
+            </div>
+          </div>
+          <div class="setting-content" id="setting-address"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+@@include('include/footer.html')
+@@include('include/script.html',{"jstype": "setting"})

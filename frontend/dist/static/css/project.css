@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  *  Font Awesome 3.2.1
  *  the iconic font designed for Bootstrap
@@ -27,343 +28,701 @@
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../font/fontawesome-webfont.eot?v=3.2.1");
-  src: url("../font/fontawesome-webfont.eot?#iefix&v=3.2.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.2.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.2.1") format("truetype"), url("../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format("svg");
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 
-.project-info {
-  width: 100%;
-  height: 120px;
-  border-bottom: 1px solid #aaaaaa; }
-  .project-info .project-info-avatar {
-    width: 80px;
-    height: 80px;
-    padding-top: 20px;
-    padding-left: 50px;
-    float: left; }
-    .project-info .project-info-avatar img {
+.project-title {
+  font-size: 2.4rem;
+  line-height: 80px;
+  font-weight: normal;
+  text-align: center; }
+
+.project-intro, .project-initiator {
+  height: 500px; }
+
+.project-wrap, .project-repay {
+  height: auto; }
+
+.project-intro, .project-wrap {
+  width: 68%;
+  float: left;
+  margin-top: 0;
+  overflow: hidden; }
+
+.project-initiator, .project-repay {
+  width: 30%;
+  float: right;
+  margin-top: 0;
+  overflow: hidden; }
+
+.project-intro {
+  position: relative; }
+  .project-intro .intro-content {
+    width: 100%;
+    height: 445px; }
+    .project-intro .intro-content .intro-left {
+      float: left;
+      width: 80%;
+      height: 100%;
+      overflow: hidden; }
+      .project-intro .intro-content .intro-left img {
+        min-width: 100%;
+        min-height: 100%; }
+    .project-intro .intro-content .intro-right {
+      float: left;
+      width: 20%;
+      height: 100%; }
+    .project-intro .intro-content .intro-details .intro-detail {
+      height: 25%;
+      width: 100%;
+      padding: 25px;
+      box-sizing: border-box;
+      font-size: 1.2rem; }
+      .project-intro .intro-content .intro-details .intro-detail span {
+        font-size: 1.8rem; }
+    .project-intro .intro-content .intro-details .intro-status {
+      margin-top: 25px;
+      float: right;
+      text-align: center;
+      width: 100px;
+      font-size: 1.2rem;
+      line-height: 40px;
+      box-sizing: border-box;
+      background-color: #ee554d;
+      color: #ffffff;
+      position: relative; }
+      .project-intro .intro-content .intro-details .intro-status:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 0;
+        height: 0;
+        border-top: 20px solid #ee554d;
+        border-left: 20px solid transparent; }
+      .project-intro .intro-content .intro-details .intro-status:after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: -20px;
+        width: 0;
+        height: 0;
+        border-bottom: 20px solid #ee554d;
+        border-left: 20px solid transparent; }
+  .project-intro .intro-btns {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 55px;
+    width: 100%;
+    line-height: 55px;
+    text-align: center;
+    font-size: 1.4rem;
+    background-color: #ee554d; }
+    .project-intro .intro-btns .intro-btn {
+      width: 33.33333%;
+      color: #ffffff;
+      background-color: #ee554d;
+      cursor: pointer;
+      z-index: 99;
+      float: left;
+      transition: all 0.3s ease; }
+      .project-intro .intro-btns .intro-btn:before {
+        font-family: "FontAwesome";
+        content: "";
+        font-size: 1.4rem;
+        padding-right: 10px; }
+      .project-intro .intro-btns .intro-btn:hover {
+        background-color: #ec2c22; }
+      .project-intro .intro-btns .intro-btn.followed, .project-intro .intro-btns .intro-btn.followed:hover {
+        color: #ee554d;
+        background-color: #ffffff; }
+    .project-intro .intro-btns #intro-btn-follow:before {
+      font-family: "FontAwesome";
+      content: ""; }
+    .project-intro .intro-btns #intro-btn-share:before {
+      font-family: "FontAwesome";
+      content: ""; }
+
+.project-initiator {
+  position: relative; }
+  .project-initiator .initiator-header .initiator-avatar {
+    padding-top: 45px;
+    width: 250px;
+    height: 250px;
+    margin: auto; }
+    .project-initiator .initiator-header .initiator-avatar img {
       width: 100%;
       height: 100%;
       border-radius: 50%; }
-  .project-info .project-info-detail {
-    margin-left: 130px;
+  .project-initiator .initiator-header .initiator-info {
     height: 100%;
-    padding-left: 30px; }
-    .project-info .project-info-detail .project-info-title {
-      padding-top: 25px; }
-      .project-info .project-info-detail .project-info-title h1 {
-        font-size: 2rem; }
-    .project-info .project-info-detail .project-info-username {
-      padding-top: 5px;
-      font-size: 1.1rem; }
-      .project-info .project-info-detail .project-info-username span {
-        font-size: 1.2rem; }
-
-.project-main {
-  width: 100%;
-  height: 450px;
-  border-bottom: 1px solid #aaaaaa; }
-  .project-main .project-main-pic {
-    width: 900px;
-    height: 100%;
-    padding: 30px;
-    box-sizing: border-box;
-    overflow: hidden;
-    float: left; }
-    .project-main .project-main-pic .project-main-pic-wrap {
-      width: 100%;
-      height: 100%;
-      overflow: hidden; }
-      .project-main .project-main-pic .project-main-pic-wrap img {
-        width: 100%;
-        height: 100%; }
-  .project-main .project-main-content {
-    margin-left: 900px;
-    height: 100%;
-    padding: 30px;
+    padding: 25px;
     box-sizing: border-box; }
-    .project-main .project-main-content .project-amout {
+    .project-initiator .initiator-header .initiator-info .initiator-name {
       text-align: center;
-      margin-top: 90px;
-      font-size: 2rem; }
-      .project-main .project-main-content .project-amout span {
-        font-size: 2.3rem;
-        padding-right: 10px; }
-    .project-main .project-main-content .project-money {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 2rem; }
-    .project-main .project-main-content .project-progressbar {
-      border-radius: 10px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #505050; }
+    .project-initiator .initiator-header .initiator-info .initiator-intro {
+      color: #ababab;
+      font-size: 1.1rem;
+      height: 45px;
       overflow: hidden;
-      height: 10px;
-      width: 100%;
-      background-color: blue;
-      margin-top: 50px;
-      margin-bottom: 50px; }
-      .project-main .project-main-content .project-progressbar span {
-        display: block;
-        height: 100%;
-        background-color: red; }
-    .project-main .project-main-content .project-button .project-button-subscribe {
-      margin-top: 40px; }
-      .project-main .project-main-content .project-button .project-button-subscribe a {
-        display: block;
-        width: 100%;
-        height: 60px;
-        line-height: 60px;
-        font-size: 2rem;
-        text-align: center;
-        background-color: #ff6268;
-        color: white;
-        transition: all 0.3s ease; }
-        .project-main .project-main-content .project-button .project-button-subscribe a:hover {
-          background-color: #ff2f37; }
-    .project-main .project-main-content .project-button .project-button-share {
-      margin-top: 20px; }
-      .project-main .project-main-content .project-button .project-button-share a {
-        display: block;
-        width: 100%;
-        height: 60px;
-        line-height: 60px;
-        font-size: 2rem;
-        text-align: center;
-        background-color: #ff6268;
-        color: white;
-        transition: all 0.3s ease; }
-        .project-main .project-main-content .project-button .project-button-share a:hover {
-          background-color: #ff2f37; }
-
-.project-wrap .project-wrap-tabs {
-  border-bottom: 1px solid #aaaaaa; }
-  .project-wrap .project-wrap-tabs ul {
+      padding-top: 15px; }
+  .project-initiator .initiator-content {
+    padding: 0 20px;
+    text-indent: 2em; }
+  .project-initiator .initiator-follow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 55px;
     width: 100%;
-    height: 50px;
-    line-height: 50px;
-    box-sizing: border-box;
-    padding-left: 20px;
-    padding-right: 20px; }
-    .project-wrap .project-wrap-tabs ul .project-wrap-tab {
+    line-height: 55px;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #ffffff;
+    background-color: #ee554d;
+    cursor: pointer;
+    z-index: 99;
+    transition: all 0.3s ease; }
+    .project-initiator .initiator-follow:before {
+      font-family: "FontAwesome";
+      content: "";
+      font-size: 1.4rem;
+      padding-right: 10px; }
+    .project-initiator .initiator-follow:hover {
+      background-color: #ec2c22; }
+    .project-initiator .initiator-follow.followed, .project-initiator .initiator-follow.followed:hover {
+      color: #ee554d;
+      background-color: #ffffff; }
+
+.project-repay {
+  box-sizing: border-box;
+  padding: 20px; }
+  .project-repay #repay-errormsg {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px; }
+  .project-repay .loader {
+    padding-top: 50px;
+    padding-bottom: 50px; }
+  .project-repay .repay-title {
+    font-size: 1.4rem;
+    line-height: 3rem;
+    font-weight: bold; }
+  .project-repay .repay-num {
+    color: #ababab; }
+  .project-repay .repay-list {
+    margin-top: 5px;
+    width: 100%;
+    border-bottom: 1px solid #505050;
+    padding-bottom: 15px; }
+    .project-repay .repay-list:first-child {
+      margin-top: 0; }
+    .project-repay .repay-list:last-child {
+      border-bottom: 0;
+      padding-bottom: 0; }
+    .project-repay .repay-list .repay-money {
+      font-size: 1.5rem; }
+      .project-repay .repay-list .repay-money span {
+        padding-left: 5px;
+        padding-right: 5px; }
+    .project-repay .repay-list .repay-detail {
+      width: 100%; }
+      .project-repay .repay-list .repay-detail .repay-detail-content {
+        font-size: 1.1rem; }
+        .project-repay .repay-list .repay-detail .repay-detail-content ul li {
+          list-style-type: disc;
+          list-style-position: inside; }
+      .project-repay .repay-list .repay-detail .repay-detail-pics .repay-detail-pic {
+        margin-top: 10px;
+        float: left;
+        margin-right: 20px;
+        width: 100px;
+        height: 100px; }
+        .project-repay .repay-list .repay-detail .repay-detail-pics .repay-detail-pic img {
+          width: 100%;
+          height: 100%; }
+      .project-repay .repay-list .repay-detail .repay-detail-pics:after {
+        content: "";
+        display: block;
+        clear: both; }
+    .project-repay .repay-list .repay-btn {
+      cursor: pointer;
+      margin-top: 10px;
+      clear: both;
+      text-align: center;
+      font-size: 1.2rem;
+      width: 120px;
+      height: 40px;
+      line-height: 40px;
+      color: #ffffff;
+      background-color: #ee554d;
+      transition: all 0.3s ease; }
+      .project-repay .repay-list .repay-btn:hover {
+        background-color: #ec2c22; }
+
+.project-wrap .project-tabs {
+  border-bottom: 1px solid #aaaaaa; }
+  .project-wrap .project-tabs ul {
+    width: 100%;
+    height: 55px;
+    line-height: 55px;
+    box-sizing: border-box; }
+    .project-wrap .project-tabs ul .project-tab {
       font-size: 1.3rem;
       text-align: center;
-      width: 120px;
+      width: 140px;
       float: left;
       height: 100%;
       cursor: pointer;
-      transition: all 0.3s ease; }
-    .project-wrap .project-wrap-tabs ul .project-wrap-tab:hover, .project-wrap .project-wrap-tabs ul .tab-active {
-      background-color: #ffc8ca; }
+      box-sizing: border-box;
+      border-bottom: 0;
+      transition: all 0.15s ease; }
+      .project-wrap .project-tabs ul .project-tab:before {
+        color: #ee554d;
+        font-size: 1.4rem;
+        padding-right: 8px; }
+    .project-wrap .project-tabs ul .project-tab:hover, .project-wrap .project-tabs ul .FFtab-active {
+      border-bottom: 4px solid #ee554d; }
+    .project-wrap .project-tabs ul #project-detail-btn:before {
+      font-family: "FontAwesome";
+      content: ""; }
+    .project-wrap .project-tabs ul #project-comment-btn:before {
+      font-family: "FontAwesome";
+      content: ""; }
+    .project-wrap .project-tabs ul #project-moment-btn:before {
+      font-family: "FontAwesome";
+      content: ""; }
 
-.project-contents .project-content {
-  clear: both; }
-
-.project-contents .project-content.hide {
+.project-wrap .project-content {
+  padding: 20px;
   display: none; }
 
-.project-contents .project-content-left {
-  float: left;
-  width: 880px;
-  padding: 20px;
-  box-sizing: border-box; }
+#project-detail #content-loader {
+  padding-top: 50px;
+  padding-bottom: 50px; }
 
-.project-contents .project-content-right {
-  width: 400px;
-  margin-left: 880px;
-  box-sizing: border-box;
-  padding: 20px; }
-  .project-contents .project-content-right .project-repay {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px;
-    border: 1px solid #aaa; }
-    .project-contents .project-content-right .project-repay .project-repay-title {
-      font-size: 1.4rem;
-      line-height: 3rem;
-      font-weight: bold;
-      border-bottom: 1px solid #aaa; }
-    .project-contents .project-content-right .project-repay .project-repay-list {
+#project-detail #content-errormsg {
+  display: none;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 30px; }
+
+#project-comment #comment-loader {
+  padding-top: 50px;
+  padding-bottom: 30px; }
+
+#project-comment #comment-errormsg {
+  display: none;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 30px; }
+
+#project-comment .comment-login {
+  font-size: 1.1rem;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #ababab; }
+
+.comment-text {
+  display: none;
+  border-bottom: 1px solid #ababab;
+  padding-bottom: 20px; }
+  .comment-text .comment-userinfo {
+    width: 140px;
+    float: left; }
+    .comment-text .comment-userinfo .comment-avatar {
+      margin: auto;
+      width: 60px;
+      height: 60px; }
+      .comment-text .comment-userinfo .comment-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; }
+    .comment-text .comment-userinfo .comment-userinfo-name {
+      text-align: center;
+      font-size: 1.1rem;
+      padding-top: 10px; }
+    .comment-text .comment-userinfo .comment-unerinfo-intro {
+      padding-top: 5px;
+      color: #ababab; }
+  .comment-text .comment-input {
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box; }
+    .comment-text .comment-input textarea {
       width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none; }
+    .comment-text .comment-input .comment-input-more {
+      color: #ababab;
       margin-top: 10px;
-      min-height: 30px;
-      border-bottom: 1px solid #cccccc;
-      padding-bottom: 10px; }
-      .project-contents .project-content-right .project-repay .project-repay-list .repay-money {
-        font-size: 1.3rem; }
-        .project-contents .project-content-right .project-repay .project-repay-list .repay-money span {
-          padding-left: 5px;
-          padding-right: 5px; }
-      .project-contents .project-content-right .project-repay .project-repay-list .repay-detail {
-        width: 100%;
-        margin-top: 5px; }
-        .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-pic {
-          width: 80px;
-          height: 80px;
-          float: left; }
-          .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-pic img {
-            width: 100%;
-            height: 100%; }
-        .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-content {
-          text-indent: 2rem;
-          font-size: 1.1rem; }
-          .project-contents .project-content-right .project-repay .project-repay-list .repay-detail .repay-detail-content ul li {
-            list-style-type: disc;
-            list-style-position: inside; }
-    .project-contents .project-content-right .project-repay .project-repay-button {
-      margin-top: 20px; }
-      .project-contents .project-content-right .project-repay .project-repay-button img {
-        width: 100%;
-        margin: auto;
+      width: 100%; }
+      .comment-text .comment-input .comment-input-more:after {
         display: block;
-        margin-bottom: 20px; }
-      .project-contents .project-content-right .project-repay .project-repay-button a {
-        display: block;
-        width: 100%;
+        content: "";
+        clear: both; }
+      .comment-text .comment-input .comment-input-more .comment-hint {
+        width: 100px;
+        line-height: 30px;
+        float: left; }
+      .comment-text .comment-input .comment-input-more .comment-submit {
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #ee554d;
         text-align: center;
-        font-size: 1.3rem;
-        height: 60px;
-        line-height: 60px;
-        background-color: #ff6268;
-        color: white; }
+        line-height: 30px;
+        transition: all 0.3s ease; }
+        .comment-text .comment-input .comment-input-more .comment-submit:hover {
+          background-color: #ec2c22; }
 
-.project-contents:after {
-  display: block;
-  content: "";
+.comment-wrap {
   clear: both;
-  visibility: hidden; }
-
-#project-detail .project-content-left {
-  padding-left: 20px; }
-  #project-detail .project-content-left h2 {
-    font-size: 2rem;
-    text-indent: 2em;
-    line-height: 5rem; }
-  #project-detail .project-content-left img {
-    display: block;
-    margin: auto;
-    width: 95%;
-    padding-top: 10px;
-    padding-bottom: 10px; }
-  #project-detail .project-content-left p {
-    font-size: 1.1rem;
-    text-indent: 2em;
-    margin-bottom: 15px; }
-  #project-detail .project-content-left section {
-    margin-bottom: 15px; }
-    #project-detail .project-content-left section > p {
-      margin-bottom: 0; }
-  #project-detail .project-content-left a {
-    font-size: 1.1rem;
-    color: blue; }
-
-#project-feed .project-feed-card {
   width: 100%;
-  border-bottom: 1px solid #aaaaaa;
-  margin-top: 10px; }
-  #project-feed .project-feed-card .feed-card-wrap {
-    width: 100%; }
-    #project-feed .project-feed-card .feed-card-wrap .feed-card-left {
-      float: left;
-      width: 80px; }
-      #project-feed .project-feed-card .feed-card-wrap .feed-card-left .feed-card-avatar {
-        width: 60px;
-        height: 60px;
-        margin-left: 20px;
-        margin-top: 10px; }
-        #project-feed .project-feed-card .feed-card-wrap .feed-card-left .feed-card-avatar img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%; }
-    #project-feed .project-feed-card .feed-card-wrap .feed-card-right {
-      margin-left: 80px; }
-      #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info {
-        height: 60px;
-        line-height: 60px; }
-        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info div {
-          float: left;
-          margin-left: 20px; }
-        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info .feed-card-info-username {
-          font-size: 1.2rem; }
-        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-info .feed-card-info-type {
-          font-size: 1.1rem; }
-      #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail {
+  min-height: 100px;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-bottom: 40px;
+  position: relative;
+  border-bottom: 1px solid #ababab; }
+  .comment-wrap:last-child {
+    border-bottom: 0; }
+  .comment-wrap .comment-userinfo {
+    width: 140px;
+    float: left; }
+    .comment-wrap .comment-userinfo .comment-avatar {
+      margin: auto;
+      width: 60px;
+      height: 60px; }
+      .comment-wrap .comment-userinfo .comment-avatar img {
         width: 100%;
-        padding: 20px;
-        padding-top: 0;
-        box-sizing: border-box; }
-        #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic {
-          width: 100%; }
-          #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic img {
-            width: 50%;
-            max-width: 400px;
-            max-height: 300px;
-            padding: 10px;
-            box-sizing: border-box;
-            float: left; }
-          #project-feed .project-feed-card .feed-card-wrap .feed-card-right .feed-card-detail .feed-card-detail-pic:after {
-            display: block;
-            content: "";
-            clear: left; }
+        height: 100%;
+        border-radius: 50%; }
+    .comment-wrap .comment-userinfo .comment-userinfo-name {
+      text-align: center;
+      font-size: 1.1rem;
+      padding-top: 10px; }
+    .comment-wrap .comment-userinfo .comment-unerinfo-intro {
+      padding-top: 5px;
+      color: #ababab; }
+  .comment-wrap .comment-content {
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box; }
+    .comment-wrap .comment-content .comment-inner {
+      font-size: 1.1rem; }
+    .comment-wrap .comment-content .comment-more {
+      color: #ababab;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 10px; }
+      .comment-wrap .comment-content .comment-more .comment-time {
+        width: 80px;
+        float: left;
+        margin-left: 160px; }
+      .comment-wrap .comment-content .comment-more .comment-btns {
+        float: right;
+        margin-right: 30px; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-like {
+          cursor: pointer; }
+          .comment-wrap .comment-content .comment-more .comment-btns .comment-like:before {
+            font-size: 1.1rem;
+            padding-right: 10px;
+            font-family: "FontAwesome";
+            content: ""; }
 
-#project-feed .project-feed-block {
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 20px; }
-  #project-feed .project-feed-block .feed-block-wrap {
+.content-style h1, .content-style h2, .content-style h3, .content-style h4 {
+  color: #111111;
+  font-weight: 400; }
+
+.content-style h1, .content-style h2, .content-style h3, .content-style h4, .content-style h5, .content-style p {
+  margin-bottom: 18px;
+  padding: 0; }
+
+.content-style p {
+  text-indent: 2em; }
+
+.content-style h1 {
+  font-size: 48px; }
+
+.content-style h2 {
+  font-size: 36px; }
+
+.content-style h3 {
+  font-size: 24px; }
+
+.content-style h4 {
+  font-size: 21px; }
+
+.content-style h5 {
+  font-size: 18px; }
+
+.content-style a {
+  color: #0099ff;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; }
+
+.content-style a:hover {
+  text-decoration: none;
+  color: #ff6600; }
+
+.content-style a:visited {
+  color: purple; }
+
+.content-style ul, .content-style ol {
+  padding: 0;
+  margin: 0;
+  margin-left: 20px;
+  margin-bottom: 10px; }
+
+.content-style ul li {
+  list-style: disc; }
+
+.content-style ol li {
+  list-style: decimal; }
+
+.content-style li {
+  line-height: 24px; }
+
+.content-style li ul, .content-style li ul {
+  margin-left: 24px; }
+
+.content-style p, .content-style ul, .content-style ol {
+  font-size: 16px;
+  line-height: 24px;
+  max-width: 540px; }
+
+.content-style hr {
+  width: 540px;
+  text-align: left;
+  margin: 0 auto 0 0;
+  color: #999; }
+
+.content-style img {
+  display: block;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 10px; }
+
+@media screen and (max-width: 1400px) {
+  .project-intro, .project-wrap {
+    width: 73%; }
+  .project-initiator, .project-repay {
+    width: 25%; }
+  .project-initiator .initiator-header .initiator-avatar {
+    padding-top: 50px;
+    width: 190px;
+    height: 190px; }
+  .project-initiator .initiator-header .initiator-info {
+    padding: 30px; }
+    .project-initiator .initiator-header .initiator-info .initiator-intro {
+      padding-top: 15px; } }
+
+@media screen and (max-width: 1100px) {
+  .project-intro, .project-wrap {
     width: 100%; }
-    #project-feed .project-feed-block .feed-block-wrap .feed-block-left {
+  .project-initiator, .project-repay {
+    width: 100%; }
+  .project-initiator {
+    position: relative;
+    height: 175px; }
+    .project-initiator .initiator-header .initiator-avatar {
+      padding-top: 25px;
+      padding-left: 25px;
+      width: 80px;
+      height: 80px;
+      margin: 0;
+      float: left; }
+    .project-initiator .initiator-header .initiator-info {
+      margin-left: 100px;
+      padding: 40px 40px; }
+      .project-initiator .initiator-header .initiator-info .initiator-name {
+        text-align: left; }
+      .project-initiator .initiator-header .initiator-info .initiator-intro {
+        padding-top: 5px; }
+    .project-initiator .initiator-follow {
+      bottom: 20px;
+      left: 15px;
+      height: 35px;
+      width: 95px;
+      line-height: 35px;
+      border-radius: 10px;
+      font-size: 1.2rem; }
+      .project-initiator .initiator-follow:before {
+        padding-right: 5px;
+        font-size: 1.2rem; } }
+
+@media screen and (max-width: 900px) {
+  .project-intro {
+    height: auto; }
+    .project-intro .intro-content {
+      height: auto; }
+      .project-intro .intro-content .intro-left {
+        float: none;
+        width: 100%;
+        height: 450px; }
+      .project-intro .intro-content .intro-right {
+        float: none;
+        width: 100%;
+        height: auto; }
+      .project-intro .intro-content .intro-details .intro-detail {
+        float: left;
+        height: auto;
+        width: 25%;
+        padding: 15px;
+        font-size: 1.1rem; }
+        .project-intro .intro-content .intro-details .intro-detail span {
+          font-size: 1.4rem; }
+      .project-intro .intro-content .intro-details .intro-status {
+        margin-top: 22px; }
+    .project-intro .intro-btns {
+      clear: both;
+      position: static; }
+  .comment-text .comment-userinfo {
+    width: 100px; }
+  .comment-text .comment-input {
+    margin-left: 100px; }
+  .comment-wrap .comment-userinfo {
+    width: 100px; }
+  .comment-wrap .comment-content {
+    margin-left: 100px; }
+    .comment-wrap .comment-content .comment-more .comment-time {
+      margin-left: 120px; } }
+
+@media screen and (max-width: 600px) {
+  .project-intro .intro-content .intro-left {
+    height: 350px; } }
+
+@media screen and (max-width: 500px) {
+  .project-intro .intro-content .intro-left {
+    height: 300px; }
+  .project-intro .intro-content .intro-details .intro-detail {
+    width: 33.3%;
+    font-size: 1rem; }
+    .project-intro .intro-content .intro-details .intro-detail span {
+      font-size: 1.3rem; }
+  .project-intro .intro-content .intro-details .intro-status {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    margin-top: 0; }
+  .project-wrap .project-tabs ul .project-tab {
+    font-size: 1.2rem;
+    width: 33.333333%; }
+    .project-wrap .project-tabs ul .project-tab:before {
+      font-size: 1.3rem;
+      padding-right: 6px; }
+  .comment-text .comment-userinfo {
+    width: 100%;
+    float: none; }
+    .comment-text .comment-userinfo .comment-avatar {
+      margin: 0;
+      margin: 0;
+      padding-left: 10px;
+      width: 50px;
+      height: 50px;
       float: left;
-      width: 80px; }
-      #project-feed .project-feed-block .feed-block-wrap .feed-block-left .feed-block-avatar {
-        width: 60px;
-        height: 60px;
-        margin-left: 20px;
-        margin-top: 10px; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-left .feed-block-avatar img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%; }
-    #project-feed .project-feed-block .feed-block-wrap .feed-block-right {
-      margin-left: 80px; }
-      #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info {
-        height: 60px;
-        line-height: 60px; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info div {
-          float: left;
-          margin-left: 20px; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info .feed-block-info-username {
-          font-size: 1.2rem; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-info .feed-block-info-type {
-          font-size: 1.1rem; }
-      #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail {
-        width: 95%;
-        padding: 20px;
+      padding-right: 20px; }
+    .comment-text .comment-userinfo .comment-userinfo-name {
+      text-align: left;
+      font-size: 1.1rem;
+      padding-top: 0; }
+    .comment-text .comment-userinfo .comment-unerinfo-intro {
+      padding-top: 0;
+      font-size: 1rem; }
+  .comment-text .comment-input {
+    clear: both;
+    margin-left: 0;
+    margin-top: 15px;
+    padding: 0 10px;
+    box-sizing: border-box; }
+    .comment-text .comment-input textarea {
+      width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none; }
+    .comment-text .comment-input .comment-input-more {
+      color: #ababab;
+      margin-top: 10px;
+      width: 100%; }
+      .comment-text .comment-input .comment-input-more:after {
+        display: block;
+        content: "";
+        clear: both; }
+      .comment-text .comment-input .comment-input-more .comment-hint {
+        width: 100px;
+        line-height: 30px;
+        float: left; }
+      .comment-text .comment-input .comment-input-more .comment-submit {
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #ee554d;
+        text-align: center;
+        line-height: 30px;
+        transition: all 0.3s ease; }
+        .comment-text .comment-input .comment-input-more .comment-submit:hover {
+          background-color: #ec2c22; }
+  .comment-wrap {
+    min-height: 100px;
+    padding-bottom: 20px; }
+    .comment-wrap:last-child {
+      padding-bottom: 0; }
+    .comment-wrap .comment-userinfo {
+      width: 100%;
+      float: none; }
+      .comment-wrap .comment-userinfo .comment-avatar {
+        margin: 0;
+        padding-left: 10px;
+        width: 50px;
+        height: 50px;
+        float: left;
+        padding-right: 20px; }
+      .comment-wrap .comment-userinfo .comment-userinfo-name {
+        text-align: left;
+        font-size: 1.1rem;
+        padding-top: 0; }
+      .comment-wrap .comment-userinfo .comment-unerinfo-intro {
         padding-top: 0;
-        box-sizing: border-box; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail textarea {
-          display: block;
-          width: 100%;
-          box-sizing: border-box;
-          font-size: 1.2rem;
-          padding: 10px;
-          transition: all 0.3s ease; }
-          #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail textarea:focus {
-            border-color: #57bff3; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail #feed-submit {
-          display: block;
-          float: right;
-          margin-top: 20px;
-          background-color: #ff6268;
-          width: 100px;
-          height: 40px;
-          color: white;
-          text-align: center;
-          line-height: 40px;
-          font-size: 1.2rem;
-          transition: all 0.3s ease; }
-          #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail #feed-submit:hover {
-            background-color: #ff2f37; }
-        #project-feed .project-feed-block .feed-block-wrap .feed-block-right .feed-block-detail:after {
-          content: "";
-          display: block;
-          clear: both; }
+        font-size: 1rem; }
+    .comment-wrap .comment-content {
+      margin-left: 0;
+      clear: both;
+      padding: 15px 10px 0; }
+      .comment-wrap .comment-content .comment-more {
+        color: #ababab;
+        position: static;
+        padding-top: 10px;
+        width: 100%; }
+        .comment-wrap .comment-content .comment-more .comment-time {
+          margin-left: 0; }
+        .comment-wrap .comment-content .comment-more .comment-btns {
+          margin-right: 10px; } }
+
+@media screen and (max-width: 400px) {
+  .project-wrap .project-tabs ul .project-tab {
+    font-size: 1rem;
+    width: 33.333333%; }
+    .project-wrap .project-tabs ul .project-tab:before {
+      font-size: 1.1rem;
+      padding-right: 6px; }
+  .project-wrap .project-content {
+    padding: 20px 10px; } }

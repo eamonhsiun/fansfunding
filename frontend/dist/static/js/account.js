@@ -1,5 +1,6 @@
 
 var apiUrl = "http://api.immortalfans.com";
+var resourceUrl = "http://resources.immortalfans.com:8080/";
 // apiUrl = "http://192.168.204.203:8080/fansfunding";
 var localId = null;
 var localToken = null;
@@ -38,14 +39,23 @@ function getErrorMsg(errCode){
     case 209:
       return "权限不足";
     default:
-      return null;
+      return "其他错误";
   }
 }
 ;(function(){
   var $ = function (i) { return document.querySelector(i); };
   var $$ = function (i) { return document.querySelectorAll(i); };
 
-  function getUserInfo () {
+  var NAME = "FFaccount";
+
+  var FFaccount = {
+    loginHook: []
+  };
+
+  window[NAME] = FFaccount;
+
+  FFaccount.getUserInfo = function () {
+    var _this = this;
     var commonTokenRequest = ajax({
       method: 'get',
       url: apiUrl + "/user/" + localId + "/info?token=" + localToken,
@@ -53,18 +63,29 @@ function getErrorMsg(errCode){
       var res = response.data;
       if(!response.result){
         changeLoginDom(false);
+        res.status = false;
+        localUserInfo = res;
+        for(var i = 0; i < _this.loginHook.length; i++){
+          _this.loginHook[i](localUserInfo.status);
+        }
+        return;
       }
+      res.status = true;
       localUserInfo = res;
       changeLoginDom(true, res);
+      for(var i = 0; i < _this.loginHook.length; i++){
+        _this.loginHook[i](localUserInfo.status);
+      }
     }).catch(function (response, xhr) {
       alert("服务器连接失败");
-      changeLoginDom(true, {});
+      for(var i = 0; i < _this.loginHook.length; i++){
+        _this.loginHook[i](false);
+      }
     }).always(function (response, xhr) {
-      // Do something
     });
   }
 
-  function checkAccountStatus(){
+  FFaccount.checkAccountStatus = function(){
     var userId = getUserId();
     var userToken = getUserToken();
     if(!userId || !userToken){
@@ -72,36 +93,11 @@ function getErrorMsg(errCode){
     }else{
       localId = userId;
       localToken = userToken;
-      getUserInfo();
+      this.getUserInfo();
     }
   }
 
-  function changeLoginDom(status, info){
-    if(status){
-      $("#profile-login").style.display = "block";
-      $("#profile-not-login").style.display = "none";
-    }else{
-      localStorage.removeItem("id");
-      localStorage.removeItem("token");
-      localId = null;
-      localToken = null;
-      $("#profile-login").style.display = "none";
-      $("#profile-not-login").style.display = "block";
-      return;
-    }
-    $(".profile-avatar img").src = localUserInfo.head;
-
-
-  }
-
-//res = {
-//  accountStatus,
-//  username,
-//  useravatar,
-//  other...
-//}
-
-  function logout(){
+  FFaccount.logout = function(){
     var commonTokenRequest = ajax({
       method: 'post',
       url: apiUrl +"/user/" + localId + "/logout",
@@ -123,15 +119,39 @@ function getErrorMsg(errCode){
     });
   }
 
+  FFaccount.getAccountStatus = function(callback){
+    if(localUserInfo){
+      callback(true);
+      return;
+    }
+    this.loginHook.push(callback);
+  }
+
+  function changeLoginDom(status, info){
+    if(status){
+      $("#profile-login").style.display = "block";
+      $("#profile-not-login").style.display = "none";
+    }else{
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
+      localId = null;
+      localToken = null;
+      $("#profile-login").style.display = "none";
+      $("#profile-not-login").style.display = "block";
+      return;
+    }
+    $(".profile-avatar img").src = resourceUrl + localUserInfo.head;
+  }
+
   function addElementEvent(){
     $("#logoutbtn").addEventListener("click", function  (e) {
       e.preventDefault();
-      logout();
+      FFaccount.logout();
     });
   }
 
   addElementEvent();
-  checkAccountStatus();
+  FFaccount.checkAccountStatus();
 })();
 
 

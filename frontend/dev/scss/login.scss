@@ -20,6 +20,7 @@
     display: inline-block;
     height: 100%;
     vertical-align: middle;
+    user-select: none;
     margin-right: -0.25em; /* Adjusts for spacing */
   }
   .account-title{
@@ -44,7 +45,7 @@
       color: $color_account_link;
       &:after{
         padding-left: 5px;
-        @include font_icon_content($play);
+        @include font_icon_content($fa-var-play);
       }
     }
   }

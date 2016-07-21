@@ -30,13 +30,13 @@
 
     avatarForm = new FormData();
     avatarForm.append("file", avatarFile);
-    avatarForm.append("token", localToken);
+    // avatarForm.append("token", localToken);
 
     uploadData.dirty = true;
 
     var uploadAvatarRequest = ajax({
       method: 'post',
-      url: apiUrl + '/user/' + localId + '/head',
+      url: apiUrl + '/userbasic/' + localId + '/head',
       headers: {
         'content-type': null
       },

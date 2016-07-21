@@ -29,7 +29,9 @@ gulp.task('fileinclude', function() {
 
 gulp.task('js', function() {
   gulp.src('dev/js/*.js')
-      .pipe(gulp.dest('dist/static/js/'))
+      .pipe(gulp.dest('dist/static/js/'));
+  gulp.src('dev/js/module/*.js')
+      .pipe(gulp.dest('dist/static/js/module/'))
       // .pipe(notify({message: 'js remove complete'}))
       .pipe(livereload());
 });
@@ -46,6 +48,6 @@ gulp.task('watch',function(){
   livereload.listen();
   gulp.watch(['dev/scss/*.scss'],['sass']);
   gulp.watch(['dev/html/*.html'],['fileinclude']);
-  gulp.watch(['dev/js/*.js'],['js']);
+  gulp.watch(['dev/js/*.js','dev/js/module/*.js'],['js']);
   // gulp.watch(['*.html']).on('change', livereload.changed);
 });

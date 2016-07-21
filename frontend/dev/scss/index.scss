@@ -33,8 +33,22 @@
   margin-bottom: 10px;
   .plate-title{
     font-size: 2rem;
+    &:before{
+      display: inline-block;
+      content: "";
+      width: 16px;
+      height: 28px;
+      background-image: url(../img/Title-01.png);
+      background-size: cover;
+      margin-right: 5px;
+      margin-bottom: -4px;
+    }
   }
   .plate-content{
+    .loader{
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
     >ul{
       .plate-content-list{
         float: left;
@@ -59,11 +73,15 @@
   display: block;
   width: 100%;
   height: 100%;
+  color: $color_text;
+  &:hover{
+    color: $color_text;
+  }
   background-color: $color_background_light;
   @extend %kit_style_default;
   @include transition_all();
   &:hover{
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.4);
+    box-shadow: 0 2px 8px 3px rgba(0,0,0,0.3);
   }
   .project-card-pic{
     width: 100%;
@@ -82,6 +100,11 @@
     position: relative;
     .project-card-detail-name{
       font-size: 1.2rem;
+    }
+    .project-card-detail-hint{
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .project-card-detail-info{
       float: left;
@@ -107,10 +130,10 @@
     }
   }
   .project-card-target:before, .project-card-progress:before{
-    @include font_icon_content($play);
+    @include font_icon_content($fa-var-play);
   }
   .project-card-lefttime:before{
-    @include font_icon_content($sun);
+    @include font_icon_content($fa-var-sun-o);
 
   }
   .project-card-progressbar{

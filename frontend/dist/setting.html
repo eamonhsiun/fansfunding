@@ -12,17 +12,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
   <meta name="apple-mobile-web-app-status-bar-style" content="#ff6268" />
   <meta name="msapplication-tap-highlight" content="no">
-  <title>FAN$</title>
+  <title>设置 | FAN$</title>
   <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
   <!-- 公有css -->
 
   <link rel="stylesheet" href="static/css/common.css">
   <!-- 私有css -->
   
-    <link rel="stylesheet" type="text/css" href="static/css/index.css">
   
   
   
+    <link rel="stylesheet" type="text/css" href="static/css/setting.css">
   
 </head>
 <body>
@@ -73,69 +73,46 @@
 
 
   <div class="container">
-    <div class="banner swiper-container" id="banner-main">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="static/img/27.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="static/img/28.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="static/img/29.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="static/img/30.jpg" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="plate">
-      <div class="plate-title">热门推荐</div>
-      <div class="plate-content">
-        <ul id="plate-1">
-          <!-- <li class="plate-content-list">
-            <a href="project.html" class="project-card">
-              <div class="project-card-pic">
-                <img src="static/img/27.jpg"alt="">
-              </div>
-              <div class="project-card-detail">
-                <div class="project-card-detail-name">给四年的一封信</div>
-                <div class="project-card-detail-hint">
-                  其他信息什么的要显示什么
-                </div>
-                <div class="project-card-detail-other">
-                  <div class="project-card-detail-info project-card-lefttime">
-                    剩余时间：<span>2天6小时</span>
-                  </div>
-                  <div class="project-card-detail-info project-card-target">
-                    目标金额：<span>2000</span>
-                  </div>
-                  <div class="project-card-detail-info project-card-progress">
-                    已达成：<span>82</span>%
-                  </div>
-                </div>
-              </div>
-              <div class="project-card-progressbar"><span style="width:56%;"></span></div>
-              <div class="project-card-initiator">
-                <div class="initiator-avatar"><img src="static/img/28.jpg" alt=""></div>
-                <div class="initiator-info">
-                  <div class="initiator-name">发起人：<span>蛤蛤蛤</span></div>
-                  <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
-                </div>
-              </div>
-            </a>
-          </li> -->
-        </ul>
-        <div class="loader FFloader" id="plate-loader">
-          <div class="loader-inner triangle-skew-spin">
-            <div></div>
+    <div class="setting content-block">
+      <div class="setting-info">
+        <div class="setting-info-detail">
+          <div class="setting-info-title">
+            <h1>个人设置</h1>
           </div>
         </div>
-        <div id="plate-errormsg" class="errormsg FFerrormsg">服务器连接失败</div>
+      </div>
+      <div class="setting-wrap">
+        <div class="setting-wrap-tabs">
+          <ul>
+            <li class="setting-wrap-tab tab-active" id="setting-profile-btn">基本资料</li>
+            <li class="setting-wrap-tab" id="setting-address-btn">地址管理</li>
+          </ul>
+        </div>
+        <div class="setting-contents">
+          <div class="setting-content" id="setting-profile">
+            <div class="setting-profile-list" id="setting-avatar">
+              <span>头像：</span>
+              <div class="setting-avatar-wrap">
+                <img id="new-avatar" src="static/img/27.jpg"alt="">
+                <input type="file" name="file" id="upload-avatar-input">
+                <a href="###" id="upload-avatar-btn">上传头像</a>
+              </div>
+            </div>
+            <div class="setting-profile-list" id="setting-nickname">
+              <span>昵称：</span>
+              <div class="setting-nickname-wrap">
+                <input type="text" id="upload-nickname-input" value="name">
+              </div>
+            </div>
+            <div class="setting-profile-submit">
+              <a href="###">保存</a>
+            </div>
+          </div>
+          <div class="setting-content" id="setting-address"></div>
+        </div>
       </div>
     </div>
   </div>
-
   </div>
   <div id="footer">
     <div class="container">
@@ -165,14 +142,13 @@
   <script src="static/js/module/FFtab.js"></script>
 
   
-    <script src="static/js/idangerous.swiper.min.js"></script>
-    <script src="static/js/main.js"></script>
-  
 
   
 
   
 
+  
+    <script src="static/js/setting.js"></script>
   
 
   </body>

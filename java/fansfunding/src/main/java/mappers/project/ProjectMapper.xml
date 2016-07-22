@@ -94,4 +94,15 @@
     and del_flag='0'
     order by create_time desc
   </select>
+  <select id="selectSupport" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select prj.id, prj.category_id, prj.sponsor, prj.detail_id, prj.target_money, prj.target_deadline, prj.cover, 
+    prj.status, prj.create_by, prj.create_time, prj.update_by, prj.update_time, prj.del_flag, prj.name, prj.description
+    from project prj,pay_order po
+    where prj.id=po.project_id
+    and po.user_id=#{userId,jdbcType=INTEGER}
+    and (po.trade_status in ('TRADE_FINISHED','TRADE_SUCCESS'))
+    and prj.del_flag='0'
+    and po.del_flag='0'
+    order by create_time desc
+  </select>
 </mapper>

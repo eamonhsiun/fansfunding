@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fansfunding.project.entity.ProjectMoment;
 import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
+import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.CheckUtils;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -25,7 +26,8 @@ public class ProjectController {
 	private ProjectService projectService;
 	@Autowired
 	private CategoryService categoryService;
-	
+	@Autowired
+	private UserService userService;
 	/**
 	 * 获取分类下的所有项目
 	 * @param catagroyId 分类ID
@@ -157,5 +159,42 @@ public class ProjectController {
 			return new Status(true,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);
+	}
+	/**
+	 * 获取项目的所有关注者
+	 * @param categoryId
+	 * @param projectId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{categoryId}/{projectId}/followers",method=RequestMethod.GET)
+	@ResponseBody
+	public Status followers(@PathVariable int categoryId,@PathVariable int projectId,
+			@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "10") int rows){
+		if(!projectService.inCategory(categoryId, projectId)){
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+		}
+		return new Status(false,StatusCode.SUCCESS,projectService.getFollowers(projectId,page,rows),null);
+	}
+	/**
+	 * 验证用户是否关注了项目
+	 * @param categoryId
+	 * @param projectId
+	 * @param userId 用户id
+	 * @return
+	 */
+	@RequestMapping(path="{categoryId}/{projectId}/followers",method=RequestMethod.POST)
+	@ResponseBody
+	public Status isFollow(@PathVariable int categoryId,@PathVariable int projectId,
+			@RequestParam int userId){
+		if(!projectService.inCategory(categoryId, projectId)){
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+		}
+		if(!userService.isExist(userId)){
+			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		}
+		return new Status(true,StatusCode.SUCCESS,projectService.isFollower(userId,projectId),null);
 	}
 }

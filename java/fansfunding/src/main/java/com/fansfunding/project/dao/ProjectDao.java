@@ -60,4 +60,10 @@ public interface ProjectDao {
      * @return
      */
     List<Project> selectFollow(int userId);
+    /**
+     * 获取支持的项目
+     * @param userId
+     * @return
+     */
+    List<Project> selectSupport(int userId);
 }

@@ -66,10 +66,14 @@ public class UserController {
 		}
 		return new Status(true, StatusCode.SUCCESS, null, null);
 	}
-
-
-
-
+	/**
+	 * 更换密码
+	 * @param userId
+	 * @param token
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(path = "{userId}/newPwd")
 	@ResponseBody
 	public Status newPwd(@PathVariable String userId, @RequestParam String token,@RequestParam String password) throws Exception {
@@ -131,6 +135,9 @@ public class UserController {
 		if("follow".equals(type)){
 			return new Status(true,StatusCode.SUCCESS,projectService.getFollow(userId,page,rows),null);
 		}
+		if("support".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupport(userId,page,rows),null);
+		}
 		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
 	}
 	/**
@@ -139,7 +146,7 @@ public class UserController {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/follow/{categoryId}/{projectId}")
+	@RequestMapping(path="{userId}/follow/{categoryId}/{projectId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Status follow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!categoryService.isExist(categoryId)){
@@ -162,7 +169,7 @@ public class UserController {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/unfollow/{categoryId}/{projectId}")
+	@RequestMapping(path="{userId}/unfollow/{categoryId}/{projectId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Status unfollow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!categoryService.isExist(categoryId)){

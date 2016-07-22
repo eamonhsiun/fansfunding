@@ -10,14 +10,20 @@ import java.util.Set;
 import java.util.UUID;
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 
 import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.pay.entity.Order;
 import com.fansfunding.project.dao.FeedbackDao;
 import com.fansfunding.project.dao.ProjectDao;
+import com.fansfunding.project.entity.Feedback;
+import com.fansfunding.project.entity.Project;
 import com.fansfunding.user.dao.RealInfoDao;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.RealInfo;
@@ -40,7 +46,9 @@ public class UserService {
 	private ProjectDao projectDao;
 	@Autowired
 	private FeedbackDao feedbackDao;
+	
 	/**
+	 * 根据用户名或者id获得用户
 	 * @param id
 	 * @param name
 	 * @return
@@ -56,6 +64,7 @@ public class UserService {
 		return userDao.selectByEmail(email)!=null;
 	}
 	/**
+	 * 根据id获取用户
 	 * @param uid
 	 * @return
 	 */
@@ -65,14 +74,15 @@ public class UserService {
 		return user;
 	}
 	/**
-	 * 判断是否
+	 * 判断用户是否存在
 	 * @param userId
 	 * @return
 	 */
 	public boolean isExist(int userId){
-		return this.getUserById(userId)!=null;
+		return userDao.selectById(userId)!=null;
 	}
 	/**
+	 * 根据用户名获取用户
 	 * @param name
 	 * @return
 	 */
@@ -82,6 +92,7 @@ public class UserService {
 	
 
 	/**
+	 * 根据手机号获取用户
 	 * @param phone
 	 * @return
 	 */
@@ -90,6 +101,7 @@ public class UserService {
 	}
 	
 	/**
+	 * 检查密码是否一致
 	 * @param pwd1
 	 * @param token
 	 * @param pwd2
@@ -100,9 +112,8 @@ public class UserService {
 
 	}
 	
-
-	
 	/**
+	 * 创建用户
 	 * @param phone
 	 * @param password
 	 * @return
@@ -117,8 +128,8 @@ public class UserService {
 		user.setHead(UUID.randomUUID().toString().replace("-", ""));
 		user.setRemark("");
 		user.setDel_flag('0');
-		user.setCreate_by("me");
-		user.setUpdate_by("me");
+		user.setCreate_by("admin");
+		user.setUpdate_by("admin");
 		user.setCreate_time(new Date());
 		user.setUpdate_time(new Date());
 		userDao.insertNewUser(user);
@@ -137,17 +148,34 @@ public class UserService {
 		
 	}
 
-
+	/**
+	 * 更新密码
+	 * @param user
+	 */
 	public void updatePwd(User user) {
 		userDao.updatePwd(user);
 	}
-	
+	/**
+	 * 更新昵称
+	 * @param userid
+	 * @param nickname
+	 */
 	public void updateNickName(int userid,String nickname){
 		User user =userDao.selectById(userid);
 		user.setNickname(nickname);
 		userDao.updateNickName(user);
 	}
-	
+	/**
+	 * 更新用户信息
+	 * @param userid 用户id
+	 * @param nickname 昵称
+	 * @param email 邮箱
+	 * @param sex 性别
+	 * @param idNumber 身份证
+	 * @param intro 个人介绍
+	 * @param birthday 生日
+	 * @return
+	 */
 	public User updateUserInfo(int userid,String nickname,String email,Byte sex,
 			String idNumber,String intro,Date birthday){
 		RealInfo realinfo = realInfoDao.selectByUserId(userid);
@@ -177,7 +205,11 @@ public class UserService {
 	public Set<String> findPermissions(String username) {
 		return null;
 	}
-	
+	/**
+	 * 获取用户Map
+	 * @param user
+	 * @return
+	 */
 	public Map<String,Object> getUserMap(User user){
 		RealInfo realInfo = user.getRealInfo();
 		Map<String,Object> info = new HashMap<>();
@@ -200,7 +232,11 @@ public class UserService {
 		userbasic.put("realInfo", info);
 		return userbasic;
 	}
-	
+	/**
+	 * 获取用户基本信息（可见的）
+	 * @param user
+	 * @return
+	 */
 	public Map<String,Object> getUserBasicMap(User user){
 		Map<String,Object> userbasic = new HashMap<>();
 		userbasic.put("id", user.getId());
@@ -241,11 +277,18 @@ public class UserService {
 		PageInfo<Order> info=new PageInfo<>(list);
 		list.forEach((payOrder)->{
 			Map<String,Object> order=new HashMap<>();
-			order.put("projectName", projectDao.selectByProjectId(payOrder.getProjectId()));
+			
+			Project prj=projectDao.selectByProjectId(payOrder.getProjectId());
+			order.put("projectId", prj.getId());
+			order.put("projectName", prj.getName());
+			
+			Feedback feedback=feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId());
+			
 			order.put("feedbackId",payOrder.getFeedbackId());
-			order.put("feedbackTitle", feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId()).getTitle());
+			order.put("feedbackTitle", feedback.getTitle());
+			order.put("feedbackDesc", feedback.getDescription());
+			
 			order.put("paidTime", payOrder.getNotifyTime());
-			order.put("feedbackDesc", feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId()).getDescription());
 			order.put("totalFee",payOrder.getTotalFee());
 			order.put("orderStatus",payOrder.getTradeStatus());
 		});

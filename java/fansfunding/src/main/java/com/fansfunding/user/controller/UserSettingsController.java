@@ -20,9 +20,9 @@ import com.fansfunding.utils.response.StatusCode;
 @Controller
 @RequestMapping(path="user")
 public class UserSettingsController {
-	
-	
-	
+
+
+
 	@Autowired
 	private UserService userService;
 	/**
@@ -36,8 +36,8 @@ public class UserSettingsController {
 		User user = userService.getUserById(userId);
 		return new Status(true,StatusCode.SUCCESS,user.getHead(),null);
 	}
-	
-	
+
+
 	/**
 	 * 获取用户信息
 	 * 
@@ -53,7 +53,7 @@ public class UserSettingsController {
 		}
 		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(userId)), null);
 	}
-	
+
 
 	/**
 	 * POST Info
@@ -82,11 +82,14 @@ public class UserSettingsController {
 				return new Status(false,StatusCode.EMAIL_EXIST,"邮箱已存在",null);
 			}
 		}
+		if(!"".equals(intro)&&intro.length()>140){
+			return new Status(false,StatusCode.ERROR_DATA,"个人介绍过长",null);
+		}
 		return new Status(true,StatusCode.SUCCESS,
 				userService.getUserMap(userService.updateUserInfo(userId,nickname, email,
 						Byte.parseByte(sex), idNumber, intro, sdf.parse(birthday))),null);
 	}
-	
+
 	/**
 	 * GET NICKNAME
 	 * @param userId
@@ -101,8 +104,8 @@ public class UserSettingsController {
 		User user = userService.getUserById(userId);
 		return new Status(true,StatusCode.SUCCESS,user.getNickname(),null);
 	}
-	
-	
+
+
 	/**
 	 * POST NICKNAME
 	 * @param userId
@@ -115,5 +118,5 @@ public class UserSettingsController {
 		userService.updateNickName(userId, nickname);
 		return new Status(true,StatusCode.SUCCESS,nickname,null);
 	}
-	
+
 }

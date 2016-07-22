@@ -41,7 +41,7 @@ public class CommentController {
 							@RequestParam(required = false, defaultValue = "1") Integer page,
 							@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,commentService.getComments(projectId,page,rows),null);
 	}
@@ -57,13 +57,16 @@ public class CommentController {
 	@ResponseBody
 	public Status comment(@PathVariable Integer categoryId,@PathVariable Integer projectId,Comment comment){
 		if(comment==null){
-			return new Status(false,StatusCode.ERROR_DATA,null,null);
+			return new Status(false,StatusCode.ERROR_DATA,"错误的数据",null);
+		}
+		if(comment.getContent().length()>140){
+			return new Status(false,StatusCode.ERROR_DATA,"内容太长",null);
 		}
 		if(!userService.isExist(comment.getUserId())){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
 		}
 		if(!CheckUtils.isNullOrEmpty(comment)){
 			commentService.add(comment);

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.TokenService;
+import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.entity.UserBasic;
@@ -33,7 +35,8 @@ public class UserController {
 	private TokenService tokenService;
 	@Autowired
 	private ProjectService projectService;
-
+	@Autowired
+	private CategoryService categoryService;
 	/**
 	 * 登出
 	 * 
@@ -139,6 +142,9 @@ public class UserController {
 	@RequestMapping(path="{userId}/follow/{categoryId}/{projectId}")
 	@ResponseBody
 	public Status follow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!categoryService.isExist(categoryId)){
+			return new Status(false,StatusCode.FAILED,"分类不存在",null);
+		}
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
@@ -159,6 +165,9 @@ public class UserController {
 	@RequestMapping(path="{userId}/unfollow/{categoryId}/{projectId}")
 	@ResponseBody
 	public Status unfollow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!categoryService.isExist(categoryId)){
+			return new Status(false,StatusCode.FAILED,"分类不存在",null);
+		}
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}

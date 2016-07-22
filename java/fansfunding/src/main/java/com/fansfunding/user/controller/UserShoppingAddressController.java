@@ -131,8 +131,10 @@ public class UserShoppingAddressController {
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		shoppingAddressService.setDefault(userId, addressId);
-		return new Status(true, StatusCode.SUCCESS, "设置成功",null);
+		if(shoppingAddressService.setDefault(userId, addressId)){
+			return new Status(true, StatusCode.SUCCESS, "设置成功",null);
+		}
+		return new Status(false, StatusCode.PERMISSION_LOW,"没有权限设置", null);
 	}
 	
 }

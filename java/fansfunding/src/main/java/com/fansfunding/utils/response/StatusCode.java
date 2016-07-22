@@ -49,9 +49,9 @@ public class StatusCode {
 	 */
 	public static final int PERMISSION_LOW=209;
 	/**
-	 * 密码太短（6-20）
+	 * 密码太短（6-16）
 	 */
-	public static final int PASSWORD_TOO_SHORT=210;
+	public static final int PASSWORD_LENGTH_ERROR=210;
 	/**
 	 * 文件上传失败
 	 */

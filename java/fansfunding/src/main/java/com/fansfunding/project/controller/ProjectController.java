@@ -36,6 +36,9 @@ public class ProjectController {
 	public Status projects(@PathVariable Integer categoryId,
 			@RequestParam(required=false,defaultValue="1") Integer page,
 			@RequestParam(required=false,defaultValue="10") Integer rows){
+		if(!categoryService.isExist(categoryId)){
+			return new Status(false,StatusCode.FAILED,"该分类不存在",null);
+		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getByCategoryId(categoryId,page,rows),null);
 	}
 	
@@ -49,7 +52,7 @@ public class ProjectController {
 	@ResponseBody
 	public Status project(@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getByProjectId(projectId),null);
 	}
@@ -63,7 +66,7 @@ public class ProjectController {
 	@ResponseBody
 	public Status prjectDetail(@PathVariable Integer categoryId,@PathVariable Integer projectId){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.getDetails(projectId),null);
 	}
@@ -99,9 +102,11 @@ public class ProjectController {
 			@RequestParam(required=false,defaultValue="")String others, 
 			@RequestParam(required=false,defaultValue="")String video) throws ParseException{
 		
-		//TODO:检测该分类是否存在
 		if(!categoryService.isExist(categoryId)){
-			return new Status(false,StatusCode.FAILED,"分类不存在",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
+		}
+		if(name.length()>20||description.length()>255){
+			return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
 		int projectId=projectService.addProject(name, categoryId, cover, sponsor, sdf.parse(targetDeadline),
@@ -122,7 +127,7 @@ public class ProjectController {
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.moment(projectId, page, rows),null);
 	}
@@ -145,6 +150,9 @@ public class ProjectController {
 		if(CheckUtils.isNullOrEmpty(moment)){
 			if(projectService.addMoment(categoryId,projectId,moment,images,sponsorId)){
 				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
+			}
+			if(moment.getContent().length()>140){
+				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
 			return new Status(true,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
 		}

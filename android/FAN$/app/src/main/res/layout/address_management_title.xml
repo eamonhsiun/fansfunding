@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/colorAccent"
+    android:elevation="4dp"
+    android:orientation="horizontal"
+    >
+
+    <!--取消-->
+    <ImageButton
+        android:id="@+id/btn_cancel"
+        android:src="@drawable/cancel"
+        android:textSize="@dimen/button_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:padding="18dp"
+        android:scaleType="fitXY"
+
+        />
+
+
+    <TextView
+        android:layout_toRightOf="@id/btn_cancel"
+        android:id="@+id/tv_address_info"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/colorWhite"
+        android:padding="@dimen/text_padding"/>
+
+    <!--确认-->
+    <ImageButton
+        android:layout_alignParentRight="true"
+        android:id="@+id/btn_confirm"
+        android:src="@drawable/correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:padding="18dp"
+        android:scaleType="fitXY"/>
+
+
+</RelativeLayout>

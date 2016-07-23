@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.fansfunding.PullListView.XListView;
 import com.fansfunding.internal.AllProjectInCategory;
 import com.fansfunding.internal.ErrorCode;
+import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -57,8 +58,7 @@ public class CrowdFundingFragment extends Fragment {
     ListProjectAdapter adapter;
 
     //获取到的项目列表
-    private List<AllProjectInCategory.ProjectDetail> projectDetailList=null;
-
+    private List<ProjectInfo> projectDetailList=null;
 
     //httpclient
     private OkHttpClient httpClient;
@@ -70,6 +70,9 @@ public class CrowdFundingFragment extends Fragment {
 
     //获取的页数
     private int page=1;
+
+    //是否加在头部
+    private boolean isAddAtHead=false;
 
     //消息处理
     private Handler handler=new Handler(){
@@ -87,12 +90,23 @@ public class CrowdFundingFragment extends Fragment {
                     if(projectDetailList.size()<rows){
                         //已结获取到最后一页，再从第一页开始获取
                         page=1;
+                        lv_PR.setPullLoadEnable(false);
                     }else {
                         //获取完本页后，获取下一页的内容
+                        lv_PR.setPullLoadEnable(true);
                         page++;
                     }
                     for(int i=0;i<projectDetailList.size();i++){
+                        //加载头部
                         adapter.addItemAtHead(projectDetailList.get(i));
+                        /*if(isAddAtHead==true){
+                            adapter.addItemAtHead(projectDetailList.get(i));
+                        }
+                        //加载在尾部
+                        else{
+                            adapter.addItemAtFoot(projectDetailList.get(i));
+                        }*/
+
                     }
                     adapter.notifyDataSetChanged();
                     endRefresh();
@@ -155,7 +169,7 @@ public class CrowdFundingFragment extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_crowdfunding, container, false);
         //热门推荐的listview
         lv_PR=(XListView)rootView.findViewById(R.id.lv_popularRecommendation);
-        lv_PR.setAutoLoadEnable(false);
+        lv_PR.setAutoLoadEnable(true);
         lv_PR.setPullLoadEnable(false);
 
         lv_PR.setPullRefreshEnable(true);
@@ -166,15 +180,18 @@ public class CrowdFundingFragment extends Fragment {
                 if(isFinishRequest==false){
                     return;
                 }
+                isAddAtHead=true;
                 getProject();
 
             }
 
             @Override
             public void onLoadMore() {
-                lv_PR.stopRefresh();
-                lv_PR.stopLoadMore();
-                lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                if(isFinishRequest==false){
+                    return;
+                }
+                isAddAtHead=false;
+                getProject();
             }
         });
 
@@ -254,7 +271,7 @@ public class CrowdFundingFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
-                AllProjectInCategory.ProjectDetail detail=(AllProjectInCategory.ProjectDetail)lv_PR.getAdapter().getItem(position);
+                ProjectInfo detail=(ProjectInfo)lv_PR.getAdapter().getItem(position);
                 int categoryId=detail.getCategoryId();
                 int projectId=detail.getId();
                 intent.setAction(getString(R.string.activity_project_detail));
@@ -330,8 +347,9 @@ public class CrowdFundingFragment extends Fragment {
                         msg.what=GET_HOT_PROJECT_FAILURE;
                         handler.sendMessage(msg);
                         isFinishRequest=true;
+                        return;
                     }
-                    //重置密码失败
+                    //项目获取失败
                     if(project.isResult()==false){
                         Message msg=new Message();
                         switch (project.getErrCode()){
@@ -350,7 +368,7 @@ public class CrowdFundingFragment extends Fragment {
                     }
 
 
-                    Log.i("TAG","crowdfundingfragment:"+str_response);
+                    //FLog.i("TAG","crowdfundingfragment:"+str_response);
                     projectDetailList=project.getData().getList();
 
                     //获取项目信息成功

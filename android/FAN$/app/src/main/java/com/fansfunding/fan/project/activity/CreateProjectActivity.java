@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -75,6 +77,8 @@ public class CreateProjectActivity extends AppCompatActivity {
     public static String project_desc;
     public static boolean address_is_need;
 
+
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -97,8 +101,8 @@ public class CreateProjectActivity extends AppCompatActivity {
                     if(CreateProjectActivity.this.isFinishing()==false){
                         Toast.makeText(CreateProjectActivity.this,"项目上传成功...",Toast.LENGTH_LONG).show();
                         Toast.makeText(CreateProjectActivity.this,"回馈图片上传中...",Toast.LENGTH_LONG).show();
+                        break;
                     }
-
                     sendFeedbackImages();
                     break;
                 case ADD_FEEDBACK_FINISHED:
@@ -135,8 +139,11 @@ public class CreateProjectActivity extends AppCompatActivity {
         }
     };
 
+
+
     private void sendFeedbackImages() {
         RequestBody requestBodyTest = FormBody.create(MediaType.parse("image/jpeg"), tempFile);
+        Log.i("TAG","TEMPFILE:"+tempFile.getAbsolutePath());
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("files", tempFile.getName(), requestBodyTest)
@@ -219,7 +226,6 @@ public class CreateProjectActivity extends AppCompatActivity {
                                 project_id=(int)d;
                                 Log.e("TEST",project_id+"");
 
-
                                 handler.sendEmptyMessage(CREATE_FINISH);
                             }
                             Looper.loop();
@@ -231,6 +237,10 @@ public class CreateProjectActivity extends AppCompatActivity {
 
     private void sendImages() {
         RequestBody requestBodyTest = FormBody.create(MediaType.parse("image/jpeg"), tempFile);
+
+
+        Log.i("TAG","TEMPFILE:"+tempFile.getAbsolutePath());
+
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("files", tempFile.getName(), requestBodyTest)
@@ -365,7 +375,7 @@ public class CreateProjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         createProjectActivity=this;
         setContentView(R.layout.activity_create_project);
 
@@ -373,10 +383,11 @@ public class CreateProjectActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_createProject);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
+
         actionBar=getSupportActionBar();
         actionBar.setTitle("发起项目");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
         paperAdapter = new ProjectCreateAdapter(getSupportFragmentManager());
 
         viewPager=(MotionLessViewPager)findViewById(R.id.vp_project_create);
@@ -385,6 +396,9 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         String local_file =Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+PHTOT_FILE_NAME_IN_APP;
         photoFile=new File(local_file);
+        if(photoFile.getParentFile().exists()==false){
+            photoFile.getParentFile().mkdirs();
+        }
     }
 
     public void setPageState(int state){
@@ -489,20 +503,78 @@ public class CreateProjectActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case PHOTO_REQUEST_GALLERY:
-                if (data != null) {
+                try {
+                    if(data==null||data.getData()==null){
+                        Log.i("TAG","获取不到相册图片");
+                        break;
+                    }
                     tempFile = new File(Environment.getExternalStorageDirectory(),
                             PHOTO_FILE_NAME);
-                    // 得到图片的全路径
                     Uri uri = data.getData();
-                    crop(uri, Uri.fromFile(photoFile));
+                    bitmap=decodeUriAsBitmap(uri);
+                    if(bitmap==null){
+                        Log.i("TAG","相册获得的bitmap为null");
+                        break;
+
+                    }
+                    if(photoFile.exists()){
+                        photoFile.delete();
+                        photoFile.createNewFile();
+                    }
+                    FileOutputStream out = new FileOutputStream(photoFile);
+
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.flush();
+                    out.close();
+                    tempFile = photoFile;
+                    if(bitmap.isRecycled()==false){
+                        bitmap.recycle();
+                    }
+                }catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
                 break;
 
             case PHOTO_REQUEST_CAMERA:
-                tempFile = new File(Environment.getExternalStorageDirectory(),
-                        PHOTO_FILE_NAME);
-                crop(Uri.fromFile(tempFile), Uri.fromFile(photoFile));
-                Log.e("TEST","SomeThingWrong106");
+
+                //crop(Uri.fromFile(tempFile), Uri.fromFile(photoFile));
+                //Log.e("TEST","SomeThingWrong106");
+                try {
+                    tempFile = new File(Environment.getExternalStorageDirectory(),
+                            PHOTO_FILE_NAME);
+
+                    FileInputStream in = new FileInputStream(tempFile);
+                    bitmap=decodeUriAsBitmap(tempFile.getAbsolutePath(),in);
+                    if(bitmap==null){
+                        Log.i("TAG","相机获得的bitmap为null");
+                        break;
+
+                    }
+                    if(photoFile.exists()){
+                        photoFile.delete();
+                        photoFile.createNewFile();
+                    }
+                    FileOutputStream out = new FileOutputStream(photoFile);
+
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.flush();
+                    out.close();
+                    tempFile = photoFile;
+                    if(bitmap.isRecycled()==false){
+                        bitmap.recycle();
+                    }
+
+                }catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 break;
 
             case PHOTO_REQUEST_CUT:
@@ -510,13 +582,8 @@ public class CreateProjectActivity extends AppCompatActivity {
                 if (data == null) {
                     break;
                 }
-                if (data.getData() == null) {
-                    break;
-                }
 
                 bitmap = data.getParcelableExtra("data");
-               /* Uri uri = data.getData();
-                bitmap = decodeUriAsBitmap(uri);*/
 
                 if (photoFile.exists()) {
                     photoFile.delete();
@@ -524,13 +591,15 @@ public class CreateProjectActivity extends AppCompatActivity {
                 try {
                     FileOutputStream out = new FileOutputStream(photoFile);
 
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     out.flush();
                     out.close();
                     tempFile = photoFile;
 
                     //获取压缩过后的bitmap
-                    bitmap = decodeUriAsBitmap(Uri.fromFile(photoFile));
+                    //bitmap = decodeUriAsBitmap(Uri.fromFile(photoFile));
+
+
 
 
                 } catch (FileNotFoundException e) {
@@ -545,28 +614,87 @@ public class CreateProjectActivity extends AppCompatActivity {
     }
 
     //将uri转化为bitmap
+    private Bitmap decodeUriAsBitmap(String path,FileInputStream in){
+        Bitmap bitmap = null;
+        try {
+            BitmapFactory.Options temp_opt = new BitmapFactory.Options();
+            temp_opt.inJustDecodeBounds=true;
+            BitmapFactory.decodeFile(path,temp_opt);
+
+            Log.i("TAG","Height:"+temp_opt.outHeight);
+            if(temp_opt.outHeight>4000||temp_opt.outWidth>4000){
+                Log.i("TAG","进入第一个");
+                BitmapFactory.Options opt = new BitmapFactory.Options();
+                opt.inSampleSize=8;
+                opt.inPreferredConfig = Bitmap.Config.RGB_565;
+                opt.inJustDecodeBounds=false;
+                bitmap=BitmapFactory.decodeStream(in,null,opt);
+                Log.i("TAG","HEIGHT2:"+bitmap.getByteCount());
+
+            }else if(temp_opt.outHeight>2000||temp_opt.outWidth>2000){
+                Log.i("TAG","进入第二个");
+                BitmapFactory.Options opt = new BitmapFactory.Options();
+                opt.inSampleSize=4;
+                opt.inPreferredConfig = Bitmap.Config.RGB_565;
+                opt.inJustDecodeBounds=false;
+                bitmap=BitmapFactory.decodeStream(in,null,opt);
+                Log.i("TAG","HEIGHT3:"+bitmap.getByteCount());
+            }else if(temp_opt.outHeight>1000||temp_opt.outWidth>1000){
+                BitmapFactory.Options opt = new BitmapFactory.Options();
+                opt.inSampleSize=2;
+                opt.inPreferredConfig = Bitmap.Config.RGB_565;
+                opt.inJustDecodeBounds=false;
+                bitmap=BitmapFactory.decodeStream(in,null,opt);
+                Log.i("TAG","HEIGHT4:"+bitmap.getByteCount());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
+    //将uri转化为bitmap
     private Bitmap decodeUriAsBitmap(Uri uri){
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+            BitmapFactory.Options temp_opt = new BitmapFactory.Options();
+            temp_opt.inJustDecodeBounds=true;
+            BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),null,temp_opt);
+            Log.i("TAG","Height:"+temp_opt.outHeight);
+
+            BitmapFactory.Options opt = new BitmapFactory.Options();
+            opt.inPreferredConfig = Bitmap.Config.RGB_565;
+            opt.inJustDecodeBounds=false;
+
+            if(temp_opt.outHeight>4000||temp_opt.outWidth>4000){
+                Log.i("TAG","进入第一个");
+                opt.inSampleSize=8;
+
+            }else if(temp_opt.outHeight>2000||temp_opt.outWidth>2000){
+                Log.i("TAG","进入第二个");
+                opt.inSampleSize=4;
+            }else if(temp_opt.outHeight>1000||temp_opt.outWidth>1000){
+                opt.inSampleSize=2;
+            }
+            bitmap=BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),null,opt);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
         }
         return bitmap;
     }
-
     private void crop(Uri uri,Uri newUri) {
         // 裁剪图片意图
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         // 裁剪框的比例，1：1
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
+        intent.putExtra("aspectX", 4);
+        intent.putExtra("aspectY", 3);
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 800);
-        intent.putExtra("outputY", 600);
+        intent.putExtra("outputX", 400);
+        intent.putExtra("outputY", 300);
         // 图片格式
         intent.putExtra(MediaStore.EXTRA_OUTPUT, newUri);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());

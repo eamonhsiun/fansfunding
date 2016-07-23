@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/layout_padding"
     android:paddingRight="@dimen/layout_padding"
     android:paddingBottom="@dimen/layout_padding"
-    android:background="@color/colorWhite">
+    android:layout_margin="@dimen/layout_padding"
+    android:background="@drawable/item_project_elevation">
     <!--项目发起人信息-->
     <RelativeLayout
         android:id="@+id/rl_PJ_publish_detail"
@@ -28,27 +29,15 @@
             android:textColor="@color/colorPublishGrey"
             android:text="Immortals"/>
     </RelativeLayout>
-    <!--项目名称-->
-    <TextView
-        android:id="@+id/tv_PJ_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_PJ_publish_detail"
-        android:paddingTop="@dimen/layout_padding"
-        android:textSize="@dimen/subhead_text_size"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/colorBlack"
-        android:text="武大难友:你的皮划艇已上线"/>
+
     <!--项目图片-->
     <LinearLayout
         android:id="@+id/ll_PJ_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/tv_PJ_name"
-        android:paddingTop="@dimen/layout_padding">
+        android:layout_below="@id/rl_PJ_publish_detail"
+        android:paddingTop="10dp">
       <ImageView
           android:id="@+id/iv_PJ_image_1"
           android:layout_width="0dp"
@@ -74,11 +63,25 @@
             android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal"/>-->
     </LinearLayout>
+
+    <!--项目名称-->
+    <TextView
+        android:id="@+id/tv_PJ_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_PJ_image"
+        android:paddingTop="@dimen/layout_padding"
+        android:textSize="@dimen/subhead_text_size"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/colorBlack"
+        android:text="武大难友:你的皮划艇已上线"/>
    <TextView
         android:id="@+id/tv_PJ_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_PJ_image"
+        android:layout_below="@id/tv_PJ_name"
         android:paddingTop="10dp"
         android:maxLines="4"
         android:ellipsize="end"

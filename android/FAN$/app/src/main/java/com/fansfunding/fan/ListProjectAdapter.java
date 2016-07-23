@@ -9,12 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fansfunding.internal.AllProjectInCategory;
+import com.fansfunding.internal.ProjectInfo;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,16 +26,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ListProjectAdapter extends BaseAdapter{
 
-    List<AllProjectInCategory.ProjectDetail> listProjectDetail;
+    List<ProjectInfo> listProjectDetail;
 
     private Activity context;
     public ListProjectAdapter(Activity context){
-        listProjectDetail=new LinkedList<AllProjectInCategory.ProjectDetail>();
+        listProjectDetail=new LinkedList<ProjectInfo>();
         this.context=context;
 
     }
 
-    public void addItemAtHead(AllProjectInCategory.ProjectDetail detail){
+    public void addItemAtHead(ProjectInfo detail){
         if(detail==null){
             return;
         }
@@ -50,12 +51,39 @@ public class ListProjectAdapter extends BaseAdapter{
                 }
             }
             listProjectDetail.add(0,detail);
+            Collections.sort(listProjectDetail);
+
 
         }else{
-            listProjectDetail=new LinkedList<AllProjectInCategory.ProjectDetail>();
+            listProjectDetail=new LinkedList<ProjectInfo>();
             listProjectDetail.add(detail);
         }
 
+
+    }
+
+    public void addItemAtFoot(ProjectInfo detail){
+        if(detail==null){
+            return;
+        }
+        if(listProjectDetail!=null){
+            //如果已经存在该项目，则返回
+            for(int i=0;i<listProjectDetail.size();i++){
+                //判断项目id和所属类别是否重复
+                if(listProjectDetail.get(i).getId()==detail.getId()
+                        &&listProjectDetail.get(i).getCategoryId()==detail.getCategoryId()){
+                    listProjectDetail.remove(i);
+                    listProjectDetail.add(detail);
+                    return;
+                }
+            }
+            listProjectDetail.add(0,detail);
+            Collections.sort(listProjectDetail);
+
+        }else{
+            listProjectDetail=new LinkedList<ProjectInfo>();
+            listProjectDetail.add(detail);
+        }
 
     }
     @Override
@@ -81,7 +109,7 @@ public class ListProjectAdapter extends BaseAdapter{
         if(position<0||position>=listProjectDetail.size()){
             return null;
         }
-        AllProjectInCategory.ProjectDetail detail=listProjectDetail.get(position);
+        ProjectInfo detail=listProjectDetail.get(position);
         View rootView=View.inflate(context,R.layout.item_project,null);
 
         //发起人名称
@@ -99,7 +127,7 @@ public class ListProjectAdapter extends BaseAdapter{
         //项目图片
         ImageView iv_PJ_image_1=(ImageView)rootView.findViewById(R.id.iv_PJ_image_1);
         if(context!=null&&detail.getCover()!=null&&detail.getCover().equals("")==false){
-            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getCover()).into(iv_PJ_image_1);
+            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getCover()).resize(720,400).centerCrop().into(iv_PJ_image_1);
         }
 
 

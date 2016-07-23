@@ -94,7 +94,6 @@
                     android:id="@+id/et_target_money"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/linearlayout_padding"
-
                     android:gravity="center_vertical|right"
                     android:background="@null"
                     android:hint="填写目标金额"
@@ -150,7 +149,8 @@
             android:layout_margin="@dimen/layout_padding"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="@drawable/add"/>
+            android:background="@drawable/add_project_image"
+            />
 
     </LinearLayout>
 

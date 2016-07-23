@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="com.fansfunding.fan.SettingActivity">
+    tools:context="com.fansfunding.fan.setting.activity.SettingActivity">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -88,6 +88,7 @@
         android:text="关于与帮助"/>
 
     <TextView
+        android:id="@+id/tv_setting_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/subhead_text_size"

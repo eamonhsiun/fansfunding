@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.ProjectDetailCommentActivity">
+    tools:context="com.fansfunding.fan.project.activity.ProjectDetailCommentActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_PJ_detail_comment"
@@ -14,6 +14,7 @@
         android:titleTextColor="@color/colorWhite">
 
     </android.support.v7.widget.Toolbar>
+
     <com.fansfunding.PullListView.XListView
         android:id="@+id/lv_PJ_detail_comment"
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
 
     </com.fansfunding.PullListView.XListView>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_PJ_detail_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,5 +33,5 @@
         android:layout_marginRight="@dimen/layout_padding"
         app:backgroundTint="@color/colorButtonRed"
         android:layout_marginBottom="56dp"
-        android:src="@android:drawable/ic_input_add"/>
+        android:src="@drawable/add"/>
 </RelativeLayout>

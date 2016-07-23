@@ -2,11 +2,13 @@ package com.fansfunding.fan.project.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,22 +46,53 @@ public class CreateProjectFragment extends Fragment {
 
     public AppCompatEditText et_project_desc;
 
+
+    MyTask myTask;
+
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.e("TEST","1=1");
             if(v.getId()==tv_project_create_time.getId()){
-                DatePicker picker = new DatePicker(CreateProjectFragment.this.getActivity(), DatePicker.YEAR_MONTH_DAY);
-                picker.setRange(2016, 2026);//年份范围
-                Calendar c = Calendar.getInstance();
-                picker.setSelectedItem(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH));
-                picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
-                    @Override
-                    public void onDatePicked(String year, String month, String day) {tv_project_create_time.setText(year+"-"+month+"-"+day);}
-                });
-                picker.show();
+                Log.e("TEST","1=5");
+                myTask=new MyTask();
+                myTask.execute();
+
+
             }
         }
     };
+
+    private class MyTask extends AsyncTask<String, Integer, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            DatePicker picker = new DatePicker(CreateProjectFragment.this.getActivity(), DatePicker.YEAR_MONTH_DAY);
+
+            picker.setRange(2015, 2026);//年份范围
+
+            Calendar c = Calendar.getInstance();
+
+            picker.setSelectedItem(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH)+1);
+
+            picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
+                @Override
+                public void onDatePicked(String year, String month, String day) {
+
+                    tv_project_create_time.setText(year+"-"+month+"-"+day);
+
+                }
+            });
+            picker.show();
+        }
+    }
+
 
 
 
@@ -93,11 +126,14 @@ public class CreateProjectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView=inflater.inflate(R.layout.fragment_create_project, container, false);
+        Log.e("TEST","1=1");
         tv_project_create_time = (AppCompatTextView)rootView.findViewById(R.id.tv_project_create_time);
+        Log.e("TEST","1=2");
         tv_project_create_time.setOnClickListener(clickListener);
         Calendar c = Calendar.getInstance();
+        Log.e("TEST","1=3");
         tv_project_create_time.setText(c.get(Calendar.YEAR)+"-"+(c.get(Calendar.MONTH)+1)+"-"+c.get(Calendar.DAY_OF_MONTH));
-
+        Log.e("TEST","1=4");
         btn_project_image= (AppCompatImageButton) rootView.findViewById(R.id.btn_project_image);
         btn_project_image.setOnClickListener(new AddImageListener(this.getActivity(),"选择项目介绍图片"));
 

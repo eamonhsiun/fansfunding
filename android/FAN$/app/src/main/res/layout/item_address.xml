@@ -19,7 +19,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="冰冻vita"
             android:gravity="left"/>
 
         <!--收获人电话-->
@@ -28,7 +27,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="15809226555"
             android:gravity="right"/>
     </LinearLayout>
 
@@ -40,14 +38,14 @@
         android:layout_below="@id/ll_address_name_and_phone"
         android:paddingLeft="@dimen/layout_padding"
         android:paddingRight="@dimen/layout_padding"
-        android:text="湖北省武汉市洪山区珞喻路武汉大学南门信息学部国际软件学院"/>
+    />
 
     <!--分割线-->
     <View
         android:id="@+id/divider_address"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorGrey"
+        android:background="@color/colorDividerGrey"
         android:layout_marginTop="@dimen/layout_padding"
         android:layout_below="@id/tv_address_address"
          />
@@ -74,28 +72,40 @@
             android:layout_toRightOf="@id/checkbox_address_default"
             android:layout_centerVertical="true"
             android:gravity="right"
-            >
-            <TextView
-                android:id="@+id/tv_address_editor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/subhead_text_size"
-                android:layout_gravity="center_vertical"
-                android:text="编辑"/>
+            android:weightSum="1">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/pjimagetest"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:id="@+id/tv_address_delete"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/address_edit"/>
+            <Button
+                android:background="@color/transparent"
+                android:id="@+id/btn_address_editor"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/subhead_text_size"
                 android:layout_gravity="center_vertical"
-                android:text="删除"/>
+                android:text="@string/address_edit"
+                android:textColor="@color/colorGrey"
+                android:layout_weight="0.10" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/delete"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:background="@color/transparent"
+                android:id="@+id/btn_address_delete"
+                android:layout_width="33dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size"
+                android:textColor="@color/colorGrey"
+                android:layout_gravity="center_vertical"
+                android:text="@string/address_delete"
+                android:layout_weight="0.01" />
         </LinearLayout>
 
     </RelativeLayout>

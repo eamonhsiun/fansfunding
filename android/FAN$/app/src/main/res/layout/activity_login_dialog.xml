@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#00000000"
     
-    tools:context="com.fansfunding.fan.LoginActivity">
+    tools:context="com.fansfunding.fan.login.LoginActivity">
 
     <ProgressBar
         android:layout_width="wrap_content"

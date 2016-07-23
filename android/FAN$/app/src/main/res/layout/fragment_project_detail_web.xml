@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.ProjectDetailWebFragment">
+    tools:context="com.fansfunding.fan.project.fragment.ProjectDetailWebFragment">
 
     <com.fansfunding.verticalslide.CustWebView
         android:id="@+id/web_project_detail"

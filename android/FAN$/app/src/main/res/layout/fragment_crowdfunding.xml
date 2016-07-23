@@ -35,9 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="10dp"
-        android:divider="@color/colorBackgroundGrey"
+        android:divider="@color/transparent"
         android:headerDividersEnabled="false"
-        android:layout_below="@id/toolbar_crowdfundinghead">
+        android:layout_below="@id/toolbar_crowdfundinghead"
+        android:listSelector="@color/colorWhite">
     </com.fansfunding.PullListView.XListView>
 
 </RelativeLayout>

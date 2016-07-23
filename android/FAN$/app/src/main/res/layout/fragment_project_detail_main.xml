@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context="com.fansfunding.fan.ProjectDetailMainFragment">
+    tools:context="com.fansfunding.fan.project.fragment.ProjectDetailMainFragment">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -102,10 +102,11 @@
                     android:id="@+id/progressBar_project_detail_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:paddingTop="8dp"
+                    style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+                    android:layout_marginTop="8dp"
                     android:max="100"
                     android:progress="50"
+
                     />
             </LinearLayout>
 
@@ -289,7 +290,7 @@
         android:paddingRight="8dp"
         android:layout_marginBottom="@dimen/layout_padding"
         android:layout_marginTop="@dimen/layout_padding"
-        android:text="查看全部评论"
+        android:text="评论"
         android:textColor="@color/colorPrimaryRed"
         android:layout_below="@id/include_project_detail_main_comment"
         android:layout_centerHorizontal="true"

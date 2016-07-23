@@ -43,19 +43,19 @@ public class AllProjectInCategory {
 
     public class DataDetial{
         //项目列表
-        private List<ProjectDetail> list;
+        private List<ProjectInfo> list;
 
-        public List<ProjectDetail> getList() {
+        public List<ProjectInfo> getList() {
             return list;
         }
 
-        public void setList(List<ProjectDetail> list) {
+        public void setList(List<ProjectInfo> list) {
             this.list = list;
         }
     }
 
 
-    public class ProjectDetail implements Serializable {
+   /* public class ProjectDetail implements Serializable,Comparable{
 
         //项目缩略id
         private int id;
@@ -99,6 +99,8 @@ public class AllProjectInCategory {
         //创建时期
         private long createTime;
 
+        //项目状态
+        private char status;
 
         public int getId() {
             return id;
@@ -212,6 +214,23 @@ public class AllProjectInCategory {
         public void setSponsorHead(String sponsorHead) {
             this.sponsorHead = sponsorHead;
         }
-    }
+
+        @Override
+        public int compareTo(Object another) {
+            ProjectDetail other=(ProjectDetail)another;
+            if(this.getCreateTime()>other.getCreateTime()){
+                return -1;
+            }
+            return 1;
+        }
+
+        public char getStatus() {
+            return status;
+        }
+
+        public void setStatus(char status) {
+            this.status = status;
+        }
+    }*/
 
 }

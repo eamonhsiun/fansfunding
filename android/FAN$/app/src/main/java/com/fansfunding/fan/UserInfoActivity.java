@@ -72,6 +72,9 @@ public class UserInfoActivity extends AppCompatActivity {
     //判断用户信息是否改变
     private boolean isChange=false;
 
+    //判断是否获取了用户信息
+    private boolean isGetUserInfo=false;
+
     //获取用户信息成功
     private static final int GET_USER_INFO_SUCCESS=100;
 
@@ -148,6 +151,8 @@ public class UserInfoActivity extends AppCompatActivity {
                     break;
                 //获取用户信息成功
                 case GET_USER_INFO_SUCCESS:
+                    //获取到了用户信息
+                    isGetUserInfo=true;
                     if(UserInfoActivity.this.isFinishing()==true)
                         break;
                     InitUserInfo();
@@ -289,6 +294,7 @@ public class UserInfoActivity extends AppCompatActivity {
         tiet_user_info_nickname=(TextInputEditText)findViewById(R.id.tiet_user_info_nickname);
         //邮箱
         tiet_user_info_email=(TextInputEditText)findViewById(R.id.tiet_user_info_email);
+
     }
 
     @Override
@@ -302,7 +308,12 @@ public class UserInfoActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menu_user_info_finish:
-                UploadUserInfo_All();
+                if(isGetUserInfo==true){
+                    UploadUserInfo_All();
+                }else {
+                    Toast.makeText(this,"正在获取用户信息，请稍等",Toast.LENGTH_LONG).show();
+                }
+
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -360,7 +371,7 @@ public class UserInfoActivity extends AppCompatActivity {
                     Log.i("TAG","执行到了try");
                     FileOutputStream out = new FileOutputStream(photoFile);
 
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     out.flush();
                     out.close();
                     tempFile=photoFile;
@@ -456,7 +467,7 @@ public class UserInfoActivity extends AppCompatActivity {
         }
 
         //如果邮箱填写错误
-        if(CheckUtils.isEmail(new_email)==false){
+        if(new_email.equals("")==false&&CheckUtils.isEmail(new_email)==false){
             if(tiet_user_info_email!=null){
                 tiet_user_info_email.setError("请输入正确的邮箱格式");
             }
@@ -494,7 +505,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 Message msg=new Message();
                 msg.what=SEND_USER_INFO_FAILURE;
                 handler.sendMessage(msg);
-                System.out.println("error0");
             }
 
             @Override
@@ -504,7 +514,6 @@ public class UserInfoActivity extends AppCompatActivity {
                     Message msg=new Message();
                     msg.what=SEND_USER_INFO_FAILURE;
                     handler.sendMessage(msg);
-                    System.out.println("error1");
                     return;
                 }
                 String str_response=response.body().string();
@@ -518,7 +527,6 @@ public class UserInfoActivity extends AppCompatActivity {
                         Message msg=new Message();
                         msg.what=SEND_USER_INFO_FAILURE;
                         handler.sendMessage(msg);
-                        System.out.println("error2");
                         return;
                     }
                     //处理登陆失败
@@ -763,8 +771,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 PersonalInfo personalInfo=new PersonalInfo();
                 String str_response=response.body().string();
-                Log.i("TAG","length:"+str_response.length());
-                Log.i("TAG","userInfoActivity:"+str_response);
                 try {
                     //用Gson进行解析，并判断结果是否为空
                     if((personalInfo = gson.fromJson(str_response, personalInfo.getClass()))==null){
@@ -923,7 +929,6 @@ public class UserInfoActivity extends AppCompatActivity {
         intent.putExtra("outputY", 200);
         // 图片格式
         intent.putExtra(MediaStore.EXTRA_OUTPUT, newUri);
-        Log.i("TAG","bitmap格式"+Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", true);// true:不返回uri，false：返回uri

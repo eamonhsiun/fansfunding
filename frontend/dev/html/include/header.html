@@ -26,10 +26,11 @@
       <div class="nav">
         <div class="nav-dropdown-arrow"></div>
         <ul>
-          <a href="index.html"><li class="active">首页</li></a>
-          <a href="###"><li>发起项目</li></a>
-          <a href="###"><li>圈子</li></a>
-          <a href="###"><li>下载APP</li></a>
+          <a href="index.html"><li @@if ( page === 'index' ) {class="active"}>首页</li>
+          </a>
+          <a href="initiation.html"><li @@if ( page === 'initiation' ) {class="active"}>发起项目</li></a>
+          <!-- <a href="###"><li>圈子</li></a> -->
+          <a href="download.html"><li @@if ( page === 'download' ) {class="active"}>下载APP</li></a>
         </ul>
       </div>
       <div class="search">

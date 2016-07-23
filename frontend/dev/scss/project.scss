@@ -498,13 +498,19 @@
         float: right;
         margin-right: 30px;
         .comment-btn{
-
+        }
+        .comment-reply{
+          cursor: pointer;
+          color: $color_red_2;
+          float: right;
+          margin-right: 20px;
         }
         .comment-like{
           cursor: pointer;
+          float: right;
           &:before{
             font-size: 1.1rem;
-            padding-right: 10px;
+            padding-right: 2px;
             @include font_icon_content($fa-var-thumbs-up);
           }
         }
@@ -585,7 +591,6 @@
   }
   img{
     display: block;
-    width: 90%;
     margin: auto;
     margin-bottom: 10px;
   }

@@ -1,14 +1,11 @@
 
 var bannerMain = new Swiper ('#banner-main', {
-  // Optional parameters
-  direction: 'vertical',
-  loop: true,
-  // Navigation arrows
+  // loop: true,
   // nextButton: '#swiper-button-next',
   // prevButton: '#swiper-button-prev',
   speed: 500,
-  autoplay: 3000,
-  autoplayDisableOnInteraction: false,
+  // autoplay: 3000,
+  // autoplayDisableOnInteraction: false,
 });
 
 function getLeftTime(startTime, endTime){
@@ -58,24 +55,24 @@ function getProjects(page){
 }
 
 function addProject(wrap, data){
-  var createTime = data.createTime;
-  var targetDeadline = data.targetDeadline;
-  var li = '<li class="plate-content-list">' +
+  var li = document.createElement("li");
+  li.classList.add("plate-content-list");
+  var project =
 '            <a href="project.html?categoryId=' + data.categoryId + '&id='+ data.id +'" class="project-card">' +
 '              <div class="project-card-pic">' +
 '                <img src="'+ resourceUrl + data.cover+'"alt="">' +
 '              </div>' +
 '              <div class="project-card-detail">' +
-'                <div class="project-card-detail-name">'+data.name+'</div>' +
+'                <div class="project-card-detail-name">'+encodeHTML(data.name)+'</div>' +
 '                <div class="project-card-detail-hint">' +
-'                  '+data.description+
+'                  '+encodeHTML(data.description)+
 '                </div>' +
 '                <div class="project-card-detail-other">' +
 '                  <div class="project-card-detail-info project-card-lefttime">' +
 '                    剩余时间：<span>'+ getLeftTime(new Date(), data.targetDeadline) +'</span>' +
 '                  </div>' +
 '                  <div class="project-card-detail-info project-card-target">' +
-'                    目标金额：<span>' + data.targetMoney + '</span>' +
+'                    目标金额：<span>' + encodeHTML(data.targetMoney) + '</span>' +
 '                  </div>' +
 '                  <div class="project-card-detail-info project-card-progress">' +
 '                    已达成：<span>' + (data.sum/data.targetMoney).toFixed(2) +'</span>%' +
@@ -86,14 +83,29 @@ function addProject(wrap, data){
 '              <div class="project-card-initiator">' +
 '                <div class="initiator-avatar"><img src="'+ resourceUrl + data.sponsorHead +'" alt=""></div>' +
 '                <div class="initiator-info">' +
-'                  <div class="initiator-name">发起人：<span>' + data.sponsorNickname +'</span></div>' +
+'                  <div class="initiator-name">发起人：<span>' + encodeHTML(data.sponsorNickname) +'</span></div>' +
 '                  <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>' +
 '                </div>' +
 '              </div>' +
-'            </a>' +
-'          </li>';
-  wrap.innerHTML += li;
+'            </a>';
+  li.innerHTML = project;
+  wrap.appendChild(li);
 }
+
+function encodeHTML(str) {
+  if(typeof(str) !== "string") return str;
+  var s = "";
+  if (str.length === 0) return "";
+  s = str.replace(/&/g, "&gt;");
+  s = s.replace(/</g, "&lt;");
+  s = s.replace(/>/g, "&gt;");
+  s = s.replace(/ /g, "&nbsp;");
+  s = s.replace(/\'/g, "&#39;");
+  s = s.replace(/\"/g, "&quot;");
+  s = s.replace(/\n/g, "<br>");
+  return s;
+}
+
 
 var plateLoader = new FFloader(document.getElementsByClassName("plate-content")[0]);
 getProjects();

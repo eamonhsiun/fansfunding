@@ -1,5 +1,5 @@
 
-var apiUrl = "http://api.immortalfans.com";
+var apiUrl = "http://api.immortalfans.com:8080";
 var resourceUrl = "http://resources.immortalfans.com:8080/";
 // apiUrl = "http://192.168.204.203:8080/fansfunding";
 var localId = null;
@@ -62,25 +62,12 @@ function getErrorMsg(errCode){
     }).then(function (response, xhr) {
       var res = response.data;
       if(!response.result){
-        changeLoginDom(false);
-        res.status = false;
-        localUserInfo = res;
-        for(var i = 0; i < _this.loginHook.length; i++){
-          _this.loginHook[i](localUserInfo.status);
-        }
+        _this.changeLoginDom(false);
         return;
       }
-      res.status = true;
-      localUserInfo = res;
-      changeLoginDom(true, res);
-      for(var i = 0; i < _this.loginHook.length; i++){
-        _this.loginHook[i](localUserInfo.status);
-      }
+      _this.changeLoginDom(true, res);
     }).catch(function (response, xhr) {
-      alert("服务器连接失败");
-      for(var i = 0; i < _this.loginHook.length; i++){
-        _this.loginHook[i](false);
-      }
+      _this.changeLoginDom(true);
     }).always(function (response, xhr) {
     });
   }
@@ -89,7 +76,7 @@ function getErrorMsg(errCode){
     var userId = getUserId();
     var userToken = getUserToken();
     if(!userId || !userToken){
-      changeLoginDom(false);
+      this.changeLoginDom(false);
     }else{
       localId = userId;
       localToken = userToken;
@@ -98,6 +85,7 @@ function getErrorMsg(errCode){
   }
 
   FFaccount.logout = function(){
+    var _this = this;
     var commonTokenRequest = ajax({
       method: 'post',
       url: apiUrl +"/user/" + localId + "/logout",
@@ -106,14 +94,12 @@ function getErrorMsg(errCode){
       }
     }).then(function (response, xhr) {
       if(!response.result){
-        alert("登出失败");
+        _this.changeLoginDom(false);
       }else{
-        console.log("登出成功");
-        changeLoginDom(false);
+        _this.changeLoginDom(false);
       }
     }).catch(function (response, xhr) {
-      alert("服务器连接失败");
-      changeLoginDom(false);
+      _this.changeLoginDom(false);
     }).always(function (response, xhr) {
       // Do something
     });
@@ -121,17 +107,30 @@ function getErrorMsg(errCode){
 
   FFaccount.getAccountStatus = function(callback){
     if(localUserInfo){
-      callback(true);
+      if(localUserInfo.status){
+        callback(localUserInfo.status);
+      }else{
+        callback(false);
+      }
       return;
     }
     this.loginHook.push(callback);
   }
 
-  function changeLoginDom(status, info){
+  FFaccount.changeLoginDom = function(status, info){
+    console.log(status);
     if(status){
-      $("#profile-login").style.display = "block";
-      $("#profile-not-login").style.display = "none";
+      if(info){
+        info.status = true;
+        localUserInfo = info;
+        $("#profile-login").style.display = "block";
+        $("#profile-not-login").style.display = "none";
+        $(".profile-avatar img").src = resourceUrl + localUserInfo.head;
+      }else{
+        status = false;
+      }
     }else{
+      localUserInfo = {status: false};
       localStorage.removeItem("id");
       localStorage.removeItem("token");
       localId = null;
@@ -140,7 +139,9 @@ function getErrorMsg(errCode){
       $("#profile-not-login").style.display = "block";
       return;
     }
-    $(".profile-avatar img").src = resourceUrl + localUserInfo.head;
+    for(var i = 0; i < this.loginHook.length; i++){
+      this.loginHook[i](status);
+    }
   }
 
   function addElementEvent(){

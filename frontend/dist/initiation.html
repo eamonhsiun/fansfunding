@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-app-status-bar-style" content="black" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ff6268" />
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>发起项目 | FAN$</title>
+  <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
+  <!-- 公有css -->
+
+  <link rel="stylesheet" href="static/css/common.css">
+  <!-- 私有css -->
+  
+  
+  
+  
+  
+    <link rel="stylesheet" type="text/css" href="static/css/initiation.css">
+  
+  
+  
+  
+</head>
+<body>
+
+  <div id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="static/img/fans.png" alt="">
+      </a>
+      <div class="profile">
+        <div class="profile-login" id="profile-login">
+          <div class="profile-avatar">
+            <a href="setting.html"><img src="static/img/27.jpg" alt=""></a>
+          </div>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown-arrow"></div>
+            <ul>
+              <a href="###"><li>我的项目</li></a>
+              <a href="###"><li>我的钱包</li></a>
+              <a href="setting.html"><li>个人设置</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="profile-not-login" id="profile-not-login">
+          <a href="login.html?#login">登录</a>
+          <a href="login.html?#signup">注册</a>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-dropdown-arrow"></div>
+        <ul>
+          <a href="index.html"><li >首页</li>
+          </a>
+          <a href="initiation.html"><li class="active">发起项目</li></a>
+          <!-- <a href="###"><li>圈子</li></a> -->
+          <a href="download.html"><li >下载APP</li></a>
+        </ul>
+      </div>
+      <div class="search">
+        <form action="">
+          <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
+          <label for="search-text"></label>
+          <input type="submit" class="search-submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+  <div class="container">
+    <div class="initiation-progressbar">
+      <ul>
+        <li class="initiation-tab FFtab">基础信息</li>
+        <li class="initiation-tab FFtab">填写详情</li>
+        <li class="initiation-tab FFtab">设置回报</li>
+        <li class="initiation-tab FFtab">预览项目</li>
+      </ul>
+    </div>
+    <div class="initiation-progress">
+      <div class="FFtab-content">
+        <div class="progress-title progress-content">
+          <input type="text" id="progress-title-input" placeholder="请填写标题">
+        </div>
+        <div class="progress-content">
+          <div class="progress-time">
+            <div>
+              <label for="time-end">选择结束时间</label>
+              <input id="time-end" class="rome">
+            </div>
+          </div>
+          <div class="progress-money">
+            <div>
+              <label for="support-money">支持金额</label>
+              <input id="support-money" class="rome">
+            </div>
+          </div>
+          <div class="progress-description">
+            <div>
+              <label for="project-description">项目简介</label>
+              <input id="project-description" class="rome">
+            </div>
+          </div>
+        </div>
+        <div class="progress-cover progress-content">
+          <div class="upload-cover-title">上传封面</div>
+          <div class="upload-cover-wrap">
+            <img id="upload-cover-img" src="static/img/27.jpg" alt="">
+          </div>
+          <input type="file" id="upload-cover-input">
+          <div id="upload-cover-btn">选择文件</div>
+        </div>
+      </div>
+      <div class="progress-content FFtab-content">
+        <textarea id="editor"></textarea>
+      </div>
+      <div class="progress-content FFtab-content">
+        <div class="add-repay-btn"></div>
+        <div class="progress-repay">
+          <ul>
+            <li class="repay-list">
+              <div class="repay-money">支持<span>555</span>元</div>
+              <div class="repay-detail">
+                <div class="repay-detail-content">他富贵              </div>
+                <div class="repay-detail-pics"></div>
+              </div>
+              <div class="repay-btn">前往支持</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="progress-content FFtab-content">
+
+      </div>
+    </div>
+    <div class="initiation-step">
+      <div class="initiation-step-btn" id="step-prev">上一步</div>
+      <div class="initiation-step-btn" id="step-next">下一步</div>
+    </div>
+  </div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-content-right">
+          <ul class="footer-logo">
+            <li><img src="static/img/fans.png" alt=""></li>
+            <li><img src="static/img/Icon_FansFunding.svg" alt=""></li>
+          </ul>
+        </div>
+        <div class="footer-content-left">
+          <div class="footer-copyright">Copyright ©1997-2016 FansFunding All Rights Reserved 武汉瑟瑟发抖公司</div>
+          <ul class="footer-link">
+            <li><a href="###">备案号</a></li>
+            <li><a href="###">认证</a></li>
+            <li><a href="###">获奖</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="static/js/ajax.min.js"></script>
+  <script src="static/js/account.js"></script>
+  <script src="static/js/module/FFloader.js"></script>
+  <script src="static/js/module/FFtab.js"></script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <script src="static/js/lib/jquery.min.js"></script>
+    <script src="static/js/lib/cropperjs/cropper.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/simditor/module.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/simditor/hotkeys.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/simditor/uploader.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/simditor/simditor.min.js"></script>
+    <script src="static/js/lib/rome/rome.min.js"></script>
+    <script src="static/js/initiation.js"></script>
+  
+
+  
+
+  </body>
+</html>
+

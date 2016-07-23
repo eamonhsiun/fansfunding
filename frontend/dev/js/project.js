@@ -11,9 +11,6 @@ var localProjectId = null;
     $("#project-comment-btn").addEventListener("click", function(e){
       getComments(localCategoryId, localProjectId);
     });
-    $("#project-comment-btn").addEventListener("click", function(e){
-      getComments(localCategoryId, localProjectId);
-    });
     $("#comment-textarea").addEventListener("input", function(e){
       var num = 128 - getCharactorNum(e.target.value);
       if(num >= 0){
@@ -25,16 +22,32 @@ var localProjectId = null;
   }
 
   function getProject(categoryId, projectId){
-    detailLoader.init();
     var projectsRequest = ajax({
       method: 'get',
       url: apiUrl +"/project/" + categoryId + "/" + projectId,
     }).then(function (response, xhr) {
       if(!response.result){
+        redirect();
+        return;
+      }else{
+        fillProject(response.data);
+      }
+    }).catch(function (response, xhr) {
+      alert("连接服务器失败");
+    });
+  }
+
+  function getProjectDetail(categoryId, projectId){
+    detailLoader.init();
+    var projectsRequest = ajax({
+      method: 'get',
+      url: apiUrl +"/project/" + categoryId + "/" + projectId + "/detail",
+    }).then(function (response, xhr) {
+      if(!response.result){
         detailLoader.endLoad(false, "获取信息失败");
       }else{
         detailLoader.endLoad();
-        fillProject(response.data);
+        fillProjectDetail(response.data);
       }
     }).catch(function (response, xhr) {
       detailLoader.endLoad(false, "服务器连接失败");
@@ -44,15 +57,17 @@ var localProjectId = null;
   }
 
   function fillProject(data){
-    $('.project-title').innerHTML = data.name;
+    $('.project-title').innerHTML = encodeHTML(data.name);
     $('.intro-show').getElementsByTagName('img')[0].src = resourceUrl + data.cover;
-    $('#target-money').getElementsByTagName('span')[0].innerHTML = data.targetMoney;
-    $('#parcent').getElementsByTagName('span')[0].innerHTML = (data.sum/data.targetMoney).toFixed(2);
+    $('#target-money').getElementsByTagName('span')[0].innerHTML = encodeHTML(data.targetMoney);
+    $('#parcent').getElementsByTagName('span')[0].innerHTML = encodeHTML((data.sum/data.targetMoney).toFixed(2));
     $('#lefttime').getElementsByTagName('span')[0].innerHTML = getLeftTime(new Date(), data.targetDeadline);
-    $('.initiator-name').getElementsByTagName('span')[0].innerHTML = data.sponsorNickname;
+    $('.initiator-name').getElementsByTagName('span')[0].innerHTML = encodeHTML(data.sponsorNickname);
     $('.initiator-avatar').getElementsByTagName('img')[0].src= resourceUrl + data.sponsorHead;
-    $('#project-detail-wrap').innerHTML = data.description.toString().replace(/\n/g,'<br>');
-  a= data;
+  }
+
+  function fillProjectDetail(data){
+    $('#project-detail-wrap').innerHTML = data.content;
   }
 
   function getFeedbacks(categoryId, projectId, page){
@@ -65,7 +80,6 @@ var localProjectId = null;
       }else{
         var repaywrap = $('.project-repay ul');
         var feedback = response.data.list;
-        feedback.reverse();
         for(var i = 0; i < feedback.length; i++){
           fillFeedbacks(repaywrap, feedback[i]);
         }
@@ -83,12 +97,14 @@ var localProjectId = null;
   }
 
   function fillFeedbacks(wrap, data){
-    var feedback_1 = '<li class="repay-list">' +
-'            <div class="repay-money">支持<span>' + data.limitation + '</span>元</div>' +
+    var li = document.createElement("li");
+    li.classList.add("repay-list");
+    var feedback_1 =
+'            <div class="repay-money">支持<span>' + encodeHTML(data.limitation) + '</span>元</div>' +
 // '            <div class="repay-num">已支持<span>200</span>人</div>' +
 '            <div class="repay-detail">' +
 '              <div class="repay-detail-content">' +
-        data.description +
+        encodeHTML(data.description) +
 '              </div>' +
 '              <div class="repay-detail-pics">' ;
     var feedback_2 = "";
@@ -99,10 +115,9 @@ var localProjectId = null;
     }
     var feedback_3 = '              </div>' +
 '            </div>' +
-'            <div class="repay-btn">前往支持</div>' +
-'          </li>';
-    var feedback = feedback_1 + feedback_2 + feedback_3;
-    wrap.innerHTML += feedback;
+'            <div class="repay-btn">前往支持</div>';
+    li.innerHTML = feedback_1 + feedback_2 + feedback_3;
+    wrap.appendChild(li);
   }
 
   function getComments(categoryId, projectId, page){
@@ -134,35 +149,53 @@ var localProjectId = null;
   }
 
   function fillComments(wrap, data, order){
-    var comment = '<li class="comment-wrap">' +
+    var li = document.createElement("li");
+    li.classList.add("comment-wrap");
+    var comment =
 '                <div class="comment-userinfo">' +
 '                  <div class="comment-avatar">' +
 '                    <img src="'+ resourceUrl + data.commenterHead +'" alt="">' +
 '                  </div>' +
-'                  <div class="comment-userinfo-name">' + data.commenterNickname + '</div>' +
+'                  <div class="comment-userinfo-name">' + encodeHTML(data.commenterNickname) + '</div>' +
 '                  <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>' +
 '                </div>' +
 '                <div class="comment-content">' +
 '                  <div class="comment-inner">' +
-                      data.content +
+(data.pointTo === 0 ? "" : ("回复" + data.pointToNickname + "："))  + encodeHTML(data.content) +
 '                  </div>' +
 '                  <div class="comment-more">' +
 '                    <div class="comment-time">' + getDateString(data.commentTime) + '</div>' +
 '                    <div class="comment-btns">' +
 '                      <div class="comment-btn comment-like">123</div>' +
+'                      <div class="comment-btn comment-reply">回复</div>' +
 '                    </div>' +
 '                  </div>' +
-'                </div>' +
-'              </li>';
+'                </div>';
+    li.innerHTML = comment;
     if(order === true){
-      wrap.innerHTML = comment + wrap.innerHTML;
+      wrap.insertBefore(li, wrap.childNodes[0]);
     }else{
-      wrap.innerHTML += comment;
+      wrap.appendChild(li);
     }
+    li.getElementsByClassName("comment-reply")[0].addEventListener("click", function(id, nickname){
+      return function(e){
+        e.preventDefault();
+        var textarea = $("#comment-textarea");
+        textarea.setAttribute("placeholder", "回复" + nickname + "：");
+        textarea.setAttribute("comment-reply-to", id);
+        textarea.setAttribute("comment-reply-nickname", nickname);
+        textarea.focus();
+      }
+    }(data.commenterId, data.commenterNickname));
   }
 
   function sendComment(){
     var comment = $('#comment-textarea').value;
+    if(getCharactorNum(comment) > 128) {
+      return;
+    }
+    var pointTo = $('#comment-textarea').getAttribute("comment-reply-to") || 0;
+    var pointToNickname = $("#comment-textarea").getAttribute("comment-reply-nickname") || "";
     if(getCharactorNum(comment)<=0){
       return;
     }
@@ -174,7 +207,7 @@ var localProjectId = null;
         token: localToken,
         userId: localId,
         content: comment,
-        pointTo: 0,
+        pointTo: pointTo,
         categoryId: localCategoryId,
         projectId: localProjectId
       }
@@ -185,9 +218,10 @@ var localProjectId = null;
         var commentwrap = $('#project-comment ul');
         var data = {
           commenterHead: localUserInfo.head,
-          pointTo: 0,
+          pointTo: pointTo,
+          pointToNickname: pointToNickname,
           commenterName: localUserInfo.name,
-          id: localId,
+          commenterId: localId,
           commenterNickname: localUserInfo.nickname,
           projectId: localProjectId,
           commentTime: (new Date()).getTime(),
@@ -195,6 +229,10 @@ var localProjectId = null;
         }
         fillComments(commentwrap, data, true);
         $('#comment-textarea').value = "";
+        $("#comment-hint").innerHTML = "剩余128个字";
+        $('#comment-textarea').removeAttribute("comment-reply-to");
+        $("#comment-textarea").removeAttribute("comment-reply-nickname");
+        $("#comment-textarea").removeAttribute("placeholder");
         commentLoader.endLoad();
       }
     }).catch(function (response, xhr) {
@@ -204,6 +242,11 @@ var localProjectId = null;
     });
   }
 
+/**
+ * 获取时间信息
+ * @param  {int} time 时间戳
+ * @return {stirng}      时间描述词
+ */
   function getDateString(time){
     var date;
     if(time instanceof Date){
@@ -215,23 +258,28 @@ var localProjectId = null;
     var intervalDate = nowDate.getTime() - date.getTime();
     var day = Math.floor(intervalDate/(24*3600*1000));
     if(day > 0){
-      return date.getMonth() + "月" + date.getDate() + "日";
+      return (date.getMonth() + 1) + "月" + date.getDate() + "日";
     }else{
       var hour = Math.floor((intervalDate%(24*3600*1000))/(3600*1000));
       if(hour > 0){
         return hour + "小时前";
       }else{
-        var minutes = Math.floor(((intervalDate%(24*3600*1000))%(3600*1000))/(3600*1000));
-        if(minutes<10){
+        var minutes = Math.floor(((intervalDate%(24*3600*1000))%(3600*1000))/(60*1000));
+        if(minutes < 1){
           return "刚刚";
         }else{
           return minutes + "分钟前";
         }
       }
     }
-
   }
 
+/**
+ * 获取时间差
+ * @param  {int} startTime 开始时间戳
+ * @param  {int} endTime   结束时间戳
+ * @return {string}           时间差
+ */
   function getLeftTime(startTime, endTime){
     var d1;
     if(startTime instanceof Date){
@@ -249,7 +297,11 @@ var localProjectId = null;
     return (day === 0 ? "" : day + "天") + hour + "小时";
   }
 
-  function changeUserStatus(){
+/**
+ * 改变登陆状态缩影响的dom
+ * @return {[type]} [description]
+ */
+  function checkUserStatus(){
     FFaccount.getAccountStatus(function(status){
       if(status === true){
         $('.comment-login').classList.add("hide");
@@ -259,27 +311,53 @@ var localProjectId = null;
       }
     });
   }
+
+/**
+ * 获取文本长度
+ * @param  {string} string 文本
+ * @return {int}        长度
+ */
   function getCharactorNum(string){
     return string.length;
+  }
+
+  function encodeHTML(str) {
+    if(typeof(str) !== "string") return str;
+    var s = "";
+    if (str.length === 0) return "";
+    s = str.replace(/&/g, "&gt;");
+    s = s.replace(/</g, "&lt;");
+    s = s.replace(/>/g, "&gt;");
+    s = s.replace(/ /g, "&nbsp;");
+    s = s.replace(/\'/g, "&#39;");
+    s = s.replace(/\"/g, "&quot;");
+    s = s.replace(/\n/g, "<br>");
+    return s;
+  }
+
+  function redirect () {
+    window.location.href = "404.html";
   }
 
   var detailLoader = new FFloader($("#project-detail"));
   var commentLoader = new FFloader($("#project-comment"));
   var repayLoader = new FFloader($("#project-repay"));
+
   function init(){
     var categoryId = getQueryString("categoryId");
     var projectId = getQueryString("id");
     if(!categoryId || !projectId){
-      alert("404");
+      redirect();
       return;
     }
     localCategoryId = categoryId;
     localProjectId = projectId;
-    changeUserStatus();
+    checkUserStatus();
     getProject(categoryId, projectId);
+    getProjectDetail(categoryId, projectId)
     getFeedbacks(categoryId, projectId);
   }
   init();
   addElementEvent();
-  var mytab = new FFtab($('.project-tabs'),$('.project-contents'));
+  var projectTab = new FFtab($('.project-tabs'),$('.project-contents'));
 })();

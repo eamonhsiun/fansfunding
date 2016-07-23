@@ -1,0 +1,74 @@
+@@include('include/head.html',{"title": "发起项目 | FAN$","csstype": "initiation"})
+@@include('include/header.html',{"page": "initiation"})
+  <div class="container">
+    <div class="initiation-progressbar">
+      <ul>
+        <li class="initiation-tab FFtab">基础信息</li>
+        <li class="initiation-tab FFtab">填写详情</li>
+        <li class="initiation-tab FFtab">设置回报</li>
+        <li class="initiation-tab FFtab">预览项目</li>
+      </ul>
+    </div>
+    <div class="initiation-progress">
+      <div class="FFtab-content">
+        <div class="progress-title progress-content">
+          <input type="text" id="progress-title-input" placeholder="请填写标题">
+        </div>
+        <div class="progress-content">
+          <div class="progress-time">
+            <div>
+              <label for="time-end">选择结束时间</label>
+              <input id="time-end" class="rome">
+            </div>
+          </div>
+          <div class="progress-money">
+            <div>
+              <label for="support-money">支持金额</label>
+              <input id="support-money" class="rome">
+            </div>
+          </div>
+          <div class="progress-description">
+            <div>
+              <label for="project-description">项目简介</label>
+              <input id="project-description" class="rome">
+            </div>
+          </div>
+        </div>
+        <div class="progress-cover progress-content">
+          <div class="upload-cover-title">上传封面</div>
+          <div class="upload-cover-wrap">
+            <img id="upload-cover-img" src="static/img/27.jpg" alt="">
+          </div>
+          <input type="file" id="upload-cover-input">
+          <div id="upload-cover-btn">选择文件</div>
+        </div>
+      </div>
+      <div class="progress-content FFtab-content">
+        <textarea id="editor"></textarea>
+      </div>
+      <div class="progress-content FFtab-content">
+        <div class="add-repay-btn"></div>
+        <div class="progress-repay">
+          <ul>
+            <li class="repay-list">
+              <div class="repay-money">支持<span>555</span>元</div>
+              <div class="repay-detail">
+                <div class="repay-detail-content">他富贵              </div>
+                <div class="repay-detail-pics"></div>
+              </div>
+              <div class="repay-btn">前往支持</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="progress-content FFtab-content">
+
+      </div>
+    </div>
+    <div class="initiation-step">
+      <div class="initiation-step-btn" id="step-prev">上一步</div>
+      <div class="initiation-step-btn" id="step-next">下一步</div>
+    </div>
+  </div>
+@@include('include/footer.html')
+@@include('include/script.html',{"jstype": "initiation"})

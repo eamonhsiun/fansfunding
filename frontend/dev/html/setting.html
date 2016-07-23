@@ -1,4 +1,5 @@
 @@include('include/head.html',{"title": "设置 | FAN$","csstype": "setting"})
+@@include('include/header.html',{"page": "null"})
   <div class="container">
     <div class="setting content-block">
       <div class="setting-info">
@@ -20,19 +21,19 @@
             <div class="setting-profile-list" id="setting-avatar">
               <span>头像：</span>
               <div class="setting-avatar-wrap">
-                <img id="new-avatar" src="static/img/27.jpg"alt="">
+                <img id="new-avatar" src=""alt="">
                 <input type="file" name="file" id="upload-avatar-input">
-                <a href="###" id="upload-avatar-btn">上传头像</a>
+                <a href="avatar.html" id="upload-avatar-btn">修改头像</a>
               </div>
             </div>
             <div class="setting-profile-list" id="setting-nickname">
               <span>昵称：</span>
               <div class="setting-nickname-wrap">
-                <input type="text" id="upload-nickname-input" value="name">
+                <input type="text" id="upload-nickname-input">
               </div>
             </div>
             <div class="setting-profile-submit">
-              <a href="###">保存</a>
+              <a href="###" id="setting-profile-submit-btn">保存</a>
             </div>
           </div>
           <div class="setting-content" id="setting-address"></div>

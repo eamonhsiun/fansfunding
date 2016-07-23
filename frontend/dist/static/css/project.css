@@ -437,11 +437,17 @@
       .comment-wrap .comment-content .comment-more .comment-btns {
         float: right;
         margin-right: 30px; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-reply {
+          cursor: pointer;
+          color: #d65152;
+          float: right;
+          margin-right: 20px; }
         .comment-wrap .comment-content .comment-more .comment-btns .comment-like {
-          cursor: pointer; }
+          cursor: pointer;
+          float: right; }
           .comment-wrap .comment-content .comment-more .comment-btns .comment-like:before {
             font-size: 1.1rem;
-            padding-right: 10px;
+            padding-right: 2px;
             font-family: "FontAwesome";
             content: ""; }
 
@@ -515,7 +521,6 @@
 
 .content-style img {
   display: block;
-  width: 90%;
   margin: auto;
   margin-bottom: 10px; }
 

@@ -52,12 +52,15 @@ public class AlipayConfig {
 	/**
 	 * 服务器异步通知页面路径, 需http://格式的完整路径,不能加?id=123这类自定义参数,必须外网可以正常访问
 	 */
-	public static String notifyUrl = "http://localhost:8080/alipay/notify_url.jsp";
+	public static String webNotifyUrl = null;
 	/**
 	 * 页面跳转同步通知页面路径,需http://格式的完整路径,不能加?id=123这类自定义参数,必须外网可以正常访问
 	 */
-	public static String returnUrl = "http://localhost:8080/alipay/return_url.jsp";
-
+	public static String webReturnUrl = null;
+	/**
+	 *移动支付异步通知地址 
+	 */
+	public static String mobileNotifyUrl=null;
 	/**
 	 * 签名方式
 	 */
@@ -73,7 +76,8 @@ public class AlipayConfig {
 	/**
 	 * 调用的接口名，无需修改
 	 */
-	public static final String service = "create_direct_pay_by_user";
+	public static final String webService = "create_direct_pay_by_user";
+	public static final String mobileService="mobile.securitypay.pay";
 	/*
 	 * 请在这里配置防钓鱼信息，如果没开通防钓鱼功能，为空即可
 	 */
@@ -91,8 +95,9 @@ public class AlipayConfig {
 		Resource resource=new ClassPathResource("alipay.properties");
 		try {
 			prop.load(resource.getInputStream());
-			notifyUrl=prop.getProperty("notifyUrl");
-			returnUrl=prop.getProperty("returnUrl");
+			webNotifyUrl=prop.getProperty("webNotifyUrl");
+			webReturnUrl=prop.getProperty("webReturnUrl");
+			mobileNotifyUrl=prop.getProperty("mobileNotifyUrl");
 			antiPhishingKey=prop.getProperty("antiPhishingKey");
 			exterInvokeIp=prop.getProperty("exterInvokeIp");
 		} catch (IOException e) {

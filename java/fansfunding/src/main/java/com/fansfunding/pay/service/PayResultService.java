@@ -2,7 +2,6 @@ package com.fansfunding.pay.service;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +74,8 @@ public class PayResultService {
 	 * @return
 	 */
 	public boolean isFinished(Map<String,String> callbackParams){
-		return orderDao.selectByOrderNo(callbackParams.get("out_trade_no")).getTradeStatus()!=null;
+		String status=orderDao.selectByOrderNo(callbackParams.get("out_trade_no")).getTradeStatus();
+		return status!=null&&(status.equals("TRADE_SUCCESS")||status.equals("TRADE_FINISHED"));
 	}
 	/**
 	 * 是否是合法的订单
@@ -84,6 +84,14 @@ public class PayResultService {
 	 */
 	public boolean isIllegelOrder(Map<String,String> callbackParams){
 		return orderDao.selectByOrderNo(callbackParams.get("out_trade_no"))!=null;
+	}
+	/**
+	 * 是否是合法的订单
+	 * @param callbackParams 回调后的请求参数
+	 * @return
+	 */
+	public boolean isIllegelOrder(String orderNo){
+		return orderDao.selectByOrderNo(orderNo)!=null;
 	}
 	/**
 	 * 确认是否已经同步通知,是则无动作，否则更新return_time
@@ -106,5 +114,11 @@ public class PayResultService {
 		if(order.getNotifyTime()==null){
 			orderDao.updateNotifyTime(order);
 		}
+	}
+	/**
+	 * 
+	 */
+	public String getStatus(String orderNo){
+		return orderDao.selectByOrderNo(orderNo).getTradeStatus();
 	}
 }

@@ -176,7 +176,7 @@ public class ProjectController {
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		return new Status(false,StatusCode.SUCCESS,projectService.getFollowers(projectId,page,rows),null);
+		return new Status(true,StatusCode.SUCCESS,projectService.getFollowers(projectId,page,rows),null);
 	}
 	/**
 	 * 验证用户是否关注了项目

@@ -12,8 +12,12 @@ import java.util.UUID;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 
 
@@ -22,8 +26,10 @@ import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.pay.entity.Order;
 import com.fansfunding.project.dao.FeedbackDao;
 import com.fansfunding.project.dao.ProjectDao;
+import com.fansfunding.project.dao.ResourceDao;
 import com.fansfunding.project.entity.Feedback;
 import com.fansfunding.project.entity.Project;
+import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.RealInfoDao;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.RealInfo;
@@ -46,6 +52,8 @@ public class UserService {
 	private ProjectDao projectDao;
 	@Autowired
 	private FeedbackDao feedbackDao;
+	@Autowired
+	private ResourceDao resourceDao;
 	
 	/**
 	 * 根据用户名或者id获得用户
@@ -281,16 +289,25 @@ public class UserService {
 			Project prj=projectDao.selectByProjectId(payOrder.getProjectId());
 			order.put("projectId", prj.getId());
 			order.put("projectName", prj.getName());
+			order.put("categoryId", prj.getCategoryId());
 			
 			Feedback feedback=feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId());
 			
 			order.put("feedbackId",payOrder.getFeedbackId());
 			order.put("feedbackTitle", feedback.getTitle());
 			order.put("feedbackDesc", feedback.getDescription());
+			List<Resource> images=resourceDao.selectFeedbackImages(feedback.getId());
+			String[] paths=new String[images.size()];
+			for(int i=0;i<images.size();i++){
+				paths[i]=images.get(i).getPath();
+			}
+			order.put("feedbackImages", paths);
 			
 			order.put("paidTime", payOrder.getNotifyTime());
 			order.put("totalFee",payOrder.getTotalFee());
 			order.put("orderStatus",payOrder.getTradeStatus());
+			order.put("orderNo",payOrder.getOrderNo());
+			orders.add(order);
 		});
 		return PageAdapter.adapt(info, orders);
 	}

@@ -106,7 +106,7 @@ public class UserController {
 	 */
 	@RequestMapping(path="{userId}/orders",method=RequestMethod.GET)
 	@ResponseBody
-	public Status userOrder(@RequestParam int userId,
+	public Status userOrder(@PathVariable int userId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(!userService.isExist(userId)){

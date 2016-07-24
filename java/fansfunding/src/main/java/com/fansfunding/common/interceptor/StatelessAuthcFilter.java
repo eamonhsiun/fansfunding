@@ -25,6 +25,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 			getSubject(request, response).login(upt);
 		} catch (Exception e) {
 			ObjectMapper mapper = new ObjectMapper();
+			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(mapper.writeValueAsString(
 					new Status(false, StatusCode.PERMISSION_LOW, "权限过低，请求已被拦截", null)));
 			return false;

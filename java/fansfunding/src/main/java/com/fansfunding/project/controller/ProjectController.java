@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fansfunding.project.entity.ProjectMoment;
 import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.user.service.UserService;
@@ -143,17 +142,20 @@ public class ProjectController {
 	 */
 	@RequestMapping(path="{categoryId}/{projectId}/moment",method=RequestMethod.POST)
 	@ResponseBody
-	public Status addMoment(@PathVariable int categoryId,@PathVariable int projectId,
-			ProjectMoment moment,@RequestParam(required=false,defaultValue="") String images
-			,@RequestParam int sponsorId){
+	public Status addMoment(
+			@PathVariable int categoryId,
+			@PathVariable int projectId,
+			@RequestParam String content,
+			@RequestParam(required=false,defaultValue="") String images,
+			@RequestParam int sponsorId){
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		if(!CheckUtils.isNullOrEmpty(moment)){
-			if(moment.getContent().length()>140){
+		if(!CheckUtils.isNullOrEmpty(content)){
+			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
-			if(projectService.addMoment(categoryId,projectId,moment,images,sponsorId)){
+			if(projectService.addMoment(categoryId,projectId,content,images,sponsorId)){
 				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
 			}
 			return new Status(false,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);

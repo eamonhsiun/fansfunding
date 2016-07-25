@@ -58,7 +58,7 @@ function addProject(wrap, data){
   var li = document.createElement("li");
   li.classList.add("plate-content-list");
   var project =
-'            <a href="project.html?categoryId=' + data.categoryId + '&id='+ data.id +'" class="project-card">' +
+'            <a href="project-vue.html?categoryId=' + data.categoryId + '&id='+ data.id +'" class="project-card">' +
 '              <div class="project-card-pic">' +
 '                <img src="'+ resourceUrl + data.cover+'"alt="">' +
 '              </div>' +

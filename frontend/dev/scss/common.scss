@@ -54,6 +54,9 @@ a{
 .show{
   display: block !important;
 }
+[v-cloak] {
+  display: none;
+}
 
 
 

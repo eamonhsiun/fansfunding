@@ -85,6 +85,21 @@
   }
 }
 
+.FFbtn{
+  width: 120px;
+  background-color: $color_red_1;
+  color: $color_text_light;
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  @include transition_all();
+  &:hover{
+    background-color: $color_red_2;
+  }
+}
+
 .initiation-progressbar{
   @extend %kit_style_default;
   background-color: $color_background_light;
@@ -145,6 +160,14 @@
   background-color: $color_background_light;
   padding: 20px;
 }
+#initiation-errormsg{
+  @extend %kit_style_default;
+  background-color: $color_background_light;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: $color_red_1;
+}
 .initiation-step{
   padding-bottom: 20px;
   .initiation-step-btn{
@@ -162,11 +185,11 @@
       background-color: $color_red_2;
     }
   }
-  #step-prev{
+  .step-prev{
     margin-left: 10px;
     float: left;
   }
-  #step-next{
+  .step-next{
     margin-right: 10px;
     float: right;
   }
@@ -186,12 +209,88 @@
   border: 0;
   padding-left: 10px;
   padding-right: 10px;
-  border-bottom: 2px solid $color_red_1;
+  border-bottom: 2px solid $color_text;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 20px;
+  @include transition_all();
+  &:focus, &.error{
+    border-bottom-color: $color_red_1;
+  }
+  &.valid{
+    border-bottom-color: $color_green_1;
+  }
+}
+.progress-info{
+  width: 33.3%;
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  .progress-info-hint{
+    float: left;
+    width: 100px;
+    text-align: center;
+  }
+  .progress-info-wrap{
+    height: 100%;
+    margin-left: 100px;
+    position: relative;
+  }
+  .progress-info-input{
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    box-sizing: border-box;
+    border-bottom: 2px solid $color_text;
+    &:focus{
+      border-bottom-color: $color_red_1;
+    }
+    &.valid{
+      border-bottom-color: $color_green_1;
+    }
+  }
+}
+.progress-time{
+  .progress-info-input{
+    cursor: pointer;
+  }
+}
+.rd-day-head{
+  color: $color_primary;
+}
+.rd-day-selected{
+  background-color: $color_red_1;
+}
+.rd-container{
+  font-size: 17px;
+  color: $color_text;
+  padding: 10px 10px;
+  border: 1px solid $color_red_1;
+  .rd-day-body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+.progress-description{
+  width: 100%;
+  margin-top: 20px;
+  .progress-info-input{
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .progress-cover{
+  padding-left: 40px;
+  padding-right: 40px;
   .upload-cover-title{
     font-size: 1.4rem;
     padding-bottom: 10px;
@@ -201,6 +300,8 @@
     height: 400px;
     float: left;
     overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid $color_text;
     img{
       min-width: 100%;
       min-height: 100%;
@@ -211,38 +312,21 @@
   }
   #upload-cover-btn{
     width: 120px;
+    margin-right: 200px;
     float: left;
-    margin-left: 20px;
-    margin-top: 20px;
-    background-color: $color_red_1;
-    color: $color_text_light;
-    text-align: center;
-    line-height: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    @include transition_all();
-    &:hover{
-      background-color: $color_red_2;
+    margin-left: 50px;
+    margin-top: 40px;
+  }
+  #upload-cover-preview{
+    width: 410px;
+    height: 250px;
+    margin-left: 50px;
+    margin-top: 70px;
+    overflow: hidden;
+    float: left;
+    img{
+      max-width: 100%;
     }
   }
-}
-input.rome{
-  font-family: Georgia, Helvetica;
-  font-size: 17px;
-  color: #2c3e50;
-}
-.rd-container{
-  font-family: Georgia, Helvetica;
-  font-size: 17px;
-  color: #2c3e50;
-  padding: 10px 20px;
-  .rd-day-body {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
-.progress-time{
-
 }
 

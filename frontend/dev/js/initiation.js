@@ -120,7 +120,7 @@
     //optional options
   });
   var projectTimePicker = rome($("#time-end")[0], {time: false });
-  var progressTab = new FFtab($('.initiation-progressbar')[0],$('.initiation-progress')[0],{callback: function(tab1, content1, tab2, content2){
+  var progressTab = new FFtab($('.initiation-progressbar')[0],$('.initiation-progress')[0],{callback: function(index, tab1, content1, tab2, content2){
     tab2.classList.add("FFtab-visited");
   }});
   addElementEvent();

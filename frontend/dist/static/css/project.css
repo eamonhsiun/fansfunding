@@ -376,6 +376,8 @@
         width: 100px;
         line-height: 30px;
         float: left; }
+        .comment-text .comment-input .comment-input-more .comment-hint.overflow {
+          color: #ee554d; }
       .comment-text .comment-input .comment-input-more .comment-submit {
         float: right;
         width: 100px;

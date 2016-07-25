@@ -1,0 +1,77 @@
+@@include('include/head.html',{"title": "发起项目 | FAN$","csstype": "initiation"})
+@@include('include/header.html',{"page": "initiation"})
+  <div class="container" id="initiation">
+    <div class="initiation-progressbar">
+      <ul>
+        <li class="initiation-tab FFtab">基础信息</li>
+        <li class="initiation-tab FFtab">填写详情</li>
+        <li class="initiation-tab FFtab">设置回报</li>
+        <li class="initiation-tab FFtab">预览项目</li>
+      </ul>
+    </div>
+    <div class="initiation-progress">
+      <div class="FFtab-content">
+        <div class="progress-title progress-content">
+          <input type="text" id="progress-title-input" placeholder="请填写标题" v-model="project.title">
+        </div>
+        <div class="progress-content">
+          <div class="progress-time progress-info">
+            <div class="progress-info-hint">截至日期</div>
+            <div class="progress-info-wrap">
+              <input id="time-end" type="date" class="rome progress-info-input" readonly>
+            </div>
+          </div>
+          <div class="progress-money progress-info">
+            <div class="progress-info-hint">筹款金额</div>
+            <div class="progress-info-wrap">
+              <input id="support-money" type="num" class="progress-info-input" v-model="project.money">
+            </div>
+          </div>
+          <div class="progress-description progress-info">
+            <div class="progress-info-hint">项目简介</div>
+            <div class="progress-info-wrap">
+              <input id="support-money" type="text" class="progress-info-input" v-model="project.intro">
+            </div>
+          </div>
+        </div>
+        <div class="progress-cover progress-content">
+          <div class="upload-cover-title">上传封面</div>
+          <div class="upload-cover-wrap">
+            <img id="upload-cover-img" accept="image/png,image/jpeg,image/gif" src="" alt="">
+          </div>
+          <input type="file" id="upload-cover-input" @change="cropCover">
+          <div id="upload-cover-btn" class="FFbtn" @click.prevent="selectCover">选择图片</div>
+          <div id="upload-cover-preview"></div>
+        </div>
+      </div>
+      <div class="progress-content FFtab-content">
+        <textarea id="editor"></textarea>
+      </div>
+      <div class="progress-content FFtab-content">
+        <div class="add-repay-btn"></div>
+        <div class="progress-repay">
+          <ul>
+            <li class="repay-list">
+              <div class="repay-money">支持<span>555</span>元</div>
+              <div class="repay-detail">
+                <div class="repay-detail-content">他富贵              </div>
+                <div class="repay-detail-pics"></div>
+              </div>
+              <div class="repay-btn">前往支持</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="progress-content FFtab-content">
+
+      </div>
+    </div>
+    <div id="initiation-errormsg" v-if="errormsg.length != 0">{{errormsg.join("，")}}</div>
+    <div class="initiation-step">
+      <div class="initiation-step-btn step-prev" v-if="step != 1">上一步</div>
+      <div class="initiation-step-btn step-next" v-if="step != totalStep">下一步</div>
+      <div class="initiation-step-btn step-next" v-if="step == totalStep">完成</div>
+    </div>
+  </div>
+@@include('include/footer.html')
+@@include('include/script.html',{"jstype": "initiation_vue"})

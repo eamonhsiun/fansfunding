@@ -78,31 +78,31 @@
   <div class="wrap">
 
   <div class="container">
-    <div class="project">
-      <h1 class="project-title content-block"></h1>
+    <div class="project" id="project">
+      <h1 class="project-title content-block" v-cloak>{{project.data.name}}</h1>
       <div class="project-intro content-block">
         <div class="intro-content">
           <div class="intro-left intro-show">
-            <img src="" alt="">
+            <img v-bind:src="project.data.cover | resource" alt="">
           </div>
           <div class="intro-right intro-details">
-            <div class="intro-detail" id="target-money">目标金额<p><span></span>元</p></div>
-            <div class="intro-detail" id="parcent">已筹百分比<p><span></span>%</p></div>
-            <div class="intro-detail" id="lefttime">剩余天数<p><span></span></p></div>
+            <div class="intro-detail" id="target-money">目标金额<p><span v-cloak>{{project.data.targetMoney}}</span>元</p></div>
+            <div class="intro-detail" id="parcent">已筹百分比<p><span v-cloak>{{project.data.sum/project.data.targetMoney}}</span>%</p></div>
+            <div class="intro-detail" id="lefttime">剩余天数<p><span v-cloak>{{ getLeftTime(new Date(), project.data.targetDeadline) }}</span></p></div>
             <div class="intro-status">众筹中</div>
           </div>
         </div>
         <div class="intro-btns">
-          <div class="intro-btn" id="intro-btn-follow">关注</div>
+          <div class="intro-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject">{{ isFollowed ? "已关注" : "关注"}}</div>
           <div class="intro-btn" id="">收藏</div>
           <div class="intro-btn" id="intro-btn-share">分享</div>
         </div>
       </div>
       <div class="project-initiator content-block">
         <div class="initiator-header">
-          <div class="initiator-avatar"><img src="" alt=""></div>
+          <div class="initiator-avatar"><img v-bind:src="project.data.sponsorHead | resource" alt=""></div>
           <div class="initiator-info">
-            <div class="initiator-name">发起人：<span></span></div>
+            <div class="initiator-name">发起人：<span v-cloak>{{project.data.sponsorNickname}}</span></div>
             <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
           </div>
         </div>
@@ -113,7 +113,7 @@
           <ul>
             <li class="project-tab FFtab" id="project-detail-btn">项目详情</li>
             <li class="project-tab FFtab" id="project-moment-btn">项目动态</li>
-            <li class="project-tab FFtab" id="project-comment-btn">项目评论</li>
+            <li class="project-tab FFtab" id="project-comment-btn" v-on:click.prevent="getComments">项目评论</li>
           </ul>
         </div>
         <div class="project-contents">
@@ -124,27 +124,27 @@
               </div>
             </div>
             <div id="content-errormsg" class="errormsg FFerrormsg">还没有详情</div>
-            <div class="content-style" id="project-detail-wrap"></div>
+            <div class="content-style" id="project-detail-wrap">{{{project.detail.content}}}</div>
           </div>
           <div class="project-content FFtab-content" id="project-moment">
           </div>
           <div class="project-content FFtab-content" id="project-comment">
-            <div class="comment-login">
+            <div class="comment-login" v-if="!status">
               <a href="login.html">登陆</a>/<a href="login.html#signup">注册</a>后发布评论
             </div>
-            <div class="comment-text">
+            <div class="comment-text" v-if="status" v-bind:class="{ 'show' : status }">
               <div class="comment-userinfo">
                 <div class="comment-avatar" id="comment-user-avatar">
-                  <img src="static/img/28.jpg" alt="">
+                  <img v-bind:src="userInfo.head | resource" alt="">
                 </div>
-                <div class="comment-userinfo-name" id="comment-user-nickname">啧啧啧</div>
+                <div class="comment-userinfo-name" id="comment-user-nickname">{{ userInfo.nickname }}</div>
                 <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
               </div>
               <div class="comment-input">
-                <textarea name="" id="comment-textarea" cols="30" rows="10"></textarea>
+                <textarea name="" id="comment-textarea" cols="30" rows="10" v-model="comments.content" placeholder="{{comments.reply.placeholder}}"></textarea >
                 <div class="comment-input-more">
-                  <div class="comment-hint" id="comment-hint">剩余<span>128</span>个字</div>
-                  <div class="comment-submit" id="comment-submit">发表评论</div>
+                  <div class="comment-hint" id="comment-hint" v-text="comments.hint" v-bind:class="{'overflow':comments.overflow}"></div>
+                  <div class="comment-submit" id="comment-submit" v-on:click="sendComment">发表评论</div>
                 </div>
               </div>
             </div>
@@ -155,6 +155,25 @@
             </div>
             <div id="comment-errormsg" class="errormsg FFerrormsg">还没有评论，快来评论吧</div>
             <ul>
+              <li class="comment-wrap" v-for="comment in comments.list">
+                <div class="comment-userinfo">
+                  <div class="comment-avatar">
+                    <img v-bind:src="comment.commenterHead | resource" alt="">
+                  </div>
+                  <div class="comment-userinfo-name">{{ comment.commenterNickname }}</div>
+                  <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+                </div>
+                <div class="comment-content">
+                  <div class="comment-inner">{{ (comment.pointToNickname ? "回复" + comment.pointToNickname + "：" : "") + comment.content }}</div>
+                  <div class="comment-more">
+                    <div class="comment-time">{{ comment.commentTime | commentTime }}</div>
+                    <div class="comment-btns">
+                      <div class="comment-btn comment-like">12</div>
+                      <div class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">回复</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -167,6 +186,19 @@
         </div>
         <div id="repay-errormsg" class="errormsg FFerrormsg">没有回报信息</div>
         <ul>
+          <li class="repay-list" v-for="feedback in feedbacks.list">
+            <div class="repay-money">支持<span>{{feedback.limitation}}</span></div>
+            <div class="repay-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
+            <div class="repay-detail">
+              <div class="repay-detail-content">{{feedback.description}}</div>
+              <div class="repay-detail-pics">
+                <div class="repay-detail-pic" v-for="image in feedback.images">
+                  <img v-bind:src="image | resource" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="repay-btn">前往支持</div>
+          </li>
         </ul>
       </div>
     </div>
@@ -205,9 +237,9 @@
   
 
   
-    <script src="static/js/project.js"></script>
-  
 
+  
+    <script src="static/js/project-vue.js"></script>
   
 
   

@@ -406,11 +406,18 @@
   }
 
   function redirect () {
-    if(document.referrer != document.URL){
+    if(document.referrer != document.URL && document.referrer !== ""){
       window.location.href = document.referrer;
     }else{
       window.location.href = "index.html";
     }
+  }
+  function checkUserStatus(){
+    FFaccount.getAccountStatus(function(status){
+      if(status === false){
+        redirect();
+      }
+    });
   }
 
   //初始行为
@@ -421,9 +428,6 @@
   }else if(window.location.hash.split("#")[1] === "forgetpwd"){
     $("#login-forgetpwd-btn").click();
   }
-  if(localId && localToken){
-      redirect();
-    }
 })();
 
 

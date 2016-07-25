@@ -423,6 +423,9 @@
         width: 100px;
         line-height: 30px;
         float: left;
+        &.overflow{
+          color: $color_red_1;
+        }
       }
       .comment-submit{
         float: right;

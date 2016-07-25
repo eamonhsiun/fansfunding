@@ -50,10 +50,10 @@
     this.contents[this.now].classList.add("FFtab-content-active");
     this.contents[this.now].style.display = "block";
     if(this.callback){
-      this.callback(this.tabs[this.now], this.contents[this.now], this.tabs[this.last], this.contents[this.last]);
+      this.callback(num, this.tabs[this.now], this.contents[this.now], this.tabs[this.last], this.contents[this.last]);
     }
     if(callback){
-      callback(this.tabs[this.now], this.contents[this.now], this.tabs[this.last], this.contents[this.last]);
+      callback(num, this.tabs[this.now], this.contents[this.now], this.tabs[this.last], this.contents[this.last]);
     }
   }
   FFtab.prototype.next = function(cycle ,callback){

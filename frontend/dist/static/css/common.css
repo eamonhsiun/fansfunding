@@ -178,6 +178,9 @@ a {
 .show {
   display: block !important; }
 
+[v-cloak] {
+  display: none; }
+
 #header {
   height: 60px;
   width: 100%;

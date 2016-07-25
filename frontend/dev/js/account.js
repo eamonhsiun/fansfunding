@@ -98,6 +98,9 @@ function getErrorMsg(errCode){
       }else{
         _this.changeLoginDom(false);
       }
+      for(var i = 0; i < _this.loginHook.length; i++){
+        _this.loginHook[i](false);
+      }
     }).catch(function (response, xhr) {
       _this.changeLoginDom(false);
     }).always(function (response, xhr) {
@@ -118,7 +121,6 @@ function getErrorMsg(errCode){
   }
 
   FFaccount.changeLoginDom = function(status, info){
-    console.log(status);
     if(status){
       if(info){
         info.status = true;

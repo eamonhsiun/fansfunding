@@ -32,7 +32,7 @@ public class OrderService {
 	 * @param userId 用户id
 	 * @return
 	 */
-	public Map<String,String> buildWebOrder(int feedbackId,int userId){
+	public Map<String,String> buildWebOrder(int feedbackId,int userId,int addressId){
 		Feedback feedback=feedbackDao.selectByPrimaryKey(feedbackId);
 		//商户订单号，商户网站订单系统中唯一订单号，必填
 		String out_trade_no = "p"+feedback.getProjectId()+"f"+feedback.getId()+"t"+DateUtil.getOrderNum();
@@ -53,6 +53,7 @@ public class OrderService {
 		order.setUserId(userId);
 		order.setSellerId(AlipayConfig.sellerId);
 		order.setPayMode("web");
+		order.setAddressId(addressId);
 		this.saveOrder(order);
 
 		//请求参数
@@ -79,7 +80,7 @@ public class OrderService {
 	 * @param userId 用户id
 	 * @return
 	 */
-	private Map<String,String> buildMobileOrder(int feedbackId,int userId){
+	private Map<String,String> buildMobileOrder(int feedbackId,int userId,int addressId){
 		Feedback feedback=feedbackDao.selectByPrimaryKey(feedbackId);
 		//商户订单号，商户网站订单系统中唯一订单号，必填
 		String out_trade_no = "p"+feedback.getProjectId()+"f"+feedback.getId()+"t"+DateUtil.getOrderNum();
@@ -100,6 +101,7 @@ public class OrderService {
 		order.setUserId(userId);
 		order.setSellerId(AlipayConfig.sellerId);
 		order.setPayMode("mobile");
+		order.setAddressId(addressId);
 		this.saveOrder(order);
 
 		//请求参数
@@ -130,10 +132,10 @@ public class OrderService {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	public Map<String,String> sign(int feedbackId,int userId) throws UnsupportedEncodingException{
+	public Map<String,String> sign(int feedbackId,int userId,int addressId) throws UnsupportedEncodingException{
 		Map<String,String> order=new HashMap<>();
 		StringBuffer sb=new StringBuffer();
-		Map<String,String> params=this.buildMobileOrder(feedbackId, userId);
+		Map<String,String> params=this.buildMobileOrder(feedbackId, userId,addressId);
 		params.entrySet().forEach((param)->{
 			sb.append(param.getKey()).append("=\"").append(param.getValue()).append("\"&");
 		});

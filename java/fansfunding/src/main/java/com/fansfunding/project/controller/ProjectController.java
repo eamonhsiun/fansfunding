@@ -136,9 +136,12 @@ public class ProjectController {
 	 */
 	@RequestMapping(path="{categoryId}/{projectId}/moment",method=RequestMethod.POST)
 	@ResponseBody
-	public Status addMoment(@PathVariable int categoryId,@PathVariable int projectId,
-			ProjectMoment moment,@RequestParam(required=false,defaultValue="") String images
-			,@RequestParam int sponsorId){
+	public Status addMoment(
+			@PathVariable int categoryId,
+			@PathVariable int projectId,
+			ProjectMoment moment,
+			@RequestParam(required=false,defaultValue="") String images,
+			@RequestParam int sponsorId){
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}

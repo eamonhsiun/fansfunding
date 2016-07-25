@@ -227,7 +227,11 @@ public class ProjectService {
 	 * @param moment
 	 * @param images
 	 */
-	public boolean addMoment(int category,int projectId,ProjectMoment moment,String images,int sponsorId){
+	public boolean addMoment(int category,int projectId,String content,String images,int sponsorId){
+		ProjectMoment moment = new ProjectMoment();
+		moment.setContent(content);
+		moment.setProjectId(projectId);
+		moment.setDelFlag("0");
 		if(sponsorId!=projectDao.selectByProjectId(projectId).getSponsor().intValue()){
 			return false;
 		}

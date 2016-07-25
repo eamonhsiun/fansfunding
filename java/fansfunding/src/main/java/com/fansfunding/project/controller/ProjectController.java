@@ -149,14 +149,14 @@ public class ProjectController {
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		if(CheckUtils.isNullOrEmpty(moment)){
-			if(projectService.addMoment(categoryId,projectId,moment,images,sponsorId)){
-				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
-			}
+		if(!CheckUtils.isNullOrEmpty(moment)){
 			if(moment.getContent().length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
-			return new Status(true,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
+			if(projectService.addMoment(categoryId,projectId,moment,images,sponsorId)){
+				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
+			}
+			return new Status(false,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);
 	}

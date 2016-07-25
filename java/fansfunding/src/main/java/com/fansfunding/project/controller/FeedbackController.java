@@ -34,7 +34,7 @@ public class FeedbackController {
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
 		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+			return new Status(false,StatusCode.FAILED,"该项目不在该分类下或者项目不存在",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,feedbackService.getFeedbacks(projectId,page,rows),null);
 	}
@@ -51,6 +51,9 @@ public class FeedbackController {
 			@RequestParam(required=false,defaultValue="") String images){
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
+		}
+		if(title.length()>20||description.length()>255){
+			return new Status(false,StatusCode.ERROR_DATA,"参数过长",null);
 		}
 		if(!CheckUtils.isNullOrEmpty(title,description,images)){
 			feedbackService.add(projectId,title,description,limitation,images);

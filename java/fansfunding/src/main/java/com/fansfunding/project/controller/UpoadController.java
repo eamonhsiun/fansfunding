@@ -65,7 +65,7 @@ public class UpoadController {
 	@RequestMapping(path="{categoryId}/{projectId}/feedback/images",method=RequestMethod.POST)
 	@ResponseBody
 	public Status uploadFeedbackImage(@PathVariable Integer categoryId,@PathVariable Integer projectId,
-						@PathVariable int feedbackId,@RequestParam CommonsMultipartFile[] files) throws IOException{
+					@RequestParam CommonsMultipartFile[] files) throws IOException{
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}

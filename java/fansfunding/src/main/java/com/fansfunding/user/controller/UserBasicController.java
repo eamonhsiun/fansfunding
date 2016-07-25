@@ -49,7 +49,9 @@ public class UserBasicController {
 	@ResponseBody
 	public Status newUser(@RequestParam int checker, @RequestParam String password, @RequestParam String token)
 			throws Exception {
-		
+		if(password.length()<6||password.length()>16){
+			return new Status(false,StatusCode.PASSWORD_LENGTH_ERROR,"密码长度错误",null);
+		}
 		int cid;
 		Checker c;
 		User user;
@@ -67,9 +69,6 @@ public class UserBasicController {
 		if (password.length() != 32) {
 			return new Status(false, StatusCode.PASSWORD_ERROR, null, null);
 		}
-
-		
-
 		try {
 			user = userService.createUser(c.getPhone(), password);
 			user.setPassword("");
@@ -96,6 +95,9 @@ public class UserBasicController {
 	@ResponseBody
 	public Status forgetPwd(@RequestParam int checker, @RequestParam String password, @RequestParam String token) throws Exception {
 		int cid;
+		if(password.length()<6||password.length()>16){
+			return new Status(false,StatusCode.PASSWORD_LENGTH_ERROR,"密码长度错误",null);
+		}
 		if((checker+"").length()!=6){
 			return new Status(false, StatusCode.CHECKER_ERROR, null, null);
 		}
@@ -147,11 +149,12 @@ public class UserBasicController {
 	@ResponseBody
 	public Status login(@RequestParam String name, @RequestParam String password) throws Exception {
 		User user = userService.getUserByName(name);
-		if (user == null)
+		if (user == null){
 			return new Status(false, StatusCode.USER_NULL, null, null);
-
-		if (!userService.CheckPwd(user.getPassword(), password))
+		}
+		if (!userService.CheckPwd(user.getPassword(), password)){
 			return new Status(false, StatusCode.PASSWORD_ERROR, null, null);
+		}
 		
 		// 权限控制
 		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
@@ -169,6 +172,9 @@ public class UserBasicController {
 	@RequestMapping(path="{userId}/head",method=RequestMethod.POST)
 	@ResponseBody
 	public Status postHead(@PathVariable Integer userId,@RequestParam CommonsMultipartFile file){
+		if(!userService.isExist(userId)){
+			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		}
 		if(!file.isEmpty()){
 			try {
 				if(FileFormat.isImage(file.getInputStream())){

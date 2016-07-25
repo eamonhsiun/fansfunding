@@ -3,7 +3,6 @@
 <mapper namespace="com.fansfunding.system.dao.SysFeedbackDao" >
   <resultMap id="BaseResultMap" type="com.fansfunding.system.entity.SysFeedback" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="is_replied" property="isReplied" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -11,6 +10,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
   </resultMap>
   <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     update sys_feedback
@@ -18,41 +18,42 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" parameterType="com.fansfunding.system.entity.SysFeedback" >
-    insert into sys_feedback (user_id, is_replied, 
+    insert into sys_feedback (is_replied, 
       create_by, create_time, update_by, 
-      update_time,content)
-    values (#{userId,jdbcType=INTEGER}, #{isReplied,jdbcType=TINYINT}, 
+      update_time,content,email)
+    values (#{isReplied,jdbcType=TINYINT}, 
       #{createBy,jdbcType=VARCHAR}, NOW(), #{updateBy,jdbcType=VARCHAR}, 
-      NOW(), #{content,jdbcType=LONGVARCHAR})
+      NOW(), #{content,jdbcType=LONGVARCHAR},#{email,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.system.entity.SysFeedback" >
     update sys_feedback
-    set user_id = #{userId,jdbcType=INTEGER},
-      is_replied = #{isReplied,jdbcType=TINYINT},
+    set is_replied = #{isReplied,jdbcType=TINYINT},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_time = NOW(),
+      email=#{email,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, user_id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
-    content
+    select id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
+    content,email
     from sys_feedback
     where id = #{id,jdbcType=INTEGER}
     and del_flag='0'
   </select>
   <select id="selectReplied" resultMap="BaseResultMap">
-    select id, user_id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
-    content
+    select id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
+    content,email
     from sys_feedback
     where is_replied=1
     and del_flag='0'
   </select>
   <select id="selectUnreplied" resultMap="BaseResultMap">
-    select id, user_id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
-    content
+    select id, is_replied, create_by, create_time, update_by, update_time, del_flag, 
+    content,email
     from sys_feedback
     where is_replied=0
     and del_flag='0'
   </select>
+  
 </mapper>

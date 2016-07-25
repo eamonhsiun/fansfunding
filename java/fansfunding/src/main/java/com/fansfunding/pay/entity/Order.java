@@ -26,4 +26,5 @@ public class Order {
 	private Date createTime;
 	private Date returnTime;
 	private Date notifyTime;
+	private String payMode;
 }

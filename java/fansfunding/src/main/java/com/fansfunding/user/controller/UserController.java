@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.TokenService;
+import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.entity.UserBasic;
@@ -33,7 +35,8 @@ public class UserController {
 	private TokenService tokenService;
 	@Autowired
 	private ProjectService projectService;
-
+	@Autowired
+	private CategoryService categoryService;
 	/**
 	 * 登出
 	 * 
@@ -44,6 +47,9 @@ public class UserController {
 	@RequestMapping(path = "{userId}/logout")
 	@ResponseBody
 	public Status logout(@PathVariable String userId, @RequestParam String token) {
+		if(!userService.isExist(Integer.parseInt(userId))){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		User user = userService.getUserById(Integer.parseInt(userId));
 		//TODO:存在性验证
 		int tid;
@@ -60,13 +66,20 @@ public class UserController {
 		}
 		return new Status(true, StatusCode.SUCCESS, null, null);
 	}
-
-
-
-
+	/**
+	 * 更换密码
+	 * @param userId
+	 * @param token
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(path = "{userId}/newPwd")
 	@ResponseBody
 	public Status newPwd(@PathVariable String userId, @RequestParam String token,@RequestParam String password) throws Exception {
+		if(!userService.isExist(Integer.parseInt(userId))){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		User user = userService.getUserById(Integer.parseInt(userId));
 		// TODO:存在性验证
 		int tid;
@@ -93,9 +106,12 @@ public class UserController {
 	 */
 	@RequestMapping(path="{userId}/orders",method=RequestMethod.GET)
 	@ResponseBody
-	public Status userOrder(@RequestParam int userId,
+	public Status userOrder(@PathVariable int userId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		return new Status(true,StatusCode.SUCCESS,userService.paidOrder(userId,page,rows),null);
 	}
 	/**
@@ -110,11 +126,17 @@ public class UserController {
 	public Status userProject(@RequestParam String type,@PathVariable int userId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		if("sponsor".equals(type)){
 			return new Status(true,StatusCode.SUCCESS,projectService.getSponsor(userId,page,rows),null);
 		}
 		if("follow".equals(type)){
 			return new Status(true,StatusCode.SUCCESS,projectService.getFollow(userId,page,rows),null);
+		}
+		if("support".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupport(userId,page,rows),null);
 		}
 		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
 	}
@@ -124,9 +146,15 @@ public class UserController {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/follow/{categoryId}/{projectId}")
+	@RequestMapping(path="{userId}/follow/{categoryId}/{projectId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Status follow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!categoryService.isExist(categoryId)){
+			return new Status(false,StatusCode.FAILED,"分类不存在",null);
+		}
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
@@ -141,9 +169,15 @@ public class UserController {
 	 * @param projectId 项目ID
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/unfollow/{categoryId}/{projectId}")
+	@RequestMapping(path="{userId}/unfollow/{categoryId}/{projectId}",method=RequestMethod.POST)
 	@ResponseBody
 	public Status unfollow(@PathVariable int userId,@PathVariable Integer categoryId,@PathVariable Integer projectId){
+		if(!categoryService.isExist(categoryId)){
+			return new Status(false,StatusCode.FAILED,"分类不存在",null);
+		}
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}

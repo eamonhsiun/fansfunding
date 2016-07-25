@@ -26,7 +26,7 @@
   </update>
   
 
-  <insert id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
+  <insert useGeneratedKeys="true" keyProperty="id" id="insert" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
     insert into shopping_address (user_id, province, 
       city, district, address, phone,name,post_code,is_default,
       create_by, create_time, update_by, 
@@ -35,7 +35,7 @@
       #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{postCode,jdbcType=INTEGER}, #{isDefault,jdbcType=INTEGER},
       #{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR}, 
-      now(), #{delFlag,jdbcType=CHAR})
+      now(), '0')
   </insert>
   
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.ShoppingAddress" >
@@ -49,11 +49,8 @@
       city = #{city,jdbcType=VARCHAR},
       district = #{district,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=CHAR}
+      update_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -68,7 +65,7 @@
     select id, user_id, province, city, district, address, create_by, create_time, update_by, 
     update_time, del_flag, phone, name,post_code,is_default
     from shopping_address
-    where user_id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
     and del_flag='0'
   </select>
   

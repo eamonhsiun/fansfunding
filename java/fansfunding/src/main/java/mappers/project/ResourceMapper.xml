@@ -32,7 +32,7 @@
   <update id="updateByPath" parameterType="com.fansfunding.project.entity.Resource" >
     update resource
     set mapping_id = #{mappingId,jdbcType=INTEGER}
-    where type = #{type,jdbcType=VARCHAR}
+    where type like #{type,jdbcType=VARCHAR}
     and path = #{path,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -45,21 +45,21 @@
     select id, type, path, mapping_id, create_time, del_flag
     from resource
     where mapping_id = #{projectId,jdbcType=INTEGER}
-    and type='project_image'
+    and type like 'project_image'
     and del_flag='0'
   </select>
   <select id="selectFeedbackImages" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, type, path, mapping_id, create_time, del_flag
     from resource
     where mapping_id = #{feedbackId,jdbcType=INTEGER}
-    and type='feedback_image'
+    and type like 'feedback_image'
     and del_flag='0'
   </select>
   <select id="selectMomentImages" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, type, path, mapping_id, create_time, del_flag
     from resource
     where mapping_id = #{momentId,jdbcType=INTEGER}
-    and type='moment_image'
+    and type like 'moment_image'
     and del_flag='0'
   </select>
 </mapper>

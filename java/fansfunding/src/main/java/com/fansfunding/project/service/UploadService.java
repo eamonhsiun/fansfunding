@@ -23,7 +23,7 @@ public class UploadService {
 	 * @return
 	 */
 	public String[] uploadProjectImages(int categoryId,CommonsMultipartFile[] files){
-		String dir=categoryId+"/"+System.currentTimeMillis();
+		String dir=categoryId+"/projects/"+System.currentTimeMillis();
 		String[] paths=new String[files.length];
 		for(int i=0;i<files.length;i++){
 			try {
@@ -31,6 +31,7 @@ public class UploadService {
 				Resource resource=new Resource();
 				resource.setPath(paths[i]);
 				resource.setType("project_image");
+				resource.setDelFlag("0");
 				resourceDao.insert(resource);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -56,6 +57,7 @@ public class UploadService {
 				resource.setPath(paths[i]);
 				resource.setType("feedback_image");
 				resource.setMappingId(projectId);
+				resource.setDelFlag("0");
 				resourceDao.insert(resource);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -80,6 +82,7 @@ public class UploadService {
 				resource.setPath(paths[i]);
 				resource.setType("moment_image");
 				resource.setMappingId(projectId);
+				resource.setDelFlag("0");
 				resourceDao.insert(resource);
 			} catch (IOException e) {
 				e.printStackTrace();

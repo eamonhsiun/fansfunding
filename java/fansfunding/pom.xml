@@ -240,7 +240,18 @@
 			<version>1.6.1</version>
 		</dependency>
 		<!-- end of xml -->
-
+		<!-- aspectj -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.8.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.9</version>
+		</dependency>
+		<!-- end of aspectj -->
 	</dependencies>
 	<build>
 		<finalName>fansfunding</finalName>

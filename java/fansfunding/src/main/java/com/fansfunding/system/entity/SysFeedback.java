@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysFeedback {
-    private Integer id;
+    private int id;
 
-    private Integer userId;
-
-    private Byte isReplied;
+    private byte isReplied;
 
     private String createBy;
 
@@ -27,5 +25,7 @@ public class SysFeedback {
     private String delFlag;
 
     private String content;
+    
+    private String email;
 
 }

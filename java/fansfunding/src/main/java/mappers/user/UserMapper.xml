@@ -41,6 +41,11 @@
     from user where name = #{name}
   </select>
   
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="string">
+    select id,name,phone,nickname,email,token,password,head,intro
+    from user where email = #{email}
+  </select>
+  
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
     select id,name,phone,nickname,email,token,password,head,intro
     from user where phone = #{phone}
@@ -49,6 +54,14 @@
     select id,name,phone,nickname,email,token,password,head,intro
     from user 
     where nickname like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="selectFollowers" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
+    from user u,follow_project f
+    where f.project_id = #{projectId,jdbcType=INTEGER}
+    and u.id=f.user_id
+    and f.del_flag='0'
+    and u.del_flag='0'
   </select>
   
   <insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.User">

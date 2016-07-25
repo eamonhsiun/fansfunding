@@ -23,6 +23,8 @@ import com.fansfunding.project.entity.ProjectDetail;
 import com.fansfunding.project.entity.ProjectMoment;
 import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.UserDao;
+import com.fansfunding.user.entity.User;
+import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
 import com.github.pagehelper.PageHelper;
@@ -46,6 +48,8 @@ public class ProjectService {
 	private ResourceDao resourceDao;
 	@Autowired
 	private FollowProjectDao followProjectDao;
+	@Autowired
+	private UserService userService;
 	/**
 	 * 添加项目
 	 * @param name 
@@ -100,7 +104,7 @@ public class ProjectService {
 		}
 		return project.getId();
 	}
-	
+
 	/**
 	 * 获取分类下所有项目
 	 * @param categroyId 分类ID
@@ -108,18 +112,18 @@ public class ProjectService {
 	 */
 	public Page getByCategoryId(int categoryId,int page,int rows){
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
-		
+
 		PageHelper.startPage(page, rows);
 		List<Project> list=projectDao.selectByCategoryId(categoryId);
 		PageInfo<Project> info=new PageInfo<>(list);
-		
+
 		list.forEach((e)->{
 			projects.add(this.buildMap(e));
 		});
-		
+
 		return PageAdapter.adapt(info, projects);
 	}
-	
+
 	/**
 	 * 根据项目ID获取项目详情
 	 * @param projectId 项目ID
@@ -154,7 +158,7 @@ public class ProjectService {
 	public Map<String,Object> getDetails(Integer projectId){
 		Map<String,Object> details=new HashMap<String,Object>();
 		ProjectDetail pd=detailDao.selectByProjectId(projectId);
-		
+
 		details.put("id", pd.getId());
 		details.put("content", pd.getContent());
 		List<Resource> images=resourceDao.selectProjectImages(projectId);
@@ -165,7 +169,7 @@ public class ProjectService {
 		details.put("images", paths);
 		details.put("video", pd.getVideo());
 		details.put("others", pd.getOthers());
-		
+
 		return details;
 	}
 	/**
@@ -181,8 +185,8 @@ public class ProjectService {
 		}
 		return project.getCategoryId().intValue()==categoryId;
 	}
-	
-	
+
+
 	/**
 	 * 获取项目动态
 	 * @param projectId 项目id
@@ -192,11 +196,11 @@ public class ProjectService {
 	 */
 	public Page moment(int projectId,int page,int rows){
 		List<Map<String,Object>> moments=new ArrayList<Map<String,Object>>();
-		
+
 		PageHelper.startPage(page, rows);
 		List<ProjectMoment> list=momentDao.selectByProjectId(projectId);
 		PageInfo<ProjectMoment> info=new PageInfo<>(list);
-		
+
 		list.forEach((e)->{
 			Map<String,Object> moment=new HashMap<>();
 			moment.put("sponsor", projectDao.selectByProjectId(projectId).getSponsor());
@@ -264,7 +268,7 @@ public class ProjectService {
 	public Page search(String keyword,int page,int rows){
 
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
-		
+
 		PageHelper.startPage(page, rows);
 		List<Project> list=projectDao.selectByKeyword(keyword);
 		PageInfo<Project> info=new PageInfo<>(list);
@@ -275,7 +279,7 @@ public class ProjectService {
 	}
 	/**
 	 * 获取用户发起的项目
-	 * @param keyword
+	 * @param userId 用户id
 	 * @param page
 	 * @param rows
 	 * @return
@@ -292,7 +296,7 @@ public class ProjectService {
 	}
 	/**
 	 * 获取关注的项目
-	 * @param keyword
+	 * @param userId 用户id
 	 * @param page
 	 * @param rows
 	 * @return
@@ -300,7 +304,24 @@ public class ProjectService {
 	public Page getFollow(int userId,int page,int rows){
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
 		PageHelper.startPage(page, rows);
-		List<Project> list=projectDao.selectSponsor(userId);
+		List<Project> list=projectDao.selectFollow(userId);
+		PageInfo<Project> info=new PageInfo<>(list);
+		list.forEach((e)->{
+			projects.add(this.buildMap(e));
+		});
+		return PageAdapter.adapt(info, projects);
+	}
+	/**
+	 * 获取关注的项目
+	 * @param userId 用户id
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public Page getSupport(int userId,int page,int rows){
+		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<Project> list=projectDao.selectSupport(userId);
 		PageInfo<Project> info=new PageInfo<>(list);
 		list.forEach((e)->{
 			projects.add(this.buildMap(e));
@@ -344,5 +365,35 @@ public class ProjectService {
 		followProjectDao.delete(follow);
 		return true;
 	}
-	
+	/**
+	 * 判断某个用户是否关注了某个项目
+	 * @param userId 用户id 
+	 * @param projectId 项目id
+	 * @return
+	 */
+	public boolean isFollower(int userId,int projectId){
+		FollowProject follow=new FollowProject();
+		follow.setProjectId(projectId);
+		follow.setUserId(userId);
+		FollowProject fp=followProjectDao.select(follow);
+		if(fp==null||fp.getDelFlag().equals("1")){
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 
+	 * @param projectId
+	 * @return
+	 */
+	public Page getFollowers(int projectId,int page,int rows){
+		List<Map<String,Object>> followers=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<User> list=userDao.selectFollowers(projectId);
+		PageInfo<User> info=new PageInfo<>(list);
+		list.forEach((user)->{
+			followers.add(userService.getUserBasicMap(user));
+		});
+		return PageAdapter.adapt(info, followers);
+	}
 }

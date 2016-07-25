@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.user.service.ShoppingAddressService;
+import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
 
@@ -18,8 +19,9 @@ import com.fansfunding.utils.response.StatusCode;
 public class UserShoppingAddressController {
 
 	@Autowired
-	ShoppingAddressService shoppingAddressService;
-	
+	private ShoppingAddressService shoppingAddressService;
+	@Autowired
+	private UserService userService;
 	/**
 	 * 获取用户收货地址
 	 * @param userId
@@ -28,6 +30,9 @@ public class UserShoppingAddressController {
 	@RequestMapping(path="{userId}/shopping_address",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getShoppingAddress(@PathVariable Integer userId){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
 	}
 	/**
@@ -36,7 +41,7 @@ public class UserShoppingAddressController {
 	 * @param name 
 	 * @param phone 
 	 * @param district 
-	 * @param post_code 
+	 * @param postCode 
 	 * @param province 
 	 * @param city 
 	 * @param address 
@@ -48,12 +53,15 @@ public class UserShoppingAddressController {
 			@RequestParam String name,
 			@RequestParam String phone,
 			@RequestParam String district,
-			@RequestParam int post_code,
+			@RequestParam int postCode,
 			@RequestParam String province,
 			@RequestParam String city,
 			@RequestParam String address){
-		shoppingAddressService.AddNewAddress(userId, name, phone, province, city, district, address, post_code);
-		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		int addressId=shoppingAddressService.AddNewAddress(userId, name, phone, province, city, district, address, postCode);
+		return new Status(true, StatusCode.SUCCESS,addressId, null);
 	}
 	/**
 	 * 更新用户收货地址
@@ -68,27 +76,38 @@ public class UserShoppingAddressController {
 			@RequestParam String name,
 			@RequestParam String phone,
 			@RequestParam String district,
-			@RequestParam int post_code,
+			@RequestParam int postCode,
 			@RequestParam String province,
 			@RequestParam String city,
 			@RequestParam String address
 			){
-		shoppingAddressService.updateById(addressId, address, city, district, province, phone, post_code, name, userId);
-		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(shoppingAddressService.updateById(addressId, address, city,
+				district, province, phone, postCode, name, userId)){
+			return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getByUserId(userId), null);
+		}
+		return new Status(false, StatusCode.PERMISSION_LOW,"没有权限修改", null);
 	}
 	/**
 	 * 删除用户收货地址
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/shopping_address/{addressId}",method=RequestMethod.DELETE)
+	@RequestMapping(path="{userId}/shopping_address/{addressId}/delete",method=RequestMethod.POST)
 	@ResponseBody
 	public Status updateShoppingAddress(
 			@PathVariable Integer userId,
 			@PathVariable Integer addressId
 			){
-		shoppingAddressService.deleteById(addressId);
-		return new Status(true, StatusCode.SUCCESS, "删除成功", null);
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(shoppingAddressService.deleteById(userId,addressId)){
+			return new Status(true, StatusCode.SUCCESS, "删除成功", null);
+		}
+		return new Status(false, StatusCode.PERMISSION_LOW,"没有权限删除", null);
 	}
 	/**
 	 * 获得默认地址
@@ -97,6 +116,9 @@ public class UserShoppingAddressController {
 	@RequestMapping(path="{userId}/shopping_address/default",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getDefault(@PathVariable Integer userId){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
 		return new Status(true, StatusCode.SUCCESS, shoppingAddressService.getDefault(userId),null);
 	}
 	/**
@@ -106,8 +128,13 @@ public class UserShoppingAddressController {
 	@RequestMapping(path="{userId}/shopping_address/default",method=RequestMethod.POST)
 	@ResponseBody
 	public Status setDefault(@PathVariable Integer userId,@RequestParam int addressId){
-		shoppingAddressService.setDefault(userId, addressId);
-		return new Status(true, StatusCode.SUCCESS, "设置成功",null);
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(shoppingAddressService.setDefault(userId, addressId)){
+			return new Status(true, StatusCode.SUCCESS, "设置成功",null);
+		}
+		return new Status(false, StatusCode.PERMISSION_LOW,"没有权限设置", null);
 	}
 	
 }

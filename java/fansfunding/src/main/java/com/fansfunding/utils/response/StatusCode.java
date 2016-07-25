@@ -48,7 +48,10 @@ public class StatusCode {
 	 * 没有权限
 	 */
 	public static final int PERMISSION_LOW=209;
-	
+	/**
+	 * 密码太短（6-16）
+	 */
+	public static final int PASSWORD_LENGTH_ERROR=210;
 	/**
 	 * 文件上传失败
 	 */
@@ -80,7 +83,9 @@ public class StatusCode {
 	/**
 	 * 邮箱错误
 	 */
+	public static final int WRONG_EMAIL=423;
 	/**
 	 * 邮箱已存在
 	 */
+	public static final int EMAIL_EXIST=424;
 }

@@ -309,6 +309,15 @@ public class ProjectService {
 		});
 		return PageAdapter.adapt(info, projects);
 	}
+
+	/**
+	 * 获取用户发起的项目的数量
+	 * @param userId 用户id
+	 * @return
+	 */
+	public int getSponsorNum(int userId){
+		return projectDao.selectSponsor(userId).size();
+	}
 	/**
 	 * 获取关注的项目
 	 * @param userId 用户id
@@ -327,7 +336,15 @@ public class ProjectService {
 		return PageAdapter.adapt(info, projects);
 	}
 	/**
-	 * 获取关注的项目
+	 * 获取关注的项目的数量
+	 * @param userId
+	 * @return
+	 */
+	public int getFollowNum(int userId){
+		return projectDao.selectFollow(userId).size();
+	}
+	/**
+	 * 获取支持的项目
 	 * @param userId 用户id
 	 * @param page
 	 * @param rows
@@ -342,6 +359,14 @@ public class ProjectService {
 			projects.add(this.buildMap(e));
 		});
 		return PageAdapter.adapt(info, projects);
+	}
+	/**
+	 * 获取支持的项目的数量
+	 * @param userId
+	 * @return
+	 */
+	public int getSupportNum(int userId){
+		return projectDao.selectSupport(userId).size();
 	}
 	/**
 	 * 关注

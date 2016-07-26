@@ -55,7 +55,7 @@ public class FeedbackController {
 		if(title.length()>20||description.length()>255){
 			return new Status(false,StatusCode.ERROR_DATA,"参数过长",null);
 		}
-		if(!CheckUtils.isNullOrEmpty(title,description,images)){
+		if(!CheckUtils.isNullOrEmpty(title,description)){
 			feedbackService.add(projectId,title,description,limitation,images);
 			return new Status(true,StatusCode.SUCCESS,"回馈方式添加成功",null);
 		}

@@ -66,6 +66,9 @@ public class PayController {
 		if(!feedbackService.isExist(feedbackId)){
 			return new Status(false,StatusCode.FAILED,"回报不存在",null);
 		}
+		if(!addressService.exist(addressId)){
+			return new Status(false,StatusCode.FAILED,"地址不存在",null);
+		}
 		return new Status(true,StatusCode.SUCCESS,orderService.sign(feedbackId, userId,addressId),null);
 	}
 

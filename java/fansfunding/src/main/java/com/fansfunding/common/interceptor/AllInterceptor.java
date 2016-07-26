@@ -29,8 +29,6 @@ public class AllInterceptor implements HandlerInterceptor {
 
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse resp, Object handler, Exception ex)
 			throws Exception {
-		System.err.println("======COMPLETION========");
-
 	}
 
 	

@@ -15,6 +15,7 @@ import com.fansfunding.project.dao.ResourceDao;
 import com.fansfunding.project.entity.Feedback;
 import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.UserDao;
+import com.fansfunding.utils.fileupload.DefaultImage;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
 import com.github.pagehelper.PageHelper;
@@ -52,11 +53,16 @@ public class FeedbackService {
 			feedback.put("description", e.getDescription());
 			feedback.put("limitation", e.getLimitation());
 			List<Resource> images=resourceDao.selectFeedbackImages(e.getId());
-			String[] paths=new String[images.size()];
-			for(int i=0;i<images.size();i++){
-				paths[i]=images.get(i).getPath();
+			if(images.size()==0){
+				feedback.put("images", DefaultImage.DEFAULT_FEEDBACK_IMAGE);
 			}
-			feedback.put("images", paths);
+			else{
+				String[] paths=new String[images.size()];
+				for(int i=0;i<images.size();i++){
+					paths[i]=images.get(i).getPath();
+				}
+				feedback.put("images", paths);
+			}
 			feedback.put("supportTimes", orderDao.selectByFeedbackId(e.getId()).size());
 			feedbacks.add(feedback);
 		});

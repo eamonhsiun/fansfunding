@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fansfunding.project.entity.ProjectMoment;
 import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.user.service.UserService;
@@ -159,7 +158,10 @@ public class ProjectController {
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
-			return new Status(true,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
+			if(projectService.addMoment(categoryId,projectId,content,images,sponsorId)){
+				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
+			}
+			return new Status(false,StatusCode.PERMISSION_LOW,"你不是项目发起者，没有权限添加动态",null);
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);
 	}

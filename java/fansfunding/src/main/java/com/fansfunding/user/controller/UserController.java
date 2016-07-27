@@ -141,6 +141,30 @@ public class UserController {
 		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
 	}
 	/**
+	 * 获取用户相关项目的数量
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/projects/num",method=RequestMethod.GET)
+	@ResponseBody
+	public Status userProjectNum(@RequestParam String type,@PathVariable int userId){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if("sponsor".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSponsorNum(userId),null);
+		}
+		if("follow".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getFollowNum(userId),null);
+		}
+		if("support".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupportNum(userId),null);
+		}
+		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
+	}
+	/**
 	 * 关注项目
 	 * @param categoryId 分类ID
 	 * @param projectId 项目ID

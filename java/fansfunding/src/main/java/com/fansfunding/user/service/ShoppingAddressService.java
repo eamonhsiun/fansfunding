@@ -20,11 +20,31 @@ public class ShoppingAddressService {
 	private ShoppingAddressDao shoppingAddressDao;
 	@Autowired
 	private UserDao userDao;
-
+	
+	/**
+	 * 判断是否存在
+	 * @param addressId
+	 * @return
+	 */
+	public boolean exist(int addressId){
+		return shoppingAddressDao.selectByPrimaryKey(addressId)!=null;
+	}
+	
+	/**
+	 * 查询用户的所有地址
+	 * @param id
+	 * @return
+	 */
 	public List<ShoppingAddress> findByUserId(int id){
 		return shoppingAddressDao.selectByUserId(id);
 	}
 
+	/**
+	 * 删除地址
+	 * @param userId
+	 * @param addressId
+	 * @return
+	 */
 	public boolean deleteById(int userId,int addressId){
 		if(shoppingAddressDao.selectByPrimaryKey(addressId).getUserId().intValue()!=userId){
 			return false;
@@ -42,7 +62,19 @@ public class ShoppingAddressService {
 		}
 		return true;
 	}
-
+	/**
+	 * 更新地址
+	 * @param id
+	 * @param address
+	 * @param city
+	 * @param district
+	 * @param province
+	 * @param phone
+	 * @param post_code
+	 * @param name
+	 * @param userId
+	 * @return
+	 */
 	public boolean updateById(int id, String address, String city, String district, String province, String phone, int post_code, String name, Integer userId){
 		if(shoppingAddressDao.selectByPrimaryKey(id).getUserId().intValue()!=userId.intValue()){
 			return false;
@@ -60,9 +92,19 @@ public class ShoppingAddressService {
 		shoppingAddressDao.updateByPrimaryKey(shoppingAddress);
 		return true;
 	}
-
-
-
+	/**
+	 * 
+	 * 添加地址
+	 * @param userId
+	 * @param name
+	 * @param phone
+	 * @param province
+	 * @param city
+	 * @param district
+	 * @param address
+	 * @param post_code
+	 * @return
+	 */
 	public int AddNewAddress(Integer userId, String name, String phone, String province, 
 			String city, String district, String address, int post_code){
 		ShoppingAddress shoppingAddress = new ShoppingAddress();

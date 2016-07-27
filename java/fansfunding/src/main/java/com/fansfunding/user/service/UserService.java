@@ -7,20 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-
-
-
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
-
-
-
 
 import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.pay.entity.Order;
@@ -34,6 +22,7 @@ import com.fansfunding.user.dao.RealInfoDao;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.RealInfo;
 import com.fansfunding.user.entity.User;
+import com.fansfunding.utils.fileupload.DefaultImage;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
 import com.github.pagehelper.PageHelper;
@@ -133,7 +122,7 @@ public class UserService {
 		user.setPassword(password);
 		user.setPhone(phone);
 		user.setIs_red(0);
-		user.setHead(UUID.randomUUID().toString().replace("-", ""));
+		user.setHead(DefaultImage.DEFAULT_HEAD);
 		user.setRemark("");
 		user.setDel_flag('0');
 		user.setCreate_by("admin");
@@ -150,8 +139,6 @@ public class UserService {
 		user.setRealInfo(realInfo);
 		return user;
 	}
-		
-
 	public void updateToken(int id) {
 		
 	}

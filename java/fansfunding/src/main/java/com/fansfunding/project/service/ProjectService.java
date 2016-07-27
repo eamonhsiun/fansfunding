@@ -25,6 +25,7 @@ import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
+import com.fansfunding.utils.fileupload.DefaultImage;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
 import com.github.pagehelper.PageHelper;
@@ -78,7 +79,12 @@ public class ProjectService {
 
 		Project project = new Project();
 		project.setCategoryId(categoryId);
-		project.setCover(cover);
+		if("".equals(cover)){
+			project.setCover(DefaultImage.DEFAULT_PROJECT_COVER);
+		}
+		else{
+			project.setCover(cover);
+		}
 		project.setCreateBy(userDao.selectById(sponsor).getName());
 		project.setDelFlag("0");
 		project.setDescription(description);
@@ -92,8 +98,7 @@ public class ProjectService {
 		projectDao.insert(project);
 		Resource res=new Resource();
 		res.setMappingId(project.getId());
-		res.setType("moment_image");
-		res.setPath(cover);
+		res.setType("project_image");
 		resourceDao.updateByPath(res);
 		for(String s:images.split(",")){
 			Resource resource=new Resource();
@@ -147,6 +152,12 @@ public class ProjectService {
 		project.put("sponsorNickname", userDao.selectById(prj.getSponsor()).getNickname());
 		project.put("sponsorHead", userDao.selectById(prj.getSponsor()).getHead());
 		project.put("createTime",prj.getCreateTime());
+		List<Resource> images=resourceDao.selectProjectImages(prj.getId());
+		String[] paths=new String[images.size()];
+		for(int i=0;i<images.size();i++){
+			paths[i]=images.get(i).getPath();
+		}
+		project.put("images", paths);
 		project.putAll(this.support(prj.getId()));
 		return project;
 	}
@@ -208,7 +219,7 @@ public class ProjectService {
 					userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getNickname());
 			moment.put("sponsorHead", 
 					userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getHead());
-			List<Resource> images=resourceDao.selectMomentImages(projectId);
+			List<Resource> images=resourceDao.selectMomentImages(e.getId());
 			String[] paths=new String[images.size()];
 			for(int i=0;i<images.size();i++){
 				paths[i]=images.get(i).getPath();
@@ -298,6 +309,15 @@ public class ProjectService {
 		});
 		return PageAdapter.adapt(info, projects);
 	}
+
+	/**
+	 * 获取用户发起的项目的数量
+	 * @param userId 用户id
+	 * @return
+	 */
+	public int getSponsorNum(int userId){
+		return projectDao.selectSponsor(userId).size();
+	}
 	/**
 	 * 获取关注的项目
 	 * @param userId 用户id
@@ -316,7 +336,15 @@ public class ProjectService {
 		return PageAdapter.adapt(info, projects);
 	}
 	/**
-	 * 获取关注的项目
+	 * 获取关注的项目的数量
+	 * @param userId
+	 * @return
+	 */
+	public int getFollowNum(int userId){
+		return projectDao.selectFollow(userId).size();
+	}
+	/**
+	 * 获取支持的项目
 	 * @param userId 用户id
 	 * @param page
 	 * @param rows
@@ -331,6 +359,14 @@ public class ProjectService {
 			projects.add(this.buildMap(e));
 		});
 		return PageAdapter.adapt(info, projects);
+	}
+	/**
+	 * 获取支持的项目的数量
+	 * @param userId
+	 * @return
+	 */
+	public int getSupportNum(int userId){
+		return projectDao.selectSupport(userId).size();
 	}
 	/**
 	 * 关注

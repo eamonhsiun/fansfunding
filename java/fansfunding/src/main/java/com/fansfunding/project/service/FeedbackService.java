@@ -54,7 +54,8 @@ public class FeedbackService {
 			feedback.put("limitation", e.getLimitation());
 			List<Resource> images=resourceDao.selectFeedbackImages(e.getId());
 			if(images.size()==0){
-				feedback.put("images", DefaultImage.DEFAULT_FEEDBACK_IMAGE);
+				String[] paths={DefaultImage.DEFAULT_FEEDBACK_IMAGE};
+				feedback.put("images", paths);
 			}
 			else{
 				String[] paths=new String[images.size()];

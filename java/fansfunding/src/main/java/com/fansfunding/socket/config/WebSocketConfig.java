@@ -15,6 +15,8 @@ import com.fansfunding.socket.interceptor.WebSocketHandshakeInterceptor;
 
 /**
  * websocket配置
+ * 因为跨域请求的接口，需要setAllowedOrigins("*")
+ * 两种方式，原生websocket和SockJS
  * @author w_angler
  *
  */
@@ -24,9 +26,10 @@ import com.fansfunding.socket.interceptor.WebSocketHandshakeInterceptor;
 public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(userHandler(),"/websocket/test").addInterceptors(new WebSocketHandshakeInterceptor());
-        registry.addHandler(userHandler(), "/sockjs/test").addInterceptors(new WebSocketHandshakeInterceptor())
-                .withSockJS();
+        registry.addHandler(userHandler(),"/websocket/test").setAllowedOrigins("*")
+        		.addInterceptors(new WebSocketHandshakeInterceptor());
+        registry.addHandler(userHandler(), "/sockjs/test").setAllowedOrigins("*")
+        		.addInterceptors(new WebSocketHandshakeInterceptor()).withSockJS();
     }
 
     @Bean

@@ -115,6 +115,21 @@ public class UserController {
 		return new Status(true,StatusCode.SUCCESS,userService.paidOrder(userId,page,rows),null);
 	}
 	/**
+	 * 根据订单号获取用户的订单
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/orders/{orderNo}",method=RequestMethod.GET)
+	@ResponseBody
+	public Status userOrderByOrderNo(@PathVariable int userId,@PathVariable String orderNo){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userService.paidOrder(orderNo),null);
+	}
+	/**
 	 * 获取用户相关项目
 	 * @param keyword
 	 * @param page

@@ -1,109 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fansfunding.user.dao.UserDao" >
-  <resultMap id="BaseResultMap" type="User" >
-  	<result column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="is_red" property="is_red" jdbcType="INTEGER" />
-    <result column="head" property="head" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="create_by" property="create_by" jdbcType="VARCHAR" />
-    <result column="create_time" property="create_time" jdbcType="DATE" />
-    <result column="update_by" property="update_by" jdbcType="VARCHAR" />
-    <result column="update_time" property="update_time" jdbcType="DATE" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="del_flag" property="del_flag" jdbcType="CHAR" />
-    <result column="token" property="token" jdbcType="INTEGER" />
-    <result column="token_wx" property="token_wx" jdbcType="VARCHAR" />
-    <result column="token_wb" property="token_wb" jdbcType="VARCHAR" />
-    <result column="token_qq" property="token_qq" jdbcType="VARCHAR" />
-    <result column="id_wx" property="id_wx" jdbcType="VARCHAR" />
-    <result column="id_wb" property="id_wb" jdbcType="VARCHAR" />
-    <result column="id_qq" property="id_qq" jdbcType="VARCHAR" />
-    <result column="intro" property="intro" jdbcType="VARCHAR" />
-  </resultMap>
-  
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id,name,phone,nickname,email,token,password,head,intro
-    from user
-  </select>
-  
-  <select id="selectById" resultMap="BaseResultMap" parameterType="int">
-    select id,name,phone,nickname,email,token,password,head,intro
-    from user where id = #{id}
-  </select>
-  
-  <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password,head,intro
-    from user where name = #{name}
-  </select>
-  
-  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password,head,intro
-    from user where email = #{email}
-  </select>
-  
-  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="string">
-    select id,name,phone,nickname,email,token,password,head,intro
-    from user where phone = #{phone}
-  </select>
-  <select id="selectByKeyword" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select id,name,phone,nickname,email,token,password,head,intro
-    from user 
-    where nickname like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
-  </select>
-  <select id="selectFollowers" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
-    from user u,follow_project f
-    where f.project_id = #{projectId,jdbcType=INTEGER}
-    and u.id=f.user_id
-    and f.del_flag='0'
-    and u.del_flag='0'
-  </select>
-  
-  <insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.User">
-  	insert into user(name,nickname,password,phone,is_red,head,create_by,create_time,update_by,update_time,remark,del_flag,token,intro)
-  		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{token},#{intro})
-  </insert>
-  
-  <update id="updateToken" parameterType="int">
-  	update user
-  	set token = #{token}
-  	where id = #{id}
-  </update>
-  
-  <update id="updatePwd" parameterType="com.fansfunding.user.entity.User">
-    update user
-  	set password = #{password}
-  	where id = #{id}
-  </update>
-  
-  <update id="updateHead" parameterType="com.fansfunding.user.entity.User">
-    update user
-  	set head = #{head}
-  	where id = #{id}
-  </update>
-  
-    <update id="updateNickName" parameterType="com.fansfunding.user.entity.User">
-    update user
-  	set nickname = #{nickname}
-  	where id = #{id}
-  </update>
-  
-  <update id="updateUser" parameterType="com.fansfunding.user.entity.User">
-    update user
-  	set nickname=#{nickname},
-  		password=#{password},
-  		email=#{email},
-  		phone=#{phone},
-  		is_red=#{is_red},
-  		head=#{head},
-  		intro=#{intro},
-  		update_time=now()
-  	where id = #{id}
-  </update>
-  
+<mapper namespace="com.fansfunding.user.dao.UserDao">
+	<resultMap id="BaseResultMap" type="User">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="is_red" property="is_red" jdbcType="INTEGER" />
+		<result column="head" property="head" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="create_by" property="create_by" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="DATE" />
+		<result column="update_by" property="update_by" jdbcType="VARCHAR" />
+		<result column="update_time" property="update_time" jdbcType="DATE" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="del_flag" property="del_flag" jdbcType="CHAR" />
+		<result column="token" property="token" jdbcType="INTEGER" />
+		<result column="token_wx" property="token_wx" jdbcType="VARCHAR" />
+		<result column="token_wb" property="token_wb" jdbcType="VARCHAR" />
+		<result column="token_qq" property="token_qq" jdbcType="VARCHAR" />
+		<result column="id_wx" property="id_wx" jdbcType="VARCHAR" />
+		<result column="id_wb" property="id_wb" jdbcType="VARCHAR" />
+		<result column="id_qq" property="id_qq" jdbcType="VARCHAR" />
+		<result column="intro" property="intro" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id,name,phone,nickname,email,token,password,head,intro
+		from user
+	</select>
+
+	<select id="selectById" resultMap="BaseResultMap" parameterType="int">
+		select id,name,phone,nickname,email,token,password,head,intro
+		from user where id = #{id}
+	</select>
+
+	<select id="selectByName" resultMap="BaseResultMap"
+		parameterType="string">
+		select id,name,phone,nickname,email,token,password,head,intro
+		from user where name = #{name}
+	</select>
+
+	<select id="selectByEmail" resultMap="BaseResultMap"
+		parameterType="string">
+		select id,name,phone,nickname,email,token,password,head,intro
+		from user where email = #{email}
+	</select>
+
+	<select id="selectByPhone" resultMap="BaseResultMap"
+		parameterType="string">
+		select id,name,phone,nickname,email,token,password,head,intro
+		from user where phone = #{phone}
+	</select>
+	<select id="selectByKeyword" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select id,name,phone,nickname,email,token,password,head,intro
+		from user
+		where nickname like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+	</select>
+	<select id="selectProjectFollowers" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
+		from user u,follow_project fp
+		where fp.project_id = #{projectId,jdbcType=INTEGER}
+		and u.id=fp.user_id
+		and fp.del_flag='0'
+		and u.del_flag='0'
+	</select>
+	<select id="selectFollowers" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
+		from user u,follow_user fu
+		where fu.user_id = #{userId,jdbcType=INTEGER}
+		and u.id=fu.follower_id
+		and fu.del_flag='0'
+		and u.del_flag='0'
+	</select>
+	<select id="selectFollowing" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
+		from user u,follow_user fu
+		where fu.follower_id = #{followerId,jdbcType=INTEGER}
+		and u.id=fu.user_id
+		and fu.del_flag='0'
+		and u.del_flag='0'
+	</select>
+	<insert id="insertNewUser" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.fansfunding.user.entity.User">
+		insert into
+		user(name,nickname,password,phone,is_red,head,create_by,create_time
+		,update_by,update_time,remark,del_flag,token,intro)
+		values(#{name},#{nickname},#{password},#{phone},#{is_red},#{head},#{create_by},
+		#{create_time},#{update_by},#{update_time},#{remark},#{del_flag},#{token},#{intro})
+	</insert>
+	<update id="updateToken" parameterType="int">
+		update user
+		set token = #{token}
+		where id = #{id}
+	</update>
+	<update id="updatePwd" parameterType="com.fansfunding.user.entity.User">
+		update user
+		set password = #{password}
+		where id = #{id}
+	</update>
+	<update id="updateHead" parameterType="com.fansfunding.user.entity.User">
+		update user
+		set head = #{head}
+		where id = #{id}
+	</update>
+	<update id="updateNickName" parameterType="com.fansfunding.user.entity.User">
+		update user
+		set nickname = #{nickname}
+		where id = #{id}
+	</update>
+	<update id="updateUser" parameterType="com.fansfunding.user.entity.User">
+		update user
+		set nickname=#{nickname},
+		password=#{password},
+		email=#{email},
+		phone=#{phone},
+		is_red=#{is_red},
+		head=#{head},
+		intro=#{intro},
+		update_time=now()
+		where id = #{id}
+	</update>
 </mapper>

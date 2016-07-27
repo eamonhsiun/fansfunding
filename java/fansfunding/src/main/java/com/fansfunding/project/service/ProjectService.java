@@ -429,7 +429,7 @@ public class ProjectService {
 	public Page getFollowers(int projectId,int page,int rows){
 		List<Map<String,Object>> followers=new ArrayList<Map<String,Object>>();
 		PageHelper.startPage(page, rows);
-		List<User> list=userDao.selectFollowers(projectId);
+		List<User> list=userDao.selectProjectFollowers(projectId);
 		PageInfo<User> info=new PageInfo<>(list);
 		list.forEach((user)->{
 			followers.add(userService.getUserBasicMap(user));

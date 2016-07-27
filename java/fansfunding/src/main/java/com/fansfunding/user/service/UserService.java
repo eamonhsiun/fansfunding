@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,10 @@ import com.fansfunding.project.entity.Feedback;
 import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.RealInfoDao;
+import com.fansfunding.user.dao.ShoppingAddressDao;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.RealInfo;
+import com.fansfunding.user.entity.ShoppingAddress;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.utils.fileupload.DefaultImage;
 import com.fansfunding.utils.pagination.Page;
@@ -43,7 +46,8 @@ public class UserService {
 	private FeedbackDao feedbackDao;
 	@Autowired
 	private ResourceDao resourceDao;
-	
+	@Autowired
+	private ShoppingAddressDao addressDao;
 	/**
 	 * 根据用户名或者id获得用户
 	 * @param id
@@ -56,7 +60,7 @@ public class UserService {
 		else 
 			return getUserByName(name);
 	}
-	
+
 	public boolean isEmailExist(String email){
 		return userDao.selectByEmail(email)!=null;
 	}
@@ -86,7 +90,7 @@ public class UserService {
 	public User getUserByName(String name){
 		return userDao.selectByName(name);
 	}
-	
+
 
 	/**
 	 * 根据手机号获取用户
@@ -96,7 +100,7 @@ public class UserService {
 	public User getUserByPhone(String phone){
 		return userDao.selectByPhone(phone);
 	}
-	
+
 	/**
 	 * 检查密码是否一致
 	 * @param pwd1
@@ -108,7 +112,7 @@ public class UserService {
 		return pwd1.equals(pwd2);
 
 	}
-	
+
 	/**
 	 * 创建用户
 	 * @param phone
@@ -130,17 +134,17 @@ public class UserService {
 		user.setCreate_time(new Date());
 		user.setUpdate_time(new Date());
 		userDao.insertNewUser(user);
-		
+
 		RealInfo realInfo = new RealInfo();
 		realInfo.setUserId(user.getId());
-		
+
 		realInfoDao.insertNew(realInfo);
-		
+
 		user.setRealInfo(realInfo);
 		return user;
 	}
 	public void updateToken(int id) {
-		
+
 	}
 
 	/**
@@ -178,7 +182,7 @@ public class UserService {
 		realinfo.setSex(sex);
 		realinfo.setIdNumber(idNumber);
 		realInfoDao.updateByPrimaryKey(realinfo);
-		
+
 		User user = userDao.selectById(userid);
 		user.setEmail(email);
 		user.setNickname(nickname);
@@ -187,15 +191,15 @@ public class UserService {
 		user.setRealInfo(realinfo);
 		return user;
 	}
-	
-	
-	
-	
+
+
+
+
 
 	public Set<String> findRoles(String username){
 		return null;
 	}
-	
+
 
 	public Set<String> findPermissions(String username) {
 		return null;
@@ -214,7 +218,7 @@ public class UserService {
 			info.put("birthPlacr", realInfo.getBirthPlace());
 			info.put("birthday", realInfo.getBirthday());
 		}
-		
+
 		Map<String,Object> userbasic = new HashMap<>();
 		userbasic.put("id", user.getId());
 		userbasic.put("name", user.getName());
@@ -238,7 +242,7 @@ public class UserService {
 		userbasic.put("nickname", user.getNickname());
 		userbasic.put("head", user.getHead());
 		userbasic.put("intro", user.getIntro());
-		
+
 		return userbasic;
 	}
 	/**
@@ -272,14 +276,14 @@ public class UserService {
 		PageInfo<Order> info=new PageInfo<>(list);
 		list.forEach((payOrder)->{
 			Map<String,Object> order=new HashMap<>();
-			
+
 			Project prj=projectDao.selectByProjectId(payOrder.getProjectId());
 			order.put("projectId", prj.getId());
 			order.put("projectName", prj.getName());
 			order.put("categoryId", prj.getCategoryId());
-			
+
 			Feedback feedback=feedbackDao.selectByPrimaryKey(payOrder.getFeedbackId());
-			
+
 			order.put("feedbackId",payOrder.getFeedbackId());
 			order.put("feedbackTitle", feedback.getTitle());
 			order.put("feedbackDesc", feedback.getDescription());
@@ -289,7 +293,7 @@ public class UserService {
 				paths[i]=images.get(i).getPath();
 			}
 			order.put("feedbackImages", paths);
-			
+
 			order.put("paidTime", payOrder.getNotifyTime());
 			order.put("totalFee",payOrder.getTotalFee());
 			order.put("orderStatus",payOrder.getTradeStatus());
@@ -297,5 +301,48 @@ public class UserService {
 			orders.add(order);
 		});
 		return PageAdapter.adapt(info, orders);
+	}
+	/**
+	 * 根据订单号获取订单信息
+	 * @param orderNo 订单号
+	 * @return
+	 */
+	public Map<String,Object> paidOrder(String orderNo){
+		Map<String,Object> orderInfo=new HashMap<>();
+		Order order=orderDao.selectByOrderNo(orderNo);
+		
+		Project prj=projectDao.selectByProjectId(order.getProjectId());
+		orderInfo.put("projectId", prj.getId());
+		orderInfo.put("projectName", prj.getName());
+		orderInfo.put("categoryId", prj.getCategoryId());
+
+		Feedback feedback=feedbackDao.selectByPrimaryKey(order.getFeedbackId());
+		orderInfo.put("feedbackId",order.getFeedbackId());
+		orderInfo.put("feedbackTitle", feedback.getTitle());
+		orderInfo.put("feedbackDesc", feedback.getDescription());
+		List<Resource> images=resourceDao.selectFeedbackImages(feedback.getId());
+		String[] paths=new String[images.size()];
+		for(int i=0;i<images.size();i++){
+			paths[i]=images.get(i).getPath();
+		}
+		orderInfo.put("feedbackImages", paths);
+
+		orderInfo.put("paidTime", order.getNotifyTime());
+		orderInfo.put("totalFee",order.getTotalFee());
+		orderInfo.put("orderStatus",order.getTradeStatus());
+		orderInfo.put("orderNo",order.getOrderNo());
+		
+		ShoppingAddress address=addressDao.selectByPrimaryKey(order.getAddressId());
+		Map<String,Object> shoppingAddress=new HashMap<>();
+		shoppingAddress.put("province",address.getProvince());
+		shoppingAddress.put("city",address.getCity());
+		shoppingAddress.put("district",address.getDistrict());
+		shoppingAddress.put("address",address.getAddress());
+		shoppingAddress.put("phone",address.getPhone());
+		shoppingAddress.put("name", address.getName());
+		shoppingAddress.put("postCode",address.getPostCode());
+		orderInfo.put("address", shoppingAddress);
+		
+		return orderInfo;
 	}
 }

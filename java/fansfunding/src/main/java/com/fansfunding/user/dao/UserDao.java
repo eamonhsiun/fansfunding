@@ -22,5 +22,22 @@ public interface UserDao {
 	void updateUser(User user);
 	void updateNickName(User user);
 	List<User> selectByKeyword(String keyword);
-	List<User> selectFollowers(int projectId);
+	/**
+	 * 项目的关注者
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectProjectFollowers(int projectId);
+	/**
+	 * 粉丝
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectFollowers(int userId);
+	/**
+	 * 关注的
+	 * @param followerId
+	 * @return
+	 */
+	List<User> selectFollowing(int followerId);
 }

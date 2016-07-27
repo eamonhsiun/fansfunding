@@ -6,17 +6,18 @@
   <meta name="renderer" content="webkit|ie-comp|ie-stand">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
   <meta name="format-detection" content="telephone=no"/>
-  <meta name="apple-mobile-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-app-status-bar-style" content="#ec2c22" />
   <meta name="apple-touch-fullscreen" content="YES" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="#ff6268" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ec2c22" />
   <meta name="msapplication-tap-highlight" content="no">
   <title>发起项目 | FAN$</title>
   <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
   <!-- 公有css -->
 
   <link rel="stylesheet" href="static/css/common.css">
+  <link rel="stylesheet" href="static/css/uikit.css">
   <!-- 私有css -->
   
   
@@ -24,6 +25,7 @@
   
   
     <link rel="stylesheet" type="text/css" href="static/css/initiation.css">
+  
   
   
   
@@ -39,7 +41,7 @@
       <div class="profile">
         <div class="profile-login" id="profile-login">
           <div class="profile-avatar">
-            <a href="setting.html"><img src="static/img/27.jpg" alt=""></a>
+            <a href="space.html"><img src="static/img/27.jpg" alt=""></a>
           </div>
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
@@ -61,7 +63,7 @@
         <ul>
           <a href="index.html"><li >首页</li>
           </a>
-          <a href="initiation.html"><li class="active">发起项目</li></a>
+          <a href="initiation-vue.html"><li class="active">发起项目</li></a>
           <!-- <a href="###"><li>圈子</li></a> -->
           <a href="download.html"><li >下载APP</li></a>
         </ul>
@@ -125,29 +127,51 @@
         <textarea id="editor"></textarea>
       </div>
       <div class="progress-content FFtab-content">
-        <div class="add-repay-btn"></div>
-        <div class="progress-repay">
+        <div class="add-feedback-btn FFbtn" @click.prevent="addFeedback">添加回报项</div>
+        <div class="progress-feedback">
           <ul>
-            <li class="repay-list">
-              <div class="repay-money">支持<span>555</span>元</div>
-              <div class="repay-detail">
-                <div class="repay-detail-content">他富贵              </div>
-                <div class="repay-detail-pics"></div>
+            <li class="feedback-list" v-for="(index, feedback) in feedbacks.list">
+              <div class="feedback-wrap-money feedback-wrap">
+                <div class="feedback-hint">回报项金额</div>
+                <div class="feedback-input-wrap">
+                  <input type="num" class="feedback-input" v-model="feedback.limitation">
+                </div>
               </div>
-              <div class="repay-btn">前往支持</div>
+              <div class="feedback-wrap-content feedback-wrap">
+                <div class="feedback-hint">回报项内容</div>
+                <div class="feedback-textarea-wrap">
+                  <textarea class="feedback-textarea" v-model="feedback.description"></textarea>
+                </div>
+              </div>
+              <div class="feedback-wrap-images feedback-wrap">
+                <div class="feedback-hint">回报项图片</div>
+                <div class="feedback-images-preview-list">
+                  <div class="feedback-image-preview" v-for="(imgIndex,image) in feedback.images">
+                    <img :src="image" alt="">
+                    <div class="feedback-image-preview-btn" @click.prevent="deleteFeedbackImage(index, imgIndex)"></div>
+                  </div>
+                </div>
+                <div class="feedback-image-btn" v-if="feedback.images.length < 3">
+                  <input type="file" name="file" @change="loadFeedbackImage(index, $event)">
+                  <p>上传图片</p>
+                </div>
+              </div>
+              <div class="feedback-btn FFbtn" @click.prevent="removeFeedback(index)">删除此项</div>
             </li>
           </ul>
         </div>
       </div>
       <div class="progress-content FFtab-content">
-
+        <div class="progress-bar"><span v-bind:style="{width: request.progress + '%'}"></span></div>
+        <div>{{request.progress | currency '' 0}}%</div>
+        <div>点击右下角完成发起项目</div>
       </div>
     </div>
-    <div id="initiation-errormsg" v-if="errormsg.length != 0">{{errormsg.join("，")}}</div>
+    <div id="initiation-errormsg" v-if="error">{{errormsg.join("，")}}</div>
     <div class="initiation-step">
-      <div class="initiation-step-btn step-prev" v-if="step != 1">上一步</div>
-      <div class="initiation-step-btn step-next" v-if="step != totalStep">下一步</div>
-      <div class="initiation-step-btn step-next" v-if="step == totalStep">完成</div>
+      <div class="initiation-step-btn step-prev" v-if="step != 1" @click.prevent="prevStep">上一步</div>
+      <div class="initiation-step-btn step-next" v-if="step != totalStep" @click.prevent="nextStep">下一步</div>
+      <div class="initiation-step-btn step-next" v-if="step == totalStep" @click.prevent="initializeProject">完成</div>
     </div>
   </div>
   </div>
@@ -173,8 +197,8 @@
   </div>
 
 
-  <script src="static/js/lib/vue.js"></script>
-  <script src="static/js/ajax.min.js"></script>
+  <script src="static/js/lib/vue.min.js"></script>
+  <script src="static/js/lib/ajax.min.js"></script>
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
@@ -197,10 +221,12 @@
     <script src="static/js/lib/cropperjs/cropper.min.js"></script>
     <script type="text/javascript" src="static/js/lib/simditor/module.min.js"></script>
     <script type="text/javascript" src="static/js/lib/simditor/hotkeys.min.js"></script>
-    <script type="text/javascript" src="static/js/lib/simditor/uploader.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/simditor/uploader.js"></script>
     <script type="text/javascript" src="static/js/lib/simditor/simditor.min.js"></script>
     <script src="static/js/lib/rome/rome.min.js"></script>
     <script src="static/js/initiation-vue.js"></script>
+  
+
   
 
   

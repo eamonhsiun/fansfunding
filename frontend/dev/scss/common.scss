@@ -21,27 +21,6 @@ html,body {
   overflow: hidden;
   padding-top: 60px;
 }
-.content-block{
-  @extend %kit_style_default;
-  background-color: $color_background_light;
-  margin: 20px auto;
-  box-sizing: border-box;
-  width: 100%;
-}
-.loader{
-  height: 25px;
-  width: 50px;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  margin: auto;
-  &.loaded{
-    display: none;
-  }
-  .loader-inner{
-    width: 100%;
-    height: 100%;
-  }
-}
 a{
   color: $color_red_2;
   &:hover{
@@ -58,6 +37,84 @@ a{
   display: none;
 }
 
+//------------富文本样式----------
+.simditor-body,.content-style{
+  h1, h2, h3, h4 {
+      color: #111111 !important;
+      font-weight: 400 !important;
+  }
+  h1, h2, h3, h4, h5, p {
+
+      margin-bottom: 10px !important;
+      padding: 0;
+  }
+  h1 {
+      font-size: 48px !important;
+  }
+  h2 {
+      font-size: 36px !important;
+  }
+  h3 {
+      font-size: 24px !important;
+  }
+  h4 {
+      font-size: 21px !important;
+  }
+  h5 {
+      font-size: 18px !important;
+  }
+  a {
+      color: #0099ff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      vertical-align: baseline !important;
+  }
+  a:hover {
+      text-decoration: none !important;
+      color: #ff6600 !important;
+  }
+  a:visited {
+      color: purple !important;
+  }
+  ul, ol {
+      padding: 0 !important;
+      margin: 0 !important;
+      margin-left: 20px !important;
+      margin-bottom: 10px !important;
+  }
+  ul li{
+    list-style: disc !important;
+  }
+  ol li{
+    list-style: decimal !important;
+  }
+  li {
+      line-height: 24px !important;
+  }
+  li ul, li ul {
+      margin-left: 24px !important;
+  }
+  p, ul, ol {
+      font-size: 16px !important;
+      line-height: 24px !important;
+  }
+  hr {
+      width: 100% !important;
+      text-align: left !important;
+      margin: 0 auto 0 0 !important;
+      color: #999 !important;
+  }
+  img{
+    display: block !important;
+    margin: auto !important !important;
+    max-width: 90% !important;
+    height: auto !important;
+    margin-bottom: 10px !important;
+  }
+  table th,table td{
+    padding: 5px;
+  }
+}
 
 
 // -----------header样式----------

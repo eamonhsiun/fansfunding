@@ -50,18 +50,18 @@
         headers: {
           'content-type': null
         },
-        data: avatarForm
+        data: avatarForm,
       }).then(function (response, xhr) {
         if(!response.result){
           console.log(response.errCode);
           return;
         }
         alert('修改头像成功');
-        window.location.reload();
+        // window.location.reload();
       }).catch(function (response, xhr) {
         alert('连接服务器失败');
       }).always(function (response, xhr) {
-        // Do something
+
       });
     });
   }

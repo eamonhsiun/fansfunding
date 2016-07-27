@@ -42,7 +42,7 @@
 .project-intro, .project-initiator {
   height: 500px; }
 
-.project-wrap, .project-repay {
+.project-wrap, .project-feedback {
   height: auto; }
 
 .project-intro, .project-wrap {
@@ -51,7 +51,7 @@
   margin-top: 0;
   overflow: hidden; }
 
-.project-initiator, .project-repay {
+.project-initiator, .project-feedback {
   width: 30%;
   float: right;
   margin-top: 0;
@@ -69,7 +69,8 @@
       overflow: hidden; }
       .project-intro .intro-content .intro-left img {
         min-width: 100%;
-        min-height: 100%; }
+        min-height: 100%;
+        max-width: 140%; }
     .project-intro .intro-content .intro-right {
       float: left;
       width: 20%;
@@ -202,58 +203,58 @@
       color: #ee554d;
       background-color: #ffffff; }
 
-.project-repay {
+.project-feedback {
   box-sizing: border-box;
   padding: 20px; }
-  .project-repay #repay-errormsg {
+  .project-feedback #feedback-errormsg {
     text-align: center;
     padding-top: 30px;
     padding-bottom: 30px; }
-  .project-repay .loader {
+  .project-feedback .loader {
     padding-top: 50px;
     padding-bottom: 50px; }
-  .project-repay .repay-title {
+  .project-feedback .feedback-title {
     font-size: 1.4rem;
     line-height: 3rem;
     font-weight: bold; }
-  .project-repay .repay-num {
+  .project-feedback .feedback-num {
     color: #ababab; }
-  .project-repay .repay-list {
+  .project-feedback .feedback-list {
     margin-top: 5px;
     width: 100%;
     border-bottom: 1px solid #505050;
     padding-bottom: 15px; }
-    .project-repay .repay-list:first-child {
+    .project-feedback .feedback-list:first-child {
       margin-top: 0; }
-    .project-repay .repay-list:last-child {
+    .project-feedback .feedback-list:last-child {
       border-bottom: 0;
       padding-bottom: 0; }
-    .project-repay .repay-list .repay-money {
+    .project-feedback .feedback-list .feedback-money {
       font-size: 1.5rem; }
-      .project-repay .repay-list .repay-money span {
+      .project-feedback .feedback-list .feedback-money span {
         padding-left: 5px;
         padding-right: 5px; }
-    .project-repay .repay-list .repay-detail {
+    .project-feedback .feedback-list .feedback-detail {
       width: 100%; }
-      .project-repay .repay-list .repay-detail .repay-detail-content {
+      .project-feedback .feedback-list .feedback-detail .feedback-detail-content {
         font-size: 1.1rem; }
-        .project-repay .repay-list .repay-detail .repay-detail-content ul li {
+        .project-feedback .feedback-list .feedback-detail .feedback-detail-content ul li {
           list-style-type: disc;
           list-style-position: inside; }
-      .project-repay .repay-list .repay-detail .repay-detail-pics .repay-detail-pic {
+      .project-feedback .feedback-list .feedback-detail .feedback-detail-pics .feedback-detail-pic {
         margin-top: 10px;
         float: left;
-        margin-right: 20px;
+        margin-right: 10px;
         width: 100px;
         height: 100px; }
-        .project-repay .repay-list .repay-detail .repay-detail-pics .repay-detail-pic img {
+        .project-feedback .feedback-list .feedback-detail .feedback-detail-pics .feedback-detail-pic img {
           width: 100%;
           height: 100%; }
-      .project-repay .repay-list .repay-detail .repay-detail-pics:after {
+      .project-feedback .feedback-list .feedback-detail .feedback-detail-pics:after {
         content: "";
         display: block;
         clear: both; }
-    .project-repay .repay-list .repay-btn {
+    .project-feedback .feedback-list .feedback-btn {
       cursor: pointer;
       margin-top: 10px;
       clear: both;
@@ -265,7 +266,7 @@
       color: #ffffff;
       background-color: #ee554d;
       transition: all 0.3s ease; }
-      .project-repay .repay-list .repay-btn:hover {
+      .project-feedback .feedback-list .feedback-btn:hover {
         background-color: #ec2c22; }
 
 .project-wrap .project-tabs {
@@ -453,83 +454,10 @@
             font-family: "FontAwesome";
             content: ""; }
 
-.content-style h1, .content-style h2, .content-style h3, .content-style h4 {
-  color: #111111;
-  font-weight: 400; }
-
-.content-style h1, .content-style h2, .content-style h3, .content-style h4, .content-style h5, .content-style p {
-  margin-bottom: 18px;
-  padding: 0; }
-
-.content-style p {
-  text-indent: 2em; }
-
-.content-style h1 {
-  font-size: 48px; }
-
-.content-style h2 {
-  font-size: 36px; }
-
-.content-style h3 {
-  font-size: 24px; }
-
-.content-style h4 {
-  font-size: 21px; }
-
-.content-style h5 {
-  font-size: 18px; }
-
-.content-style a {
-  color: #0099ff;
-  margin: 0;
-  padding: 0;
-  vertical-align: baseline; }
-
-.content-style a:hover {
-  text-decoration: none;
-  color: #ff6600; }
-
-.content-style a:visited {
-  color: purple; }
-
-.content-style ul, .content-style ol {
-  padding: 0;
-  margin: 0;
-  margin-left: 20px;
-  margin-bottom: 10px; }
-
-.content-style ul li {
-  list-style: disc; }
-
-.content-style ol li {
-  list-style: decimal; }
-
-.content-style li {
-  line-height: 24px; }
-
-.content-style li ul, .content-style li ul {
-  margin-left: 24px; }
-
-.content-style p, .content-style ul, .content-style ol {
-  font-size: 16px;
-  line-height: 24px;
-  max-width: 540px; }
-
-.content-style hr {
-  width: 540px;
-  text-align: left;
-  margin: 0 auto 0 0;
-  color: #999; }
-
-.content-style img {
-  display: block;
-  margin: auto;
-  margin-bottom: 10px; }
-
 @media screen and (max-width: 1400px) {
   .project-intro, .project-wrap {
     width: 73%; }
-  .project-initiator, .project-repay {
+  .project-initiator, .project-feedback {
     width: 25%; }
   .project-initiator .initiator-header .initiator-avatar {
     padding-top: 50px;
@@ -543,7 +471,7 @@
 @media screen and (max-width: 1100px) {
   .project-intro, .project-wrap {
     width: 100%; }
-  .project-initiator, .project-repay {
+  .project-initiator, .project-feedback {
     width: 100%; }
   .project-initiator {
     position: relative;

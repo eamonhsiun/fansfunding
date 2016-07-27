@@ -1,6 +1,6 @@
 
-  <script src="static/js/lib/vue.js"></script>
-  <script src="static/js/ajax.min.js"></script>
+  <script src="static/js/lib/vue.min.js"></script>
+  <script src="static/js/lib/ajax.min.js"></script>
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
@@ -48,7 +48,7 @@
     <script src="static/js/lib/cropperjs/cropper.min.js"></script>
     <script type="text/javascript" src="static/js/lib/simditor/module.min.js"></script>
     <script type="text/javascript" src="static/js/lib/simditor/hotkeys.min.js"></script>
-    <script type="text/javascript" src="static/js/lib/simditor/uploader.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/simditor/uploader.js"></script>
     <script type="text/javascript" src="static/js/lib/simditor/simditor.min.js"></script>
     <script src="static/js/lib/rome/rome.min.js"></script>
     <script src="static/js/initiation-vue.js"></script>
@@ -57,6 +57,11 @@
   @@if( jstype === 'download'){
     <script src="static/js/lib/swiper/swiper.min.js"></script>
     <script src="static/js/download.js"></script>
+  }
+
+  @@if( jstype === 'space'){
+    <script src="static/js/lib/swiper/swiper.min.js"></script>
+    <script src="static/js/space.js"></script>
   }
 
   </body>

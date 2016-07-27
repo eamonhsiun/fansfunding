@@ -2,7 +2,7 @@ var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 var detailLoader = new FFloader($("#project-detail"));
 var commentLoader = new FFloader($("#project-comment"));
-var repayLoader = new FFloader($("#project-repay"));
+var feedbackLoader = new FFloader($("#project-feedback"));
 var projectTab = new FFtab($('.project-tabs'),$('.project-contents'));
 
 //-------------filter---------------
@@ -194,27 +194,27 @@ var vm = new Vue({
       }).then(function (response, xhr) {
         _this.feedbacks.connect = true;
         if(!response.result){
-          repayLoader.endLoad(false,"获取回馈失败");
+          feedbackLoader.endLoad(false,"获取回馈失败");
           _this.feedbacks.status = false;
         }else{
           _this.feedbacks.list = response.data.list;
-          if(_this.feedbacks.length === 0){
-            repayLoader.endLoad(false,"没有相关回报数据");
+          if(_this.feedbacks.list.length === 0){
+            feedbackLoader.endLoad(false,"没有相关回报数据");
           }else{
-            repayLoader.endLoad();
+            feedbackLoader.endLoad();
           }
           _this.feedbacks.status = true;
         }
       }).catch(function (response, xhr) {
         _this.feedbacks.connect = false;
-        repayLoader.endLoad(false, "服务器连接失败");
+        feedbackLoader.endLoad(false, "服务器连接失败");
       }).always(function (response, xhr) {
         // Do something
       });
     },
     sendComment: function(){
       var _this = this;
-      if(this.comments.overflow){
+      if(this.comments.overflow || !this.comments.content){
         return;
       }
       var content = this.comments.content;
@@ -302,7 +302,8 @@ var vm = new Vue({
             _this.isFollowed = true;
           }
         }).catch(function (response, xhr) {
-
+          console.log(response);
+          console.log(xhr);
         }).always(function (response, xhr) {
           // Do something
         });

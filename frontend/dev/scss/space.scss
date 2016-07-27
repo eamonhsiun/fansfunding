@@ -1,0 +1,159 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "theme/variables.scss";
+@import "import/font-awesome.scss";
+
+#user-info{
+  position: relative;
+  .user-header{
+    .user-avatar{
+      // float: left;
+      padding-top: 45px;
+      // padding-left: 25px;
+      // padding-right: 25px;
+      width: 250px;
+      height: 250px;
+      margin: auto;
+      img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .user-info{
+      height: 100%;
+      padding: 25px;
+      box-sizing: border-box;
+      .user-name{
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: $color_text;
+      }
+      .user-intro{
+        color: $color_disabled;
+        font-size: 1.1rem;
+        height: 23px;
+        overflow: hidden;
+        padding-top: 15px;
+      }
+    }
+  }
+  .kit-bottombar-btn{
+    width: 100%;
+  }
+}
+#user-group{
+  width: 30%;
+  float: left;
+  box-sizing: border-box;
+  padding-right: 10px;
+}
+.user-data-list{
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.2rem;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid $color_disabled;
+  &:last-child{
+    border-bottom: 0;
+  }
+  span{
+    float: right;
+    color: $color_red_1;
+  }
+  .user-data-follow, .user-data-fans{
+    float: left;
+    width: 50%;
+    padding-right: 10px;
+    box-sizing: border-box;
+  }
+}
+#content-group{
+  width: 70%;
+  float: left;
+  box-sizing: border-box;
+  padding-left: 10px;
+}
+.space-kit-hint{
+  font-size: 1.2rem;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.space-project-list{
+  width: 100%;
+  height: 140px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $color_disabled;
+  &:after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+  &:last-child{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .project-cover{
+    width: 210px;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    img{
+      min-width: 200px;
+      max-width: 250px;
+      min-height: 120px;
+    }
+  }
+  .project-content{
+    height: 100%;
+    margin-left: 210px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: $color_text;
+    position: relative;
+    .project-title{
+      padding-top: 10px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .project-description{
+      font-size: 1.1rem;
+      padding-top: 15px;
+      height: 60px;
+      overflow: hidden;
+    }
+    .project-detail{
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 20px;
+      .project-detail-info{
+        width: 30%;
+        float: left;
+        &:before{
+          color: $color_red_1;
+          padding-right: 2px;
+        }
+      }
+      .project-target:before, .project-progress:before{
+        @include font_icon_content($fa-var-play);
+      }
+      .project-lefttime:before{
+        @include font_icon_content($fa-var-sun-o);
+      }
+    }
+
+  }
+}
+

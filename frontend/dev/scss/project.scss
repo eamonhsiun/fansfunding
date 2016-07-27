@@ -12,7 +12,7 @@
 .project-intro, .project-initiator{
   height: 500px;
 }
-.project-wrap, .project-repay{
+.project-wrap, .project-feedback{
   height: auto;
 }
 .project-intro, .project-wrap{
@@ -21,7 +21,7 @@
   margin-top: 0;
   overflow: hidden;
 }
-.project-initiator, .project-repay{
+.project-initiator, .project-feedback{
   width: 30%;
   float: right;
   margin-top: 0;
@@ -40,6 +40,7 @@
       img{
         min-width: 100%;
         min-height: 100%;
+        max-width: 140%;
       }
     }
     .intro-right{
@@ -205,10 +206,10 @@
     }
   }
 }
-.project-repay{
+.project-feedback{
   box-sizing: border-box;
   padding: 20px;
-  #repay-errormsg{
+  #feedback-errormsg{
     text-align: center;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -217,15 +218,15 @@
     padding-top: 50px;
     padding-bottom: 50px;
   }
-  .repay-title{
+  .feedback-title{
     font-size: 1.4rem;
     line-height: 3rem;
     font-weight: bold;
   }
-  .repay-num{
+  .feedback-num{
     color: $color_disabled;
   }
-  .repay-list{
+  .feedback-list{
     margin-top: 5px;
     width: 100%;
     border-bottom: 1px solid $color_text;
@@ -237,16 +238,16 @@
       border-bottom: 0;
       padding-bottom: 0;
     }
-    .repay-money{
+    .feedback-money{
       font-size: 1.5rem;
       span{
         padding-left: 5px;
         padding-right: 5px;
       }
     }
-    .repay-detail{
+    .feedback-detail{
       width: 100%;
-      .repay-detail-content{
+      .feedback-detail-content{
         font-size: 1.1rem;
         ul{
           li{
@@ -255,11 +256,11 @@
           }
         }
       }
-      .repay-detail-pics{
-        .repay-detail-pic{
+      .feedback-detail-pics{
+        .feedback-detail-pic{
           margin-top: 10px;
           float: left;
-          margin-right: 20px;
+          margin-right: 10px;
           width: 100px;
           height: 100px;
           img{
@@ -274,7 +275,7 @@
         }
       }
     }
-    .repay-btn{
+    .feedback-btn{
       cursor: pointer;
       margin-top: 10px;
       clear: both;
@@ -522,88 +523,11 @@
   }
 }
 
-
-.content-style{
-  h1, h2, h3, h4 {
-      color: #111111;
-      font-weight: 400;
-  }
-  h1, h2, h3, h4, h5, p {
-      margin-bottom: 18px;
-      padding: 0;
-  }
-  p{
-    text-indent: 2em;
-  }
-  h1 {
-      font-size: 48px;
-  }
-  h2 {
-      font-size: 36px;
-  }
-  h3 {
-      font-size: 24px;
-  }
-  h4 {
-      font-size: 21px;
-  }
-  h5 {
-      font-size: 18px;
-  }
-  a {
-      color: #0099ff;
-      margin: 0;
-      padding: 0;
-      vertical-align: baseline;
-  }
-  a:hover {
-      text-decoration: none;
-      color: #ff6600;
-  }
-  a:visited {
-      color: purple;
-  }
-  ul, ol {
-      padding: 0;
-      margin: 0;
-      margin-left: 20px;
-      margin-bottom: 10px;
-  }
-  ul li{
-    list-style: disc;
-  }
-  ol li{
-    list-style: decimal;
-  }
-  li {
-      line-height: 24px;
-  }
-  li ul, li ul {
-      margin-left: 24px;
-  }
-  p, ul, ol {
-      font-size: 16px;
-      line-height: 24px;
-      max-width: 540px;
-  }
-  hr {
-      width: 540px;
-      text-align: left;
-      margin: 0 auto 0 0;
-      color: #999;
-  }
-  img{
-    display: block;
-    margin: auto;
-    margin-bottom: 10px;
-  }
-}
-
 @media screen and (max-width: 1400px) {
   .project-intro, .project-wrap{
     width: 73%;
   }
-  .project-initiator, .project-repay{
+  .project-initiator, .project-feedback{
     width: 25%;
   }
   .project-initiator{
@@ -626,7 +550,7 @@
   .project-intro, .project-wrap{
     width: 100%;
   }
-  .project-initiator, .project-repay{
+  .project-initiator, .project-feedback{
     width: 100%;
   }
   .project-initiator{

@@ -56,7 +56,7 @@ function getErrorMsg(errCode){
 
   FFaccount.getUserInfo = function () {
     var _this = this;
-    var commonTokenRequest = ajax({
+    var userInfoRequest = ajax({
       method: 'get',
       url: apiUrl + "/user/" + localId + "/info?token=" + localToken,
     }).then(function (response, xhr) {

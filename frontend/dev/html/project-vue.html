@@ -9,9 +9,9 @@
             <img v-bind:src="project.data.cover | resource" alt="">
           </div>
           <div class="intro-right intro-details">
-            <div class="intro-detail" id="target-money">目标金额<p><span v-cloak>{{project.data.targetMoney}}</span>元</p></div>
-            <div class="intro-detail" id="parcent">已筹百分比<p><span v-cloak>{{project.data.sum/project.data.targetMoney}}</span>%</p></div>
-            <div class="intro-detail" id="lefttime">剩余天数<p><span v-cloak>{{ getLeftTime(new Date(), project.data.targetDeadline) }}</span></p></div>
+            <div class="intro-detail" id="target-money">目标金额<p><span v-cloak>{{project.data.targetMoney | currency '￥' 0}}</span>元</p></div>
+            <div class="intro-detail" id="parcent">已筹百分比<p><span v-cloak>{{project.data.sum/project.data.targetMoney | currency '' 2}}</span>%</p></div>
+            <div class="intro-detail" id="lefttime">剩余时间<p><span v-cloak>{{ getLeftTime(new Date(), project.data.targetDeadline) }}</span></p></div>
             <div class="intro-status">众筹中</div>
           </div>
         </div>
@@ -101,26 +101,26 @@
           </div>
         </div>
       </div>
-      <div class="project-repay content-block" id="project-repay">
-        <div class="loader FFloader" id="repay-loader">
+      <div class="project-feedback content-block" id="project-feedback">
+        <div class="loader FFloader" id="feedback-loader">
           <div class="loader-inner triangle-skew-spin">
             <div></div>
           </div>
         </div>
-        <div id="repay-errormsg" class="errormsg FFerrormsg">没有回报信息</div>
+        <div id="feedback-errormsg" class="errormsg FFerrormsg">没有回报信息</div>
         <ul>
-          <li class="repay-list" v-for="feedback in feedbacks.list">
-            <div class="repay-money">支持<span>{{feedback.limitation}}</span></div>
-            <div class="repay-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
-            <div class="repay-detail">
-              <div class="repay-detail-content">{{feedback.description}}</div>
-              <div class="repay-detail-pics">
-                <div class="repay-detail-pic" v-for="image in feedback.images">
+          <li class="feedback-list" v-for="feedback in feedbacks.list">
+            <div class="feedback-money">支持<span>{{feedback.limitation}}</span></div>
+            <div class="feedback-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
+            <div class="feedback-detail">
+              <div class="feedback-detail-content">{{feedback.description}}</div>
+              <div class="feedback-detail-pics">
+                <div class="feedback-detail-pic" v-for="image in feedback.images">
                   <img v-bind:src="image | resource" alt="">
                 </div>
               </div>
             </div>
-            <div class="repay-btn">前往支持</div>
+            <div class="feedback-btn">前往支持</div>
           </li>
         </ul>
       </div>

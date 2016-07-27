@@ -1,0 +1,160 @@
+@charset "UTF-8";
+.kit-block, .content-block {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }
+
+.kit-block, .content-block {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
+.kit-block, .content-block {
+  border-radius: 8px; }
+
+.kit-block, .content-block {
+  overflow: hidden; }
+
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.content-wrap {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  width: 100%; }
+
+.kit-wrap {
+  clear: both; }
+
+.kit-block, .content-block {
+  background-color: #ffffff;
+  margin: 20px auto;
+  box-sizing: border-box;
+  position: relative; }
+
+.content-block {
+  width: 100%; }
+
+.kit-content {
+  box-sizing: border-box;
+  padding: 20px; }
+
+.block-title {
+  font-size: 2rem; }
+  .block-title:before {
+    display: inline-block;
+    content: "";
+    width: 16px;
+    height: 28px;
+    background-image: url(../img/Title-01.png);
+    background-size: cover;
+    margin-right: 5px;
+    margin-bottom: -4px; }
+
+.loader {
+  height: 25px;
+  width: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin: auto; }
+  .loader.loaded {
+    display: none; }
+  .loader .loader-inner {
+    width: 100%;
+    height: 100%; }
+
+.kit-tabs ul {
+  width: 100%;
+  height: 55px;
+  line-height: 55px;
+  box-sizing: border-box; }
+  .kit-tabs ul .kit-tab {
+    font-size: 1.3rem;
+    text-align: center;
+    width: 140px;
+    float: left;
+    height: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-bottom: 0;
+    transition: all 0.15s ease; }
+    .kit-tabs ul .kit-tab:before {
+      color: #ee554d;
+      font-size: 1.4rem;
+      padding-right: 8px; }
+    .kit-tabs ul .kit-tab:hover, .kit-tabs ul .kit-tab.FFtab-active {
+      border-bottom: 4px solid #ee554d; }
+
+.kit-title {
+  height: 55px;
+  line-height: 55px;
+  width: 100%;
+  background-color: #ee554d;
+  color: #ffffff;
+  box-sizing: border-box;
+  padding: 0 30px; }
+  .kit-title .kit-title-left {
+    font-size: 1.4rem; }
+    .kit-title .kit-title-left:before {
+      font-family: "FontAwesome";
+      content: "";
+      padding-right: 10px; }
+  .kit-title .kit-title-right {
+    float: right;
+    font-size: 1.1rem; }
+  .kit-title a {
+    color: #ffffff; }
+
+.kit-bottombar {
+  height: 55px;
+  width: 100%;
+  line-height: 55px;
+  text-align: center;
+  font-size: 1.4rem;
+  background-color: #ee554d; }
+  .kit-bottombar .kit-bottombar-btn {
+    width: 50%;
+    height: 100%;
+    color: #ffffff;
+    background-color: #ee554d;
+    cursor: pointer;
+    z-index: 99;
+    float: left;
+    transition: all 0.3s ease; }
+    .kit-bottombar .kit-bottombar-btn:before {
+      font-family: "FontAwesome";
+      content: "";
+      padding-right: 10px; }
+    .kit-bottombar .kit-bottombar-btn:hover {
+      background-color: #ec2c22; }
+    .kit-bottombar .kit-bottombar-btn.active, .kit-bottombar .kit-bottombar-btn.active:hover {
+      color: #ee554d;
+      background-color: #ffffff; }

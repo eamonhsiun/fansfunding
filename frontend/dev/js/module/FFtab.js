@@ -17,9 +17,9 @@
       this.callback = option.callback;
     }
     if(this.tabs.length !== this.contents.length){
-      throw new Error("tab or tabcontent are not enough");
+      console.error("tab or tabcontent are not enough");
     }
-    var length = this.tabs.length;
+    var length = this.tabs.length > this.contents.length ? this.contents.length : this.tabs.length;
     var _this = this;
     for(var i = 0; i < length; i++){
       this.tabs[i].addEventListener("click", function(num){

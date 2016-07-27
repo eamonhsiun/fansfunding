@@ -8,19 +8,6 @@
   margin-top: 20px;
   margin-bottom: 30px;
 }
-.block-title{
-  font-size: 2rem;
-  &:before{
-    display: inline-block;
-    content: "";
-    width: 16px;
-    height: 28px;
-    background-image: url(../img/Title-01.png);
-    background-size: cover;
-    margin-right: 5px;
-    margin-bottom: -4px;
-  }
-}
 .download-content{
   width: 100%;
   margin-top: 20px;

@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import com.fansfunding.fan.project.utils.CheckUtils;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.FeedbackCode;
 import com.fansfunding.internal.Logout;
-import com.fansfunding.internal.SearchProject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -58,7 +56,7 @@ public class SettingActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_LOGOUT_SUCCESS =400;
 
     //httpclient
-    private OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
 
     private AlertDialog dialog_waitting;
 
@@ -162,17 +160,16 @@ public class SettingActivity extends AppCompatActivity {
 
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_setting);
         setSupportActionBar(toolbar);
-        Intent intent=getIntent();
 
         toolbar.setTitleTextColor(Color.WHITE);
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("设置");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
+        //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
 
 
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         //登出按钮
         Button btn_setting_logout=(Button)findViewById(R.id.btn_setting_logout);
@@ -264,7 +261,7 @@ public class SettingActivity extends AppCompatActivity {
                 return;
             }
 
-            System.out.println("token="+token);
+            OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
             FormBody formBody=new FormBody.Builder()
                     .add("token",token)
@@ -381,6 +378,8 @@ public class SettingActivity extends AppCompatActivity {
                 tiet_system_feedback_content.setError("请输入您的回馈");
                 return;
             }
+
+            OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
             FormBody.Builder builder=new FormBody.Builder()
                     .add("content",content)

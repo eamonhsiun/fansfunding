@@ -1,10 +1,8 @@
 package com.fansfunding.fan;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,7 +11,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -28,7 +25,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,8 +37,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -104,7 +98,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private static final String[] sexString={"性别","女","男"};
 
     //httpclient
-    OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
 
 
     //用来存储选择的头像的文件
@@ -264,7 +258,7 @@ public class UserInfoActivity extends AppCompatActivity {
         });
         spinner.setVisibility(View.VISIBLE);
 
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         //获取并设置修改头像按钮
         Button btn_user_info_head_change=(Button)findViewById(R.id.btn_user_info_head_change);
@@ -466,8 +460,16 @@ public class UserInfoActivity extends AppCompatActivity {
             return;
         }
 
+        //如果昵称过长
+        if(new_nickname.length()>20){
+            if(tiet_user_info_nickname!=null){
+                tiet_user_info_nickname.setError("昵称应小于20位");
+            }
+            return;
+        }
+
         //如果邮箱填写错误
-        if(new_email.equals("")==false&&CheckUtils.isEmail(new_email)==false){
+        if(new_email.equals("")==false&& CheckUtils.isEmail(new_email)==false){
             if(tiet_user_info_email!=null){
                 tiet_user_info_email.setError("请输入正确的邮箱格式");
             }
@@ -491,6 +493,9 @@ public class UserInfoActivity extends AppCompatActivity {
         if(sex!=-1){
             builder.add("sex",String.valueOf(sex));
         }
+
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
         FormBody formBody=builder.build();
 
         Request request=new Request.Builder()
@@ -600,8 +605,10 @@ public class UserInfoActivity extends AppCompatActivity {
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
         int userId=share.getInt("id",0);
 
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
         RequestBody requestBodyTest= FormBody.create(MediaType.parse("image/jpeg"),tempFile);
-        Log.i("TAG","file路径shangchuan:"+tempFile.getAbsolutePath());
+
         RequestBody requestBody=new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", tempFile.getName(),requestBodyTest)
@@ -737,8 +744,8 @@ public class UserInfoActivity extends AppCompatActivity {
                 .create();
         dialog_waitting.setCancelable(false);
         //dialog_waitting.show();
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
-        httpClient=new OkHttpClient();
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
         int userId=share.getInt("id",0);
         String token=share.getString("token","token");

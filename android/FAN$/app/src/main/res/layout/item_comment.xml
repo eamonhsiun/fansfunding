@@ -19,13 +19,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_project_detail_dynamic_head"
+        android:layout_toLeftOf="@+id/tv_news_detail_comment_tine"
         android:textColor="@color/colorPublishGrey" />
     <!--评论时间-->
     <TextView
         android:id="@+id/tv_news_detail_comment_tine"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tv_news_detail_commenter_name"
+        android:layout_alignParentRight="true"
         android:gravity="right"
         android:textColor="@color/colorLabelGrey"/>
     <!--评论内容-->
@@ -39,12 +40,12 @@
         android:textColor="@color/colorPublishGrey"
         android:paddingTop="@dimen/content_padding"/>
     <!--分割线-->
-    <View
-        android:layout_width="match_parent"
+    <include android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorDividerGrey"
         android:layout_below="@id/tv_news_detail_comment"
-        android:layout_marginLeft="@dimen/item_content_padding_left_with_parent"
+        layout="@layout/divider"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="@dimen/layout_padding"/>
+
 
 </RelativeLayout>

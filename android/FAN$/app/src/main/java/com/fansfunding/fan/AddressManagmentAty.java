@@ -101,7 +101,6 @@ public class AddressManagmentAty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pick_area(v);
-                Log.i("AddressManagment", "FUck地址选择器");
             }
         });
 
@@ -266,12 +265,15 @@ public class AddressManagmentAty extends AppCompatActivity {
                     AddressActivity.mDataDetial.setName(dataDetialFuck.getName());
                     AddressActivity.mDataDetial.setPhone(dataDetialFuck.getPhone());
                     AddressActivity.mDataDetial.setPost_code(dataDetialFuck.getPost_code());
+                    AddressActivity.mDataDetial.setAddress(dataDetialFuck.getAddress());
                     break;
                 default:
                     break;
             }
-            Intent intent = new Intent(AddressManagmentAty.this, AddressActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(AddressManagmentAty.this, AddressActivity.class);
+            //startActivity(intent);
+            this.finish();
+
         }else {
             Toast.makeText(AddressManagmentAty.this, "请输入完整的收获信息", Toast.LENGTH_LONG).show();
         }

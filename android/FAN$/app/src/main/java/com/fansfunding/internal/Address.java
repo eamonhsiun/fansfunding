@@ -80,6 +80,7 @@ public class Address implements Serializable{
         //是否是默认地址
         private int isDefault;
 
+
         public String getAddress() {
             return address;
         }

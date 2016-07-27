@@ -14,6 +14,10 @@
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.Holo.ProgressBar.Large"
         />
+   <!-- <View
+        android:id="@+id/view_waitting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>-->
 
     <!--style="@android:style/Widget.ProgressBar.Inverse"-->
 </RelativeLayout>

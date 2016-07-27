@@ -79,7 +79,7 @@
             android:text="免费注册"/>
         <!--找回密码-->
         <TextView
-            android:id="@+id/tv_forget_password"
+            android:id="@+id/tv_support_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

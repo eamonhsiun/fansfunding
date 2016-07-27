@@ -35,7 +35,9 @@
     <string name="activity_reset_password">android.intent.action.FANS.RESETPASSWORD</string>
     <string name="activity_user_info">android.intent.action.FANS.USERINFO</string>
     <string name="activity_project_create">android.intent.action.FANS.CREATEPROJECT</string>
-
+    <string name="activity_my_order">android.intent.action.FANS.USER.ORDER.ACTIVITY.MYORDER</string>
+    <string name="activity_publish_dynamic">android.intent.action.FANS.PUBLISHDYNAMIC</string>
+    <string name="activity_big_picture">android.intent.action.FANS.UTILS.BIGPICTURE</string>
     <!--查看所有评论-->
     <string name="activity_project_detail_comment">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILCOMMENT</string>
     <!--发表评论-->
@@ -46,7 +48,7 @@
 
 
     <!--api访问路径-->
-    <string name="url_checker">http://api.immortalfans.com:8080/common/newCheckerT</string><!---->
+    <string name="url_checker">http://api.immortalfans.com:8080/common/newChecker</string><!---->
     <string name="url_new_user">http://api.immortalfans.com:8080/userbasic/newUser</string><!---->
     <string name="url_login_by_phone">http://api.immortalfans.com:8080/userbasic/login</string><!---->
     <string name="url_forget_Pwd">http://api.immortalfans.com:8080/userbasic/forgetPwd</string><!---->
@@ -60,6 +62,8 @@
     <string name="url_search_project">http://api.immortalfans.com:8080/search/project</string>
     <string name="url_search_user">http://api.immortalfans.com:8080/search/user</string>
     <string name="url_sys_feedback">http://api.immortalfans.com:8080/sys/feedback</string>
+    <string name="url_alipay_mobile">http://api.immortalfans.com:8080/pay/mobile</string>
+    <string name="url_dynamic_image">http://api.immortalfans.com:8080/project/1/</string>
 
     <!--Sharepreference名称-->
 

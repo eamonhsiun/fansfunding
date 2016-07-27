@@ -54,7 +54,7 @@ public class SearchProjectFragment extends Fragment {
 
 
     //httpclient
-    private OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
 
     //每次获取的数量
     private final int rows=20;
@@ -154,7 +154,7 @@ public class SearchProjectFragment extends Fragment {
         if (getArguments() != null) {
             keyword=getArguments().getString("keyword");
         }
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         adapter=new SearchProjectAdapter(this.getActivity());
     }
 
@@ -227,6 +227,8 @@ public class SearchProjectFragment extends Fragment {
 
     //搜索项目
     private void SearchProject(String keyword, int page, int rows){
+
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         Request request=new Request.Builder()
                 .get()

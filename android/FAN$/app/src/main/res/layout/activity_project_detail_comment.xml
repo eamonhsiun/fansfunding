@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        app:theme="@style/toolbar_white_theme"
         android:titleTextColor="@color/colorWhite">
 
     </android.support.v7.widget.Toolbar>
@@ -33,5 +34,5 @@
         android:layout_marginRight="@dimen/layout_padding"
         app:backgroundTint="@color/colorButtonRed"
         android:layout_marginBottom="56dp"
-        android:src="@drawable/add"/>
+        android:src="@drawable/fab_add"/>
 </RelativeLayout>

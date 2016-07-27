@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fansfunding.PullListView.XListView;
@@ -18,6 +19,7 @@ import com.fansfunding.fan.R;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetailReward;
 import com.fansfunding.internal.ProjectInfo;
+import com.fansfunding.verticalslide.CustListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -65,7 +67,7 @@ public class ProjectDetailRewardFragment extends Fragment {
     //获取的回报信息
     private ProjectDetailReward reward;
     //展示回报列表
-    private XListView lv_project_detail_reward;
+    private CustListView lv_project_detail_reward;
 
     //列表适配器
     private ProjectDetailRewardAdapter adapter;
@@ -143,24 +145,7 @@ public class ProjectDetailRewardFragment extends Fragment {
 
         adapter=new ProjectDetailRewardAdapter(getActivity());
 
-        lv_project_detail_reward=(XListView)rootView.findViewById(R.id.lv_project_detail_reward);
-        lv_project_detail_reward.setAutoLoadEnable(false);
-        lv_project_detail_reward.setPullLoadEnable(false);
-        lv_project_detail_reward.setPullRefreshEnable(false);
-        lv_project_detail_reward.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-        lv_project_detail_reward.setXListViewListener(new XListView.IXListViewListener() {
-            @Override
-            public void onRefresh() {
-                if(isFinishRequest==true){
-                    getProjectDetailReward();
-                }
-            }
-
-            @Override
-            public void onLoadMore() {
-
-            }
-        });
+        lv_project_detail_reward=(CustListView)rootView.findViewById(R.id.lv_project_detail_reward);
 
         lv_project_detail_reward.setAdapter(adapter);
         getProjectDetailReward();
@@ -183,9 +168,9 @@ public class ProjectDetailRewardFragment extends Fragment {
     //停止更新的动画
     private void endRefresh(){
         isFinishRequest=true;
-        lv_project_detail_reward.stopRefresh();
-        lv_project_detail_reward.stopLoadMore();
-        lv_project_detail_reward.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        //lv_project_detail_reward.stopRefresh();
+        //lv_project_detail_reward.stopLoadMore();
+        //lv_project_detail_reward.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
 
     private void getProjectDetailReward(){

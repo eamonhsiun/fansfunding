@@ -1,13 +1,18 @@
 package com.fansfunding.fan.project.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.MyGridView;
 import com.fansfunding.internal.ProjectDetailDynamic;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +33,8 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
     //数据
     private List<ProjectDetailDynamic.ProjectDynamic> list;
 
-    //
+    //每个item里的图片展示的gridview的适配器
+
     public ProjectDetailDynamicAdapter(Activity context){
         this.context=context;
         list=new LinkedList<ProjectDetailDynamic.ProjectDynamic>();
@@ -86,6 +92,13 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
         TextView tv_project_detail_dynamic_content=(TextView)rootView.findViewById(R.id.tv_project_detail_dynamic_content);
 
 
+        //图片展示适配器
+        ProjectDetailDynamicPhotoAdapter photoAdapter=new ProjectDetailDynamicPhotoAdapter(context);
+
+        //动态图片展示
+        MyGridView gv_project_detail_dynamic_photo_list=(MyGridView)rootView.findViewById(R.id.gv_project_detail_dynamic_photo_list);
+        gv_project_detail_dynamic_photo_list.setAdapter(photoAdapter);
+
         if(list.get(position)==null) {
             return null;
         }
@@ -108,6 +121,36 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
             //初始化动态内容
             if(list.get(position).getContent()!=null){
                 tv_project_detail_dynamic_content.setText((list.get(position).getContent()));
+            }
+
+            if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0){
+                for(int i=0;i<list.get(position).getImages().size();i++){
+                    //大于四张图则剩下的都不展示
+                    if(i>=4){
+                        break;
+                    }
+                    if(list.get(position).getImages().get(i)!=null&&list.get(position).getImages().get(i).equals("")==false){
+                        photoAdapter.addItem(list.get(position).getImages().get(i));
+                    }
+                }
+
+                switch (photoAdapter.getCount()){
+                    case 1:
+                        gv_project_detail_dynamic_photo_list.setNumColumns(1);
+                        break;
+                    case 2:
+                        gv_project_detail_dynamic_photo_list.setNumColumns(2);
+                        break;
+                    case 3:
+                        gv_project_detail_dynamic_photo_list.setNumColumns(3);
+                        break;
+                    case 4:
+                        gv_project_detail_dynamic_photo_list.setNumColumns(2);
+                        break;
+                }
+
+
+                photoAdapter.notifyDataSetChanged();
             }
             return rootView;
         }

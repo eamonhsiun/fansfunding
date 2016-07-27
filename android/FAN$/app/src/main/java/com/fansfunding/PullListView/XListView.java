@@ -235,7 +235,7 @@ public class XListView extends ListView implements OnScrollListener {
         mHeader.setVisibleHeight(mHeaderHeight);
 
         if (mEnablePullRefresh && !mPullRefreshing) {
-            // update the arrow image not refreshing
+            // update the arrow_back image not refreshing
             if (mHeader.getVisibleHeight() > mHeaderHeight) {
                 mHeader.setState(XHeaderView.STATE_READY);
             } else {
@@ -259,7 +259,7 @@ public class XListView extends ListView implements OnScrollListener {
         mHeader.setVisibleHeight((int) delta + mHeader.getVisibleHeight());
 
         if (mEnablePullRefresh && !mPullRefreshing) {
-            // update the arrow image unrefreshing
+            // update the arrow_back image unrefreshing
             if (mHeader.getVisibleHeight() > mHeaderHeight) {
                 mHeader.setState(XHeaderView.STATE_READY);
             } else {

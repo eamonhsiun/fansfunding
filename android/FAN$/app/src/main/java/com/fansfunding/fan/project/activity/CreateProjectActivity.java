@@ -1,49 +1,37 @@
 package com.fansfunding.fan.project.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.fansfunding.fan.R;
+import com.fansfunding.fan.project.entity.ResponseItem;
+import com.fansfunding.fan.project.entity.Reward;
 import com.fansfunding.fan.project.fragment.CreateProjectAddRewordFragment;
 import com.fansfunding.fan.project.fragment.CreateProjectFragment;
 import com.fansfunding.fan.project.fragment.CreateProjectRewordFragment;
-import com.fansfunding.fan.project.utils.MotionLessViewPager;
-import com.fansfunding.fan.project.adapter.ProjectCreateAdapter;
-import com.fansfunding.fan.R;
+import com.fansfunding.fan.project.utils.BitmapUtils;
+import com.fansfunding.fan.project.utils.MyDialog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -59,122 +47,299 @@ import okhttp3.Response;
  *
  */
 
-public class CreateProjectActivity extends AppCompatActivity {
-    private static final int CREATE_SUCCESS = 1001;
-    private static final int SERVER_ERROR = 1002;
-    private static final int SEND_SUCCEED = 1003;
-    private static final int CREATE_FINISH = 1004;
-    private static final int ADD_FEEDBACK_FINISHED = 1005;
-    private static final int SEND_RESOURCES = 1006;
-    private static final int SEND_PROJECT_COVER_FINISH = 1007;
-    private static final int SEND_FEEDBACK_IMAGES_FINISHED= 1008;
-    private static String FILE_URI;
-    private static int reward_list_state=0;
-    private static List<Map<String,Object>> reward_list=new ArrayList<>();
-    public static String target_time;
-    public static int target_money;
-    public static String project_name;
-    public static String project_desc;
-    public static boolean address_is_need;
+public class CreateProjectActivity extends CreateProjectActivityBase {
+    private boolean isPublishProject =false;
+    private boolean isPublishReward=false;
 
+    private final int SERVER_ERROR=1000;
+    private final int PUBLISH_PROJECT=1010;
+    private final int PUBLISH_PROJECT_FINISHED=1011;
+    private final int PUBLISH_REWARD=1012;
+    private final int PUBLISH_REWARD_FINISHED=1013;
+    private final int PUBLISH_REWARD_IMAGE=1014;
+    private final int PUBLISH_PROJECT_IMAGES_FINISH =1015;
+
+    private  List<Map<String,Object>> rewardList=new ArrayList<>();
+    private ArrayList<String> projectFileList = new ArrayList<>();
+    private ArrayList<String> rewardFileList = new ArrayList<>();
+    private int rewardPublishState=-1;
+    private String projectDesc;
+    private String projectName;
+    private int targetMoney;
+    private String targetTime;
+    private OkHttpClient httpClient;
+    private MyDialog dialog;
+
+    private static CreateProjectActivity createProjectActivity;
+    private int projectId;
+
+    public static CreateProjectActivity getInstance(){
+        return createProjectActivity;
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createProjectActivity=this;
+        httpClient = new OkHttpClient();
+        View view = getWindow().peekDecorView();
+        //关闭软键盘
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        File destDir = new File("/sdcard/fans");
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case android.R.id.home:
+                if(this.getPageState()==0){
+                    finish();
+                }else if(this.getPageState()==1){
+                    finish();
+                }else if(this.getPageState()==2){
+                    //添加回馈
+                    CreateProjectActivity.this.setPageState(1);
+                }
+                break;
+
+            case R.id.menu_create_next:
+                if(this.getPageState()==0){
+                    projectDesc= CreateProjectFragment.getInstance().getEtProjectDesc();
+                    projectName=CreateProjectFragment.getInstance().getEtProjectTitle();
+                    targetMoney=CreateProjectFragment.getInstance().getEtTargetMoney();
+                    targetTime= CreateProjectFragment.getInstance().getTvTargetTime();
+                    if(projectDesc.equals("")||projectName.equals("")||(targetMoney==0)||targetTime.equals("")){
+                        Toast.makeText(CreateProjectActivity.this,"(*^__^*) ……数据不能为空嘛",Toast.LENGTH_LONG).show();
+                    }else if(CreateProjectFragment.getInstance().getPhotoList().size()==0){
+                        Toast.makeText(CreateProjectActivity.this,"请添加几张封面图片",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        if(!isPublishProject){
+                            isPublishProject=true;
+                            handler.sendEmptyMessage(PUBLISH_PROJECT);
+                        }
+
+                    }
+                }else if(this.getPageState()==1){
+                    if(rewardList.size()==0){
+                        Toast.makeText(CreateProjectActivity.this,"(*^__^*) …很抱歉数据不能为空，请重新设置",Toast.LENGTH_LONG).show();
+                    }else{
+                        if(!isPublishReward){
+                            isPublishReward=true;
+                            handler.sendEmptyMessage(PUBLISH_REWARD_IMAGE);
+                        }
+
+                    }
+                }else if(this.getPageState()==2){
+                    //添加一个回馈
+                    Map<String,Object> mapItem = new HashMap<>();
+                    String supportMoney=CreateProjectAddRewordFragment.getInstance().getSupportMoney();
+                    String content=CreateProjectAddRewordFragment.getInstance().getRewardContent();
+                    Reward reward = new Reward();
+                    reward.setPhotoList(CreateProjectAddRewordFragment.getInstance().getPhotoList());
+                    if(supportMoney.equals("")||content.equals("")||(reward.getPhotoList().size()==0)){
+                        Toast.makeText(CreateProjectActivity.this,"(*^__^*) …很抱歉数据不能为空，请重新设置",Toast.LENGTH_LONG).show();
+                    }else{
+                        CreateProjectAddRewordFragment.getInstance().ClearSupportMoney();
+                        CreateProjectAddRewordFragment.getInstance().ClearRewardContent();
+                        CreateProjectAddRewordFragment.getInstance().getAndClearPhotoList();
+                        reward.setSupportMoney(Double.parseDouble(supportMoney));
+                        reward.setContent(content);
+                        mapItem.put("msg_name","支持金额： "+ supportMoney);
+                        mapItem.put("msg_content", content);
+                        mapItem.put("msg_extra",reward);
+                        addItem(mapItem);
+                        CreateProjectActivity.this.setPageState(1);
+                    }
+
+                }
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+
+    public List<Map<String,Object>> getRewardList(){
+        return rewardList;
+    }
+
+    public void addItem(Map<String, Object> mapItem) {
+        rewardList.add(mapItem);
+        CreateProjectRewordFragment.getInstance().refreshAdapter();
+    }
+    public void removeItem(int index) {
+        rewardList.remove(index);
+        CreateProjectRewordFragment.getInstance().refreshAdapter();
+    }
 
 
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch(msg.what){
-
                 case SERVER_ERROR:
-                    if(CreateProjectActivity.this.isFinishing()==true){
-                        break;
+                    if(CreateProjectActivity.this.isFinishing()!=true) {
+                        Toast.makeText(CreateProjectActivity.this, "服务器错误", Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(CreateProjectActivity.this,"服务器响应失败，请重试",Toast.LENGTH_LONG).show();
-                    break;
-                case SEND_SUCCEED:
-                    if(CreateProjectActivity.this.isFinishing()==true){
-                        break;
-                    }
-                    Toast.makeText(CreateProjectActivity.this,"发起成功",Toast.LENGTH_LONG).show();
                     CreateProjectActivity.this.finish();
                     break;
-                case CREATE_FINISH:
-                    if(CreateProjectActivity.this.isFinishing()==false){
-                        Toast.makeText(CreateProjectActivity.this,"项目上传成功...",Toast.LENGTH_LONG).show();
-                        Toast.makeText(CreateProjectActivity.this,"回馈图片上传中...",Toast.LENGTH_LONG).show();
-                        break;
+                case PUBLISH_PROJECT:
+                    if(CreateProjectActivity.this.isFinishing()!=true) {
+                        dialog=new MyDialog(CreateProjectActivity.this,R.style.Custom);
+                        dialog.show();
+                        //Toast.makeText(CreateProjectActivity.this, "宝贝儿，正在上传请稍等...", Toast.LENGTH_SHORT).show();
                     }
-                    sendFeedbackImages();
-                    break;
-                case ADD_FEEDBACK_FINISHED:
-                    Toast.makeText(CreateProjectActivity.this,"回馈"+reward_list_state+"上传成功",Toast.LENGTH_LONG).show();
-                    reward_list_state++;
-                    if(reward_list_state<reward_list.size()) {
-                        sendFeedBack(reward_list_state);
+                    if(CreateProjectFragment.getInstance().getPhotoList().size()!=0){
+                        sendImages();
                     }else{
-                        handler.sendEmptyMessage(SEND_SUCCEED);
+                        sendProject();
                     }
                     break;
-                case SEND_RESOURCES:
-                    if(CreateProjectActivity.this.isFinishing()==false) {
-                        Toast.makeText(CreateProjectActivity.this, "封面上传中...", Toast.LENGTH_LONG).show();
-                    }
-                    sendImages();
-                    break;
-                case SEND_PROJECT_COVER_FINISH:
-                    if(CreateProjectActivity.this.isFinishing()==false) {
-                        Toast.makeText(CreateProjectActivity.this, "封面上传成功", Toast.LENGTH_LONG).show();
-                    }
+                case PUBLISH_PROJECT_IMAGES_FINISH:
                     sendProject();
                     break;
-                case SEND_FEEDBACK_IMAGES_FINISHED:
-                    if(reward_list_state<reward_list.size()){
-                        sendFeedBack(reward_list_state);
+                case PUBLISH_PROJECT_FINISHED:
+                    if(CreateProjectActivity.this.isFinishing()!=true) {
+                        dialog.dismiss();
+                        isPublishProject=false;
+                        Toast.makeText(CreateProjectActivity.this, "发起项目成功，请添加您的回馈方式", Toast.LENGTH_LONG).show();
+                    }
+                    CreateProjectActivity.this.setPageState(1);
+                    break;
+
+                case PUBLISH_REWARD:
+                    if(CreateProjectActivity.this.isFinishing()!=true) {
+                    }
+                    sendReward((Reward) rewardList.get(rewardPublishState).get("msg_extra"));
+                    break;
+                case PUBLISH_REWARD_IMAGE:
+                    dialog=new MyDialog(CreateProjectActivity.this,R.style.Custom);
+                    dialog.show();
+                    rewardPublishState++;
+                    if(rewardPublishState<rewardList.size()){
+                        sendRewardImages((Reward) rewardList.get(rewardPublishState).get("msg_extra"));
+                    }else{
+                        sendEmptyMessage(PUBLISH_REWARD_FINISHED);
                     }
                     break;
+                case PUBLISH_REWARD_FINISHED:
+                    if(CreateProjectActivity.this.isFinishing()!=true) {
+                        dialog.dismiss();
+                        isPublishReward=false;
+                        Toast.makeText(CreateProjectActivity.this, "项目发布成功", Toast.LENGTH_SHORT).show();
+                    }
+                    CreateProjectActivity.this.finish();
+                    break;
                 default:
-                    super.handleMessage(msg);
                     break;
             }
-
         }
     };
 
-
-
-    private void sendFeedbackImages() {
-        RequestBody requestBodyTest = FormBody.create(MediaType.parse("image/jpeg"), tempFile);
-        Log.i("TAG","TEMPFILE:"+tempFile.getAbsolutePath());
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("files", tempFile.getName(), requestBodyTest)
+    private void sendReward(Reward reword) {
+        double targetMoney=reword.getSupportMoney();
+        String content = reword.getContent();
+        String rewardPhoto="";
+        for(String s:rewardFileList){
+            rewardPhoto+=s;
+            rewardPhoto+=",";
+        }
+        Log.e("TEST2","rewardPhoto "+rewardPhoto);
+        FormBody formBody=new FormBody.Builder()
+                .add("title", "支持金额： "+targetMoney)
+                .add("description",content)
+                .add("limitation",targetMoney+"")
+                .add("images",rewardPhoto)
                 .build();
         Request request = new Request.Builder()
+                .post(formBody)
+                .url(CreateProjectActivity.this.getString(R.string.url_add_feedback)+projectId+"/feedbacks/")
+                .build();
+
+        httpClient = new OkHttpClient();
+        Call call = httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {}
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e("TEST","onResponse "+response.toString());
+                Looper.prepare();
+                if(response==null||response.isSuccessful()==false){
+                    handler.sendEmptyMessage(SERVER_ERROR);
+                }else{
+                    String str_response=response.body().string();
+                    Gson gson=new GsonBuilder().create();
+                    ResponseItem item = new ResponseItem();
+                    item=gson.fromJson(str_response,item.getClass());
+                    Log.e("TEST2","onResponse "+str_response);
+                    if(item.getErrCode()!=200){
+                        handler.sendEmptyMessage(SERVER_ERROR);
+                    }else{
+                        //完成时调用
+                        handler.sendEmptyMessage(PUBLISH_REWARD_IMAGE);
+                    }
+                }
+
+                Looper.loop();
+                return;
+            }
+        });
+
+    }
+
+     private void sendRewardImages(Reward reword) {
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        for(PhotoInfo p:reword.getPhotoList()){
+            File file = new File(p.getPhotoPath());
+            Bitmap bm = BitmapUtils.getimage(p.getPhotoPath());
+            file=BitmapUtils.saveMyBitmap(bm,file.getName());
+
+            RequestBody requestBody = FormBody.create(MediaType.parse("image/jpeg"), file);
+            builder.addFormDataPart("files",file.getName(),requestBody);
+            Log.e("TEST2","ADD "+p.getPhotoPath());
+        }
+        Log.e("TEST2",getString(R.string.url_project_image)+projectId + "/feedback/images");
+        RequestBody requestBody = builder.build();
+        Request request = new Request.Builder()
                 .post(requestBody)
-                .url(getString(R.string.url_project_image) + "/images")
+                .url(getString(R.string.url_project_image)+projectId + "/feedback/images")
                 .build();
 
         Call call = httpClient.newCall(request);
 
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
+            public void onFailure(Call call, IOException e) {}
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("TEST", "onResponse " + response.toString());
                 Looper.prepare();
+                Log.e("TEST2",response.toString());
                 if (response == null || response.isSuccessful() == false) {
                     handler.sendEmptyMessage(SERVER_ERROR);
                 } else {
                     String str_response = response.body().string();
+                    Log.e("TEST2",str_response);
                     Gson gson = new GsonBuilder().create();
-                    Item item = new Item();
+                    ResponseItem item = new ResponseItem();
                     item = gson.fromJson(str_response, item.getClass());
-                    ArrayList<String> list = (ArrayList<String>) item.data;
-                    FILE_URI = list.get(0);
-                    handler.sendEmptyMessage(SEND_FEEDBACK_IMAGES_FINISHED);
+                    if(item.getErrCode()!=200){
+                        handler.sendEmptyMessage(SERVER_ERROR);
+                    }else{
+                        rewardFileList = (ArrayList<String>) item.getData();
+                        //完成时调用
+                        handler.sendEmptyMessage(PUBLISH_REWARD);
+                    }
                 }
                 Looper.loop();
                 return;
@@ -184,67 +349,73 @@ public class CreateProjectActivity extends AppCompatActivity {
 
     private void sendProject() {
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
+        String images="";
+        for(String s:projectFileList){
+            images+=s;
+            images+=",";
+        }
 
-                    FormBody formBody=new FormBody.Builder()
-                            .add("name", project_name)
-                            .add("targetDeadline",target_time)
-                            .add("targetMoney",target_money+"")
-                            .add("description",project_desc)
-                            .add("sponsor", share.getInt("id",0)+"")
-                            .add("cover",FILE_URI)
-                            .build();
+        FormBody.Builder formBuilder=new FormBody.Builder()
+                .add("name", projectName)
+                .add("targetDeadline",targetTime)
+                .add("targetMoney",targetMoney+"")
+                .add("description",projectDesc)
+                .add("sponsor", share.getInt("id",0)+"")
+                .add("cover",projectFileList.get(0))
+                .add("images",images);
 
-                    Request request = new Request.Builder()
-                            .post(formBody)
-                            .url(CreateProjectActivity.this.getString(R.string.url_add_project))
-                            .build();
 
-                   Call call = httpClient.newCall(request);
-                    call.enqueue(new Callback() {
+        FormBody formBody = formBuilder.build();
+        Request request = new Request.Builder()
+                .post(formBody)
+                .url(CreateProjectActivity.this.getString(R.string.url_add_project))
+                .build();
 
-                        @Override
-                        public void onFailure(Call call, IOException e) {
+        Call call = httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
-                        }
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e("TEST2","onResponse "+response.toString());
+                Looper.prepare();
+                if(response==null||response.isSuccessful()==false){
+                    handler.sendEmptyMessage(SERVER_ERROR);
+                }else{
+                    String str_response=response.body().string();
+                    Gson gson=new GsonBuilder().create();
+                    ResponseItem item = new ResponseItem();
+                    item=gson.fromJson(str_response,item.getClass());
+                    Log.e("TEST2","onResponse "+str_response);
+                    if(item.getErrCode()!=200){
+                        handler.sendEmptyMessage(SERVER_ERROR);
+                    }else{
+                        double d=Double.valueOf(item.getData().toString());
+                        projectId=(int)d;
+                        Log.e("TEST2",projectId+"");
+                        //完成时调用
+                        handler.sendEmptyMessage(PUBLISH_PROJECT_FINISHED);
+                    }
+                }
+                Looper.loop();
+                return;
+            }
+        });
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            Log.e("TEST","onResponse "+response.toString());
-                            Looper.prepare();
-                            if(response==null||response.isSuccessful()==false){
-                                handler.sendEmptyMessage(SERVER_ERROR);
-
-                            }else{
-                                String str_response=response.body().string();
-                                Gson gson=new GsonBuilder().create();
-                                Item item = new Item();
-                                item=gson.fromJson(str_response,item.getClass());
-
-                                Log.e("TEST",str_response);
-                                Log.e("TEST",item.data.toString());
-                                double d=Double.valueOf(item.data.toString());
-                                project_id=(int)d;
-                                Log.e("TEST",project_id+"");
-
-                                handler.sendEmptyMessage(CREATE_FINISH);
-                            }
-                            Looper.loop();
-                            return;
-                        }
-                    });
     }
 
-
     private void sendImages() {
-        RequestBody requestBodyTest = FormBody.create(MediaType.parse("image/jpeg"), tempFile);
-
-
-        Log.i("TAG","TEMPFILE:"+tempFile.getAbsolutePath());
-
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("files", tempFile.getName(), requestBodyTest)
-                .build();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        for(PhotoInfo p:CreateProjectFragment.getInstance().getAndClearPhotoList()){
+            File file = new File(p.getPhotoPath());
+            Bitmap bm = BitmapUtils.getimage(p.getPhotoPath());
+            file=BitmapUtils.saveMyBitmap(bm,file.getName());
+            RequestBody requestBody = FormBody.create(MediaType.parse("image/jpeg"), file);
+            builder.addFormDataPart("files",file.getName(),requestBody);
+        }
+        RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .post(requestBody)
                 .url(getString(R.string.url_project_image) + "/images")
@@ -254,455 +425,31 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
+            public void onFailure(Call call, IOException e) {}
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("TEST", "onResponse " + response.toString());
                 Looper.prepare();
                 if (response == null || response.isSuccessful() == false) {
                     handler.sendEmptyMessage(SERVER_ERROR);
                 } else {
                     String str_response = response.body().string();
+                    Log.e("TEST2",str_response);
                     Gson gson = new GsonBuilder().create();
-                    Item item = new Item();
+                    ResponseItem item = new ResponseItem();
                     item = gson.fromJson(str_response, item.getClass());
-                    ArrayList<String> list = (ArrayList<String>) item.data;
-                    FILE_URI = list.get(0);
-                    handler.sendEmptyMessage(SEND_PROJECT_COVER_FINISH);
+                    if(item.getErrCode()!=200){
+                        handler.sendEmptyMessage(SERVER_ERROR);
+                    }else{
+                        projectFileList = (ArrayList<String>) item.getData();
+                        //完成时调用
+                        handler.sendEmptyMessage(PUBLISH_PROJECT_IMAGES_FINISH);
+                    }
                 }
                 Looper.loop();
                 return;
             }
         });
     }
-
-
-
-
-    private void sendFeedBack(int i) {
-        String title = (String) (reward_list.get(i).get("msg_name"));
-        String description =(String) (reward_list.get(i).get("msg_content"));
-        String limitation=((String) (reward_list.get(i).get("msg_name"))).replace("支持金额： ","");
-
-        FormBody formBody=new FormBody.Builder()
-                .add("title", title)
-                .add("description",description)
-                .add("limitation",limitation)
-                .add("images",FILE_URI)
-                .build();
-
-        Log.e("TEST",title + " "+description+" "+limitation );
-
-        Request request = new Request.Builder()
-                .post(formBody)
-                .url(CreateProjectActivity.this.getString(R.string.url_add_feedback)+project_id+"/feedbacks/")
-                .build();
-
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.e("TEST","onResponse "+response.toString());
-                Looper.prepare();
-                if(response==null||response.isSuccessful()==false){
-                    handler.sendEmptyMessage(SERVER_ERROR);
-                }else{
-                    handler.sendEmptyMessage(ADD_FEEDBACK_FINISHED);
-                }
-                Looper.loop();
-                return;
-            }
-        });
-    }
-
-    //头像的bitmap
-    private static Bitmap bitmap;
-    private int project_id;
-
-    public void addItem(Map<String,Object> mapItem){
-        reward_list.add(mapItem);
-    }
-
-    public void removeItem(int i){
-        reward_list.remove(i);
-        paperAdapter.notifyDataSetChanged();
-    }
-
-    public List<Map<String,Object>> getList(){
-        return this.reward_list;
-    }
-
-
-
-    private static final int PHOTO_REQUEST_CAMERA = 1001;// 拍照
-    private static final int PHOTO_REQUEST_GALLERY = 1002;// 从相册中选择
-    private static final int PHOTO_REQUEST_CUT = 1003;// 结果
-    //设置相机所获取的照片的名字
-    private static final String PHOTO_FILE_NAME = "temp_head_photo.jpg";
-    //用来存储选择的头像的文件
-    private File tempFile;
-    //设置存储的头像的逃跑名字
-    private static final String PHTOT_FILE_NAME_IN_APP="com.fansfunding.fan/photo_file_name_in_app.jpeg";
-
-    //用来保存修改后的头像的文件
-    private File photoFile;
-
-
-    private MotionLessViewPager viewPager;
-    private ProjectCreateAdapter paperAdapter;
-    private int pageState=0;
-    private ActionBar actionBar;
-    private MenuItem item;
-    private AlertDialog dialog_user_head_source;
-    //httpclient
-    private OkHttpClient httpClient;
-
-    private static CreateProjectActivity createProjectActivity;
-
-    public static CreateProjectActivity getInstance(){
-        return createProjectActivity;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
-        createProjectActivity=this;
-        setContentView(R.layout.activity_create_project);
-
-
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_createProject);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
-
-        actionBar=getSupportActionBar();
-        actionBar.setTitle("发起项目");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
-        paperAdapter = new ProjectCreateAdapter(getSupportFragmentManager());
-
-        viewPager=(MotionLessViewPager)findViewById(R.id.vp_project_create);
-        viewPager.setAdapter(paperAdapter);
-        viewPager.setCurrentItem(pageState);
-
-        String local_file =Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+PHTOT_FILE_NAME_IN_APP;
-        photoFile=new File(local_file);
-        if(photoFile.getParentFile().exists()==false){
-            photoFile.getParentFile().mkdirs();
-        }
-    }
-
-    public void setPageState(int state){
-        pageState=state;
-        changeFrag();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        switch (id){
-            case android.R.id.home:
-                pageState--;
-                changeFrag();
-                break;
-            case R.id.menu_create_next:
-                pageState++;
-                if(pageState==1){
-                    project_desc=CreateProjectFragment.getInstance().et_project_desc.getText().toString();
-                    project_name=CreateProjectFragment.getInstance().et_project_title.getText().toString();
-                    if(!CreateProjectFragment.getInstance().et_target_money.getText().toString().equals(""))target_money=Integer.parseInt(CreateProjectFragment.getInstance().et_target_money.getText().toString());
-                    target_time=CreateProjectFragment.getInstance().tv_project_create_time.getText().toString();
-                    if((project_desc==null)||project_name.equals("")||(target_money==1)||target_time.equals("")){
-                        Toast.makeText(CreateProjectActivity.this,"(*^__^*) ……数据不能为空嘛",Toast.LENGTH_LONG).show();
-                        pageState=0;
-                        break;
-                    }else {
-                        changeFrag();
-                        break;
-                    }
-
-                }
-                if(pageState==3){
-                    Map<String,Object> mapItem = new HashMap<>();
-                    mapItem.put("msg_name","支持金额： "+CreateProjectAddRewordFragment.getInstance().getSupportMoney());
-                    mapItem.put("msg_content",CreateProjectAddRewordFragment.getInstance().getRewardContent());
-                    addItem(mapItem);
-                }
-                if(pageState==2){
-                    handler.sendEmptyMessage(SEND_RESOURCES);
-                }
-                pageState=1;
-                changeFrag();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
-
-    class Item {
-        public boolean result;
-        public int errCode;
-        public Object data;
-        public String token;
-    }
-
-    private void changeFrag(){
-        switch (pageState){
-            case -1:
-                finish();
-                break;
-            case 0:
-                item.setTitle("下一步");
-                item.setIcon(null);
-                break;
-            case 1:
-                item.setTitle("");
-                item.setIcon(getResources().getDrawable(R.drawable.send));
-                break;
-            case 2:
-                item.setTitle("");
-                item.setIcon(getResources().getDrawable(R.drawable.correct));
-                break;
-        }
-        actionBar.setTitle(paperAdapter.getPageTitle(pageState));
-        viewPager.setCurrentItem(pageState);
-
-        View view = getWindow().peekDecorView();
-        //关闭软键盘
-        if (view != null) {
-            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-
-        CreateProjectRewordFragment.getInstance().refreshAdapter();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_project_create, menu);
-        item = menu.findItem(R.id.menu_create_next);
-        return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case PHOTO_REQUEST_GALLERY:
-                try {
-                    if(data==null||data.getData()==null){
-                        Log.i("TAG","获取不到相册图片");
-                        break;
-                    }
-                    tempFile = new File(Environment.getExternalStorageDirectory(),
-                            PHOTO_FILE_NAME);
-                    Uri uri = data.getData();
-                    bitmap=decodeUriAsBitmap(uri);
-                    if(bitmap==null){
-                        Log.i("TAG","相册获得的bitmap为null");
-                        break;
-
-                    }
-                    if(photoFile.exists()){
-                        photoFile.delete();
-                        photoFile.createNewFile();
-                    }
-                    FileOutputStream out = new FileOutputStream(photoFile);
-
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    out.flush();
-                    out.close();
-                    tempFile = photoFile;
-                    if(bitmap.isRecycled()==false){
-                        bitmap.recycle();
-                    }
-                }catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                break;
-
-            case PHOTO_REQUEST_CAMERA:
-
-                //crop(Uri.fromFile(tempFile), Uri.fromFile(photoFile));
-                //Log.e("TEST","SomeThingWrong106");
-                try {
-                    tempFile = new File(Environment.getExternalStorageDirectory(),
-                            PHOTO_FILE_NAME);
-
-                    FileInputStream in = new FileInputStream(tempFile);
-                    bitmap=decodeUriAsBitmap(tempFile.getAbsolutePath(),in);
-                    if(bitmap==null){
-                        Log.i("TAG","相机获得的bitmap为null");
-                        break;
-
-                    }
-                    if(photoFile.exists()){
-                        photoFile.delete();
-                        photoFile.createNewFile();
-                    }
-                    FileOutputStream out = new FileOutputStream(photoFile);
-
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    out.flush();
-                    out.close();
-                    tempFile = photoFile;
-                    if(bitmap.isRecycled()==false){
-                        bitmap.recycle();
-                    }
-
-                }catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                break;
-
-            case PHOTO_REQUEST_CUT:
-                Log.e("TEST","SomeThingWrong111");
-                if (data == null) {
-                    break;
-                }
-
-                bitmap = data.getParcelableExtra("data");
-
-                if (photoFile.exists()) {
-                    photoFile.delete();
-                }
-                try {
-                    FileOutputStream out = new FileOutputStream(photoFile);
-
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    out.flush();
-                    out.close();
-                    tempFile = photoFile;
-
-                    //获取压缩过后的bitmap
-                    //bitmap = decodeUriAsBitmap(Uri.fromFile(photoFile));
-
-
-
-
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                break;
-        }
-    }
-
-    //将uri转化为bitmap
-    private Bitmap decodeUriAsBitmap(String path,FileInputStream in){
-        Bitmap bitmap = null;
-        try {
-            BitmapFactory.Options temp_opt = new BitmapFactory.Options();
-            temp_opt.inJustDecodeBounds=true;
-            BitmapFactory.decodeFile(path,temp_opt);
-
-            Log.i("TAG","Height:"+temp_opt.outHeight);
-            if(temp_opt.outHeight>4000||temp_opt.outWidth>4000){
-                Log.i("TAG","进入第一个");
-                BitmapFactory.Options opt = new BitmapFactory.Options();
-                opt.inSampleSize=8;
-                opt.inPreferredConfig = Bitmap.Config.RGB_565;
-                opt.inJustDecodeBounds=false;
-                bitmap=BitmapFactory.decodeStream(in,null,opt);
-                Log.i("TAG","HEIGHT2:"+bitmap.getByteCount());
-
-            }else if(temp_opt.outHeight>2000||temp_opt.outWidth>2000){
-                Log.i("TAG","进入第二个");
-                BitmapFactory.Options opt = new BitmapFactory.Options();
-                opt.inSampleSize=4;
-                opt.inPreferredConfig = Bitmap.Config.RGB_565;
-                opt.inJustDecodeBounds=false;
-                bitmap=BitmapFactory.decodeStream(in,null,opt);
-                Log.i("TAG","HEIGHT3:"+bitmap.getByteCount());
-            }else if(temp_opt.outHeight>1000||temp_opt.outWidth>1000){
-                BitmapFactory.Options opt = new BitmapFactory.Options();
-                opt.inSampleSize=2;
-                opt.inPreferredConfig = Bitmap.Config.RGB_565;
-                opt.inJustDecodeBounds=false;
-                bitmap=BitmapFactory.decodeStream(in,null,opt);
-                Log.i("TAG","HEIGHT4:"+bitmap.getByteCount());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return bitmap;
-    }
-    //将uri转化为bitmap
-    private Bitmap decodeUriAsBitmap(Uri uri){
-        Bitmap bitmap = null;
-        try {
-            BitmapFactory.Options temp_opt = new BitmapFactory.Options();
-            temp_opt.inJustDecodeBounds=true;
-            BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),null,temp_opt);
-            Log.i("TAG","Height:"+temp_opt.outHeight);
-
-            BitmapFactory.Options opt = new BitmapFactory.Options();
-            opt.inPreferredConfig = Bitmap.Config.RGB_565;
-            opt.inJustDecodeBounds=false;
-
-            if(temp_opt.outHeight>4000||temp_opt.outWidth>4000){
-                Log.i("TAG","进入第一个");
-                opt.inSampleSize=8;
-
-            }else if(temp_opt.outHeight>2000||temp_opt.outWidth>2000){
-                Log.i("TAG","进入第二个");
-                opt.inSampleSize=4;
-            }else if(temp_opt.outHeight>1000||temp_opt.outWidth>1000){
-                opt.inSampleSize=2;
-            }
-            bitmap=BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),null,opt);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return bitmap;
-    }
-    private void crop(Uri uri,Uri newUri) {
-        // 裁剪图片意图
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        // 裁剪框的比例，1：1
-        intent.putExtra("aspectX", 4);
-        intent.putExtra("aspectY", 3);
-        // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 400);
-        intent.putExtra("outputY", 300);
-        // 图片格式
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, newUri);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true);// 取消人脸识别
-        intent.putExtra("return-data", true);// true:不返回uri，false：返回uri
-        startActivityForResult(intent, PHOTO_REQUEST_CUT);
-    }
-
 
 
 }

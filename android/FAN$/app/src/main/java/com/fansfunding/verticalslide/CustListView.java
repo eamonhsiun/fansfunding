@@ -2,6 +2,7 @@ package com.fansfunding.verticalslide;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -48,6 +49,8 @@ public class CustListView extends ListView {
                 float yDistance = Math.abs(downY - ev.getRawY());
                 if (xDistance > yDistance && xDistance > mTouchSlop) {
                     scrollMode = MODE_HORIZONTAL;
+                    getParent().requestDisallowInterceptTouchEvent(false);
+
                 } else if (yDistance > xDistance && yDistance > mTouchSlop) {
                     scrollMode = MODE_VERTICAL;
                     if (downY < ev.getRawY() && isAtTop) {
@@ -57,7 +60,6 @@ public class CustListView extends ListView {
                 }
             }
         }
-
         return super.dispatchTouchEvent(ev);
     }
 

@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
+        //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
         actionBar.setTitle(null);
 
         tiet_search_input=(TextInputEditText)findViewById(R.id.tiet_search_input);

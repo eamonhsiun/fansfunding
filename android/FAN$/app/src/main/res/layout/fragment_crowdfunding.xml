@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="com.fansfunding.fan.CrowdFundingFragment"
     >
@@ -34,11 +33,11 @@
         android:id="@+id/lv_popularRecommendation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="10dp"
+        android:dividerHeight="5dp"
         android:divider="@color/transparent"
         android:headerDividersEnabled="false"
         android:layout_below="@id/toolbar_crowdfundinghead"
-        android:listSelector="@color/colorWhite">
+        android:listSelector="@color/transparent">
     </com.fansfunding.PullListView.XListView>
 
 </RelativeLayout>

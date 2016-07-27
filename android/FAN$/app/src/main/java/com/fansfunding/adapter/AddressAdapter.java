@@ -63,6 +63,9 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
     //修改默认地址失败
     public static final int DEFAULT_ADDRESS_FAILURE = 103;
 
+    //数据源
+    List<Address.DataDetial> address;
+
     private int resourceId;
     Context mContext;
     public AddressAdapter(Context context, int resource, List<Address.DataDetial> objects) {
@@ -70,6 +73,7 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
         mContext = context;
         resourceId = resource;
     }
+
 
     private Handler handler = new Handler() {
         @Override
@@ -335,7 +339,8 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
                     handler.sendEmptyMessage(DEFAULT_ADDRESS_FAILURE);
                     return;
                 }
-                String s_response = response.toString();
+
+                String s_response =  response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(s_response);
                     boolean result = jsonObject.getBoolean("result");

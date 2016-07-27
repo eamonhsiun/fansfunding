@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/divider_address"
+        android:descendantFocusability="blocksDescendants"
         android:paddingLeft="@dimen/layout_padding"
         android:paddingRight="@dimen/layout_padding"
         android:paddingBottom="@dimen/layout_padding">

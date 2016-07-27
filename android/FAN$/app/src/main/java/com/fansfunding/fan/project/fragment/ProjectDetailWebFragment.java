@@ -10,12 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.fansfunding.fan.R;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetail;
 import com.fansfunding.internal.ProjectInfo;
+import com.fansfunding.verticalslide.CustWebView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -56,7 +59,7 @@ public class ProjectDetailWebFragment extends Fragment {
     //项目描述信息(比如目标金额之类的)
     private ProjectInfo projectDetail;
 
-    private com.fansfunding.verticalslide.CustWebView webView;
+    private CustWebView webView;
 
     private Handler handler=new Handler(){
         @Override
@@ -129,9 +132,19 @@ public class ProjectDetailWebFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_project_detail_web, container, false);
-        webView=(com.fansfunding.verticalslide.CustWebView)rootView.findViewById(R.id.web_project_detail);
-        webView.getSettings().setJavaScriptEnabled(false);
 
+        webView=(CustWebView)rootView.findViewById(R.id.web_project_detail);
+        //拒绝执行js
+        webView.getSettings().setJavaScriptEnabled(false);
+        //设置编码样式
+        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        //设置自适应屏幕
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        // 支持缩放
+        webView.getSettings().setSupportZoom(true);
+        //适应屏幕，内容将自动缩放
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         //获取项目详情信息
         getProjectDetailMain();
         return rootView;
@@ -179,6 +192,7 @@ public class ProjectDetailWebFragment extends Fragment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
+                Log.i("TAG","Webresponse:"+str_response);
                 detail =new ProjectDetail();
                 try {
 
@@ -228,12 +242,19 @@ public class ProjectDetailWebFragment extends Fragment {
     }
 
     private void InitWeb(){
-        if(detail.getData().getContent()!=null&&detail.getData().getContent().equals("")){
-            webView.loadData(detail.getData().getContent(),"text/html","utf-8");
+        Log.i("TAG","web:"+detail.getData().getContent());
+        if(detail.getData().getContent()!=null&&detail.getData().getContent().equals("")==false){
+
+            //还需要继续更改
+            String web="<html><head <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0 />>"
+                    +"</head><body>"
+                    +detail.getData().getContent()
+                    +"</body><html>";
+            webView.loadData(web,"text/html;charset=UTF-8",null);
         }else{
             webView.loadData("<html><head><meta contentType='text/html;charset=utf-8'><meta charset='utf-8'></head><body><p>" +
-                    "cannot find project detail resources" +
-                    "</p></body></html>","text/html","utf-8");
+                    "无对应的项目详情" +
+                    "</p></body></html>","text/html;charset=UTF-8",null);
         }
     }
 }

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.fansfunding.fan.R;
 import com.sina.weibo.sdk.auth.AuthInfo;

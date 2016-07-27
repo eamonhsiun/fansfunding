@@ -61,7 +61,7 @@ public class CrowdFundingFragment extends Fragment {
     private List<ProjectInfo> projectDetailList=null;
 
     //httpclient
-    private OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
     //热门项目列表
     private XListView lv_PR;
 
@@ -96,9 +96,11 @@ public class CrowdFundingFragment extends Fragment {
                         lv_PR.setPullLoadEnable(true);
                         page++;
                     }
+
                     for(int i=0;i<projectDetailList.size();i++){
-                        //加载头部
+
                         adapter.addItemAtHead(projectDetailList.get(i));
+
                         /*if(isAddAtHead==true){
                             adapter.addItemAtHead(projectDetailList.get(i));
                         }
@@ -106,7 +108,6 @@ public class CrowdFundingFragment extends Fragment {
                         else{
                             adapter.addItemAtFoot(projectDetailList.get(i));
                         }*/
-
                     }
                     adapter.notifyDataSetChanged();
                     endRefresh();
@@ -136,6 +137,7 @@ public class CrowdFundingFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -163,7 +165,7 @@ public class CrowdFundingFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         //构建httpclient
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_crowdfunding, container, false);
@@ -181,6 +183,8 @@ public class CrowdFundingFragment extends Fragment {
                     return;
                 }
                 isAddAtHead=true;
+                adapter.Clear();
+                page=1;
                 getProject();
 
             }
@@ -281,6 +285,8 @@ public class CrowdFundingFragment extends Fragment {
             }
         });
 
+
+        //进入搜索界面
         Toolbar toolbar =(Toolbar)rootView.findViewById(R.id.toolbar_crowdfundinghead);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,8 +314,11 @@ public class CrowdFundingFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-    //获取
+
+    //获取所有项目
     private void getProject(){
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
         isFinishRequest=false;
         int catagoryId=1;
         Request request=new Request.Builder()
@@ -368,7 +377,7 @@ public class CrowdFundingFragment extends Fragment {
                     }
 
 
-                    //FLog.i("TAG","crowdfundingfragment:"+str_response);
+                    Log.i("TAG","crowdfundingfragment:"+str_response);
                     projectDetailList=project.getData().getList();
 
                     //获取项目信息成功

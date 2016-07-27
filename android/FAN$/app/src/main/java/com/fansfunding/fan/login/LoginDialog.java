@@ -226,7 +226,7 @@ public class LoginDialog {
         tiet_login_by_phone_password=(TextInputEditText)view_login_by_phone.findViewById(R.id.tiet_password);
 
         //忘记密码按钮响应函数
-        TextView tv_forget_password=(TextView)view_login_by_phone.findViewById(R.id.tv_forget_password) ;
+        TextView tv_forget_password=(TextView)view_login_by_phone.findViewById(R.id.tv_support_address) ;
         tv_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -408,7 +408,7 @@ public class LoginDialog {
                     public void onClick(DialogInterface dialog, int which) {
                         String phone=tiet_register_account.getText().toString();
                         String password=tiet_register_password.getText().toString();
-                        if(phone.equals("")||(password.length()<6||password.length()>16)||CheckUtils.isPhone(phone)==false){
+                        if(phone.equals("")||(password.length()<6||password.length()>16)|| CheckUtils.isPhone(phone)==false){
                             InitRegister();
                             if(phone.equals("")) {
                                 tiet_register_account.setError("请输入手机号");

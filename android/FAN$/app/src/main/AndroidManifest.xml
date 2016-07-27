@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.fansfunding.fan">
+
+    <uses-sdk tools:overrideLibrary="dmax.dialog" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -100,14 +103,13 @@
             </intent-filter>
         </activity>
 
-        <!--项目支持-->
+        <!-- 项目支持 -->
         <activity android:name=".project.activity.ProjectSupportActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTSUPPORT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
 
         <!-- 聊天界面 -->
@@ -136,11 +138,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!-- 手机登陆界面 -->
-
-        <!-- 手机注册界面 -->
-
-        <!-- 找回密码界面 -->
 
         <!-- 设置界面 -->
 
@@ -152,8 +149,18 @@
             </intent-filter>
         </activity>
 
+        <!-- 我的订单界面 -->
+        <activity android:name=".user.order.activity.MyOrderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.USER.ORDER.ACTIVITY.MYORDER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- 地址管理界面 -->
-        <activity android:name=".AddressActivity"
+        <activity
+            android:name=".AddressActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.ADDRESS" />
@@ -161,8 +168,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".AddressManagmentAty"
+        <activity
+            android:name=".AddressManagmentAty"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.ADDRESSMANAGEMENT" />
@@ -206,6 +213,18 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- 阿里云 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
+
         <!-- 发起项目界面 -->
         <activity android:name=".project.activity.CreateProjectActivity">
             <intent-filter>
@@ -215,7 +234,23 @@
             </intent-filter>
         </activity>
 
+        <!-- 发起动态界面 -->
+        <activity android:name=".project.activity.ProjectPublishDynamicActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PUBLISHDYNAMIC" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--查看大图-->
+        <activity android:name=".utils.BigPictureActivity">
+            <intent-filter>
+            <action android:name="android.intent.action.FANS.UTILS.BIGPICTURE" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

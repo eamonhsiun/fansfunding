@@ -134,7 +134,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("评论");
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
+        //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
         adapter=new ProjectDetailCommentAdapter(this);
 

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.fansfunding.fan.AddressActivity">
@@ -10,7 +11,8 @@
         android:id="@+id/toolbar_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        app:theme="@style/toolbar_white_theme">
 
     </android.support.v7.widget.Toolbar>
 
@@ -34,7 +36,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/layout_padding"
         android:layout_marginBottom="56dp"
-        android:src="@drawable/add"
+        android:src="@drawable/fab_add"
 
         />
 

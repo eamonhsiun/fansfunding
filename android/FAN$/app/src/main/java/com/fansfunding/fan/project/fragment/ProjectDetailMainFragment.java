@@ -18,18 +18,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
 import com.fansfunding.fan.R;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetail;
 import com.fansfunding.internal.ProjectDetailComment;
 import com.fansfunding.internal.ProjectInfo;
+import com.fansfunding.internal.UserFollowProject;
+import com.fansfunding.internal.project.ProjectFollower;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -59,17 +67,32 @@ public class ProjectDetailMainFragment extends Fragment {
     //获取第一条评论失败
     private static final int GET_PROJECT_COMMENT_FAILURE=103;
 
+    //获取关注者信息成功
+    private static final int GET_PROJECT_FOLLOWER_SUCCESS=104;
+
+    //获取关注者信息失败
+    private static final int GET_PROJECT_FOLLOWER_FAILURE=105;
+
+
+
     //发表评论请求码
     private static final int REQUEST_CODE_SEND_COMMENT=300;
 
     //httpclient
-    private OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
+
 
     //项目分类
     private int categoryId;
 
     //项目Id
     private int projectId;
+
+    //每次获取关注者的数量
+    private final int followerRows=10;
+
+    //关注者信息
+    private ProjectFollower follower=null;
 
     //项目附件描述信息(比如图片呀，音频呀)
     private ProjectDetail detail;
@@ -81,7 +104,7 @@ public class ProjectDetailMainFragment extends Fragment {
     private  ProjectDetailComment projectDetailComment;
 
     //项目详情图片
-    private ImageView iv_project_detail_main_image;
+    private ConvenientBanner iv_project_detail_main_image;
 
     //项目评论内容
     private TextView tv_news_detail_comment;
@@ -91,6 +114,9 @@ public class ProjectDetailMainFragment extends Fragment {
     private TextView tv_news_detail_commenter_name;
     //评论时间
     private TextView tv_news_detail_comment_tine;
+
+    //关注人数
+    private TextView tv_project_detail_main_follower_number;
 
 
     //获取或发表评论函数
@@ -122,6 +148,22 @@ public class ProjectDetailMainFragment extends Fragment {
                         break;
                     }
                     Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"获取评论失败",Toast.LENGTH_LONG).show();
+                    break;
+
+                //获取关注者信息成功
+                case GET_PROJECT_FOLLOWER_SUCCESS:
+
+                    //设置关注者信息
+                    if(follower!=null&&follower.getData()!=null){
+                        tv_project_detail_main_follower_number.setText(String.valueOf(follower.getData().getTotal()));
+                    }
+                    break;
+                //获取关注者信息失败
+                case GET_PROJECT_FOLLOWER_FAILURE:
+                    if(ProjectDetailMainFragment.this.getActivity()==null){
+                        break;
+                    }
+                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"获取关注者信息失败",Toast.LENGTH_LONG).show();
                     break;
                 case ErrorCode.REQUEST_TOO_FRENQUENTLY:
                     if(ProjectDetailMainFragment.this.getActivity()==null){
@@ -171,14 +213,40 @@ public class ProjectDetailMainFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         View rootView=inflater.inflate(R.layout.fragment_project_detail_main, container, false);
         //项目图片
-        iv_project_detail_main_image=(ImageView)rootView.findViewById(R.id.iv_project_detail_main_image);
-        if(projectDetail.getCover()!=null&&projectDetail.getCover().equals("")==false){
+        iv_project_detail_main_image=(ConvenientBanner)rootView.findViewById(R.id.iv_project_detail_main_image);
+        /*if(projectDetail.getCover()!=null&&projectDetail.getCover().equals("")==false){
             Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getCover()).into(iv_project_detail_main_image);
+            //点击查看大图
+            iv_project_detail_main_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent();
+                    intent.setAction(getString(R.string.activity_big_picture));
+                    intent.putExtra("url",getString(R.string.url_resources)+projectDetail.getCover());
+                    startActivity(intent);
+                }
+            });
+        }*/
+        ArrayList<String> networkImages=new ArrayList<String>();
+        if(projectDetail.getImages()!=null&&projectDetail.getImages().size()>0){
+            for(int i=0;i<projectDetail.getImages().size();i++) {
+                if(projectDetail.getImages().get(i)!=null&&projectDetail.getImages().get(i).equals("")==false){
+                    networkImages.add(getString(R.string.url_resources)+projectDetail.getImages().get(i));
+                }
+            }
         }
+
+        iv_project_detail_main_image.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+            @Override
+            public NetworkImageHolderView createHolder() {
+                return new NetworkImageHolderView();
+            }
+        },networkImages)
+                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused}) ;
 
         //项目评论内容
         tv_news_detail_comment=(TextView)rootView.findViewById(R.id.tv_news_detail_comment);
@@ -196,11 +264,10 @@ public class ProjectDetailMainFragment extends Fragment {
 
         //已筹金额
         TextView tv_project_detail_main_get_money=(TextView)rootView.findViewById(R.id.tv_project_detail_main_get_money);
-        tv_project_detail_main_get_money.setText(projectDetail.getSum().toString());
+        tv_project_detail_main_get_money.setText(new java.text.DecimalFormat("0.00").format(projectDetail.getSum()));
 
-        //支持人数
-        TextView tv_project_detail_main_support_times=(TextView)rootView.findViewById(R.id.tv_project_detail_main_support_times);
-        tv_project_detail_main_support_times.setText(String.valueOf(projectDetail.getSupportNum()));
+        //关注人数
+        tv_project_detail_main_follower_number=(TextView)rootView.findViewById(R.id.tv_project_detail_main_support_times);
 
         //项目进度
         ProgressBar progressBar=(ProgressBar)rootView.findViewById(R.id.progressBar_project_detail_main);
@@ -221,6 +288,7 @@ public class ProjectDetailMainFragment extends Fragment {
             Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getSponsorHead()).into(iv_project_detail_main_publisher_head);
         }
 
+
         //开始时间
         TextView tv_project_detail_main_time_start=(TextView)rootView.findViewById(R.id.tv_project_detail_main_time_start);
         tv_project_detail_main_time_start.setText(getStartTime(projectDetail.getCreateTime()));
@@ -240,12 +308,15 @@ public class ProjectDetailMainFragment extends Fragment {
             }
         });
 
+        //获取关注信息
+        getProjectFollower();
 
         //获取项目详情
         getProjectDetailMain();
 
         //获取项目第一条评论
         getProjectDetailComment();
+
 
         return rootView;
     }
@@ -336,7 +407,7 @@ public class ProjectDetailMainFragment extends Fragment {
     //获取项目详情
     private void getProjectDetailMain(){
 
-
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
                 .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/detail")
@@ -477,6 +548,7 @@ public class ProjectDetailMainFragment extends Fragment {
     }
     //获取评论
     private void getProjectDetailComment(){
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
                 .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/comments?rows=1")
@@ -549,6 +621,112 @@ public class ProjectDetailMainFragment extends Fragment {
                 }
             }
         });
+    }
+
+    //获取关注者信息
+    private void getProjectFollower(){
+
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
+        Request request=new Request.Builder()
+                .get()
+                .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/followers")
+                .build();
+
+        Call call=httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_FAILURE);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //服务器响应失败
+                if(response==null||response.isSuccessful()==false){
+                    handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_FAILURE);
+                    return;
+                }
+                Gson gson=new GsonBuilder().create();
+                String str_response=response.body().string();
+                follower=new ProjectFollower();
+                try {
+                    //用Gson进行解析，并判断结果是否为空
+                    if((follower = gson.fromJson(str_response, follower.getClass()))==null){
+                        handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_FAILURE);
+                        return;
+                    }
+                    //搜索项目关注者信息失败
+                    if(follower.isResult()==false){
+                        switch (follower.getErrCode()){
+                            case ErrorCode.REQUEST_TOO_FRENQUENTLY:
+                                handler.sendEmptyMessage(ErrorCode.REQUEST_TOO_FRENQUENTLY);
+                                break;
+                            case ErrorCode.PARAMETER_ERROR:
+                                handler.sendEmptyMessage(ErrorCode.PARAMETER_ERROR);
+                                break;
+                            default:
+                                handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_FAILURE);
+                                break;
+                        }
+                        return;
+                    }
+
+                    //搜索项目关注者信息成功
+                    handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_SUCCESS);
+                }catch (IllegalStateException e){
+                    handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_FAILURE);
+                    e.printStackTrace();
+                }catch (JsonSyntaxException e){
+                    handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_FAILURE);
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    //通过用户是否按下关注按钮来增加或减少关注人数
+    public void refreshFollowNumber(int number){
+        if(number!=1&&number!=-1){
+            return;
+        }
+        else {
+            if(follower!=null&&follower.getData()!=null){
+                if(follower.getData().getTotal()+number>=0){
+                    follower.getData().setTotal(follower.getData().getTotal()+number);
+                    handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_SUCCESS);
+                }
+            }
+        }
+    }
+
+
+    public class NetworkImageHolderView implements Holder<String> {
+        private ImageView imageView;
+        @Override
+        public View createView(Context context) {
+            imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            return imageView;
+        }
+
+        @Override
+        public void UpdateUI(Context context,int position, final String data) {
+            if(data!=null&&data.equals("")==false){
+                Picasso.with(ProjectDetailMainFragment.this.getActivity()).load(data).memoryPolicy(MemoryPolicy.NO_CACHE).resize(720,400).centerCrop().into(imageView);
+                //点击查看大图
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent();
+                        intent.setAction(getString(R.string.activity_big_picture));
+                        intent.putExtra("url",data);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }
     }
 }
 

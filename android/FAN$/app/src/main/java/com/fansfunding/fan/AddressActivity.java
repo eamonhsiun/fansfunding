@@ -14,27 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.fansfunding.adapter.AddressAdapter;
 import com.fansfunding.internal.Address;
-import com.fansfunding.internal.ErrorCode;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,8 +38,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class AddressActivity extends AppCompatActivity {
-
-
 
 
 
@@ -81,7 +73,7 @@ public class AddressActivity extends AppCompatActivity {
 
     private FloatingActionButton add;
 
-
+    private ListView lv_address;
 
 
     public static int MSG_TYPE;
@@ -151,7 +143,7 @@ public class AddressActivity extends AppCompatActivity {
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("管理收获地址");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
+        //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
 
         //第一次加载界面的时候去get地址数据
         if(is) {
@@ -169,7 +161,7 @@ public class AddressActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ListView lv_address=(ListView)findViewById(R.id.lv_address);
+        lv_address=(ListView)findViewById(R.id.lv_address);
 
 
         //测试用的FUCK数据~~~~~
@@ -184,16 +176,36 @@ public class AddressActivity extends AppCompatActivity {
 
 
         adapter = new AddressAdapter(AddressActivity.this, R.layout.item_address, dataDetialList);
-        lv_address.setAdapter(adapter);
-        lv_address.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        /*lv_address.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("TAG","INItemSelectListeber11");
                 Address.DataDetial dataDetial = dataDetialList.get(position);
                 mDataDetial = dataDetial;
 
 
             }
-        });
+        });*/
+        final Intent intent=getIntent();
+        if(intent.getBooleanExtra("needSelect",false)==true) {
+            lv_address.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.i("TAG","INItemSelectListeber222");
+                    Intent data=new Intent();
+                    data.putExtra("address",(Address.DataDetial)lv_address.getAdapter().getItem(position));
+                    setResult(RESULT_OK,data);
+                    Log.i("TAG","INItemSelectListeber000");
+                    AddressActivity.this.finish();
+                    Log.i("TAG","INItemSelectListeber111");
+                }
+            });
+        }else{
+
+
+        }
+        lv_address.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
     }

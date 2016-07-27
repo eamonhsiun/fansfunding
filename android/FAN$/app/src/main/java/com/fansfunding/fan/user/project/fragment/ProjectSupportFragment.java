@@ -53,7 +53,7 @@ public class ProjectSupportFragment extends Fragment {
     private final String type="support";
 
     //httpclient
-    private OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
 
     //是否已经完成搜索了
     private boolean isFinishRequest=true;
@@ -84,13 +84,6 @@ public class ProjectSupportFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case GET_USER_SUPPORT_PROJECT_SUCCESS:
-                    //如果搜索的结果为空
-                    if(project.getData().getList().size()==0){
-                        if(ProjectSupportFragment.this.getActivity()!=null){
-                            Toast.makeText(ProjectSupportFragment.this.getActivity(), "无关注项目", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
                     if(project.getData().getList().size()<rows){
                         lv_PJ_list.setPullLoadEnable(false);
                         lv_PJ_list.setAutoLoadEnable(false);
@@ -152,7 +145,7 @@ public class ProjectSupportFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         adapter=new UserProjectAdapter(this.getActivity());
     }
 
@@ -206,7 +199,7 @@ public class ProjectSupportFragment extends Fragment {
 
             }
         });
-
+        lv_PJ_list.setAdapter(adapter);
         return rootView;
     }
 
@@ -225,6 +218,8 @@ public class ProjectSupportFragment extends Fragment {
     }
 
     private void getUserSupportProject(final int userId,final String token,final String type,int page,final int rows){
+
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
                 .url(getString(R.string.url_user)+userId+"/projects"+"?type="+type+"&token="+token+"&page="+page+"&rows="+rows)
@@ -247,7 +242,6 @@ public class ProjectSupportFragment extends Fragment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-                Log.i("TAG","follow:"+str_response);
                 project=new UserSupportProject();
                 try {
 

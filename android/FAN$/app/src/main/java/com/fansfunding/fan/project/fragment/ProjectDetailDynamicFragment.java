@@ -1,23 +1,30 @@
 package com.fansfunding.fan.project.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.fansfunding.fan.project.activity.ProjectDetailActivity;
 import com.fansfunding.fan.project.adapter.ProjectDetailDynamicAdapter;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.project.adapter.ProjectDetailDynamicPhotoAdapter;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetailDynamic;
 import com.fansfunding.internal.ProjectInfo;
+import com.fansfunding.verticalslide.CustListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -45,11 +52,23 @@ public class ProjectDetailDynamicFragment extends Fragment {
     //获取动态失败
     private final static int GET_PROJECT_DETAIL_MOMENT_FAILURE=101;
 
+    private FloatingActionButton btnCreateDynamic;
     //动态内容
     private ProjectDetailDynamic dynamic;
 
     //list适配器
     private ProjectDetailDynamicAdapter adapter;
+
+
+
+
+    //项目分类
+    private int categoryId;
+
+    //项目Id
+    private int projectId;
+    //项目描述信息(比如目标金额之类的)
+    private ProjectInfo projectDetail;
 
     private Handler handler=new Handler(){
         @Override
@@ -86,13 +105,6 @@ public class ProjectDetailDynamicFragment extends Fragment {
 
     };
 
-    //项目分类
-    private int categoryId;
-
-    //项目Id
-    private int projectId;
-    //项目描述信息(比如目标金额之类的)
-    private ProjectInfo projectDetail;
 
     public ProjectDetailDynamicFragment() {
         // Required empty public constructor
@@ -120,6 +132,9 @@ public class ProjectDetailDynamicFragment extends Fragment {
             categoryId=projectDetail.getCategoryId();
             projectId=projectDetail.getId();
         }
+
+
+
     }
 
     @Override
@@ -127,12 +142,36 @@ public class ProjectDetailDynamicFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_project_detail_dynamic, container, false);
-        ListView lv_project_detail_reward=(ListView)rootView.findViewById(R.id.lv_project_detail_dynamic);
 
+
+        CustListView lv_project_detail_reward=(CustListView)rootView.findViewById(R.id.lv_project_detail_dynamic);
+
+        btnCreateDynamic= (FloatingActionButton) rootView.findViewById(R.id.btn_create_dynamic);
 
 
         adapter=new ProjectDetailDynamicAdapter(this.getActivity());
         lv_project_detail_reward.setAdapter(adapter);
+
+        //设置添加按钮的可见性
+        SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),Context.MODE_PRIVATE);
+        int userId=share.getInt("id",0);
+        if(userId==projectDetail.getSponsor()){
+            btnCreateDynamic.setVisibility(View.VISIBLE);
+            btnCreateDynamic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent();
+                    intent.setAction(getResources().getString(R.string.activity_publish_dynamic));
+                    intent.putExtra("projectId", projectId);
+                    startActivity(intent);
+                }
+            });
+        }else {
+            btnCreateDynamic.setVisibility(View.GONE);
+        }
+
+
+
         //获取动态信息
         getProjectDetailDynamic();
         return rootView;
@@ -211,7 +250,6 @@ public class ProjectDetailDynamicFragment extends Fragment {
                         handler.sendMessage(msg);
                         return;
                     }
-
                     //获取项目信息成功
                     Message msg=new Message();
                     msg.what=GET_PROJECT_DETAIL_MOMENT_SUCCESS;

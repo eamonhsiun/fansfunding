@@ -2,6 +2,7 @@ package com.fansfunding.internal;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 13616 on 2016/7/22.
@@ -52,6 +53,10 @@ public class ProjectInfo implements Serializable,Comparable{
 
     //项目状态
     private char status;
+
+    //图片
+    private List<String> images;
+
 
     public int getId() {
         return id;
@@ -181,5 +186,13 @@ public class ProjectInfo implements Serializable,Comparable{
 
     public void setStatus(char status) {
         this.status = status;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

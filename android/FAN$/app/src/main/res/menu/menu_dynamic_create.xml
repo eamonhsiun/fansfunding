@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/menu_create_next"
+        android:orderInCategory="100"
+        android:title=""
+        android:icon="@drawable/correct"
+        app:showAsAction="always" />
+
+</menu>

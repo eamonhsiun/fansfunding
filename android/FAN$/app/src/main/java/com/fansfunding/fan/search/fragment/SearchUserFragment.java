@@ -51,7 +51,7 @@ public class SearchUserFragment extends Fragment {
 
 
     //httpclient
-    private OkHttpClient httpClient;
+   //private OkHttpClient httpClient;
 
     //每次获取的数量
     private final int rows=20;
@@ -153,7 +153,7 @@ public class SearchUserFragment extends Fragment {
         if (getArguments() != null) {
             keyword=getArguments().getString("keyword");
         }
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         //初始化适配器
         adapter=new SearchUserAdapter(this.getActivity());
     }
@@ -211,6 +211,8 @@ public class SearchUserFragment extends Fragment {
 
     //获取搜索的用户信息
     private void SearchUser(String keyword, int page, int rows){
+
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
                 .url(getString(R.string.url_search_user)+"?keyword="+keyword+"&page="+page+"&rows="+rows)

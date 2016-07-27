@@ -11,7 +11,8 @@
         android:id="@+id/toolbar_myProject"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        app:theme="@style/toolbar_white_theme">
 
     </android.support.v7.widget.Toolbar>
 

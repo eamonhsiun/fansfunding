@@ -27,6 +27,7 @@
             android:paddingLeft="@dimen/layout_padding"
             android:textColor="@color/colorPublishGrey"/>
         <CheckBox
+            android:id="@+id/checkbox_project_support_alipay"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="@dimen/layout_padding"/>
@@ -37,41 +38,58 @@
     <LinearLayout
         android:id="@+id/ll_project_support_address"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/layout_padding"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/layout_padding"
+        android:padding="@dimen/layout_padding"
         android:background="@color/colorWhite">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/address_icon" />
+            android:src="@drawable/address_icon"
+            android:layout_gravity="center_vertical"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/layout_padding"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingRight="@dimen/layout_padding"
             >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_project_support_people_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收货人:"
+                    android:textColor="@color/colorBlack"/>
+                <TextView
+                    android:id="@+id/tv_project_support_people_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:layout_toRightOf="@id/tv_project_support_people_name_label"
+                    android:layout_toLeftOf="@+id/tv_project_support_people_phone"/>
+                <TextView
+                    android:id="@+id/tv_project_support_people_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
             <TextView
+                android:id="@+id/tv_support_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="收货地址"
-                android:textSize="@dimen/subhead_text_size"
-                android:textColor="@color/colorPublishGrey"/>
-            <TextView
-                android:id="@+id/tv_forget_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:singleLine="true"
-                android:maxLines="1"
+                android:layout_marginTop="8dp"
+                android:maxLines="2"
                 android:ellipsize="end"
-                android:text="武汉大学信息学部国际软件学院"
+                android:text="收货地址:"
+                android:textSize="@dimen/body_text_size"
                 android:textColor="@color/colorLabelGrey"/>
         </LinearLayout>
     </LinearLayout>

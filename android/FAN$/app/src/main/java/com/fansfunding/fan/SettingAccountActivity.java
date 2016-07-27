@@ -27,7 +27,7 @@ public class SettingAccountActivity extends AppCompatActivity {
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("账号和密码");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
+        //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
         RelativeLayout rl_setting_account_reset_password=(RelativeLayout)findViewById(R.id.rl_setting_account_reset_password);
         rl_setting_account_reset_password.setOnClickListener(new View.OnClickListener() {
             @Override

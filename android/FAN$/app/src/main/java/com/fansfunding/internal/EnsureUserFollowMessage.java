@@ -1,0 +1,42 @@
+package com.fansfunding.internal;
+
+/**
+ * Created by 13616 on 2016/7/23.
+ */
+public class EnsureUserFollowMessage {
+
+    //返回的结果
+    private boolean result;
+
+    //返回的状态码
+    private int errCode;
+
+    //用户是否关注了该项目
+    private boolean data;
+
+    public boolean isResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
+    }
+
+    public int getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(int errCode) {
+        this.errCode = errCode;
+    }
+
+    public boolean isData() {
+        return data;
+    }
+
+    public void setData(boolean data) {
+        this.data = data;
+    }
+
+}
+

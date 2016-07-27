@@ -209,6 +209,19 @@ public class UserFragment extends Fragment {
                 startActivityForResult(intent,START_USER_INFO);
             }
         });
+
+        //我的订单查看
+        LinearLayout ll_user_order=(LinearLayout)rootView.findViewById(R.id.ll_user_order);
+        ll_user_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setAction(getString(R.string.activity_my_order));
+                startActivity(intent);
+            }
+        });
+
+
         getUserInfo();
         return rootView;
     }
@@ -244,6 +257,8 @@ public class UserFragment extends Fragment {
         super.onStop();
     }
 
+
+    //获取用户个人信息
     private void getUserInfo(){
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),Context.MODE_PRIVATE);
@@ -365,6 +380,8 @@ public class UserFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    //更改保存在本地的信息
     private void changeUserInfo(){
         SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_user_info),Context.MODE_PRIVATE);
         String user_info_url_head=share.getString("head","");

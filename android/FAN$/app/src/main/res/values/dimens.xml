@@ -32,7 +32,7 @@
     <dimen name="item_content_padding_left">72dp</dimen>
     <dimen name="item_content_padding_left_with_parent">56dp</dimen>
 
-
+    <dimen name="linearlayout_padding">32dp</dimen>
     <dimen name="layout_padding">16dp</dimen>
     <dimen name="icon_padding">16dp</dimen>
     <dimen name="text_padding">16dp</dimen>
@@ -47,5 +47,22 @@
     <dimen name="header_height">60dp</dimen>
     <dimen name="footer_height">90dp</dimen>
     <dimen name="footer_padding">10dp</dimen>
+
+
+    <!--动态图片展示宽度-->
+
+    <!--一张图片时-->
+    <dimen name="dynamic_photo_one_width">272dp</dimen>
+    <dimen name="dynamic_photo_one_height">150dp</dimen>
+    <!--两张图片时-->
+    <dimen name="dynamic_photo_two_width">134dp</dimen>
+    <dimen name="dynamic_photo_two_height">134dp</dimen>
+
+    <!--三张图片时-->
+    <dimen name="dynamic_photo_three_width">88dp</dimen>
+    <dimen name="dynamic_photo_three_height">88dp</dimen>
+    <!--四张图片时-->
+    <dimen name="dynamic_photo_four_width">134dp</dimen>
+    <dimen name="dynamic_photo_four_height">134dp</dimen>
 
 </resources>

@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.MyProjectActivity">
+    tools:context="com.fansfunding.fan.user.project.activity.MyProjectActivity">
 
     <!--标题栏-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_myProject"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        app:theme="@style/toolbar_white_theme">
 
     </android.support.v7.widget.Toolbar>
 

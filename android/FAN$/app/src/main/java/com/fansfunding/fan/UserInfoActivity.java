@@ -1,10 +1,8 @@
 package com.fansfunding.fan;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,7 +11,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -28,11 +25,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fansfunding.fan.project.utils.CheckUtils;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.PersonalInfo;
 import com.fansfunding.internal.UpLoadHead;
@@ -40,8 +37,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,6 +65,9 @@ public class UserInfoActivity extends AppCompatActivity {
 
     //判断用户信息是否改变
     private boolean isChange=false;
+
+    //判断是否获取了用户信息
+    private boolean isGetUserInfo=false;
 
     //获取用户信息成功
     private static final int GET_USER_INFO_SUCCESS=100;
@@ -100,7 +98,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private static final String[] sexString={"性别","女","男"};
 
     //httpclient
-    OkHttpClient httpClient;
+    //private OkHttpClient httpClient;
 
 
     //用来存储选择的头像的文件
@@ -147,6 +145,8 @@ public class UserInfoActivity extends AppCompatActivity {
                     break;
                 //获取用户信息成功
                 case GET_USER_INFO_SUCCESS:
+                    //获取到了用户信息
+                    isGetUserInfo=true;
                     if(UserInfoActivity.this.isFinishing()==true)
                         break;
                     InitUserInfo();
@@ -258,7 +258,7 @@ public class UserInfoActivity extends AppCompatActivity {
         });
         spinner.setVisibility(View.VISIBLE);
 
-        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         //获取并设置修改头像按钮
         Button btn_user_info_head_change=(Button)findViewById(R.id.btn_user_info_head_change);
@@ -288,6 +288,7 @@ public class UserInfoActivity extends AppCompatActivity {
         tiet_user_info_nickname=(TextInputEditText)findViewById(R.id.tiet_user_info_nickname);
         //邮箱
         tiet_user_info_email=(TextInputEditText)findViewById(R.id.tiet_user_info_email);
+
     }
 
     @Override
@@ -301,7 +302,12 @@ public class UserInfoActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menu_user_info_finish:
-                UploadUserInfo_All();
+                if(isGetUserInfo==true){
+                    UploadUserInfo_All();
+                }else {
+                    Toast.makeText(this,"正在获取用户信息，请稍等",Toast.LENGTH_LONG).show();
+                }
+
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -340,20 +346,26 @@ public class UserInfoActivity extends AppCompatActivity {
 
             case PHOTO_REQUEST_CUT:
                 if(data==null) {
+                    Log.i("TAG","DATA IS NULL");
                     break;
                 }
                 if(data.getData()==null){
-                    break;
+                    Log.i("TAG","GETDATA IS NULL");
+                    //break;
                 }
-                Uri uri=data.getData();
+                bitmap = data.getParcelableExtra("data");
+
+                /*Uri uri=data.getData();
                 bitmap = decodeUriAsBitmap(uri);
+                Log.i("TAG","uri"+uri.toString());*/
                 if (photoFile.exists()) {
                     photoFile.delete();
                 }
                 try {
+                    Log.i("TAG","执行到了try");
                     FileOutputStream out = new FileOutputStream(photoFile);
 
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     out.flush();
                     out.close();
                     tempFile=photoFile;
@@ -371,6 +383,7 @@ public class UserInfoActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -386,11 +399,11 @@ public class UserInfoActivity extends AppCompatActivity {
                 .setView(R.layout.activity_internal_waiting)
                 .create();
         dialog_waitting.setCancelable(false);
-        dialog_waitting.show();
+        //dialog_waitting.show();
 
         //先上传用户头像，如果没有头像修改，则直接上传其他信息
         if(tempFile!=null){
-            Log.i("TAG","file路径:"+tempFile.getAbsolutePath());
+            Log.i("TAG","file路径zaiupload:"+tempFile.getAbsolutePath());
             UploadUserHead();
         }
         //上传用户其他信息
@@ -447,6 +460,22 @@ public class UserInfoActivity extends AppCompatActivity {
             return;
         }
 
+        //如果昵称过长
+        if(new_nickname.length()>20){
+            if(tiet_user_info_nickname!=null){
+                tiet_user_info_nickname.setError("昵称应小于20位");
+            }
+            return;
+        }
+
+        //如果邮箱填写错误
+        if(new_email.equals("")==false&& CheckUtils.isEmail(new_email)==false){
+            if(tiet_user_info_email!=null){
+                tiet_user_info_email.setError("请输入正确的邮箱格式");
+            }
+            return;
+        }
+
         SharedPreferences share_token=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
         String token=share_token.getString("token"," ");
         int userId=share_token.getInt("id",0);
@@ -464,6 +493,9 @@ public class UserInfoActivity extends AppCompatActivity {
         if(sex!=-1){
             builder.add("sex",String.valueOf(sex));
         }
+
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
         FormBody formBody=builder.build();
 
         Request request=new Request.Builder()
@@ -478,7 +510,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 Message msg=new Message();
                 msg.what=SEND_USER_INFO_FAILURE;
                 handler.sendMessage(msg);
-                System.out.println("error0");
             }
 
             @Override
@@ -488,7 +519,6 @@ public class UserInfoActivity extends AppCompatActivity {
                     Message msg=new Message();
                     msg.what=SEND_USER_INFO_FAILURE;
                     handler.sendMessage(msg);
-                    System.out.println("error1");
                     return;
                 }
                 String str_response=response.body().string();
@@ -502,7 +532,6 @@ public class UserInfoActivity extends AppCompatActivity {
                         Message msg=new Message();
                         msg.what=SEND_USER_INFO_FAILURE;
                         handler.sendMessage(msg);
-                        System.out.println("error2");
                         return;
                     }
                     //处理登陆失败
@@ -576,8 +605,10 @@ public class UserInfoActivity extends AppCompatActivity {
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
         int userId=share.getInt("id",0);
 
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
         RequestBody requestBodyTest= FormBody.create(MediaType.parse("image/jpeg"),tempFile);
-        Log.i("TAG","file路径shangchuan:"+tempFile.getAbsolutePath());
+
         RequestBody requestBody=new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", tempFile.getName(),requestBodyTest)
@@ -712,9 +743,9 @@ public class UserInfoActivity extends AppCompatActivity {
                 .setView(R.layout.activity_internal_waiting)
                 .create();
         dialog_waitting.setCancelable(false);
-        dialog_waitting.show();
+        //dialog_waitting.show();
+        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
-        httpClient=new OkHttpClient();
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
         int userId=share.getInt("id",0);
         String token=share.getString("token","token");
@@ -747,8 +778,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 PersonalInfo personalInfo=new PersonalInfo();
                 String str_response=response.body().string();
-                Log.i("TAG","length:"+str_response.length());
-                Log.i("TAG","userInfoActivity:"+str_response);
                 try {
                     //用Gson进行解析，并判断结果是否为空
                     if((personalInfo = gson.fromJson(str_response, personalInfo.getClass()))==null){
@@ -907,9 +936,9 @@ public class UserInfoActivity extends AppCompatActivity {
         intent.putExtra("outputY", 200);
         // 图片格式
         intent.putExtra(MediaStore.EXTRA_OUTPUT, newUri);
-        intent.putExtra("outputFormat", "Bitmap.CompressFormat.JPEG.toString()");
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
-        intent.putExtra("return-data", false);// true:不返回uri，false：返回uri
+        intent.putExtra("return-data", true);// true:不返回uri，false：返回uri
         startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 

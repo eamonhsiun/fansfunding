@@ -87,7 +87,7 @@ public class XHeaderView extends LinearLayout {
             mArrowImageView.setVisibility(View.INVISIBLE);
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            // show arrow image
+            // show arrow_back image
             mArrowImageView.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.INVISIBLE);
         }

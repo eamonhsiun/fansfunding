@@ -1,5 +1,7 @@
 package com.fansfunding.internal;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -53,15 +55,19 @@ public class ProjectDetailComment {
     }
 
 
-    public class ProjectComment{
+    public class ProjectComment implements Comparable{
+
 
         //评论人头像
         private String commenterHead;
 
         //评论指向
         private int pointTo;
-        //评论指向的名字，即要回复的用户名称
+        //评论指向的名字，即要回复的用户名字
         private String pointToName;
+
+        //评论指向的名字，即要回复的用户名字
+        private String pointToNickname;
 
         //评论人姓名
         private String commenterName;
@@ -71,6 +77,8 @@ public class ProjectDetailComment {
 
         //评论人昵称
         private String commenterNickname;
+
+
 
         //项目id
         private int projectId;
@@ -165,6 +173,24 @@ public class ProjectDetailComment {
 
         public void setPointToName(String pointToName) {
             this.pointToName = pointToName;
+        }
+
+
+        @Override
+        public int compareTo(Object another) {
+            ProjectComment other=(ProjectComment)another;
+            if(this.getCommentTime()>other.getCommentTime()){
+                return -1;
+            }
+            return 1;
+        }
+
+        public String getPointToNickname() {
+            return pointToNickname;
+        }
+
+        public void setPointToNickname(String pointToNickname) {
+            this.pointToNickname = pointToNickname;
         }
     }
 }

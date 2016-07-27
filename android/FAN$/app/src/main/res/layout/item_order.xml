@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:padding="@dimen/layout_padding">
+
+    <!--订单的项目标题-->
+    <TextView
+        android:id="@+id/tv_order_project_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="武大难友，你的皮划艇已上线"
+        android:textSize="@dimen/subhead_text_size"
+        android:textColor="@color/colorBlack"/>
+
+    <!--分割线-->
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/divider"
+        android:layout_marginTop="@dimen/layout_padding"/>
+
+    <!--订单详情-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/layout_padding"
+        android:paddingBottom="@dimen/layout_padding">
+        <!--订单图片-->
+        <ImageView
+            android:id="@+id/iv_order_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"/>
+
+        <!--支持金额-->
+        <LinearLayout
+            android:id="@+id/ll_order_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/iv_order_image"
+            android:paddingLeft="20dp">
+            <!--金额图片-->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/pjimagetest"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/layout_padding"
+                android:text="支持金额"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/layout_padding"
+                android:text="￥"
+                android:textColor="@color/colorBlack"/>
+
+            <!--付款金额-->
+            <TextView
+                android:id="@+id/tv_order_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                android:text="23"/>
+
+        </LinearLayout>
+
+        <!--交易时间-->
+        <LinearLayout
+            android:id="@+id/ll_order_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/iv_order_image"
+            android:paddingLeft="20dp"
+            android:layout_below="@id/ll_order_money"
+            android:paddingTop="12dp">
+            <!--金额图片-->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/pjimagetest"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/layout_padding"
+                android:text="交易时间"/>
+
+
+            <!--付款金额-->
+            <TextView
+                android:id="@+id/tv_order_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="@dimen/layout_padding"
+                android:text="2016-7-18 09:54"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <!--分割线-->
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/divider"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/layout_padding">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单编号"/>
+
+        <!--订单编号-->
+        <TextView
+            android:id="@+id/tv_order_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="@dimen/layout_padding"
+            android:text="163824723"/>
+
+        <!--订单状态-->
+        <TextView
+            android:id="@+id/tv_order_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="支付成功"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

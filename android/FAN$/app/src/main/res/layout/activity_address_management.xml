@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--标题栏-->
+    <include
+         android:id="@+id/address_management_title"
+         layout="@layout/address_management_title"
+        />
+
+    <!--收货人姓名-->
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:layout_below="@+id/address_management_title"
+        android:id="@+id/ll_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:text="@string/address_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/list_text_size"
+            android:padding="@dimen/text_padding"/>
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/tite_address_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/text_padding"
+            android:layout_marginRight="@dimen/text_padding"
+            android:background="@null"
+
+        />
+
+    </LinearLayout>
+
+
+    <!--分割线-->
+    <LinearLayout
+        android:id="@+id/divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_name"
+        android:background="@color/colorWhite">
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding"
+
+
+            />
+
+    </LinearLayout>
+
+
+
+    <!--联系电话-->
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:id="@+id/ll_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider_1">
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:text="@string/address_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/list_text_size"
+            android:padding="@dimen/text_padding"/>
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/tite_address_phone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:layout_marginRight="@dimen/text_padding"
+            android:background="@null"/>
+
+    </LinearLayout>
+
+
+
+    <!--所在地区-->
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:id="@+id/ll_district"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_phone"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_district"
+            android:text="@string/address_district"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/list_text_size"
+            android:padding="@dimen/text_padding"/>
+
+        <TextView
+            android:id="@+id/tv_address_district"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/text_padding"
+            android:layout_marginRight="@dimen/item_content_padding_right"
+            android:onClick="pick_area"
+            android:clickable="true"
+            android:textSize="@dimen/list_text_size"/>
+
+    </LinearLayout>
+
+    <!--分割线-->
+    <LinearLayout
+        android:id="@+id/divider_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_district"
+        android:background="@color/colorWhite">
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding"
+
+
+            />
+
+    </LinearLayout>
+    <!--详细地址-->
+
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:id="@+id/ll_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider_2">
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:text="@string/address"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/list_text_size"
+            android:padding="@dimen/text_padding"/>
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/tite_address"
+            android:hint="请输入详细地址"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/text_padding"
+            android:background="@null"/>
+
+    </LinearLayout>
+
+    <!--分割线-->
+    <LinearLayout
+        android:id="@+id/divider_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_address"
+        android:background="@color/colorWhite">
+        <View
+
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding"
+
+
+            />
+
+    </LinearLayout>
+
+
+    <!--邮编-->
+    <LinearLayout
+        android:id="@+id/ll_postcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider_3"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/tv_postcode"
+            android:text="@string/postcode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/list_text_size"
+            android:padding="@dimen/text_padding"/>
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/tite_postcode"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="@dimen/text_padding"
+            android:background="@null"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

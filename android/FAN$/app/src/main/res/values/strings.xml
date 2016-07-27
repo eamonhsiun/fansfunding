@@ -10,45 +10,60 @@
     <string name="finance">已筹资:¥</string>
     <string name="supportNum">支持数:</string>
     <string name="actionbar_title">actionbar_Title</string>
+    <string name="address_name">收货人</string>
+    <string name="address_phone">联系电话</string>
+    <string name="address_district">所在地区</string>
+    <string name="address">详细地址</string>
+    <string name="postcode">邮编</string>
+    <string name="address_edit">编辑</string>
+    <string name="address_delete">删除</string>
 
 
     <!--各个Activity的action值-->
     <string name="activity_category">android.intent.action.FANS.CATEGORY</string>
-    <string name="activity_login">android.intent.action.FANS.LOGIN</string>
+    <string name="activity_login">android.intent.action.FANS.LOGIN.LOGIN</string>
     <string name="activity_news">android.intent.action.FANS.NEWS</string>
-    <string name="activity_project">android.intent.action.FANS.PROJECT</string>
+    <string name="activity_project">android.intent.action.FANS.USER.PROJECT.ACTIVITY.PROJECT</string>
     <string name="activity_homepage">android.intent.action.FANS.HOMEPAGE</string>
-    <string name="activity_project_detail">android.intent.action.FANS.PROJECTDETAIL</string>
+    <string name="activity_project_detail">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAIL</string>
     <string name="activity_chat">android.intent.action.FANS.CHAT</string>
     <string name="activity_news_detail">android.intent.action.FANS.NEWSDETAIL</string>
-    <string name="activity_search">android.intent.action.FANS.SEARCH</string>
-    <string name="activity_loginbyphone">android.intent.action.FANS.LOGINBYPHONE</string>
-    <string name="activity_registerbyphone">android.intent.action.FANS.REGISTERBYPHONE</string>
-    <string name="activity_forget_password">android.intent.action.FANS.FORGETPASSWORD</string>
+    <string name="activity_search">android.intent.action.FANS.SEARCH.ACTIVITY.SEARCH</string>
     <string name="activity_setting">android.intent.action.FANS.SETTING</string>
     <string name="activity_address">android.intent.action.FANS.ADDRESS</string>
     <string name="activity_setting_account">android.intent.action.FANS.SETTINGACCOUNT</string>
     <string name="activity_reset_password">android.intent.action.FANS.RESETPASSWORD</string>
     <string name="activity_user_info">android.intent.action.FANS.USERINFO</string>
+    <string name="activity_project_create">android.intent.action.FANS.CREATEPROJECT</string>
+    <string name="activity_my_order">android.intent.action.FANS.USER.ORDER.ACTIVITY.MYORDER</string>
+    <string name="activity_publish_dynamic">android.intent.action.FANS.PUBLISHDYNAMIC</string>
+    <string name="activity_big_picture">android.intent.action.FANS.UTILS.BIGPICTURE</string>
     <!--查看所有评论-->
-    <string name="activity_project_detail_comment">android.intent.action.FANS.PROJECTDETAILCOMMENT</string>
+    <string name="activity_project_detail_comment">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILCOMMENT</string>
     <!--发表评论-->
-    <string name="activity_project_comment">android.intent.action.FANS.PROJECTCOMMENT</string>
-    <string name="activity_project_support">android.intent.action.FANS.PROJECTSUPPORT</string>
+    <string name="activity_project_comment">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTCOMMENT</string>
+    <string name="activity_project_support">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTSUPPORT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <!--api访问路径-->
-    <string name="url_checker">http://api.immortalfans.com/common/newCheckerT</string><!---->
-    <string name="url_new_user">http://api.immortalfans.com/userbasic/newUser</string><!---->
-    <string name="url_login_by_phone">http://api.immortalfans.com/userbasic/login</string><!---->
-    <string name="url_forget_Pwd">http://api.immortalfans.com/userbasic/forgetPwd</string><!---->
-    <string name="url_user">http://api.immortalfans.com/user/</string><!---->
-    <string name="url_resources">http://resources.immortalfans.com/</string>
-    <string name="url_userbasic">http://api.immortalfans.com/userbasic/</string>
-    <string name="url_project">http://api.immortalfans.com/project/</string>
-
+    <string name="url_checker">http://api.immortalfans.com:8080/common/newChecker</string><!---->
+    <string name="url_new_user">http://api.immortalfans.com:8080/userbasic/newUser</string><!---->
+    <string name="url_login_by_phone">http://api.immortalfans.com:8080/userbasic/login</string><!---->
+    <string name="url_forget_Pwd">http://api.immortalfans.com:8080/userbasic/forgetPwd</string><!---->
+    <string name="url_user">http://api.immortalfans.com:8080/user/</string><!---->
+    <string name="url_resources">http://resources.immortalfans.com:8080/</string>
+    <string name="url_userbasic">http://api.immortalfans.com:8080/userbasic/</string>
+    <string name="url_project">http://api.immortalfans.com:8080/project/</string>
+    <string name="url_add_project">http://api.immortalfans.com:8080/project/1/</string>
+    <string name="url_add_feedback">http://api.immortalfans.com:8080/project/1/</string>
+    <string name="url_project_image">http://api.immortalfans.com:8080/project/1/</string>
+    <string name="url_search_project">http://api.immortalfans.com:8080/search/project</string>
+    <string name="url_search_user">http://api.immortalfans.com:8080/search/user</string>
+    <string name="url_sys_feedback">http://api.immortalfans.com:8080/sys/feedback</string>
+    <string name="url_alipay_mobile">http://api.immortalfans.com:8080/pay/mobile</string>
+    <string name="url_dynamic_image">http://api.immortalfans.com:8080/project/1/</string>
 
     <!--Sharepreference名称-->
 

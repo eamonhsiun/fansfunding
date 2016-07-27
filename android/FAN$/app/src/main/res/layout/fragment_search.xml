@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.SearchFragment">
+    tools:context=".search.fragment.SearchProjectFragment">
 
-    <ListView
-        android:id="@+id/lv_search"
+    <com.fansfunding.PullListView.XListView
+        android:id="@+id/lv_search_project"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </com.fansfunding.PullListView.XListView>
 
 </RelativeLayout>

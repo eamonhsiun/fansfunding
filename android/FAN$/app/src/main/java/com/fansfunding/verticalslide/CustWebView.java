@@ -74,6 +74,9 @@ public class CustWebView extends WebView {
                 float yDistance = Math.abs(downY - ev.getRawY());
                 if (xDistance > yDistance && xDistance > mTouchSlop) {
                     scrollMode = MODE_HORIZONTAL;
+                    if(downX>ev.getRawX()){
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    }
                 } else if (yDistance > xDistance && yDistance > mTouchSlop) {
                     scrollMode = MODE_VERTICAL;
                     if (downY < ev.getRawY() && isAtTop) {

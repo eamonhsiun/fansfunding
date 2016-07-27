@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.fansfunding.fan.SettingActivity">
 <LinearLayout
     android:layout_width="match_parent"
@@ -14,7 +15,8 @@
         android:id="@+id/toolbar_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        app:theme="@style/toolbar_white_theme">
     </android.support.v7.widget.Toolbar>
 
     <!--收获地址管理-->
@@ -88,6 +90,7 @@
         android:text="关于与帮助"/>
 
     <TextView
+        android:id="@+id/tv_setting_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/subhead_text_size"
@@ -120,7 +123,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorLabelGrey"
             android:paddingTop="4dp"
-            android:text="当前版本1.0"
+            android:text="当前版本 0.1 alpha"
             />
     </LinearLayout>
 

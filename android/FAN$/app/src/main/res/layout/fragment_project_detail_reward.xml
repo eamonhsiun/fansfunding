@@ -1,16 +1,17 @@
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context="com.fansfunding.fan.ProjectDetailRewardFragment">
+    tools:context="com.fansfunding.fan.project.fragment.ProjectDetailRewardFragment">
 
 
-    <com.fansfunding.PullListView.XListView
+    <com.fansfunding.verticalslide.CustListView
         android:id="@+id/lv_project_detail_reward"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.fansfunding.PullListView.XListView>
+    </com.fansfunding.verticalslide.CustListView>
 </LinearLayout>

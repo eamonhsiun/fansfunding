@@ -8,7 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.fansfunding.fan.UserInfoActivity">
+    tools:context="com.fansfunding.fan.UserInfoActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_user_info"
@@ -86,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:hint="昵称"/>
+                android:hint="昵称" />
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

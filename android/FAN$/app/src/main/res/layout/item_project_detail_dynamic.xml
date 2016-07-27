@@ -18,45 +18,55 @@
         android:orientation="vertical"
         android:layout_toRightOf="@id/iv_project_detail_dynamic_head">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <!--评论用户昵称-->
+            <!--发表动态用户昵称-->
             <TextView
                 android:id="@+id/tv_project_detail_dynamic_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Immortals"
-                android:textColor="@color/colorPublishGrey"/>
-            <!--评论发表时间-->
-            <TextView
-                android:id="@+id/tv_project_detail_dynamic_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Immortals"
+                android:textColor="@color/colorPublishGrey"
+                android:layout_toLeftOf="@+id/tv_project_detail_dynamic_time"/>
+            <!--动态发表时间-->
+            <TextView
+                android:id="@+id/tv_project_detail_dynamic_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_toRightOf="@id/tv_project_detail_dynamic_name"
-
+                android:layout_alignParentRight="true"
                 android:textColor="@color/colorLabelGrey"
                 android:text="刚刚"/>
+        </RelativeLayout>
+
+        <!--动态内容-->
+        <TextView
+            android:id="@+id/tv_project_detail_dynamic_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/content_padding"
+            android:text="这是一段评论内容a"
+
+            android:textColor="@color/colorPublishGrey"
+            />
+
+        <!--动态图片-->
+        <com.fansfunding.fan.utils.MyGridView
+            android:id="@+id/gv_project_detail_dynamic_photo_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="4dp"
+            android:verticalSpacing="4dp"></com.fansfunding.fan.utils.MyGridView>
+
+        <!--分割线-->
+
+        <include
+            layout="@layout/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/gv_project_detail_dynamic_photo_list"
+            android:layout_marginTop="@dimen/layout_padding"/>
         </LinearLayout>
-
-    <!--评论内容-->
-    <TextView
-        android:id="@+id/tv_project_detail_dynamic_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/content_padding"
-        android:text="这是一段评论内容a"
-
-        android:textColor="@color/colorPublishGrey"
-        />
-    <!--分割线-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorDividerGrey"
-        android:layout_below="@id/tv_news_detail_comment"
-        android:layout_marginTop="@dimen/layout_padding"/>
-    </LinearLayout>
 </RelativeLayout>

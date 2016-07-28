@@ -298,6 +298,7 @@ public class UserService {
 			order.put("totalFee",payOrder.getTotalFee());
 			order.put("orderStatus",payOrder.getTradeStatus());
 			order.put("orderNo",payOrder.getOrderNo());
+			order.put("tradeNo",payOrder.getTradeNo());
 			orders.add(order);
 		});
 		return PageAdapter.adapt(info, orders);
@@ -331,6 +332,7 @@ public class UserService {
 		orderInfo.put("totalFee",order.getTotalFee());
 		orderInfo.put("orderStatus",order.getTradeStatus());
 		orderInfo.put("orderNo",order.getOrderNo());
+		orderInfo.put("tradeNo",order.getTradeNo());
 		
 		ShoppingAddress address=addressDao.selectByPrimaryKey(order.getAddressId());
 		Map<String,Object> shoppingAddress=new HashMap<>();

@@ -89,13 +89,13 @@ public class UserFollowController {
 	 * @param followerId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/following/{followerId}",method=RequestMethod.POST)
+	@RequestMapping(path="{userId}/following/{followId}",method=RequestMethod.POST)
 	@ResponseBody
-	public Status isFollowing(@PathVariable int userId,@PathVariable int followerId){
-		if(!userService.isExist(userId)||!userService.isExist(followerId)){
+	public Status isFollowing(@PathVariable int userId,@PathVariable int followId){
+		if(!userService.isExist(userId)||!userService.isExist(followId)){
 			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,userFollowService.isFollowing(userId, followerId),null);
+		return new Status(true,StatusCode.SUCCESS,userFollowService.isFollowing(userId, followId),null);
 	}
 	/**
 	 * followerId是否关注userId
@@ -103,12 +103,12 @@ public class UserFollowController {
 	 * @param followerId
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/followers/{followerId}",method=RequestMethod.POST)
+	@RequestMapping(path="{userId}/followers/{followId}",method=RequestMethod.POST)
 	@ResponseBody
-	public Status isFollower(@PathVariable int userId,@PathVariable int followerId){
-		if(!userService.isExist(userId)||!userService.isExist(followerId)){
+	public Status isFollower(@PathVariable int userId,@PathVariable int followId){
+		if(!userService.isExist(userId)||!userService.isExist(followId)){
 			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
 		}
-		return new Status(true,StatusCode.SUCCESS,userFollowService.isFollower(userId, followerId),null);
+		return new Status(true,StatusCode.SUCCESS,userFollowService.isFollower(userId, followId),null);
 	}
 }

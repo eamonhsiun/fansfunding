@@ -11,4 +11,5 @@ public class FollowUser {
     private Integer id;
     private Integer userId;
     private Integer followerId;
+    private String delFlag;
 }

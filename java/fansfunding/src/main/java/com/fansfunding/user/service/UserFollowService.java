@@ -92,4 +92,36 @@ public class UserFollowService {
 		}); 
 		return PageAdapter.adapt(info, followers);
 	}
+	/**
+	 * 是否在关注
+	 * @param userId
+	 * @param followerId
+	 * @return
+	 */
+	public boolean isFollowing(int userId,int followerId){
+		FollowUser follow=new FollowUser();
+		follow.setUserId(userId);
+		follow.setFollowerId(followerId);
+		FollowUser fp=followUserDao.select(follow);
+		if(fp==null||fp.getDelFlag().equals("1")){
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 是否被关注
+	 * @param userId
+	 * @param followerId
+	 * @return
+	 */
+	public boolean isFollower(int userId,int followerId){
+		FollowUser follow=new FollowUser();
+		follow.setUserId(followerId);
+		follow.setFollowerId(userId);
+		FollowUser fp=followUserDao.select(follow);
+		if(fp==null||fp.getDelFlag().equals("1")){
+			return false;
+		}
+		return true;
+	}
 }

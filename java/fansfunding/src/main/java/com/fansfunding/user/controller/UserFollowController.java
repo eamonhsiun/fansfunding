@@ -68,7 +68,7 @@ public class UserFollowController {
 		}
 		return new Status(true,StatusCode.SUCCESS,"用户关注成功",null);
 	}
-	
+
 	/**
 	 * 取消关注
 	 * @param userId
@@ -82,5 +82,33 @@ public class UserFollowController {
 			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
 		}
 		return new Status(true,StatusCode.SUCCESS,"用户取消关注成功",null);
+	}
+	/**
+	 * userId是否关注followerId
+	 * @param userId
+	 * @param followerId
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/following/{followerId}",method=RequestMethod.POST)
+	@ResponseBody
+	public Status isFollowing(@PathVariable int userId,@PathVariable int followerId){
+		if(!userService.isExist(userId)||!userService.isExist(followerId)){
+			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userFollowService.isFollowing(userId, followerId),null);
+	}
+	/**
+	 * followerId是否关注userId
+	 * @param userId
+	 * @param followerId
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/followers/{followerId}",method=RequestMethod.POST)
+	@ResponseBody
+	public Status isFollower(@PathVariable int userId,@PathVariable int followerId){
+		if(!userService.isExist(userId)||!userService.isExist(followerId)){
+			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userFollowService.isFollower(userId, followerId),null);
 	}
 }

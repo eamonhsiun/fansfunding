@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-app-status-bar-style" content="#ec2c22" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ec2c22" />
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>支付订单 | FAN$</title>
+  <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
+  <!-- 公有css -->
+
+  <link rel="stylesheet" href="static/css/common.css">
+  <link rel="stylesheet" href="static/css/uikit.css">
+  <!-- 私有css -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <link rel="stylesheet" type="text/css" href="static/css/order.css">
+  
+</head>
+<body>
+
+  <div id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="static/img/fans.png" alt="">
+      </a>
+      <div class="profile">
+        <div class="profile-login" id="profile-login">
+          <div class="profile-avatar">
+            <a href="space.html"><img src="static/img/27.jpg" alt=""></a>
+          </div>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown-arrow"></div>
+            <ul>
+              <a href="###"><li>我的项目</li></a>
+              <a href="###"><li>我的钱包</li></a>
+              <a href="setting.html"><li>个人设置</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="profile-not-login" id="profile-not-login">
+          <a href="login.html?#login">登录</a>
+          <a href="login.html?#signup">注册</a>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-dropdown-arrow"></div>
+        <ul>
+          <a href="index.html"><li >首页</li>
+          </a>
+          <a href="initiation-vue.html"><li >发起项目</li></a>
+          <!-- <a href="###"><li>圈子</li></a> -->
+          <a href="download.html"><li >下载APP</li></a>
+        </ul>
+      </div>
+      <div class="search">
+        <form action="">
+          <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
+          <label for="search-text"></label>
+          <input type="submit" class="search-submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+  <div class="container" id="order">
+    <div class="kit-progress-tab">
+      <ul>
+        <li class="kit-tab FFtab">确认订单</li>
+        <li class="kit-tab FFtab">确认支付</li>
+        <li class="kit-tab FFtab">支付成功</li>
+      </ul>
+    </div>
+    <div class="order-progress">
+      <div class="FFtab-content"id="order-info">
+        <div class="block-title">订单信息</div>
+        <div class="kit-wrap">
+          <div class="kit-group" id="order-project">
+            <div class="kit-block kit-content">
+              <div id="order-project-info">
+                <div class="project-cover">
+                  <img :src="project.data.cover | resource" alt="">
+                </div>
+                <div class="project-content">
+                  <div class="project-title">{{project.data.name}}</div>
+                  <div class="project-description">{{project.data.description}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kit-group" id="order-feedback">
+            <div class="kit-block kit-content">
+              <div class="feedback-money">支持<span>4214214</span>元</div>
+              <div class="feedback-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
+              <div class="feedback-detail">
+                <div class="feedback-detail-content">辛寨黄托和ATI和晒h艾诺钟爱弄晒怒海诺还能</div>
+                <div class="feedback-detail-pics">
+                  <div class="feedback-detail-pic" v-for="image in feedback.images">
+                    <img v-bind:src="image | resource" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="block-title">地址选择</div>
+        <div class="kit-wrap" id="order-address">
+          <div class="address-list selected">
+            <div class="kit-block kit-content address-block">
+              <div>
+                <div class="address-content">
+                  <span class="address-hint">姓名：</span>
+                  <span class="address-inner">嘤嘤嘤</span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">省市区：</span>
+                  <span class="address-inner">湖北省武汉市洪山区</span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">详细地址：</span>
+                  <span class="address-inner">国际软件国际软件学院国际软件学院国际软件学院国际软件学院国际软件学院国际软件学院国际软件学院学院</span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">邮编：</span>
+                  <span class="address-inner">3213213</span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">电话：</span>
+                  <span class="address-inner">13245678945</span>
+                </div>
+              </div>
+              <div class="address-default default">默认地址</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="FFtab-content">
+        <div class="block-title">订单信32息</div>
+      </div>
+      <div class="FFtab-content">
+        <div class="block-title">订单信23息</div>
+      </div>
+    </div>
+    <div class="order-step">
+      <div class="order-step-btn step-prev" v-if="step != 1" @click.prevent="prevStep">上一步</div>
+      <div class="order-step-btn step-next" v-if="step != totalStep" @click.prevent="nextStep">下一步</div>
+      <div class="order-step-btn step-next" v-if="step == totalStep" @click.prevent="initializeProject">完成</div>
+    </div>
+  </div>
+
+
+  </div>
+  <div id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-content-right">
+          <ul class="footer-logo">
+            <li><img src="static/img/fans.png" alt=""></li>
+            <li><img src="static/img/Icon_FansFunding.svg" alt=""></li>
+          </ul>
+        </div>
+        <div class="footer-content-left">
+          <div class="footer-copyright">Copyright ©1997-2016 FansFunding All Rights Reserved 武汉瑟瑟发抖公司</div>
+          <ul class="footer-link">
+            <li><a href="###">备案号</a></li>
+            <li><a href="###">认证</a></li>
+            <li><a href="###">获奖</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="static/js/lib/vue.min.js"></script>
+  <script src="static/js/lib/ajax.min.js"></script>
+  <script src="static/js/account.js"></script>
+  <script src="static/js/module/FFloader.js"></script>
+  <script src="static/js/module/FFtab.js"></script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  
+    <script src="static/js/order.js"></script>
+  
+  </body>
+</html>
+

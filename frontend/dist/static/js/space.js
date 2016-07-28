@@ -46,6 +46,7 @@ var spaceVm = new Vue({
         status: false,
         connect: false,
         list: [],
+        count: 0,
         page: 0,
         totalPages: 0
       },
@@ -53,6 +54,7 @@ var spaceVm = new Vue({
         status: false,
         connect: false,
         list: [],
+        count: 0,
         page: 0,
         totalPages: 0
       },
@@ -60,6 +62,7 @@ var spaceVm = new Vue({
         status: false,
         connect: false,
         list: [],
+        count: 0,
         page: 0,
         totalPages: 0
       }
@@ -75,7 +78,7 @@ var spaceVm = new Vue({
     redirect: function(){
       window.location.href = "404.html";
     },
-    getSpaceUserInfo: function(){
+    getSpaceUserInfo: function(callback){
       var _this = this;
       var spaceUserInfoRequest = ajax({
         method: 'get',
@@ -89,6 +92,7 @@ var spaceVm = new Vue({
         if(_this.spaceId === localId){
           _this.isSelf = true;
         }
+        callback();
       }).catch(function (response, xhr) {
         console.log("加载失败");
       }).always(function (response, xhr) {
@@ -108,6 +112,9 @@ var spaceVm = new Vue({
           _this.projects[type].status = false;
         }else{
           _this.projects[type].list = response.data.list;
+          _this.projects[type].count = response.data.total;
+          _this.projects[type].page = response.data.pageNum;
+          _this.projects[type].totalPages = response.data.pages;
           _this.projects[type].status = true;
         }
       }).catch(function (response, xhr) {
@@ -130,9 +137,11 @@ var spaceVm = new Vue({
         _this.status = false;
       }
     });
-    this.getSpaceUserInfo();
-    this.getRecentProject("sponsor");
-    this.getRecentProject("follow");
-    this.getRecentProject("support");
+    this.getSpaceUserInfo(function(){
+      _this.getRecentProject("sponsor");
+      _this.getRecentProject("follow");
+      _this.getRecentProject("support");
+    });
+
   }
 })

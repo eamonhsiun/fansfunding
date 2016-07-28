@@ -30,6 +30,7 @@
   
   
   
+  
 </head>
 <body>
 
@@ -104,7 +105,7 @@
         <div class="initiator-header">
           <div class="initiator-avatar"><img v-bind:src="project.data.sponsorHead | resource" alt=""></div>
           <div class="initiator-info">
-            <div class="initiator-name">发起人：<span v-cloak>{{project.data.sponsorNickname}}</span></div>
+            <div class="initiator-name">发起人：<a href="space.html?userid={{project.data.sponsor}}" v-cloak>{{project.data.sponsorNickname}}</a></div>
             <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
           </div>
         </div>
@@ -189,7 +190,7 @@
         <div id="feedback-errormsg" class="errormsg FFerrormsg">没有回报信息</div>
         <ul>
           <li class="feedback-list" v-for="feedback in feedbacks.list">
-            <div class="feedback-money">支持<span>{{feedback.limitation}}</span></div>
+            <div class="feedback-money">支持<span>{{feedback.limitation}}</span>元</div>
             <div class="feedback-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
             <div class="feedback-detail">
               <div class="feedback-detail-content">{{feedback.description}}</div>
@@ -254,7 +255,7 @@
   
 
   
-
+  
   </body>
 </html>
 

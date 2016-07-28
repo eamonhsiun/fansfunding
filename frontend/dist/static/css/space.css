@@ -120,9 +120,9 @@
     float: left;
     overflow: hidden; }
     .space-project-list .project-cover img {
-      min-width: 200px;
+      min-width: 210px;
       max-width: 250px;
-      min-height: 120px; }
+      min-height: 140px; }
   .space-project-list .project-content {
     height: 100%;
     margin-left: 210px;

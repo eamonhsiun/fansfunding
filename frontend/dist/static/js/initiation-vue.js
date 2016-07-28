@@ -1,53 +1,5 @@
 var localCategoryId = 1;
 
-var projectTimePicker = rome($("#time-end")[0], {
-  time: false,
-  min: new Date()
-});
-projectTimePicker.on('data', function(value) {
-  initiationVm.project.endTime = value;
-});
-var progressTab = new FFtab($('.initiation-progressbar')[0],$('.initiation-progress')[0],{
-  callback: function(index, tab1, content1, tab2, content2){
-    tab2.classList.add("FFtab-visited");
-    initiationVm.step = index + 1;
-
-}});
-var editor = new Simditor({
-  textarea: $('#editor'),
-  toolbar: [
-    'title',
-    'bold',
-    'italic',
-    'underline',
-    'fontScale',
-    'color',
-    '|',
-    'ol',
-    'ul',
-    'table',
-    'hr',
-    '|',
-    'link',
-    'image',
-    'alignment',
-  ],
-  upload: {
-    url: apiUrl +"/project/" + localCategoryId + "/images",
-    params: null,
-    fileKey: 'files',
-    connectionCount: 3,
-    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
-  },
-  pasteImage: true
-  //optional options
-});
-editor.on('valuechanged', function(e, src){
-  initiationVm.project.content = this.getValue();
-});
-var cropper = null;
-
-
 var initiationVm = new Vue({
   el: "#initiation",
   data: {
@@ -58,6 +10,7 @@ var initiationVm = new Vue({
     error: false,
     errormsg: [],
     projectId: 0,
+    categoryId: localCategoryId,
     project: {
       title: "",
       endTime: null,
@@ -67,13 +20,13 @@ var initiationVm = new Vue({
       content: "",
     },
     feedbacks: {
-      list: [/*
+      list: [{
         limitation: "",
         description: "",
         images:[],
         uploadCount: 0,
         uploadUrl: [],
-      */],
+      }],
     },
     request: {
       progress: 0,
@@ -93,8 +46,9 @@ var initiationVm = new Vue({
       if(!target){
         window.location.href = "login.html";
         return;
+      }else{
+        window.location.href = "project-vue.html?categoryId="+ this.categoryId +"&id=" + this.projectId;
       }
-
     },
     readBlobAsDataURL: function(blob, callback) {
       var a = new FileReader();
@@ -203,7 +157,7 @@ var initiationVm = new Vue({
         imageForm.append("files", blob);
         var imageRequest = ajax({
           method: 'post',
-          url: apiUrl +"/project/" + localCategoryId + "/images",
+          url: apiUrl +"/project/" + _this.CategoryId + "/images",
           headers: {
             'content-type': null
           },
@@ -213,10 +167,10 @@ var initiationVm = new Vue({
             console.log(getErrorMsg(response.errCode));
             return;
           }else{
-            _this.request.progress = 40;
+            _this.request.progress = 20;
             var initializeProjectRequest = ajax({
               method: 'post',
-              url: apiUrl +"/project/" + localCategoryId,
+              url: apiUrl +"/project/" + _this.CategoryId,
               data: {
                 token: localToken,
                 name: _this.project.title,
@@ -235,7 +189,7 @@ var initiationVm = new Vue({
                 console.log(getErrorMsg(response.errCode));
                 return;
               }else{
-                _this.request.progress = 10;
+                _this.request.progress = 40;
                 _this.response.result = true;
                 _this.projectId = response.data;
                 _this.uploadFeedback();
@@ -269,7 +223,7 @@ var initiationVm = new Vue({
         imageForm.append("files", _this.dataURLtoBlob(images[i]));
         var feedbackImageRequest = ajax({
           method: 'post',
-          url: apiUrl +"/project/" + localCategoryId + "/" + _this.projectId + "/feedback/images",
+          url: apiUrl +"/project/" + _this.CategoryId + "/" + _this.projectId + "/feedback/images",
           headers: {
             'content-type': null
           },
@@ -301,6 +255,8 @@ var initiationVm = new Vue({
       this.request.progress += (60 / _this.feedbacks.list.length);
       if(i >= amount){
         console.log("回馈上传完成");
+        alert("项目发起完成");
+        redirect(true);
         return false;
       }else{
         this.feedbacks.list[i].uploadUrl = [];
@@ -317,7 +273,7 @@ var initiationVm = new Vue({
           }
           var feedbackRequest = ajax({
             method: 'post',
-            url: apiUrl +"/project/" + localCategoryId + "/" + _this.projectId + "/feedbacks",
+            url: apiUrl +"/project/" + _this.CategoryId + "/" + _this.projectId + "/feedbacks",
             data: data
           }).then(function (response, xhr) {
             if(!response.result){
@@ -383,3 +339,50 @@ var initiationVm = new Vue({
     });
   }
 })
+
+
+var projectTimePicker = rome($("#time-end")[0], {
+  time: false,
+  min: new Date()
+});
+projectTimePicker.on('data', function(value) {
+  initiationVm.project.endTime = value;
+});
+var progressTab = new FFtab($('.kit-progress-tab')[0],$('.initiation-progress')[0],{
+  callback: function(index, tab1, content1, tab2, content2){
+    tab2.classList.add("FFtab-visited");
+    initiationVm.step = index + 1;
+}});
+var editor = new Simditor({
+  textarea: $('#editor'),
+  toolbar: [
+    'title',
+    'bold',
+    'italic',
+    'underline',
+    'fontScale',
+    'color',
+    '|',
+    'ol',
+    'ul',
+    'table',
+    'hr',
+    '|',
+    'link',
+    'image',
+    'alignment',
+  ],
+  upload: {
+    url: apiUrl +"/project/" + initiationVm.categoryId + "/images",
+    params: null,
+    fileKey: 'files',
+    connectionCount: 3,
+    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
+  },
+  pasteImage: true
+  //optional options
+});
+editor.on('valuechanged', function(e, src){
+  initiationVm.project.content = this.getValue();
+});
+var cropper = null;

@@ -1,15 +1,15 @@
 @charset "UTF-8";
-.kit-block, .content-block {
+.kit-block, .content-block, .kit-progress-tab {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }
 
-.kit-block, .content-block {
+.kit-block, .content-block, .kit-progress-tab {
   margin-top: 20px;
   margin-bottom: 20px; }
 
-.kit-block, .content-block {
+.kit-block, .content-block, .kit-progress-tab {
   border-radius: 8px; }
 
-.kit-block, .content-block {
+.kit-block, .content-block, .kit-progress-tab {
   overflow: hidden; }
 
 /*!
@@ -68,6 +68,7 @@
   padding: 20px; }
 
 .block-title {
+  clear: both;
   font-size: 2rem; }
   .block-title:before {
     display: inline-block;
@@ -158,3 +159,46 @@
     .kit-bottombar .kit-bottombar-btn.active, .kit-bottombar .kit-bottombar-btn.active:hover {
       color: #ee554d;
       background-color: #ffffff; }
+
+.kit-progress-tab {
+  background-color: #ffffff; }
+  .kit-progress-tab .kit-tab {
+    width: 25%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 1.4rem;
+    text-align: center;
+    float: left;
+    position: relative;
+    cursor: pointer; }
+    .kit-progress-tab .kit-tab.FFtab-visited {
+      color: #ababab; }
+    .kit-progress-tab .kit-tab.FFtab-active {
+      background-color: #ee554d;
+      color: #ffffff; }
+      .kit-progress-tab .kit-tab.FFtab-active:before {
+        position: absolute;
+        left: -15px;
+        top: 0;
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 30px solid #ee554d;
+        border-bottom: 30px solid #ee554d;
+        border-left: 30px solid #ffffff; }
+      .kit-progress-tab .kit-tab.FFtab-active:after {
+        position: absolute;
+        right: -15px;
+        top: 0;
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 30px solid #ffffff;
+        border-bottom: 30px solid #ffffff;
+        border-left: 30px solid #ee554d; }
+    .kit-progress-tab .kit-tab:first-child:before {
+      display: none; }
+    .kit-progress-tab .kit-tab:last-child:after {
+      display: none; }

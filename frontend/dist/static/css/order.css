@@ -1,0 +1,212 @@
+@charset "UTF-8";
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+#order .kit-progress-tab .kit-tab {
+  width: 33.3%; }
+
+.order-step {
+  padding-bottom: 20px;
+  padding-top: 20px; }
+  .order-step .order-step-btn {
+    width: 120px;
+    background-color: #ee554d;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease; }
+    .order-step .order-step-btn:hover {
+      background-color: #d65152; }
+  .order-step .step-prev {
+    margin-left: 10px;
+    float: left; }
+  .order-step .step-next {
+    margin-right: 10px;
+    float: right; }
+  .order-step:after {
+    display: block;
+    content: "";
+    clear: both; }
+
+#order-project {
+  float: left;
+  width: 70%;
+  box-sizing: border-box;
+  padding-right: 10px; }
+
+#order-feedback {
+  float: left;
+  width: 30%;
+  box-sizing: border-box;
+  padding-left: 10px; }
+
+#order-project-info {
+  width: 100%;
+  height: 140px; }
+  #order-project-info .project-cover {
+    width: 210px;
+    height: 100%;
+    float: left;
+    overflow: hidden; }
+    #order-project-info .project-cover img {
+      min-width: 210px;
+      max-width: 250px;
+      min-height: 140px; }
+  #order-project-info .project-content {
+    height: 100%;
+    margin-left: 210px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #505050;
+    position: relative; }
+    #order-project-info .project-content .project-title {
+      padding-top: 10px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden; }
+    #order-project-info .project-content .project-description {
+      font-size: 1.1rem;
+      padding-top: 15px;
+      height: 60px;
+      overflow: hidden; }
+
+#order-feedback .feedback-money {
+  font-size: 1.5rem; }
+  #order-feedback .feedback-money span {
+    padding-left: 5px;
+    padding-right: 5px; }
+
+#order-feedback .feedback-num {
+  padding-top: 5px;
+  color: #ababab; }
+
+#order-feedback .feedback-detail {
+  width: 100%;
+  padding-top: 5px; }
+  #order-feedback .feedback-detail .feedback-detail-content {
+    font-size: 1.1rem; }
+    #order-feedback .feedback-detail .feedback-detail-content ul li {
+      list-style-type: disc;
+      list-style-position: inside; }
+  #order-feedback .feedback-detail .feedback-detail-pics .feedback-detail-pic {
+    margin-top: 10px;
+    float: left;
+    margin-right: 10px;
+    width: 100px;
+    height: 100px; }
+    #order-feedback .feedback-detail .feedback-detail-pics .feedback-detail-pic img {
+      width: 100%;
+      height: 100%; }
+  #order-feedback .feedback-detail .feedback-detail-pics:after {
+    content: "";
+    display: block;
+    clear: both; }
+
+#order-address:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.address-list {
+  width: 50%;
+  float: left;
+  font-size: 1.2rem;
+  color: #505050;
+  box-sizing: border-box; }
+  .address-list:nth-child(2n) {
+    padding-left: 10px; }
+  .address-list:nth-child(2n+1) {
+    clear: both;
+    padding-right: 10px; }
+  .address-list.selected .address-block {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 3px solid #ee554d;
+    position: relative; }
+    .address-list.selected .address-block:before {
+      position: absolute;
+      right: 3px;
+      bottom: 0;
+      font-size: 1.1rem;
+      font-family: "FontAwesome";
+      content: "";
+      color: #ffffff;
+      z-index: 10; }
+    .address-list.selected .address-block:after {
+      position: absolute;
+      display: block;
+      content: "";
+      right: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-top: 40px solid transparent;
+      border-right: 40px solid #ee554d; }
+  .address-list .address-block {
+    cursor: pointer;
+    margin-bottom: 0;
+    transition: all 0.3s ease; }
+    .address-list .address-block:hover {
+      box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.3); }
+  .address-list .address-content {
+    padding-bottom: 5px; }
+    .address-list .address-content:last-child {
+      padding-bottom: 0; }
+    .address-list .address-content .address-hint {
+      float: left;
+      display: block;
+      width: 100px;
+      text-align: right; }
+    .address-list .address-content .address-inner {
+      display: block;
+      margin-left: 100px;
+      padding-left: 5px; }
+  .address-list .address-default {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #ababab; }
+    .address-list .address-default.default {
+      cursor: default;
+      color: #ee7419; }

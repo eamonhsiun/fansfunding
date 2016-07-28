@@ -414,7 +414,7 @@
   }
   function checkUserStatus(){
     FFaccount.getAccountStatus(function(status){
-      if(status === false){
+      if(status === true){
         redirect();
       }
     });
@@ -423,6 +423,7 @@
   //初始行为
   addElementEvent();
   mdtext.init();
+  checkUserStatus();
   if(window.location.hash.split("#")[1] === "signup"){
     $("#login-signup-btn").click();
   }else if(window.location.hash.split("#")[1] === "forgetpwd"){

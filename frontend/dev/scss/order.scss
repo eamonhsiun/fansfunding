@@ -1,0 +1,225 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "theme/variables.scss";
+@import "import/font-awesome.scss";
+
+#order{
+  .kit-progress-tab{
+    .kit-tab{
+      width: 33.3%;
+    }
+  }
+}
+.order-step{
+  padding-bottom: 20px;
+  padding-top: 20px;
+  .order-step-btn{
+    width: 120px;
+    background-color: $color_red_1;
+    color: $color_text_light;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    @include transition_all();
+    &:hover{
+      background-color: $color_red_2;
+    }
+  }
+  .step-prev{
+    margin-left: 10px;
+    float: left;
+  }
+  .step-next{
+    margin-right: 10px;
+    float: right;
+  }
+  &:after{
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+#order-project{
+  float: left;
+  width: 70%;
+  box-sizing: border-box;
+  padding-right: 10px;
+}
+#order-feedback{
+  float: left;
+  width: 30%;
+  box-sizing: border-box;
+  padding-left: 10px;
+}
+#order-project-info{
+  width: 100%;
+  height: 140px;
+  .project-cover{
+    width: 210px;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    img{
+      min-width: 210px;
+      max-width: 250px;
+      min-height: 140px;
+    }
+  }
+  .project-content{
+    height: 100%;
+    margin-left: 210px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: $color_text;
+    position: relative;
+    .project-title{
+      padding-top: 10px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .project-description{
+      font-size: 1.1rem;
+      padding-top: 15px;
+      height: 60px;
+      overflow: hidden;
+    }
+  }
+}
+#order-feedback{
+  .feedback-money{
+    font-size: 1.5rem;
+    span{
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+  .feedback-num{
+    padding-top: 5px;
+    color: $color_disabled;
+  }
+  .feedback-detail{
+    width: 100%;
+    padding-top: 5px;
+    .feedback-detail-content{
+      font-size: 1.1rem;
+      ul{
+        li{
+          list-style-type: disc;
+          list-style-position: inside;
+        }
+      }
+    }
+    .feedback-detail-pics{
+      .feedback-detail-pic{
+        margin-top: 10px;
+        float: left;
+        margin-right: 10px;
+        width: 100px;
+        height: 100px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &:after{
+        content: "";
+        display: block;
+        clear: both;
+      }
+    }
+  }
+}
+#order-address{
+  &:after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+.address-list{
+  width: 50%;
+  float: left;
+  font-size: 1.2rem;
+  color: $color_text;
+  box-sizing: border-box;
+  &:nth-child(2n){
+    padding-left: 10px;
+  }
+  &:nth-child(2n+1){
+    clear: both;
+    padding-right: 10px;
+  }
+  &.selected{
+    .address-block{
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 3px solid $color_red_1;
+      position: relative;
+      &:before{
+        position: absolute;
+        right: 3px;
+        bottom: 0;
+        font-size: 1.1rem;
+        @include font_icon_content($fa-var-check);
+        color: $color_text_light;
+        z-index: 10;
+      }
+      &:after{
+        position: absolute;
+        display: block;
+        content: "";
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 40px solid transparent;
+        border-right: 40px solid $color_red_1;
+      }
+    }
+  }
+  .address-block{
+    cursor: pointer;
+    margin-bottom: 0;
+    @include transition_all();
+    &:hover{
+      box-shadow: 0 2px 8px 1px rgba(0,0,0,0.3);
+    }
+  }
+  .address-content{
+    padding-bottom: 5px;
+    &:last-child{
+      padding-bottom: 0;
+    }
+    .address-hint{
+      float: left;
+      display: block;
+      width: 100px;
+      text-align: right;
+    }
+    .address-inner{
+      display: block;
+      margin-left: 100px;
+      padding-left: 5px;
+    }
+  }
+  .address-default{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: $color_disabled;
+    &.default{
+      cursor: default;
+      color: $color_orange_1;
+    }
+  }
+}

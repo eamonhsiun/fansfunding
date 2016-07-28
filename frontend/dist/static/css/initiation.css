@@ -1,15 +1,15 @@
 @charset "UTF-8";
-.initiation-progressbar, .progress-content, #initiation-errormsg, .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn:after {
+.progress-content, #initiation-errormsg, .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn:after {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }
 
-.initiation-progressbar, .progress-content, #initiation-errormsg {
+.progress-content, #initiation-errormsg {
   margin-top: 20px;
   margin-bottom: 20px; }
 
-.initiation-progressbar, .progress-content, #initiation-errormsg {
+.progress-content, #initiation-errormsg {
   border-radius: 8px; }
 
-.initiation-progressbar, .progress-content, #initiation-errormsg {
+.progress-content, #initiation-errormsg {
   overflow: hidden; }
 
 /*!
@@ -1102,49 +1102,6 @@
   transition: all 0.3s ease; }
   .FFbtn:hover {
     background-color: #d65152; }
-
-.initiation-progressbar {
-  background-color: #ffffff; }
-  .initiation-progressbar .initiation-tab {
-    width: 25%;
-    height: 60px;
-    line-height: 60px;
-    font-size: 1.4rem;
-    text-align: center;
-    float: left;
-    position: relative;
-    cursor: pointer; }
-    .initiation-progressbar .initiation-tab.FFtab-visited {
-      color: #ababab; }
-    .initiation-progressbar .initiation-tab.FFtab-active {
-      background-color: #ee554d;
-      color: #ffffff; }
-      .initiation-progressbar .initiation-tab.FFtab-active:before {
-        position: absolute;
-        left: -15px;
-        top: 0;
-        content: "";
-        display: block;
-        width: 0;
-        height: 0;
-        border-top: 30px solid #ee554d;
-        border-bottom: 30px solid #ee554d;
-        border-left: 30px solid #ffffff; }
-      .initiation-progressbar .initiation-tab.FFtab-active:after {
-        position: absolute;
-        right: -15px;
-        top: 0;
-        content: "";
-        display: block;
-        width: 0;
-        height: 0;
-        border-top: 30px solid #ffffff;
-        border-bottom: 30px solid #ffffff;
-        border-left: 30px solid #ee554d; }
-    .initiation-progressbar .initiation-tab:first-child:before {
-      display: none; }
-    .initiation-progressbar .initiation-tab:last-child:after {
-      display: none; }
 
 .progress-content {
   background-color: #ffffff;

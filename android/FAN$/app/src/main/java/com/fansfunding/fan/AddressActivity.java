@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.fansfunding.adapter.AddressAdapter;
 import com.fansfunding.internal.Address;
+import com.fansfunding.internal.SingleAddress;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,10 +64,10 @@ public class AddressActivity extends AppCompatActivity {
     public static int index;
 
     //当前被操作的address对象
-    public static Address.DataDetial mDataDetial;
+    public static SingleAddress mDataDetial;
 
     //将要被添加的Address对象
-    public static Address.DataDetial addDataDetial;
+    public static SingleAddress addDataDetial;
 
     //添加成功
     public static boolean add_success = false;
@@ -87,7 +88,7 @@ public class AddressActivity extends AppCompatActivity {
 
     public static AddressAdapter adapter;
 
-    public static List<Address.DataDetial> dataDetialList = new ArrayList<>();
+    public static List<SingleAddress> dataDetialList = new ArrayList<>();
 
 
     private Handler handler = new Handler() {
@@ -194,7 +195,7 @@ public class AddressActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.i("TAG","INItemSelectListeber222");
                     Intent data=new Intent();
-                    data.putExtra("address",(Address.DataDetial)lv_address.getAdapter().getItem(position));
+                    data.putExtra("address",(SingleAddress)lv_address.getAdapter().getItem(position));
                     setResult(RESULT_OK,data);
                     Log.i("TAG","INItemSelectListeber000");
                     AddressActivity.this.finish();
@@ -448,7 +449,7 @@ public class AddressActivity extends AppCompatActivity {
                     Log.e("AddAddress", str_response);
                     System.out.print(str_response);
                     //将获取到的数据加载到listview列表中
-                    for(Address.DataDetial detial : ads.getData()) {
+                    for(SingleAddress detial : ads.getData()) {
                         dataDetialList.add(detial);
                     }
 

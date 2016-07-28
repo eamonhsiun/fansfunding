@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fansfunding.fan.project.activity.ProjectOrderEnsureActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_project_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:theme="@style/toolbar_white_theme"
+        android:background="@color/colorPrimary"
+        >
+
+    </android.support.v7.widget.Toolbar>
+
+    <!--订单编号-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/layout_padding">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单编号"/>
+
+        <!--订单编号信息-->
+        <TextView
+            android:id="@+id/tv_project_order_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:paddingLeft="@dimen/layout_padding"/>
+
+    </LinearLayout>
+
+    <!--分割线-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/divider"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"/>
+    </LinearLayout>
+
+    <!--订单信息-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/layout_padding"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+        <!--项目回馈图片-->
+        <ImageView
+            android:id="@+id/iv_project_order_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/layout_padding">
+            <!--项目名-->
+            <TextView
+                android:id="@+id/tv_project_order_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subhead_text_size" />
+
+            <!--支付金额-->
+            <TextView
+                android:id="@+id/tv_project_order_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size"
+                android:text="¥"/>
+
+            <TextView
+                android:id="@+id/tv_project_order_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/list_text_size"
+                android:layout_toRightOf="@id/tv_project_order_price_label"
+                android:paddingLeft="4dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--支付宝选项-->
+    <LinearLayout
+        android:id="@+id/ll_project_support_alipay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/layout_padding"
+        android:paddingLeft="@dimen/layout_padding"
+        android:background="@color/colorWhite">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/alipay_c"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="支付宝支付"
+            android:textSize="@dimen/subhead_text_size"
+            android:paddingLeft="@dimen/layout_padding"
+            android:textColor="@color/colorPublishGrey"/>
+        <CheckBox
+            android:id="@+id/checkbox_project_support_alipay"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="@dimen/layout_padding"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_project_order_ensure_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确认支付"
+        android:background="@color/colorButtonRed"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:elevation="3dp"/>
+</LinearLayout>

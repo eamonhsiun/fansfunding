@@ -26,4 +26,11 @@ public class FANRequestCode {
     //支付宝调用后的回馈信息
     public final static int SDK_PAY_FLAG=126;
 
+    //获取订单详情成功
+    public final static int GET_ORDER_DETAIL_SUCCESS=127;
+
+    //获取订单详情失败
+    public final static int GET_ORDER_DETAIL_FAILURE=128;
+
+
 }

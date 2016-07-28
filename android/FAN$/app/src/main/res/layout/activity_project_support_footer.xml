@@ -5,7 +5,7 @@
 
     android:orientation="vertical">
     <!--支付宝选项-->
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/ll_project_support_alipay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
@@ -32,7 +32,7 @@
             android:layout_height="24dp"
             android:layout_marginRight="@dimen/layout_padding"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <!--地址选项-->
     <LinearLayout

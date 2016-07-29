@@ -30,6 +30,7 @@ import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.internal.Address;
 import com.fansfunding.internal.ProjectDetailReward;
 import com.fansfunding.internal.ProjectInfo;
+import com.fansfunding.internal.SingleAddress;
 import com.fansfunding.internal.project.FANAlipay;
 import com.fansfunding.internal.user.AddressDefault;
 import com.nostra13.universalimageloader.utils.L;
@@ -42,6 +43,9 @@ public class ProjectSupportActivity extends AppCompatActivity {
 
     //打开地址的请求码
     private final static int REQUEST_CODE_START_ADDRESS_ACTIVITY=100;
+
+    //打开确认订单的请求码
+    private final static int REQUEST_CODE_START_ORDER_ENSURE_ACTIVITY=101;
 
     //用来请求项目回报
     private RequestProjectDetailReward requestProjectDetailReward;
@@ -95,7 +99,7 @@ public class ProjectSupportActivity extends AppCompatActivity {
     private TextView tv_PJ_support_need_money;
 
     //支付宝选择框
-    private CheckBox checkBox_alipay;
+    //private CheckBox checkBox_alipay;
 
     //httpclient
     //private OkHttpClient httpClient;
@@ -127,41 +131,36 @@ public class ProjectSupportActivity extends AppCompatActivity {
 
                 case FANRequestCode.GET_MOBILE_ALIPAY_SUCCESS:
                     fanAlipay=requestAlipay.getAlipay();
-                    nextAlipay();
+                    //nextAlipay();
+                    Intent intent=new Intent();
+                    intent.setAction(getString(R.string.activity_project_order));
+                    if(fanAlipay==null
+                            ||fanAlipay.getData()==null
+                            ||fanAlipay.getData().getOrderNo()==null
+                            ||fanAlipay.getData().getSignedOrder()==null
+                            ||fanAlipay.getData().getOrderNo().equals("")==true
+                            ||fanAlipay.getData().getSignedOrder().equals("")==true){
+                        isCreatingOrder=false;
+                        break;
+                    }
+                    intent.putExtra("orderInfo",fanAlipay.getData().getSignedOrder());
+                    intent.putExtra("orderNo",fanAlipay.getData().getOrderNo());
+                    intent.putExtra("projectName",detail.getName());
+                    intent.putExtra("rewardPrice",new java.text.DecimalFormat("0.00").format(adapter.getSelectedItem().getLimitation()));
+                    intent.putExtra("projectPhoto",getString(R.string.url_resources)+detail.getCover());
+                    startActivityForResult(intent,REQUEST_CODE_START_ORDER_ENSURE_ACTIVITY);
+                    isCreatingOrder=false;
                     break;
                 case FANRequestCode.GET_MOBILE_ALIPAY_FAILURE:
                     //已完成订单，虽然是失败的
-                    isCreatingOrder=false;
+
                     if(ProjectSupportActivity.this.isFinishing()==true){
                         break;
                     }
                     Toast.makeText(ProjectSupportActivity.this,"订单生产失败，请重试",Toast.LENGTH_LONG).show();
-                    break;
-                case FANRequestCode.SDK_PAY_FLAG:
-                    //完成订单，此时是成功的，就是没有bug的
-                    PayResult payResult = new PayResult((String) msg.obj);
-                    /**
-                     * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
-                     * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
-                     * docType=1) 建议商户依赖异步通知
-                     */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(ProjectSupportActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // 判断resultStatus 为非"9000"则代表可能支付失败
-                        // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-                        if (TextUtils.equals(resultStatus, "8000")) {
-                            Toast.makeText(ProjectSupportActivity.this, "支付结果确认中", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(ProjectSupportActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-                        }
-                    }
                     isCreatingOrder=false;
                     break;
+
                 default:
                     super.handleMessage(msg);
             }
@@ -208,7 +207,7 @@ public class ProjectSupportActivity extends AppCompatActivity {
         footer=View.inflate(this,R.layout.activity_project_support_footer,null);
 
         //支付宝选择框
-        checkBox_alipay=(CheckBox)footer.findViewById(R.id.checkbox_project_support_alipay) ;
+        //checkBox_alipay=(CheckBox)footer.findViewById(R.id.checkbox_project_support_alipay) ;
 
         //地址展示栏
         tv_support_address=(TextView) footer.findViewById(R.id.tv_support_address);
@@ -256,6 +255,8 @@ public class ProjectSupportActivity extends AppCompatActivity {
     }
 
 
+
+
     //初始化项目回报
     private void InitProjectDetailReward(){
         if(reward==null||reward.getData().getList().size()==0){
@@ -273,7 +274,6 @@ public class ProjectSupportActivity extends AppCompatActivity {
             return;
         }
         if(address.getData().getAddress()==null||address.getData().getProvince()==null||address.getData().getCity()==null||address.getData().getDistrict()==null){
-            Log.i("TAG","FAILUREINADDRESS");
             return;
         }
         tv_support_address.setText("收货地址:"+address.getData().getProvince()+address.getData().getCity()+address.getData().getDistrict()+address.getData().getAddress());
@@ -309,14 +309,20 @@ public class ProjectSupportActivity extends AppCompatActivity {
         switch (requestCode){
             case REQUEST_CODE_START_ADDRESS_ACTIVITY:
                 if(resultCode==RESULT_OK){
-                    if((Address.DataDetial)data.getSerializableExtra("address")==null){
-                        Log.i("TAG","RETURN NULL");
+                    if((SingleAddress)data.getSerializableExtra("address")==null){
                     }
-                    address.setData((Address.DataDetial)data.getSerializableExtra("address"));
-                    Log.i("TAG","NOT NULL");
+                    address.setData((SingleAddress) data.getSerializableExtra("address"));
                     InitAddressDefault();
                 }
                 break;
+            case REQUEST_CODE_START_ORDER_ENSURE_ACTIVITY:
+                if(resultCode==RESULT_OK){
+                    //已完成支付，所以将界面关闭
+                    if(this.isFinishing()==false){
+                        this.finish();
+                    }
+                }
+            break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -337,10 +343,10 @@ public class ProjectSupportActivity extends AppCompatActivity {
             return;
         }
         //未选择支付方式
-        if(checkBox_alipay.isChecked()==false){
+       /* if(checkBox_alipay.isChecked()==false){
             Toast.makeText(ProjectSupportActivity.this,"请选择支付方式",Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         if(address==null||address.getData()==null||address.getData().getAddress()==null||address.getData().getProvince()==null||address.getData().getCity()==null||address.getData().getDistrict()==null){
             Toast.makeText(ProjectSupportActivity.this,"请选择地址",Toast.LENGTH_LONG).show();
             return;
@@ -357,7 +363,7 @@ public class ProjectSupportActivity extends AppCompatActivity {
     }
 
     //启动支付宝
-    private void nextAlipay(){
+    /*private void nextAlipay(){
         if(fanAlipay==null||fanAlipay.getData()==null){
             return;
         }
@@ -378,5 +384,5 @@ public class ProjectSupportActivity extends AppCompatActivity {
         // 必须异步调用
         Thread payThread = new Thread(payRunnable);
         payThread.start();
-    }
+    }*/
 }

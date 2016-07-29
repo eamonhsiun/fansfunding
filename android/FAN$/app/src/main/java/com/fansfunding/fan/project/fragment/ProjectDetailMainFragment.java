@@ -232,10 +232,16 @@ public class ProjectDetailMainFragment extends Fragment {
             });
         }*/
         ArrayList<String> networkImages=new ArrayList<String>();
+        if(projectDetail.getCover()!=null&&projectDetail.getCover().equals("")==false){
+            networkImages.add(getString(R.string.url_resources)+projectDetail.getCover());
+        }
         if(projectDetail.getImages()!=null&&projectDetail.getImages().size()>0){
             for(int i=0;i<projectDetail.getImages().size();i++) {
                 if(projectDetail.getImages().get(i)!=null&&projectDetail.getImages().get(i).equals("")==false){
-                    networkImages.add(getString(R.string.url_resources)+projectDetail.getImages().get(i));
+                    if(networkImages.contains(getString(R.string.url_resources)+projectDetail.getImages().get(i))==false){
+                        networkImages.add(getString(R.string.url_resources)+projectDetail.getImages().get(i));
+                    }
+
                 }
             }
         }

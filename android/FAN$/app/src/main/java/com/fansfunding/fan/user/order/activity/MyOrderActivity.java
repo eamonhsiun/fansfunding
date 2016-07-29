@@ -170,11 +170,13 @@ public class MyOrderActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent();
                 UserOrder.OrderDetail detail=(UserOrder.OrderDetail)lv_order_list.getAdapter().getItem(position);
-                int categoryId=detail.getCategoryId();
+                /*int categoryId=detail.getCategoryId();
                 int projectId=detail.getProjectId();
                 intent.putExtra("categoryId",categoryId);
-                intent.putExtra("projectId",projectId);
-                intent.setAction(getString(R.string.activity_project_detail));
+                intent.putExtra("projectId",projectId);*/
+                String orderNo=detail.getOrderNo();
+                intent.putExtra("orderNo",orderNo);
+                intent.setAction(getString(R.string.activity_user_order_detail));
                 startActivity(intent);
             }
         });

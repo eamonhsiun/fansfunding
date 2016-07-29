@@ -25,6 +25,7 @@ import com.fansfunding.fan.AddressActivity;
 import com.fansfunding.fan.AddressManagmentAty;
 import com.fansfunding.fan.R;
 import com.fansfunding.internal.Address;
+import com.fansfunding.internal.SingleAddress;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -50,7 +51,7 @@ import okhttp3.Response;
 /**
  * Created by RJzz on 2016/7/18.
  */
-public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
+public class AddressAdapter extends ArrayAdapter<SingleAddress> {
     //删除成功
     public static final int DELETE_SUCCESS = 100;
 
@@ -64,11 +65,11 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
     public static final int DEFAULT_ADDRESS_FAILURE = 103;
 
     //数据源
-    List<Address.DataDetial> address;
+    List<SingleAddress> address;
 
     private int resourceId;
     Context mContext;
-    public AddressAdapter(Context context, int resource, List<Address.DataDetial> objects) {
+    public AddressAdapter(Context context, int resource, List<SingleAddress> objects) {
         super(context, resource, objects);
         mContext = context;
         resourceId = resource;
@@ -107,7 +108,7 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        final Address.DataDetial dataDetial = getItem(position);
+        final SingleAddress dataDetial = getItem(position);
 
         final View view;
         final ViewHolder viewHolder;
@@ -235,7 +236,7 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
         Button delete;
     }
 
-    private void delete(Address.DataDetial dataDetail, final int postion) {
+    private void delete(SingleAddress dataDetail, final int postion) {
 
         final SharedPreferences share = mContext.getSharedPreferences(mContext.getString(R.string.sharepreference_login_by_phone), mContext.MODE_PRIVATE);
         int id = share.getInt("id", 0);
@@ -310,7 +311,7 @@ public class AddressAdapter extends ArrayAdapter<Address.DataDetial> {
     }
 
     //修改默认地址
-    private void edit(Address.DataDetial dataDetial) {
+    private void edit(SingleAddress dataDetial) {
         //请求需要的id和token
         SharedPreferences share = mContext.getSharedPreferences(mContext.getString(R.string.sharepreference_login_by_phone), mContext.MODE_PRIVATE);
         int id = share.getInt("id", 0);

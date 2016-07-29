@@ -218,12 +218,12 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
 
         <!-- 发起项目界面 -->
         <activity android:name=".project.activity.CreateProjectActivity">
@@ -243,13 +243,40 @@
             </intent-filter>
         </activity>
 
-        <!--查看大图-->
+        <!-- 查看大图 -->
         <activity android:name=".utils.BigPictureActivity">
             <intent-filter>
-            <action android:name="android.intent.action.FANS.UTILS.BIGPICTURE" />
+                <action android:name="android.intent.action.FANS.UTILS.BIGPICTURE" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 确认订单界面订单 -->
+        <activity android:name=".project.activity.ProjectOrderEnsureActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTORDERENSURE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 支付成功界面 -->
+        <activity android:name=".project.activity.PaySuccessActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PAYSUCCESS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--订单详情界面-->
+        <activity android:name=".user.order.activity.OrderDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.USER.ORDER.ACTIVITY.ORDERDETAIL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

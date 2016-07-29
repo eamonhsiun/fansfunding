@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.fansfunding.internal.Address;
 
+import com.fansfunding.internal.SingleAddress;
 import com.fansfunding.pick.AssetsUtils;
 
 
@@ -46,7 +47,7 @@ public class AddressManagmentAty extends AppCompatActivity {
     //新增对象
     Address adsfuck  = new Address();
 
-    Address.DataDetial dataDetialFuck = adsfuck.dataDetial();
+    SingleAddress dataDetialFuck = adsfuck.dataDetial();
 
     //姓名
     private TextInputEditText nameT;
@@ -204,7 +205,7 @@ public class AddressManagmentAty extends AppCompatActivity {
     //修改地址
     public void edit() {
         Intent intent = getIntent();
-        Address.DataDetial dataDetial_edit = (Address.DataDetial) intent.getSerializableExtra("addressEdit");
+        SingleAddress dataDetial_edit = (SingleAddress) intent.getSerializableExtra("addressEdit");
 
         nameT.setText(dataDetialFuck.getName());
         phoneT.setText(dataDetial_edit.getPhone());

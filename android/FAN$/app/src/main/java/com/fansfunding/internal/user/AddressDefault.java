@@ -1,6 +1,7 @@
 package com.fansfunding.internal.user;
 
 import com.fansfunding.internal.Address;
+import com.fansfunding.internal.SingleAddress;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +18,7 @@ public class AddressDefault {
     private int errCode;
 
     //返回的数据
-    private Address.DataDetial data;
+    private SingleAddress data;
 
     public boolean isResult() {
         return result;
@@ -35,11 +36,11 @@ public class AddressDefault {
         this.errCode = errCode;
     }
 
-    public Address.DataDetial getData() {
+    public SingleAddress getData() {
         return data;
     }
 
-    public void setData(Address.DataDetial data) {
+    public void setData(SingleAddress data) {
         this.data = data;
     }
 

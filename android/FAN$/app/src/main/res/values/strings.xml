@@ -43,6 +43,12 @@
     <!--发表评论-->
     <string name="activity_project_comment">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTCOMMENT</string>
     <string name="activity_project_support">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTSUPPORT</string>
+    <string name="activity_project_order">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTORDERENSURE</string>
+    <string name="activity_pay_success">android.intent.action.FANS.PROJECT.ACTIVITY.PAYSUCCESS</string>
+    <!--用户订单详情界面-->
+    <string name="activity_user_order_detail">android.intent.action.FANS.USER.ORDER.ACTIVITY.ORDERDETAIL</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

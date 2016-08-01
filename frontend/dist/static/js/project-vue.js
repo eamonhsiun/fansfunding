@@ -2,6 +2,7 @@ var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 var detailLoader = new FFloader($("#project-detail"));
 var commentLoader = new FFloader($("#project-comment"));
+var momentLoader = new FFloader($("#project-moment"));
 var feedbackLoader = new FFloader($("#project-feedback"));
 var projectTab = new FFtab($('.project-tabs'),$('.project-contents'));
 
@@ -48,6 +49,7 @@ var vm = new Vue({
     categoryId: getQueryString("categoryId"), //分类id
     projectId: getQueryString("id"), // 项目id
     isFollowed: false,
+    isSelf: false,
     project: {
       status: false, //项目状态
       connect: false, //项目服务器连接状态
@@ -71,6 +73,19 @@ var vm = new Vue({
       page: 0,
       totalPages: 0,
       list: [] //评论列表
+    },
+    moments: {
+      status: false,
+      connect: false,
+      count: 0,
+      MAX_COUNT: 128,
+      hint: "剩余128个字",
+      overflow: false,
+      content: "",
+      images: [],
+      page: 0,
+      totalPages: 0,
+      list: [],
     },
     feedbacks: {
       status: false,
@@ -98,6 +113,17 @@ var vm = new Vue({
       }else{
         this.comments.overflow = true;
         this.comments.hint = "超出" + -num + "个字";
+      }
+    },
+    'moments.content': function(val){
+      this.moments.count = val.length;
+      var num = this.moments.MAX_COUNT - this.moments.count;
+      if(num >= 0){
+        this.moments.overflow = false;
+        this.moments.hint = "剩余" + num + "个字";
+      }else{
+        this.moments.overflow = true;
+        this.moments.hint = "超出" + -num + "个字";
       }
     }
   },
@@ -134,6 +160,9 @@ var vm = new Vue({
         }else{
           _this.project.data = response.data;
           _this.project.status = true;
+          if(_this.project.data.sponsor == localId){
+            _this.isSelf = true;
+          }
         }
       }).catch(function (response, xhr) {
         _this.project.connect = false;
@@ -324,7 +353,70 @@ var vm = new Vue({
           // Do something
         });
       }
-    }
+    },
+    getMoments: function(page){
+      var _this = this;
+      var momentsRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/moment",
+      }).then(function (response, xhr) {
+        _this.moments.connect = true;
+        a = response;
+        if(!response.result){
+          momentLoader.endLoad(false, "获取动态失败");
+          _this.moments.status = false;
+        }else{
+          _this.moments.list = response.data.list;
+          if(_this.moments.list.length !== 0){
+            momentLoader.endLoad();
+          }else{
+            momentLoader.endLoad(false, "发起人还没有发布动态");
+          }
+          _this.moments.status = true;
+        }
+      }).catch(function (response, xhr) {
+        commentLoader.endLoad(false, "连接服务器失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
+    sendMoment: function(){
+      var _this = this;
+      if(this.moments.overflow || !this.moments.content){
+        return;
+      }
+      var content = this.moments.content;
+      momentLoader.init();
+      var momentRequest = ajax({
+        method: 'post',
+        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/moment",
+        data: {
+          token: localToken,
+          content: _this.moments.content,
+          images: "",
+          sponsorId: localId
+        }
+      }).then(function (response, xhr) {
+        if(!response.result){
+          momentLoader.endLoad(false, "发布动态失败");
+        }else{
+          _this.moments.list.unshift({
+            sponsor: localId,
+            images: [],
+            sponsorNickname: _this.userInfo.nickname,
+            sponsorHead: _this.userInfo.head,
+            updateTime: (new Date()).getTime(),
+            content: _this.moments.content
+          });
+          _this.moments.content = "";
+          momentLoader.endLoad();
+        }
+      }).catch(function (response, xhr) {
+        momentLoader.endLoad(false, "评论失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
   },
   ready: function() {
     var _this = this;

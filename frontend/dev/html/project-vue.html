@@ -35,7 +35,7 @@
         <div class="project-tabs tabs">
           <ul>
             <li class="project-tab FFtab" id="project-detail-btn">项目详情</li>
-            <li class="project-tab FFtab" id="project-moment-btn">项目动态</li>
+            <li class="project-tab FFtab" id="project-moment-btn" @click.prevent="getMoments">项目动态</li>
             <li class="project-tab FFtab" id="project-comment-btn" v-on:click.prevent="getComments">项目评论</li>
           </ul>
         </div>
@@ -50,6 +50,53 @@
             <div class="content-style" id="project-detail-wrap">{{{project.detail.content}}}</div>
           </div>
           <div class="project-content FFtab-content" id="project-moment">
+            <div class="comment-text" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
+              <div class="comment-userinfo">
+                <div class="comment-avatar" id="moment-user-avatar">
+                  <img v-bind:src="userInfo.head | resource" alt="">
+                </div>
+                <div class="comment-userinfo-name" id="moment-user-nickname">{{ userInfo.nickname }}</div>
+                <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+              </div>
+              <div class="comment-input">
+                <textarea name="" id="moment-textarea" cols="30" rows="10" v-model="moments.content"></textarea >
+                <div class="comment-input-more">
+                  <div class="comment-hint" id="moment-hint" v-text="moments.hint" v-bind:class="{'overflow':moments.overflow}"></div>
+                  <div class="comment-submit" id="comment-submit" v-on:click="sendMoment">发表动态</div>
+                </div>
+              </div>
+            </div>
+            <div class="loader FFloader" id="moment-loader">
+              <div class="loader-inner triangle-skew-spin">
+                <div></div>
+              </div>
+            </div>
+            <div id="moment-errormsg" class="errormsg FFerrormsg">发起人还没有发布动态</div>
+            <ul>
+              <li class="moment-wrap comment-wrap" v-for="moment in moments.list">
+                <div class="moment-userinfo comment-userinfo">
+                  <div class="moment-avatar comment-avatar">
+                    <img v-bind:src="moment.sponsorHead | resource" alt="">
+                  </div>
+                  <a href="space.html?userid={{moment.sponsor}}"><div class="moment-userinfo-name comment-userinfo-name">{{ moment.sponsorNickname }}</div></a>
+                  <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+                </div>
+                <div class="moment-content comment-content">
+                  <div class="moment-inner comment-inner">{{ moment.content }}</div>
+                  <div class="moment-images comment-images">
+                    <div class="comment-image" v-for="image in moment.images">
+                      <img v-bind:src="image | resource" alt="">
+                    </div>
+                  </div>
+                  <div class="moment-more comment-more">
+                    <div class="moment-time comment-time">{{ moment.updateTime | commentTime }}</div>
+                    <div class="moment-btns comment-btns">
+                      <div class="moment-btn moment-like comment-btn comment-like">12</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
           <div class="project-content FFtab-content" id="project-comment">
             <div class="comment-login" v-if="!status">
@@ -61,7 +108,7 @@
                   <img v-bind:src="userInfo.head | resource" alt="">
                 </div>
                 <div class="comment-userinfo-name" id="comment-user-nickname">{{ userInfo.nickname }}</div>
-                <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+                <div class="comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
               </div>
               <div class="comment-input">
                 <textarea name="" id="comment-textarea" cols="30" rows="10" v-model="comments.content" placeholder="{{comments.reply.placeholder}}"></textarea >
@@ -83,7 +130,7 @@
                   <div class="comment-avatar">
                     <img v-bind:src="comment.commenterHead | resource" alt="">
                   </div>
-                  <div class="comment-userinfo-name">{{ comment.commenterNickname }}</div>
+                  <a href="space.html?userid={{comment.commenterId}}"><div class="comment-userinfo-name">{{ comment.commenterNickname }}</div></a>
                   <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
                 </div>
                 <div class="comment-content">

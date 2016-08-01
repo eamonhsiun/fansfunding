@@ -14,7 +14,7 @@
               </div>
             </div>
             <div class="kit-bottombar" v-if="!isSelf">
-              <div class="kit-bottombar-btn">关注</div>
+              <div class="kit-bottombar-btn" :class="{'active': isFollowed}" @click.prevent="followUser">{{ isFollowed ? "已关注" : "关注"}}</div>
             </div>
           </div>
           <div class="kit-block">

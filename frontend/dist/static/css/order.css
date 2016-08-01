@@ -37,31 +37,18 @@
   width: 33.3%; }
 
 .order-step {
-  padding-bottom: 20px;
-  padding-top: 20px; }
-  .order-step .order-step-btn {
-    width: 120px;
-    background-color: #ee554d;
-    color: #ffffff;
-    text-align: center;
-    line-height: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease; }
-    .order-step .order-step-btn:hover {
-      background-color: #d65152; }
-  .order-step .step-prev {
-    margin-left: 10px;
-    float: left; }
-  .order-step .step-next {
-    margin-right: 10px;
-    float: right; }
-  .order-step:after {
-    display: block;
-    content: "";
-    clear: both; }
+  padding-bottom: 40px;
+  padding-top: 40px; }
+  .order-step .order-submit {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4rem;
+    border-radius: 10px; }
+    .order-step .order-submit:before {
+      font-family: "FontAwesome";
+      content: "";
+      padding-right: 10px; }
 
 #order-project {
   float: left;
@@ -70,10 +57,27 @@
   padding-right: 10px; }
 
 #order-feedback {
-  float: left;
+  float: right;
   width: 30%;
   box-sizing: border-box;
   padding-left: 10px; }
+
+#order-money {
+  float: left;
+  width: 70%;
+  box-sizing: border-box;
+  padding-right: 10px; }
+  #order-money .kit-block {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.2rem;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    #order-money .kit-block span {
+      color: #ee554d;
+      font-size: 2rem;
+      padding-left: 5px;
+      padding-right: 5px; }
 
 #order-project-info {
   width: 100%;
@@ -146,8 +150,8 @@
 
 .address-list {
   width: 50%;
-  float: left;
   font-size: 1.2rem;
+  float: left;
   color: #505050;
   box-sizing: border-box; }
   .address-list:nth-child(2n) {
@@ -155,6 +159,8 @@
   .address-list:nth-child(2n+1) {
     clear: both;
     padding-right: 10px; }
+  .address-list:hover .address-default {
+    display: block; }
   .address-list.selected .address-block {
     width: 100%;
     height: 100%;
@@ -184,7 +190,8 @@
   .address-list .address-block {
     cursor: pointer;
     margin-bottom: 0;
-    transition: all 0.3s ease; }
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease; }
     .address-list .address-block:hover {
       box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.3); }
   .address-list .address-content {
@@ -201,6 +208,7 @@
       margin-left: 100px;
       padding-left: 5px; }
   .address-list .address-default {
+    display: none;
     position: absolute;
     top: 10px;
     right: 20px;
@@ -208,5 +216,57 @@
     cursor: pointer;
     color: #ababab; }
     .address-list .address-default.default {
+      display: block;
       cursor: default;
       color: #ee7419; }
+
+#address-add .address-block {
+  cursor: default; }
+
+#address-add .address-add-mask {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  text-align: center;
+  color: #5d5d5d; }
+  #address-add .address-add-mask.active {
+    display: none; }
+    #address-add .address-add-mask.active + .address-add-content {
+      display: block; }
+  #address-add .address-add-mask:before {
+    display: block;
+    font-size: 7rem;
+    line-height: 120px;
+    margin: auto;
+    font-family: "FontAwesome";
+    content: ""; }
+  #address-add .address-add-mask span {
+    display: block;
+    padding-top: 5px; }
+    #address-add .address-add-mask span:before {
+      padding-right: 10px;
+      font-family: "FontAwesome";
+      content: ""; }
+
+#address-add .address-add-content {
+  display: none; }
+
+#address-add .address-content {
+  padding-bottom: 10px; }
+  #address-add .address-content .address-inner input {
+    width: 80%;
+    height: 100%;
+    border: 0;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid #505050;
+    transition: all 0.3s ease; }
+    #address-add .address-content .address-inner input:focus {
+      border-bottom-color: #ee554d; }
+    #address-add .address-content .address-inner input.valid {
+      border-bottom-color: #5aa133; }
+
+#address-add .FFbtn {
+  margin-top: 5px; }

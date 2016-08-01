@@ -7,7 +7,7 @@
   window[NAME] = FFtab;
 
   FFtab.prototype.defaultOption = {
-    callback: [],
+    callback: null,
     click: true
   }
 

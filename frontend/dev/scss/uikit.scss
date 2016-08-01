@@ -201,3 +201,18 @@
     }
   }
 }
+//kit 普通按钮
+.FFbtn{
+  width: 120px;
+  background-color: $color_red_1;
+  color: $color_text_light;
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  @include transition_all();
+  &:hover{
+    background-color: $color_red_2;
+  }
+}

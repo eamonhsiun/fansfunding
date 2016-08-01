@@ -93,60 +93,101 @@
         <div class="block-title">订单信息</div>
         <div class="kit-wrap">
           <div class="kit-group" id="order-project">
-            <div class="kit-block kit-content">
-              <div id="order-project-info">
-                <div class="project-cover">
-                  <img :src="project.data.cover | resource" alt="">
-                </div>
-                <div class="project-content">
-                  <div class="project-title">{{project.data.name}}</div>
-                  <div class="project-description">{{project.data.description}}</div>
+            <a href="project-vue.html?categoryId={{categoryId}}&id={{projectId}}" target="_blank">
+              <div class="kit-block kit-content">
+                <div id="order-project-info">
+                  <div class="project-cover">
+                    <img :src="project.data.cover | resource" alt="">
+                  </div>
+                  <div class="project-content">
+                    <div class="project-title">{{project.data.name}}</div>
+                    <div class="project-description">{{project.data.description}}</div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
           <div class="kit-group" id="order-feedback">
             <div class="kit-block kit-content">
-              <div class="feedback-money">支持<span>4214214</span>元</div>
-              <div class="feedback-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
+              <div class="feedback-money">支持<span>{{feedback.target.limitation}}</span>元</div>
+              <div class="feedback-num">已支持<span>{{feedback.target.supportTimes}}</span>人</div>
               <div class="feedback-detail">
-                <div class="feedback-detail-content">辛寨黄托和ATI和晒h艾诺钟爱弄晒怒海诺还能</div>
+                <div class="feedback-detail-content">{{feedback.target.description}}</div>
                 <div class="feedback-detail-pics">
-                  <div class="feedback-detail-pic" v-for="image in feedback.images">
+                  <div class="feedback-detail-pic" v-for="image in feedback.target.images">
                     <img v-bind:src="image | resource" alt="">
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="kit-group" id="order-money">
+            <div class="kit-block kit-content">
+              实际支付金额：<span>{{order.money}}</span>元
+            </div>
+          </div>
         </div>
         <div class="block-title">地址选择</div>
         <div class="kit-wrap" id="order-address">
-          <div class="address-list selected">
+          <div class="address-list" :class="{'selected': index == address.selected}" v-for="(index, addr) in address.list" @click.prevent="selectUserAddress(index)">
             <div class="kit-block kit-content address-block">
               <div>
                 <div class="address-content">
                   <span class="address-hint">姓名：</span>
-                  <span class="address-inner">嘤嘤嘤</span>
+                  <span class="address-inner">{{addr.name}}</span>
                 </div>
                 <div class="address-content">
                   <span class="address-hint">省市区：</span>
-                  <span class="address-inner">湖北省武汉市洪山区</span>
+                  <span class="address-inner">{{addr.province}} {{addr.city}} {{addr.district}}</span>
                 </div>
                 <div class="address-content">
                   <span class="address-hint">详细地址：</span>
-                  <span class="address-inner">国际软件国际软件学院国际软件学院国际软件学院国际软件学院国际软件学院国际软件学院国际软件学院学院</span>
+                  <span class="address-inner">{{addr.address}}</span>
                 </div>
                 <div class="address-content">
                   <span class="address-hint">邮编：</span>
-                  <span class="address-inner">3213213</span>
+                  <span class="address-inner">{{addr.postCode}}</span>
                 </div>
                 <div class="address-content">
                   <span class="address-hint">电话：</span>
-                  <span class="address-inner">13245678945</span>
+                  <span class="address-inner">{{addr.phone}}</span>
                 </div>
               </div>
-              <div class="address-default default">默认地址</div>
+              <div class="address-default" :class="{'default': index == address.default}" @click.prevent="setDefaultUserAddress(index)">{{ index == address.default ? "默认地址" : "设为默认地址" }}</div>
+            </div>
+          </div>
+          <div class="address-list" id="address-add">
+            <div class="kit-block kit-content address-block">
+              <div class="address-add-mask" :class="{'active': address.maskHide}" @click.stop="removeAddressMask">
+                <span>添加收货地址</span>
+              </div>
+              <div class="address-add-content">
+                <div class="address-content">
+                  <span class="address-hint">姓名：</span>
+                  <span class="address-inner"><input type="text" v-model="address.newAddress.name"></span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">省市区：</span>
+                  <span class="address-inner">
+                    <input type="text" v-model="address.newAddress.province">
+                    <input type="text" v-model="address.newAddress.city">
+                    <input type="text" v-model="address.newAddress.district">
+                  </span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">详细地址：</span>
+                  <span class="address-inner"><input type="text" v-model="address.newAddress.address"></span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">邮编：</span>
+                  <span class="address-inner"><input type="text" v-model="address.newAddress.postCode"></span>
+                </div>
+                <div class="address-content">
+                  <span class="address-hint">电话：</span>
+                  <span class="address-inner"><input type="text" v-model="address.newAddress.phone"></span>
+                </div>
+                <div class="address-add-btn FFbtn" @click.prevent="addUserAddress">添加</div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,10 +199,13 @@
         <div class="block-title">订单信23息</div>
       </div>
     </div>
-    <div class="order-step">
+    <!-- <div class="order-step">
       <div class="order-step-btn step-prev" v-if="step != 1" @click.prevent="prevStep">上一步</div>
       <div class="order-step-btn step-next" v-if="step != totalStep" @click.prevent="nextStep">下一步</div>
       <div class="order-step-btn step-next" v-if="step == totalStep" @click.prevent="initializeProject">完成</div>
+    </div> -->
+    <div class="order-step">
+      <div class="order-submit FFbtn">确认订单</div>
     </div>
   </div>
 
@@ -189,7 +233,7 @@
   </div>
 
 
-  <script src="static/js/lib/vue.min.js"></script>
+  <script src="static/js/lib/vue.js"></script>
   <script src="static/js/lib/ajax.min.js"></script>
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>

@@ -373,6 +373,14 @@
     border-bottom: 1px solid $color_disabled;
   }
 }
+#project-moment{
+  #moment-errormsg{
+    display: none;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}
 .comment-text{
   display: none;
   border-bottom: 1px solid $color_disabled;
@@ -395,7 +403,7 @@
       font-size: 1.1rem;
       padding-top: 10px;
     }
-    .comment-unerinfo-intro{
+    .comment-userinfo-intro{
       padding-top: 5px;
       color: $color_disabled;
     }
@@ -475,7 +483,7 @@
       font-size: 1.1rem;
       padding-top: 10px;
     }
-    .comment-unerinfo-intro{
+    .comment-userinfo-intro{
       padding-top: 5px;
       color: $color_disabled;
     }
@@ -486,6 +494,26 @@
     box-sizing: border-box;
     .comment-inner{
       font-size: 1.1rem;
+    }
+    .comment-images{
+      padding-bottom: 10px;
+      &:after{
+        content: "";
+        display: block;
+        clear: both;
+      }
+      .comment-image{
+        width: 120px;
+        height: 120px;
+        float: left;
+        padding-top: 20px;
+        padding-right: 20px;
+        overflow: hidden;
+        img{
+          width: 100%;
+          min-height: 100%;
+        }
+      }
     }
     .comment-more{
       color: $color_disabled;
@@ -713,7 +741,7 @@
         font-size: 1.1rem;
         padding-top: 0;
       }
-      .comment-unerinfo-intro{
+      .comment-userinfo-intro{
         padding-top: 0;
         font-size: 1rem;
       }
@@ -784,7 +812,7 @@
         font-size: 1.1rem;
         padding-top: 0;
       }
-      .comment-unerinfo-intro{
+      .comment-userinfo-intro{
         padding-top: 0;
         font-size: 1rem;
       }

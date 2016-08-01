@@ -41,6 +41,7 @@ var spaceVm = new Vue({
     userInfo: {},
     spaceId: getQueryString("userid"),
     spaceUserInfo: {},
+    isFollowed: false,
     projects: {
       sponsor: {
         status: false,
@@ -122,7 +123,64 @@ var spaceVm = new Vue({
       }).always(function (response, xhr) {
         // Do something
       });
-    }
+    },
+    getUserFollowStatus: function(){
+      var _this = this;
+      var followStatusRequest = ajax({
+        method: 'post',
+        url: apiUrl +"/user/" + localId + "/following/" + _this.spaceId,
+        data: {
+          token: localToken
+        }
+      }).then(function (response, xhr) {
+        if(response.result){
+          _this.isFollowed = response.data;
+        }
+      }).catch(function (response, xhr) {
+
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
+    followUser: function(){
+      if(this.isSelf){
+        return;
+      }
+      var _this = this;
+      if(!this.isFollowed){
+        var followRequest = ajax({
+          method: 'post',
+          url: apiUrl +"/user/" + localId + "/follow/" + _this.spaceId,
+          data: {
+            token: localToken
+          }
+        }).then(function (response, xhr) {
+          if(response.result){
+            _this.isFollowed = true;
+          }
+        }).catch(function (response, xhr) {
+
+        }).always(function (response, xhr) {
+          // Do something
+        });
+      }else{
+        var unfollowRequest = ajax({
+          method: 'post',
+          url: apiUrl +"/user/" + localId + "/unfollow/" + _this.spaceId,
+          data: {
+            token: localToken
+          }
+        }).then(function (response, xhr) {
+          if(response.result){
+            _this.isFollowed = false;
+          }
+        }).catch(function (response, xhr) {
+
+        }).always(function (response, xhr) {
+          // Do something
+        });
+      }
+    },
   },
   ready: function(){
     var _this = this;
@@ -141,6 +199,7 @@ var spaceVm = new Vue({
       _this.getRecentProject("sponsor");
       _this.getRecentProject("follow");
       _this.getRecentProject("support");
+      _this.getUserFollowStatus();
     });
 
   }

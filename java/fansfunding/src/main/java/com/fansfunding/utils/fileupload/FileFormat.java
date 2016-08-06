@@ -35,24 +35,20 @@ public class FileFormat {
 		}
 		return compare(fileHead.toUpperCase());
 	}
+	/**
+	 * 是否是图片格式
+	 * @param in
+	 * @return
+	 * @throws IOException
+	 */
 	public static boolean isImage(InputStream in)throws IOException{
-		switch(judge(in)){
-		case BMP:
-			return true;
-		case JPEG:
-			return true;
-		case PNG:
-			return true;
-		case GIF:
-			return true;
-		case TIFF:
-			return true;
-		default:
-			return false;
-		}
+		return isImage(judge(in));
 	}
 	public static boolean isImage(String path) throws IOException{
-		switch(judge(path)){
+		return isImage(judge(path));
+	}
+	private static boolean isImage(FileType fileType){
+		switch(fileType){
 		case BMP:
 			return true;
 		case JPEG:
@@ -67,6 +63,11 @@ public class FileFormat {
 			return false;
 		}
 	}
+	/**
+	 * 比较
+	 * @param fileHead
+	 * @return
+	 */
 	private static FileType compare(String fileHead){
 		FileType[] fileTypes = FileType.values();
 		for (FileType type : fileTypes) {

@@ -72,7 +72,6 @@ public class FileUpload {
 			userHead=prop.getProperty("user.head");
 			projectAttachment=prop.getProperty("project.attachment");
 			chatFiles=prop.getProperty("chat.files");
-			System.out.println("类加载完成");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

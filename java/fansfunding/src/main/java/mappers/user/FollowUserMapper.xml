@@ -17,7 +17,7 @@
     values (#{userId,jdbcType=INTEGER}, #{followerId,jdbcType=INTEGER})
   </insert>
   <select id="select" resultMap="BaseResultMap" parameterType="com.fansfunding.user.entity.FollowUser" >
-    select id, user_id, follower_id
+    select id, user_id, follower_id,del_flag
     from follow_user
     where user_id = #{userId,jdbcType=INTEGER}
     and 
@@ -28,6 +28,6 @@
     set del_flag='0'
     where user_id=#{userId,jdbcType=INTEGER}
     and
-    follower_id=#{projectId,jdbcType=INTEGER}
+    follower_id=#{followerId,jdbcType=INTEGER}
   </update>
 </mapper>

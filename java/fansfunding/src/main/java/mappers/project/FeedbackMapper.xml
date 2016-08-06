@@ -6,6 +6,7 @@
     <result column="project_id" property="projectId" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="ceiling" property="ceiling" jdbcType="INTEGER" />
     <result column="limitation" property="limitation" jdbcType="DECIMAL" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="DATE" />
@@ -19,32 +20,33 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.project.entity.Feedback" >
-    insert into feedback (project_id, title, 
-      description,limitation, create_by, create_time, 
+    insert into feedback (project_id, title,description,ceiling,
+      limitation, create_by, create_time, 
       update_by,update_time)
     values (#{projectId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},
-    #{limitation,jdbcType=DECIMAL},#{createBy,jdbcType=VARCHAR}, NOW(),#{updateBy,jdbcType=VARCHAR},
-    NOW())
+    #{ceiling,jdbcType=INTEGER},#{limitation,jdbcType=DECIMAL},#{createBy,jdbcType=VARCHAR},
+    NOW(),#{updateBy,jdbcType=VARCHAR},NOW())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Feedback" >
     update feedback
     set project_id = #{projectId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
+      ceiling=#{ceiling,jdbcType=INTEGER},
       limitation = #{limitation,jdbcType=DECIMAL},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, project_id, title, description, limitation, create_by, create_time, update_by, update_time, 
+    select id, project_id, title, description, limitation, ceiling, create_by, create_time, update_by, update_time, 
     del_flag
     from feedback
     where id = #{id,jdbcType=INTEGER}
     and del_flag='0'
   </select>
   <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, project_id, title, description, limitation, create_by, create_time, update_by, update_time, 
+    select id, project_id, title, description, limitation, ceiling, create_by, create_time, update_by, update_time, 
     del_flag
     from feedback
     where project_id = #{projectId,jdbcType=INTEGER}

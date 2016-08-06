@@ -102,8 +102,8 @@ public class UserFollowService {
 		FollowUser follow=new FollowUser();
 		follow.setUserId(userId);
 		follow.setFollowerId(followerId);
-		FollowUser fp=followUserDao.select(follow);
-		if(fp==null||fp.getDelFlag().equals("1")){
+		FollowUser fu=followUserDao.select(follow);
+		if(fu==null||fu.getDelFlag().equals("1")){
 			return false;
 		}
 		return true;
@@ -118,8 +118,8 @@ public class UserFollowService {
 		FollowUser follow=new FollowUser();
 		follow.setUserId(followerId);
 		follow.setFollowerId(userId);
-		FollowUser fp=followUserDao.select(follow);
-		if(fp==null||fp.getDelFlag().equals("1")){
+		FollowUser fu=followUserDao.select(follow);
+		if(fu==null||fu.getDelFlag().equals("1")){
 			return false;
 		}
 		return true;

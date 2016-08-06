@@ -47,8 +47,8 @@ public class FeedbackController {
 	@RequestMapping(path="{categoryId}/{projectId}/feedbacks",method=RequestMethod.POST)
 	@ResponseBody
 	public Status addFeedbacks(@PathVariable Integer categoryId,@PathVariable Integer projectId,
-			@RequestParam String title,@RequestParam String description,@RequestParam double limitation, 
-			@RequestParam(required=false,defaultValue="") String images){
+			@RequestParam String title,@RequestParam String description,@RequestParam double limitation,
+			@RequestParam int ceiling,@RequestParam(required=false,defaultValue="") String images){
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
@@ -56,7 +56,7 @@ public class FeedbackController {
 			return new Status(false,StatusCode.ERROR_DATA,"参数过长",null);
 		}
 		if(!CheckUtils.isNullOrEmpty(title,description)){
-			feedbackService.add(projectId,title,description,limitation,images);
+			feedbackService.add(projectId,title,description,limitation,ceiling,images);
 			return new Status(true,StatusCode.SUCCESS,"回馈方式添加成功",null);
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);

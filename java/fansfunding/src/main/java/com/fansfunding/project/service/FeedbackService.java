@@ -52,6 +52,7 @@ public class FeedbackService {
 			feedback.put("title", e.getTitle());
 			feedback.put("description", e.getDescription());
 			feedback.put("limitation", e.getLimitation());
+			feedback.put("ceiling", e.getCeiling());
 			List<Resource> images=resourceDao.selectFeedbackImages(e.getId());
 			if(images.size()==0){
 				String[] paths={DefaultImage.DEFAULT_FEEDBACK_IMAGE};
@@ -73,11 +74,12 @@ public class FeedbackService {
 	 * 添加回馈
 	 * @param feedback 回馈
 	 */
-	public void add(int projectId,String title,String description,double limitation ,String images){
+	public void add(int projectId,String title,String description,double limitation,int ceiling,String images){
 		Feedback feedback=new Feedback();
 		feedback.setProjectId(projectId);
 		feedback.setTitle(title);
 		feedback.setDescription(description);
+		feedback.setCeiling(ceiling);
 		feedback.setLimitation(limitation);
 		feedback.setCreateBy(userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getName());
 		feedback.setUpdateBy(userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getName());

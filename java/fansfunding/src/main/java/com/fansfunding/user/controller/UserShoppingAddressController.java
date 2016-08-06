@@ -60,7 +60,12 @@ public class UserShoppingAddressController {
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		int addressId=shoppingAddressService.AddNewAddress(userId, name, phone, province, city, district, address, postCode);
+		if(name.length()>20||province.length()>20||city.length()>20||
+				district.length()>20||phone.length()>15||address.length()>50){
+			return new Status(false,StatusCode.ERROR_DATA,"数据过长",null);
+		}
+		int addressId=shoppingAddressService.AddNewAddress(userId, name, phone, province,
+				city, district, address, postCode);
 		return new Status(true, StatusCode.SUCCESS,addressId, null);
 	}
 	/**
@@ -83,6 +88,10 @@ public class UserShoppingAddressController {
 			){
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(name.length()>20||province.length()>20||city.length()>20||
+				district.length()>20||phone.length()>15||address.length()>50){
+			return new Status(false,StatusCode.ERROR_DATA,"数据过长",null);
 		}
 		if(shoppingAddressService.updateById(addressId, address, city,
 				district, province, phone, postCode, name, userId)){

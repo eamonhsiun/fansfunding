@@ -17,7 +17,9 @@ public class Feedback {
     private String title;
 
     private String description;
-
+    
+    private int ceiling;
+    
     private Double limitation;
     
     private String createBy;

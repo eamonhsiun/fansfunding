@@ -48,13 +48,19 @@ var vm = new Vue({
     userInfo: {}, //用户信息
     categoryId: getQueryString("categoryId"), //分类id
     projectId: getQueryString("id"), // 项目id
-    isFollowed: false,
+    isFollowed: false, //项目follow
     isSelf: false,
     project: {
       status: false, //项目状态
       connect: false, //项目服务器连接状态
       data: {}, //基本数据
       detail: {} // 详情
+    },
+    sponsor: {
+      status: false,
+      connect: false,
+      isFollowed: false,
+      data: {},
     },
     comments: {
       status:false, //评论状态
@@ -147,7 +153,7 @@ var vm = new Vue({
     redirect: function(){
       window.location.href = "404.html";
     },
-    getProject: function(){
+    getProject: function(callback){
       var _this = this;
       var projectRequest = ajax({
         method: 'get',
@@ -163,6 +169,7 @@ var vm = new Vue({
           if(_this.project.data.sponsor == localId){
             _this.isSelf = true;
           }
+          callback();
         }
       }).catch(function (response, xhr) {
         _this.project.connect = false;
@@ -417,6 +424,60 @@ var vm = new Vue({
         // Do something
       });
     },
+    getUserFollowStatus: function(){
+      var _this = this;
+      var followStatusRequest = ajax({
+        method: 'post',
+        url: apiUrl +"/user/" + localId + "/following/" + _this.project.data.sponsor,
+        data: {
+          token: localToken
+        }
+      }).then(function (response, xhr) {
+        if(response.result){
+          _this.sponsor.isFollowed = response.data;
+        }
+      }).catch(function (response, xhr) {
+
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
+    followUser: function(){
+      var _this = this;
+      if(!this.sponsor.isFollowed){
+        var followRequest = ajax({
+          method: 'post',
+          url: apiUrl +"/user/" + localId + "/follow/" + _this.project.data.sponsor,
+          data: {
+            token: localToken
+          }
+        }).then(function (response, xhr) {
+          if(response.result){
+            _this.sponsor.isFollowed = true;
+          }
+        }).catch(function (response, xhr) {
+
+        }).always(function (response, xhr) {
+          // Do something
+        });
+      }else{
+        var unfollowRequest = ajax({
+          method: 'post',
+          url: apiUrl +"/user/" + localId + "/unfollow/" + _this.project.data.sponsor,
+          data: {
+            token: localToken
+          }
+        }).then(function (response, xhr) {
+          if(response.result){
+            _this.sponsor.isFollowed = false;
+          }
+        }).catch(function (response, xhr) {
+
+        }).always(function (response, xhr) {
+          // Do something
+        });
+      }
+    },
   },
   ready: function() {
     var _this = this;
@@ -432,7 +493,9 @@ var vm = new Vue({
         _this.status = false;
       }
     });
-    this.getProject();
+    this.getProject(function(){
+      _this.getUserFollowStatus();
+    });
     this.getFeedbacks();
   }
 });

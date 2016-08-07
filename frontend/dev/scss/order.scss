@@ -13,6 +13,7 @@
 .order-step{
   padding-bottom: 40px;
   padding-top: 40px;
+  text-align: center;
   .order-submit{
     width: 100%;
     height: 50px;
@@ -23,6 +24,20 @@
       @include font_icon_content($fa-var-file-text);
       padding-right: 10px;
     }
+  }
+  .order-step-two{
+    border-radius: 5px;
+    width: 40%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4rem;
+    display: inline-block;
+    &.order-success{
+      margin-right: 50px;
+    }
+    // &.order-failure{
+    //   float: right;
+    // }
   }
 }
 #order-project{
@@ -293,4 +308,9 @@
   .FFbtn{
     margin-top: 5px;
   }
+}
+.pay-info{
+  font-size: 1.8rem;
+  text-align: center;
+
 }

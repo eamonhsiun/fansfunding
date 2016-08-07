@@ -282,17 +282,9 @@
 .cropper-disabled .cropper-drag-box, .cropper-disabled .cropper-face, .cropper-disabled .cropper-line, .cropper-disabled .cropper-point {
   cursor: not-allowed; }
 
-.setting-info {
-  width: 100%;
-  height: 80px;
-  border-bottom: 1px solid #aaaaaa; }
-  .setting-info .setting-info-detail {
-    height: 100%;
-    line-height: 80px; }
-    .setting-info .setting-info-detail .setting-info-title {
-      padding-left: 50px; }
-      .setting-info .setting-info-detail .setting-info-title h1 {
-        font-size: 2rem; }
+.setting-wrap {
+  margin-top: 20px;
+  margin-bottom: 30px; }
 
 .setting-contents .setting-content {
   clear: both;

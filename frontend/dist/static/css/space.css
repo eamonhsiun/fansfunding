@@ -159,3 +159,45 @@
       .space-project-list .project-content .project-detail .project-lefttime:before {
         font-family: "FontAwesome";
         content: ""; }
+
+.space-order-list {
+  width: 100%;
+  height: 140px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ababab; }
+  .space-order-list:after {
+    content: "";
+    display: block;
+    clear: both; }
+  .space-order-list:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0; }
+  .space-order-list .order-cover {
+    width: 210px;
+    height: 100%;
+    float: left;
+    overflow: hidden; }
+    .space-order-list .order-cover img {
+      min-width: 210px;
+      max-width: 250px;
+      min-height: 140px; }
+  .space-order-list .order-content {
+    height: 100%;
+    margin-left: 210px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #505050;
+    position: relative; }
+    .space-order-list .order-content .order-title {
+      font-size: 1.2rem; }
+    .space-order-list .order-content .order-feedback-title {
+      font-size: 1.1rem;
+      padding-top: 5px; }
+    .space-order-list .order-content .order-detail {
+      padding-top: 5px; }
+    .space-order-list .order-content .order-detail-time {
+      position: absolute;
+      bottom: 0;
+      left: 20px; }

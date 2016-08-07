@@ -1,15 +1,9 @@
 @@include('include/head.html',{"title": "修改头像 | FAN$","csstype": "avatar"})
 @@include('include/header.html',{"page": "null"})
   <div class="container">
-    <div class="setting content-block">
-      <div class="setting-info">
-        <div class="setting-info-detail">
-          <div class="setting-info-title">
-            <h1>头像设置</h1>
-          </div>
-        </div>
-      </div>
-      <div class="setting-wrap">
+    <div class="setting-wrap">
+      <div class="block-title">修改头像</div>
+      <div class="kit-block">
         <div class="setting-contents">
           <div class="setting-content" id="setting-profile">
             <div class="setting-profile-list" id="setting-avatar">
@@ -21,14 +15,15 @@
                 <input type="file" accept="image/png,image/jpeg" name="file" id="upload-avatar-input">
                 <a href="###" id="upload-avatar-btn">选择文件</a>
               </div>
-            <div class="setting-profile-submit">
-              <a href="###" id="upload-avatar-submit">保存</a>
+              <div class="setting-profile-submit">
+                <a href="###" id="upload-avatar-submit">保存</a>
+              </div>
             </div>
           </div>
-          <div class="setting-content" id="setting-address"></div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 @@include('include/footer.html')
 @@include('include/script.html',{"jstype": "avatar"})

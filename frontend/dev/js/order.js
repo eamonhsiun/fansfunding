@@ -57,14 +57,26 @@ var orderVm = new Vue({
     pay: {
       status: false,
       connect: false,
+      page: "",
     }
   },
   watch: {
 
   },
   methods: {
-    redirect: function(){
-
+    redirect: function(target){
+      if(target){
+        switch(target){
+          case "login":
+          window.location.href = "login.html";
+        }
+        return;
+      }
+      if(document.referrer != document.URL && document.referrer !== ""){
+        window.location.href = document.referrer;
+        return;
+      }
+      window.location.href = "404.html";
     },
     getProject: function(){
       var _this = this;
@@ -127,7 +139,7 @@ var orderVm = new Vue({
                 _this.feedback.target = _this.feedback.list[i];
                 _this.feedback.status = true;
                 _this.order.money = _this.feedback.list[i].limitation;
-                break;
+                return;
               }
             }
             if(!_this.feedback.status && _this.feedback.page < _this.feedback.totalPages){
@@ -232,6 +244,64 @@ var orderVm = new Vue({
     },
     selectUserAddress: function(index){
       this.address.selected = index;
+    },
+    submitOrder: function(){
+      var _this = this;
+      orderTab.next();
+      var temp_form = document.createElement("form");
+      temp_form .action = apiUrl + "/pay/web";
+      temp_form .target = "_blank";
+      temp_form .method = "post";
+      temp_form .style.display = "none";
+
+      var token = document.createElement("input");
+      token.name = "token";
+      token.value = localToken;
+      temp_form.appendChild(token);
+
+      var feedbackId = document.createElement("input");
+      feedbackId.name = "feedbackId";
+      feedbackId.value = _this.feedbackId;
+      temp_form.appendChild(feedbackId);
+
+      var userId = document.createElement("input");
+      userId.name = "userId";
+      userId.value = localId;
+      temp_form.appendChild(userId);
+
+      var addressId = document.createElement("input");
+      addressId.name = "addressId";
+      addressId.value = _this.address.list[_this.address.selected].addressId;
+      temp_form.appendChild(addressId);
+
+      document.body.appendChild(temp_form);
+      temp_form.submit();
+
+      // var _this = this;
+      // var submitOrderRequest = ajax({
+      //   method: 'post',
+      //   url: apiUrl + "/pay/web",
+      //   data: {
+      //     token: localToken,
+      //     feedbackId: _this.feedbackId,
+      //     userId: localId,
+      //     addressId: _this.address.list[_this.address.selected].addressId,
+      //   }
+      // }).then(function (response, xhr) {
+      //   _this.pay.connect = true;
+      //   // if(!response.result){
+      //   //   console.log("提交订单失败");
+      //   //   return;
+      //   // }
+      //   var obj = window.open("about:blank");
+      //   obj.document.write(response);
+      //   // _this.pay.page = response;
+
+      // }).catch(function (response, xhr) {
+      //   _this.pay.connect = false;
+      //   console.log("提交订单连接错误");
+      // }).always(function (response, xhr) {
+      // });
     }
   },
   ready: function(){
@@ -245,7 +315,7 @@ var orderVm = new Vue({
         _this.userInfo = localUserInfo;
       }else{
         _this.status = false;
-        _this.redirect();
+        _this.redirect("login");
       }
     });
     this.getProject();
@@ -258,7 +328,7 @@ var orderVm = new Vue({
 var orderTab = new FFtab($('.kit-progress-tab'),$('.order-progress'),{
   callback: function(index, tab1, content1, tab2, content2){
     tab2.classList.add("FFtab-visited");
-    initiationVm.step = index + 1;
+    orderVm.step = index + 1;
   },
   click: false
 });

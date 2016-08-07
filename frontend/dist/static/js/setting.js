@@ -62,5 +62,7 @@
 
   addElementEvent();
   changeUserStatus();
+
+  var orderTab = new FFtab($('.kit-tabs'),$('.setting-wrap'));
 })();
 

@@ -113,7 +113,9 @@
         </div>
       </div>
       <div class="FFtab-content">
-        <div class="block-title">订单信32息</div>
+        <div class="block-title">支付信息</div>
+        <div class="kit-block kit-content">
+          <div class="pay-info">在新窗口完成支付</div></div>
       </div>
       <div class="FFtab-content">
         <div class="block-title">订单信23息</div>
@@ -125,7 +127,9 @@
       <div class="order-step-btn step-next" v-if="step == totalStep" @click.prevent="initializeProject">完成</div>
     </div> -->
     <div class="order-step">
-      <div class="order-submit FFbtn">确认订单</div>
+      <div class="order-submit FFbtn" @click.prevent="submitOrder" v-if="step == 1">确认订单</div>
+      <div class="order-success order-step-two FFbtn" v-if="step == 2">支付成功</div>
+      <div class="order-failure order-step-two FFbtn" v-if="step == 2">支付失败</div>
     </div>
   </div>
 

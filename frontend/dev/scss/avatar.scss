@@ -3,21 +3,11 @@
 @import "import/font-awesome.scss";
 @import "import/cropper.min.scss";
 
-.setting-info{
-  width: 100%;
-  height: 80px;
-  border-bottom: 1px solid #aaaaaa;
-  .setting-info-detail{
-    height: 100%;
-    line-height: 80px;
-    .setting-info-title{
-      padding-left: 50px;
-      h1{
-        font-size: 2rem;
-      }
-    }
-  }
+.setting-wrap{
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
+
 .setting-contents{
   .setting-content{
     clear: both;

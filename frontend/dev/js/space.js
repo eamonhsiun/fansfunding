@@ -26,6 +26,22 @@ Vue.component('space-project-list', {
   }
 });
 
+Vue.component('space-order-list', {
+  template: '#space-order-list-template',
+  props: ["orders"],
+  methods: {
+    getTime: function(value){
+      var date;
+      if(value instanceof Date){
+        date = value;
+      }else{
+        date = new Date(value);
+      }
+      return date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日 " + date.getHours() + ":" + date.getMinutes();
+    },
+  }
+});
+
 Vue.filter("resource" ,function(value) {
   if(!value){
     return "";
@@ -67,6 +83,14 @@ var spaceVm = new Vue({
         page: 0,
         totalPages: 0
       }
+    },
+    orders: {
+      status: false,
+      connect: false,
+      list: [],
+      count: 0,
+      page: 0,
+      totalPages: 0
     }
 
   },
@@ -181,6 +205,28 @@ var spaceVm = new Vue({
         });
       }
     },
+    getRecentOrder: function(page){
+      var _this = this;
+      var projectRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/user/" + _this.spaceId + "/orders?token=" + localToken,
+      }).then(function (response, xhr) {
+        _this.orders.connect = true;
+        if(!response.result){
+          _this.orders.status = false;
+        }else{
+          _this.orders.list = response.data.list;
+          _this.orders.count = response.data.total;
+          _this.orders.page = response.data.pageNum;
+          _this.orders.totalPages = response.data.pages;
+          _this.orders.status = true;
+        }
+      }).catch(function (response, xhr) {
+        _this.orders.connect = false;
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    }
   },
   ready: function(){
     var _this = this;
@@ -200,6 +246,7 @@ var spaceVm = new Vue({
       _this.getRecentProject("follow");
       _this.getRecentProject("support");
       _this.getUserFollowStatus();
+      _this.getRecentOrder();
     });
 
   }

@@ -56,7 +56,7 @@
                 </div>
                 <div class="kit-content">
                   <template id="space-project-list-template">
-                    <div class="space-kit-hint" v-if="projects.length == 0">没用相关项目</div>
+                    <div class="space-kit-hint" v-if="projects.length == 0">没有相关项目</div>
                     <ul>
                       <li class="space-project-list" v-for="project in projects">
                         <a href="project-vue.html?categoryId={{project.categoryId}}&id={{project.id}}">
@@ -125,7 +125,27 @@
                   <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
                 <div class="kit-content">
-
+                  <template id="space-order-list-template">
+                    <div class="space-kit-hint" v-if="orders.length == 0">没有订单</div>
+                    <ul>
+                      <li class="space-order-list" v-for="order in orders">
+                        <a href="order-result.html?orderNo={{order.orderNo}}">
+                          <div class="order-cover">
+                            <img :src="order.feedbackImages[0] | resource" alt="">
+                          </div>
+                          <div class="order-content">
+                            <div class="order-title">{{order.projectName}}</div>
+                            <div class="order-feedback-title">{{order.feedbackTitle}}</div>
+                            <div class="order-detail">
+                              <div class="order-detail-no">{{order.tradeNo}}</div>
+                              <div class="order-detail-time">{{getTime(order.paidTime)}}</div>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </template>
+                  <space-order-list :orders="orders.list.slice(0,3)"></space-order-list>
                 </div>
               </div>
             </div>

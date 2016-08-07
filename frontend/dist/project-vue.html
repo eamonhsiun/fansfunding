@@ -47,8 +47,8 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="###"><li>我的项目</li></a>
-              <a href="###"><li>我的钱包</li></a>
+              <a href="space.html"><li>我的项目</li></a>
+              <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
             </ul>
@@ -109,7 +109,7 @@
             <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
           </div>
         </div>
-        <div class="initiator-follow">关注</div>
+        <div class="initiator-follow" :class="{'followed': sponsor.isFollowed}" @click.prevent="followUser">{{ sponsor.isFollowed ? "已关注" : "关注"}}</div>
       </div>
       <div class="project-wrap content-block">
         <div class="project-tabs tabs">
@@ -247,7 +247,7 @@
                 </div>
               </div>
             </div>
-            <div class="feedback-btn">前往支持</div>
+            <a class="feedback-btn" href="order.html?categoryId={{categoryId}}&id={{projectId}}&feedbackId={{feedback.id}}">前往支持</a>
           </li>
         </ul>
       </div>

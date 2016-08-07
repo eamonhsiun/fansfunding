@@ -255,6 +255,7 @@
         display: block;
         clear: both; }
     .project-feedback .feedback-list .feedback-btn {
+      display: block;
       cursor: pointer;
       margin-top: 10px;
       clear: both;

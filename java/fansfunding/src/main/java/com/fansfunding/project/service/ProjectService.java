@@ -422,7 +422,7 @@ public class ProjectService {
 		return true;
 	}
 	/**
-	 * 
+	 * 获取项目的关注者
 	 * @param projectId
 	 * @return
 	 */
@@ -430,6 +430,21 @@ public class ProjectService {
 		List<Map<String,Object>> followers=new ArrayList<Map<String,Object>>();
 		PageHelper.startPage(page, rows);
 		List<User> list=userDao.selectProjectFollowers(projectId);
+		PageInfo<User> info=new PageInfo<>(list);
+		list.forEach((user)->{
+			followers.add(userService.getUserBasicMap(user));
+		});
+		return PageAdapter.adapt(info, followers);
+	}
+	/**
+	 * 获取项目的支持者
+	 * @param projectId
+	 * @return
+	 */
+	public Page getSupporters(int projectId,int page,int rows){
+		List<Map<String,Object>> followers=new ArrayList<Map<String,Object>>();
+		PageHelper.startPage(page, rows);
+		List<User> list=userDao.selectProjectSupporters(projectId);
 		PageInfo<User> info=new PageInfo<>(list);
 		list.forEach((user)->{
 			followers.add(userService.getUserBasicMap(user));

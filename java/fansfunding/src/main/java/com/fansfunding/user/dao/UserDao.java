@@ -29,6 +29,12 @@ public interface UserDao {
 	 */
 	List<User> selectProjectFollowers(int projectId);
 	/**
+	 * 项目的关注者
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectProjectSupporters(int projectId);
+	/**
 	 * 粉丝
 	 * @param projectId
 	 * @return

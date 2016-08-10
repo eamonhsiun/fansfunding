@@ -307,10 +307,47 @@
   .setting-wrap .setting-wrap-tabs ul .seting-wrap-tab:hover, .setting-wrap .setting-wrap-tabs ul .tab-active {
     background-color: #ffc8ca; }
 
-.setting-contents .setting-content {
+.setting-content {
   clear: both;
-  padding: 30px 60px;
-  box-sizing: border-box; }
+  padding: 30px 40px; }
+
+.setting-list {
+  margin-top: 40px;
+  clear: both;
+  width: 100%; }
+  .setting-list:after {
+    clear: both;
+    display: block;
+    content: ""; }
+  .setting-list .setting-hint {
+    font-size: 1.5rem;
+    display: block;
+    float: left;
+    text-align: right;
+    width: 120px;
+    height: 100%;
+    padding-right: 20px; }
+  .setting-list:first-child {
+    margin-top: 20px; }
+  .setting-list .setting-inner {
+    float: left; }
+
+.setting-alert {
+  text-align: center;
+  color: #ec2c22;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  display: none; }
+
+.setting-submit {
+  clear: both;
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.4rem;
+  border-radius: 10px; }
 
 #setting-profile .setting-profile-list {
   margin-top: 40px;

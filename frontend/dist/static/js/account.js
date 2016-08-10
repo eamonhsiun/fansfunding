@@ -109,7 +109,10 @@ function getErrorMsg(errCode){
   }
 
   FFaccount.getAccountStatus = function(callback){
-    if(localUserInfo){
+    if(!localId || !localToken){
+      callback(false);
+      return;
+    }else if(localUserInfo){
       if(localUserInfo.status){
         callback(localUserInfo.status);
       }else{

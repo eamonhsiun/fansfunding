@@ -4,26 +4,27 @@
     <div class="setting-wrap">
       <div class="block-title">修改头像</div>
       <div class="kit-block">
-        <div class="setting-contents">
-          <div class="setting-content" id="setting-profile">
-            <div class="setting-profile-list" id="setting-avatar">
-              <span>头像：</span>
-              <div class="setting-avatar-wrap">
-                <div class="cropper-wrap">
-                  <img id="new-avatar" src="static/img/27.jpg"alt="">
-                </div>
-                <input type="file" accept="image/png,image/jpeg" name="file" id="upload-avatar-input">
-                <a href="###" id="upload-avatar-btn">选择文件</a>
+        <div class="kit-content setting-content">
+          <div class="setting-list">
+            <span class="setting-hint">头像：</span>
+            <div class="setting-inner" id="setting-avatar">
+              <div class="avatar-preview-wrap">
+                <div class="avatar-preview" id="avatar-preview-large"><img src="" alt=""></div>
+                <div class="avatar-preview" id="avatar-preview-middle"><img src="" alt=""></div>
+                <div class="avatar-preview" id="avatar-preview-small"><img src="" alt=""></div>
               </div>
-              <div class="setting-profile-submit">
-                <a href="###" id="upload-avatar-submit">保存</a>
+              <div class="FFbtn" id="upload-avatar-btn">选择文件</div>
+              <div class="cropper-wrap">
+                <img id="new-avatar" src=""alt="">
               </div>
+              <input type="file" accept="image/png,image/jpeg" name="file" id="upload-avatar-input">
             </div>
           </div>
+          <div class="setting-alert" id="upload-avatar-alert">上传成功</div>
+          <div class="setting-submit FFbtn" id="upload-avatar-submit">保存头像</div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 @@include('include/footer.html')
 @@include('include/script.html',{"jstype": "avatar"})

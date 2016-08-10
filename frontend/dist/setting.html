@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="profile-not-login" id="profile-not-login">
-          <a href="login.html?#login">登录</a>
+          <a href="login.html">登录</a>
           <a href="login.html?#signup">注册</a>
         </div>
       </div>
@@ -94,23 +94,21 @@
         <div class="setting-contents">
           <div class="FFtab-content">
             <div class="setting-content" id="setting-profile">
-              <div class="setting-profile-list" id="setting-avatar">
-                <span>头像：</span>
-                <div class="setting-avatar-wrap">
-                  <img id="new-avatar" src=""alt="">
-                  <input type="file" name="file" id="upload-avatar-input">
-                  <a href="avatar.html" id="upload-avatar-btn">修改头像</a>
+              <div class="setting-list">
+                <span class="setting-hint">头像：</span>
+                <div class="setting-inner" id="setting-avatar">
+                  <img id="now-avatar" src="" alt="">
+                  <a href="avatar.html" class="FFbtn">修改头像</a>
                 </div>
               </div>
-              <div class="setting-profile-list" id="setting-nickname">
-                <span>昵称：</span>
-                <div class="setting-nickname-wrap">
+              <div class="setting-list">
+                <span class="setting-hint">昵称：</span>
+                <div class="setting-inner" id="setting-nickname">
                   <input type="text" id="upload-nickname-input">
                 </div>
               </div>
-              <div class="setting-profile-submit">
-                <a href="###" id="setting-profile-submit-btn">保存</a>
-              </div>
+              <div class="setting-alert" id="profile-alert">上传成功</div>
+              <div class="setting-submit FFbtn" id="profile-submit">保存头像</div>
             </div>
           </div>
           <div class="FFtab-content">

@@ -22,16 +22,20 @@
   function cropAvatar(){
     var avatarFile = $("#upload-avatar-input").files[0];
     if(avatarFile.type.indexOf("image") < 0){
-      alert("图片格式错误");
+      $("#upload-avatar-alert").innerHTML = "图片格式错误";
+      $("#upload-avatar-alert").style.display = "block";
       return;
     }
+    $("#upload-avatar-alert").style.display = "none";
     var avatarImg = window.URL.createObjectURL(avatarFile);
     if(!cropper){
+      $(".cropper-wrap").style.display = "block";
       cropper = new Cropper($("#new-avatar"), {
         viewMode: 3,
         aspectRatio: 1 / 1,
         dragMode: 'move',
-        zoomable: false
+        zoomable: false,
+        preview: ".avatar-preview"
       });
     }
     // $("#new-avatar").src= avatarImg;
@@ -39,11 +43,16 @@
   }
 
   function uploadAvatar (){
+    if(!cropper){
+      $("#upload-avatar-alert").innerHTML = "请先上传图片";
+      $("#upload-avatar-alert").style.display = "block";
+      return;
+    }
+    $("#upload-avatar-alert").style.display = "none";
     cropper.getCroppedCanvas({width:250, height: 250}).toBlob(function (blob){
       avatarForm = new FormData();
       avatarForm.append("file", blob);
       // avatarForm.append("token", localToken);
-
       var uploadAvatarRequest = ajax({
         method: 'post',
         url: apiUrl + '/userbasic/' + localId + '/head',
@@ -53,13 +62,16 @@
         data: avatarForm,
       }).then(function (response, xhr) {
         if(!response.result){
-          console.log(response.errCode);
+          $("#upload-avatar-alert").innerHTML = errCode;
+          $("#upload-avatar-alert").style.display = "block";
           return;
         }
-        alert('修改头像成功');
-        // window.location.reload();
+        $("#upload-avatar-alert").innerHTML = "图片上传成功";
+        $("#upload-avatar-alert").style.display = "block";
+        window.location.reload();
       }).catch(function (response, xhr) {
-        alert('连接服务器失败');
+        $("#upload-avatar-alert").innerHTML = "服务器连接失败";
+        $("#upload-avatar-alert").style.display = "block";
       }).always(function (response, xhr) {
 
       });
@@ -68,7 +80,9 @@
   addElementEvent();
   FFaccount.getAccountStatus(function(status){
     if(status === true){
-      $("#new-avatar").src= resourceUrl + localUserInfo.head;
+      $("#avatar-preview-large img").src= resourceUrl + localUserInfo.head;
+      $("#avatar-preview-middle img").src= resourceUrl + localUserInfo.head;
+      $("#avatar-preview-small img").src= resourceUrl + localUserInfo.head;
     }
   });
 }());

@@ -157,7 +157,7 @@ var initiationVm = new Vue({
         imageForm.append("files", blob);
         var imageRequest = ajax({
           method: 'post',
-          url: apiUrl +"/project/" + _this.CategoryId + "/images",
+          url: apiUrl +"/project/" + _this.categoryId + "/images",
           headers: {
             'content-type': null
           },
@@ -170,7 +170,7 @@ var initiationVm = new Vue({
             _this.request.progress = 20;
             var initializeProjectRequest = ajax({
               method: 'post',
-              url: apiUrl +"/project/" + _this.CategoryId,
+              url: apiUrl +"/project/" + _this.categoryId,
               data: {
                 token: localToken,
                 name: _this.project.title,
@@ -223,7 +223,7 @@ var initiationVm = new Vue({
         imageForm.append("files", _this.dataURLtoBlob(images[i]));
         var feedbackImageRequest = ajax({
           method: 'post',
-          url: apiUrl +"/project/" + _this.CategoryId + "/" + _this.projectId + "/feedback/images",
+          url: apiUrl +"/project/" + _this.categoryId + "/" + _this.projectId + "/feedback/images",
           headers: {
             'content-type': null
           },
@@ -273,7 +273,7 @@ var initiationVm = new Vue({
           }
           var feedbackRequest = ajax({
             method: 'post',
-            url: apiUrl +"/project/" + _this.CategoryId + "/" + _this.projectId + "/feedbacks",
+            url: apiUrl +"/project/" + _this.categoryId + "/" + _this.projectId + "/feedbacks",
             data: data
           }).then(function (response, xhr) {
             if(!response.result){

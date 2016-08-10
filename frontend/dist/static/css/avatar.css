@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  *  Font Awesome 3.2.1
  *  the iconic font designed for Bootstrap
@@ -286,72 +287,96 @@
   margin-top: 20px;
   margin-bottom: 30px; }
 
-.setting-contents .setting-content {
+.setting-content {
   clear: both;
-  padding: 30px 60px;
-  box-sizing: border-box; }
+  padding: 30px 40px; }
 
-#setting-profile .setting-profile-list {
+.setting-list {
   margin-top: 40px;
   clear: both;
   width: 100%; }
-  #setting-profile .setting-profile-list > span {
+  .setting-list:after {
+    clear: both;
+    display: block;
+    content: ""; }
+  .setting-list .setting-hint {
     font-size: 1.5rem;
     display: block;
     float: left;
-    width: 100px;
+    text-align: right;
+    width: 120px;
     height: 100%;
-    padding-left: 50px; }
-  #setting-profile .setting-profile-list:first-child {
+    padding-right: 20px; }
+  .setting-list:first-child {
     margin-top: 20px; }
+  .setting-list .setting-inner {
+    float: left; }
 
-#setting-profile #setting-avatar .setting-avatar-wrap {
-  display: block; }
-  #setting-profile #setting-avatar .setting-avatar-wrap .cropper-wrap {
+.setting-alert {
+  text-align: center;
+  color: #ec2c22;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  display: none; }
+
+.setting-submit {
+  clear: both;
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.4rem;
+  border-radius: 10px; }
+
+#upload-avatar-submit:before {
+  font-family: "FontAwesome";
+  content: "";
+  padding-right: 10px; }
+
+#setting-avatar {
+  position: relative; }
+  #setting-avatar .avatar-preview-wrap:after {
+    content: "";
+    clear: both;
+    display: block; }
+  #setting-avatar .avatar-preview-wrap > div {
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin-right: 30px; }
+    #setting-avatar .avatar-preview-wrap > div img {
+      max-width: 120%;
+      min-width: 100%;
+      min-height: 100%; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-large {
+    width: 180px;
+    height: 180px; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-middle {
+    width: 100px;
+    height: 100px; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-small {
+    width: 60px;
+    height: 60px; }
+  #setting-avatar .cropper-wrap {
     width: 500px;
     height: 300px;
-    margin-left: 120px; }
-  #setting-profile #setting-avatar .setting-avatar-wrap img {
-    display: block;
-    width: 200px;
-    height: 200px; }
-  #setting-profile #setting-avatar .setting-avatar-wrap input[type="file"] {
+    display: none;
+    margin-top: 20px; }
+    #setting-avatar .cropper-wrap img {
+      display: block;
+      width: 200px;
+      height: 200px; }
+  #setting-avatar input[type="file"] {
     display: none; }
-  #setting-profile #setting-avatar .setting-avatar-wrap a {
-    line-height: 60px;
-    text-align: center;
-    display: block;
-    width: 180px;
-    height: 60px;
-    font-size: 1.6rem;
-    background-color: #ff6268;
-    color: white;
-    transition: all 0.3s ease;
-    margin-left: 120px;
-    margin-top: 30px; }
-    #setting-profile #setting-avatar .setting-avatar-wrap a:hover {
-      background-color: #ff2f37; }
-
-#setting-profile .setting-profile-submit {
-  clear: both;
-  margin-top: 20px; }
-  #setting-profile .setting-profile-submit a {
-    display: block;
-    text-align: center;
-    width: 180px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 1.6rem;
-    background-color: #ff6268;
-    color: white;
-    transition: all 0.3s ease;
-    margin-left: 120px; }
+  #setting-avatar #upload-avatar-btn {
+    margin-top: 20px; }
 
 @media screen and (max-width: 600px) {
   .setting-contents .setting-content {
     padding-left: 30px;
     padding-right: 30px; }
-  #setting-profile .setting-profile-list > span {
+  .setting-list > span {
     padding-left: 20px; }
-  #setting-profile .setting-profile-submit a {
+  .setting-submit a {
     margin: auto; } }

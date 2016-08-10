@@ -276,32 +276,6 @@ var orderVm = new Vue({
 
       document.body.appendChild(temp_form);
       temp_form.submit();
-
-      // var _this = this;
-      // var submitOrderRequest = ajax({
-      //   method: 'post',
-      //   url: apiUrl + "/pay/web",
-      //   data: {
-      //     token: localToken,
-      //     feedbackId: _this.feedbackId,
-      //     userId: localId,
-      //     addressId: _this.address.list[_this.address.selected].addressId,
-      //   }
-      // }).then(function (response, xhr) {
-      //   _this.pay.connect = true;
-      //   // if(!response.result){
-      //   //   console.log("提交订单失败");
-      //   //   return;
-      //   // }
-      //   var obj = window.open("about:blank");
-      //   obj.document.write(response);
-      //   // _this.pay.page = response;
-
-      // }).catch(function (response, xhr) {
-      //   _this.pay.connect = false;
-      //   console.log("提交订单连接错误");
-      // }).always(function (response, xhr) {
-      // });
     }
   },
   ready: function(){

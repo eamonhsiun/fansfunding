@@ -204,6 +204,7 @@
 //kit 普通按钮
 .FFbtn{
   width: 120px;
+  display: block;
   background-color: $color_red_1;
   color: $color_text_light;
   text-align: center;
@@ -213,6 +214,7 @@
   cursor: pointer;
   @include transition_all();
   &:hover{
+    color: $color_text_light;
     background-color: $color_red_2;
   }
 }

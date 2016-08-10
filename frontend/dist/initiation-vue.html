@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="profile-not-login" id="profile-not-login">
-          <a href="login.html?#login">登录</a>
+          <a href="login.html">登录</a>
           <a href="login.html?#signup">注册</a>
         </div>
       </div>
@@ -104,7 +104,7 @@
           <div class="progress-money progress-info">
             <div class="progress-info-hint">筹款金额</div>
             <div class="progress-info-wrap">
-              <input id="support-money" type="num" class="progress-info-input" v-model="project.money">
+              <input id="support-money" type="number" class="progress-info-input" v-model="project.money">
             </div>
           </div>
           <div class="progress-description progress-info">
@@ -135,7 +135,7 @@
               <div class="feedback-wrap-money feedback-wrap">
                 <div class="feedback-hint">回报项金额</div>
                 <div class="feedback-input-wrap">
-                  <input type="num" class="feedback-input" v-model="feedback.limitation">
+                  <input type="number" class="feedback-input" v-model="feedback.limitation">
                 </div>
               </div>
               <div class="feedback-wrap-content feedback-wrap">

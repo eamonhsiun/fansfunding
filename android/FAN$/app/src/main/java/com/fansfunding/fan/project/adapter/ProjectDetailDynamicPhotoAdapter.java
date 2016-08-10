@@ -62,7 +62,6 @@ public class ProjectDetailDynamicPhotoAdapter extends BaseAdapter {
         View rootView=View.inflate(context, R.layout.item_project_detail_dynamic_image_272,null);
         ImageView iv_project_detail_dynamic_image=(ImageView) rootView.findViewById(R.id.iv_project_detail_dynamic_image);
 
-
         if(paths.get(position)!=null&&paths.get(position).equals("")==false){
             final String url=context.getString(R.string.url_resources)+paths.get(position);
             switch(paths.size()){

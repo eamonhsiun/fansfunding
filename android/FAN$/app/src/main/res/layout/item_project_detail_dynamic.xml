@@ -58,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:horizontalSpacing="4dp"
-            android:verticalSpacing="4dp"></com.fansfunding.fan.utils.MyGridView>
+            android:verticalSpacing="4dp"
+            android:layout_marginTop="@dimen/layout_padding"></com.fansfunding.fan.utils.MyGridView>
 
         <!--分割线-->
 

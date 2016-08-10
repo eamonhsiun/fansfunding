@@ -16,14 +16,28 @@ public class CheckUtils {
 	private static Pattern email=
 			Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
 	private static Pattern phone=Pattern.compile("^((13[0-9])|(15[^4,\\D])|(17[0|6|7|8])|(18[0-9]))\\d{8}$");
-	
+
+	private static Pattern postcode=Pattern.compile("[1-9]\\d{5}(?!\\d)");
+	/**
+	 * 验证邮编合法性
+	 * @param content 内容
+	 * @return
+	 */
+	public static boolean isPostcode(String content){
+		if(content==null)
+			return false;
+		else
+			return postcode.matcher(content.trim()).matches();
+	}
 	/**
 	 * 验证邮箱合法性
 	 * @param content 内容
 	 * @return
 	 */
 	public static boolean isEmail(String content){
-	    return email.matcher(content.trim()).matches();
+
+	    //return email.matcher(content.trim()).matches();
+		return email.matcher(content).matches();
 	}
 	/**
 	 * 验证手机号合法性
@@ -31,7 +45,8 @@ public class CheckUtils {
 	 * @return
 	 */
 	public static boolean isPhone(String content){
-		return phone.matcher(content.trim()).matches();
+		//return phone.matcher(content.trim()).matches();
+		return phone.matcher(content).matches();
 	}
 
     /**

@@ -91,9 +91,11 @@ public class CrowdFundingFragment extends Fragment {
                         //已结获取到最后一页，再从第一页开始获取
                         page=1;
                         lv_PR.setPullLoadEnable(false);
+                        lv_PR.setAutoLoadEnable(false);
                     }else {
                         //获取完本页后，获取下一页的内容
                         lv_PR.setPullLoadEnable(true);
+                        lv_PR.setAutoLoadEnable(true);
                         page++;
                     }
 
@@ -171,9 +173,8 @@ public class CrowdFundingFragment extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_crowdfunding, container, false);
         //热门推荐的listview
         lv_PR=(XListView)rootView.findViewById(R.id.lv_popularRecommendation);
-        lv_PR.setAutoLoadEnable(true);
+        lv_PR.setAutoLoadEnable(false);
         lv_PR.setPullLoadEnable(false);
-
         lv_PR.setPullRefreshEnable(true);
         lv_PR.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
         lv_PR.setXListViewListener(new XListView.IXListViewListener() {

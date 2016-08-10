@@ -54,6 +54,9 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
 
     }
 
+    public void Clear(){
+        list=new LinkedList<ProjectDetailComment.ProjectComment>();
+    }
     @Override
     public int getCount() {
         return list.size();
@@ -87,7 +90,7 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
         TextView tv_news_detail_comment=(TextView)rootView.findViewById(R.id.tv_news_detail_comment);
 
         //评论时间
-        TextView tv_news_detail_comment_tine=(TextView)rootView.findViewById(R.id.tv_news_detail_comment_tine);
+        TextView tv_news_detail_comment_time=(TextView)rootView.findViewById(R.id.tv_news_detail_comment_time);
 
         if(list.get(position)==null) {
             return null;
@@ -110,7 +113,7 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
                 }
 
             }
-            tv_news_detail_comment_tine.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(list.get(position).getCommentTime())));
+            tv_news_detail_comment_time.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(list.get(position).getCommentTime())));
 
         }
         return rootView;

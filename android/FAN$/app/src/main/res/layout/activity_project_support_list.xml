@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.fansfunding.fan.project.activity.ProjectSupportListActivity"
+    android:background="@color/colorWhite">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_project_supporter_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:theme="@style/toolbar_white_theme"></android.support.v7.widget.Toolbar>
+
+    <com.fansfunding.PullListView.XListView
+        android:id="@+id/lv_project_supporter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_project_supporter_list"
+        android:divider="@color/colorDividerGrey"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="true">
+
+    </com.fansfunding.PullListView.XListView>
+
+</RelativeLayout>

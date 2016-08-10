@@ -20,6 +20,10 @@ public class ErrorHandler extends Handler {
         this.context=context;
     }
 
+    public void setContext(Activity context){
+        this.context=context;
+    }
+
     @Override
     public void handleMessage(Message msg){
         switch(msg.what){

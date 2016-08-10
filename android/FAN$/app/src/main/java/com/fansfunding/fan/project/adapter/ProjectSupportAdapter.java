@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.MyGridView;
 import com.fansfunding.internal.ProjectDetailReward;
 import com.squareup.picasso.Picasso;
 
@@ -88,11 +89,18 @@ public class ProjectSupportAdapter extends BaseAdapter{
         }
         View rootView=View.inflate(context, R.layout.item_project_detail_reward_select,null);
         //回报图片
-        ImageView iv_project_detail_reward_image=(ImageView)rootView.findViewById(R.id.iv_project_detail_reward_image);
+        //ImageView iv_project_detail_reward_image=(ImageView)rootView.findViewById(R.id.iv_project_detail_reward_image);
         //回报标题
         TextView tv_project_detail_reward_support=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support);
         //回报内容
         TextView tv_project_detail_reward_information=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_information);
+
+        //图片展示适配器
+        ProjectDetailDynamicPhotoAdapter photoAdapter=new ProjectDetailDynamicPhotoAdapter(context);
+
+        MyGridView gv_project_detail_reward_photo_list=(MyGridView)rootView.findViewById(R.id.gv_project_detail_reward_photo_list);
+        gv_project_detail_reward_photo_list.setAdapter(photoAdapter);
+
 
         //选择框
         final CheckBox iv_project_detail_reward_select=(CheckBox)rootView.findViewById(R.id.iv_project_detail_reward_select);
@@ -110,8 +118,36 @@ public class ProjectSupportAdapter extends BaseAdapter{
         }
         //设置回报图像
         if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0&&list.get(position).getImages().get(0).equals("")==false){
-            Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getImages().get(0)).into(iv_project_detail_reward_image);
+            //Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getImages().get(0)).into(iv_project_detail_reward_image);
         }
+        if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0){
+            for(int i=0;i<list.get(position).getImages().size();i++){
+                //大于四张图则剩下的都不展示
+                if(i>=4){
+                    break;
+                }
+                if(list.get(position).getImages().get(i)!=null&&list.get(position).getImages().get(i).equals("")==false){
+                    photoAdapter.addItem(list.get(position).getImages().get(i));
+                }
+            }
+
+            switch (photoAdapter.getCount()){
+                case 1:
+                    gv_project_detail_reward_photo_list.setNumColumns(1);
+                    break;
+                case 2:
+                    gv_project_detail_reward_photo_list.setNumColumns(2);
+                    break;
+                case 3:
+                    gv_project_detail_reward_photo_list.setNumColumns(3);
+                    break;
+                case 4:
+                    gv_project_detail_reward_photo_list.setNumColumns(2);
+                    break;
+            }
+            photoAdapter.notifyDataSetChanged();
+        }
+
 
         //设置checkBox
         if(select.get(position)!=null){

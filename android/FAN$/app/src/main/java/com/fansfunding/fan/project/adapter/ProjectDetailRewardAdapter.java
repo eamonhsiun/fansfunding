@@ -1,7 +1,9 @@
 package com.fansfunding.fan.project.adapter;
 
 import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.MyGridView;
 import com.fansfunding.internal.ProjectDetailReward;
 import com.squareup.picasso.Picasso;
 
@@ -75,9 +78,66 @@ public class ProjectDetailRewardAdapter extends BaseAdapter {
         if(position<0||position>=list.size()){
             return null;
         }
-        View rootView=View.inflate(context,R.layout.item_project_detail_reward,null);
+        final View rootView;
+        final ViewHolder viewHolder;
+        if(convertView == null) {
+            rootView = LayoutInflater.from(context).inflate(R.layout.item_project_detail_reward, null);
+            viewHolder = new ViewHolder();
+
+            viewHolder.tv_project_detail_reward_support=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support);
+            viewHolder.tv_project_detail_reward_information=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_information);
+            viewHolder.gv_project_detail_reward_photo_list=(MyGridView)rootView.findViewById(R.id.gv_project_detail_reward_photo_list);
+            rootView.setTag(viewHolder);
+
+        }else {
+            rootView = convertView;
+            viewHolder = (ViewHolder) rootView.getTag();
+        }
+
+        if(list.get(position)==null) {
+            return null;
+        }
+        else {
+            ProjectDetailDynamicPhotoAdapter photoAdapter=new ProjectDetailDynamicPhotoAdapter(context);
+
+            viewHolder.tv_project_detail_reward_support.setText(list.get(position).getLimitation().toString());
+            viewHolder.tv_project_detail_reward_information.setText(list.get(position).getDescription());
+            viewHolder.gv_project_detail_reward_photo_list.setAdapter(photoAdapter);
+
+            if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0){
+                for(int i=0;i<list.get(position).getImages().size();i++){
+                    //大于四张图则剩下的都不展示
+                    if(i>=4){
+                        break;
+                    }
+                    if(list.get(position).getImages().get(i)!=null&&list.get(position).getImages().get(i).equals("")==false){
+                        photoAdapter.addItem(list.get(position).getImages().get(i));
+                    }
+                }
+
+                switch (photoAdapter.getCount()){
+                    case 1:
+                        viewHolder.gv_project_detail_reward_photo_list.setNumColumns(1);
+                        break;
+                    case 2:
+                        viewHolder.gv_project_detail_reward_photo_list.setNumColumns(2);
+                        break;
+                    case 3:
+                        viewHolder.gv_project_detail_reward_photo_list.setNumColumns(3);
+                        break;
+                    case 4:
+                        viewHolder.gv_project_detail_reward_photo_list.setNumColumns(2);
+                        break;
+                }
+                photoAdapter.notifyDataSetChanged();
+            }
+
+        }
+
+        /*View rootView=View.inflate(context,R.layout.item_project_detail_reward,null);
+
         //回报图片
-        ImageView iv_project_detail_reward_image=(ImageView)rootView.findViewById(R.id.iv_project_detail_reward_image);
+        //ImageView iv_project_detail_reward_image=(ImageView)rootView.findViewById(R.id.iv_project_detail_reward_image);
         //回报标题
         TextView tv_project_detail_reward_support=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support);
         //回报内容
@@ -100,9 +160,18 @@ public class ProjectDetailRewardAdapter extends BaseAdapter {
                 Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getImages().get(0)).into(iv_project_detail_reward_image);
             }
         }
-
+*/
         return rootView;
-
-
     }
+
+    private class ViewHolder{
+        //回报标题
+        TextView tv_project_detail_reward_support;
+        //回报内容
+        TextView tv_project_detail_reward_information;
+        //图片展示
+        MyGridView gv_project_detail_reward_photo_list;
+    }
+
+
 }

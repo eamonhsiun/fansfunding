@@ -43,7 +43,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- *用来显示个人项目的界面，包括发起的项目，关注的项目，支持的项目
  *
  */
 

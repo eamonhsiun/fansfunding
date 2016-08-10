@@ -8,7 +8,7 @@ import com.fansfunding.fan.R;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.internal.ErrorCode;
-import com.fansfunding.internal.ProjectDetailReward;
+import com.fansfunding.internal.ProjectDetailDynamic;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -23,21 +23,23 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by 13616 on 2016/7/24.
+ * Created by 13616 on 2016/8/9.
+ * 获取项目动态
  */
-public class RequestProjectDetailReward {
+public class RequestProjectDetailDynamic {
 
-    //获取到的回报信息
-    private ProjectDetailReward reward=null;
+    //项目动态
+    private ProjectDetailDynamic dynamic;
 
-    public ProjectDetailReward getReward(){
-        return reward;
+    public ProjectDetailDynamic getDynamic(){
+        return dynamic;
     }
 
-    //一次获取回报的数量
+    //一次获取动态的数量
     private int rows=10;
-    //获取回报的页数
+    //获取动态的页数
     private int page=1;
+
 
     public int getRows() {
         return rows;
@@ -48,7 +50,6 @@ public class RequestProjectDetailReward {
             this.rows = rows;
     }
 
-
     public int getPage() {
         return page;
     }
@@ -57,38 +58,44 @@ public class RequestProjectDetailReward {
         if(page>0)
             this.page = page;
     }
+    //获取动态信息
+    public void getProjectDetailDynamic(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int categoryId, final int projectId){
+        //OkHttpClient okHttpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
-    public void getProjectDetailReward(Activity activity,final ErrorHandler handler,OkHttpClient httpClient,final int categoryId,final int projectId){
+
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_project)+categoryId+"/"+projectId+"/feedbacks?rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_project)+categoryId+"/"+projectId+"/moment?rows="+rows+"&page="+page)
                 .build();
+
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //服务器响应失败
                 if(response==null||response.isSuccessful()==false){
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE);
                     return;
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-                reward=new ProjectDetailReward();
+                Log.i("TAG","Dynamic:"+str_response) ;
+                dynamic=new ProjectDetailDynamic();
                 try {
+
                     //用Gson进行解析，并判断结果是否为空
-                    if((reward = gson.fromJson(str_response, reward.getClass()))==null){
-                        handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    if((dynamic = gson.fromJson(str_response, dynamic.getClass()))==null){
+                        handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE);
                         return;
                     }
                     //获取项目详情失败
-                    if(reward.isResult()==false){
-                        switch (reward.getErrCode()){
+                    if(dynamic.isResult()==false){
+                        switch (dynamic.getErrCode()){
                             case ErrorCode.REQUEST_TOO_FRENQUENTLY:
                                 handler.sendEmptyMessage(ErrorCode.REQUEST_TOO_FRENQUENTLY);
                                 break;
@@ -96,21 +103,24 @@ public class RequestProjectDetailReward {
                                 handler.sendEmptyMessage(ErrorCode.PARAMETER_ERROR);
                                 break;
                             default:
-                                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE);
+                                break;
                         }
+
                         return;
                     }
-
                     //获取项目信息成功
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_SUCCESS);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_SUCCESS);
                 }catch (IllegalStateException e){
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE);
                     e.printStackTrace();
                 }catch (JsonSyntaxException e){
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE);
                     e.printStackTrace();
                 }
             }
+
         });
     }
+
 }

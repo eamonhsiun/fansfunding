@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/layout_padding">
+    <!--支持者头像-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_project_supporter_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        />
+
+    <!--支持者昵称-->
+    <TextView
+        android:id="@+id/tv_project_supporter_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:gravity="top"
+        android:layout_toRightOf="@id/iv_project_supporter_head"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:text="好吧"
+        android:textSize="@dimen/subhead_text_size"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_project_supporter_head"
+        android:layout_below="@id/tv_project_supporter_nickname"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="支持¥"/>
+        <TextView
+            android:id="@+id/tv_project_supporter_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="0"/>
+    </LinearLayout>
+
+</RelativeLayout>

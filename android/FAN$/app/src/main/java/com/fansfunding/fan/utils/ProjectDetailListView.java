@@ -1,15 +1,18 @@
-package com.fansfunding.verticalslide;
+package com.fansfunding.fan.utils;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.ListView;
 
+import com.fansfunding.PullListView.XListView;
 
-public class CustListView extends ListView {
+/**
+ * Created by 13616 on 2016/8/9.
+ */
+public class ProjectDetailListView extends XListView {
+
     private static final int MODE_IDLE = 0;
     private static final int MODE_HORIZONTAL = 1;
     private static final int MODE_VERTICAL = 2;
@@ -20,17 +23,16 @@ public class CustListView extends ListView {
     boolean isAtTop = true; // 如果是true，则允许拖动至底部的下一页
     private int mTouchSlop = 4; // 判定为滑动的阈值，单位是像素
 
-    public CustListView(Context arg0) {
-        this(arg0, null);
+    public ProjectDetailListView(Context context) {
+        super(context);
     }
 
-    public CustListView(Context arg0, AttributeSet arg1) {
-        this(arg0, arg1, 0);
+    public ProjectDetailListView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public CustListView(Context arg0, AttributeSet arg1, int arg2) {
-        super(arg0, arg1, arg2);
-
+    public ProjectDetailListView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
         ViewConfiguration configuration = ViewConfiguration.get(getContext());
         mTouchSlop = configuration.getScaledTouchSlop();
     }

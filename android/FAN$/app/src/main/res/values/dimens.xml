@@ -65,4 +65,8 @@
     <dimen name="dynamic_photo_four_width">134dp</dimen>
     <dimen name="dynamic_photo_four_height">134dp</dimen>
 
+
+    <!--支持者头像宽度-->
+    <dimen name="project_support_head_width">32dp</dimen>
+    <dimen name="project_support_head_height">32dp</dimen>
 </resources>

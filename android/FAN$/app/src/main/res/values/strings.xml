@@ -47,8 +47,8 @@
     <string name="activity_pay_success">android.intent.action.FANS.PROJECT.ACTIVITY.PAYSUCCESS</string>
     <!--用户订单详情界面-->
     <string name="activity_user_order_detail">android.intent.action.FANS.USER.ORDER.ACTIVITY.ORDERDETAIL</string>
-
-
+    <string name="activity_project_web">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILWEB</string>
+    <string name="activity_project_supporter_list">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILSUPPORTERLIST</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

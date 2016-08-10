@@ -26,6 +26,8 @@ dependencies {
     compile files('src/main/libs/weiboSDKCore_3.1.4.jar')
     compile files('src/main/libs/commons-codec-1.9.jar')
     compile files('src/main/libs/alipaySingle-20160516.jar')
+    /*查看大图，支持放大 */
+    /*照片墙*/
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
@@ -47,8 +49,6 @@ dependencies {
     compile 'com.baoyz.actionsheet:library:1.1.5'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.github.d-max:spots-dialog:0.4@aar'
-    /*查看大图，支持放大 */
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
-    /*照片墙*/
     compile 'com.bigkoo:convenientbanner:2.0.5'
 }

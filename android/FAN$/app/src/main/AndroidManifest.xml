@@ -270,11 +270,28 @@
             </intent-filter>
         </activity>
 
-        <!--订单详情界面-->
+        <!-- 订单详情界面 -->
         <activity android:name=".user.order.activity.OrderDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.USER.ORDER.ACTIVITY.ORDERDETAIL" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 项目富文本界面 -->
+        <activity android:name=".project.activity.ProjectDetailWebActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILWEB" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--项目支持者列表界面-->
+        <activity android:name=".project.activity.ProjectSupportListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILSUPPORTERLIST" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

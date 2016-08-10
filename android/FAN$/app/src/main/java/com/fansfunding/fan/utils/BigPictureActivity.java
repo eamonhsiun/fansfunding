@@ -1,11 +1,16 @@
 package com.fansfunding.fan.utils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.fansfunding.fan.R;
+import com.nostra13.universalimageloader.utils.L;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -32,4 +37,5 @@ public class BigPictureActivity extends AppCompatActivity {
         }
 
     }
+
 }

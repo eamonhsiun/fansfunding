@@ -22,6 +22,15 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.project.adapter.ProjectSupportAdapter;
+import com.fansfunding.fan.project.adapter.ProjectSupportHeadAdapter;
+import com.fansfunding.fan.request.RequestCancelFollowUser;
+import com.fansfunding.fan.request.RequestEnsureFollowUser;
+import com.fansfunding.fan.request.RequestFollowUser;
+import com.fansfunding.fan.request.RequestProjectSupportInfo;
+import com.fansfunding.fan.utils.ErrorHandler;
+import com.fansfunding.fan.utils.FANRequestCode;
+import com.fansfunding.fan.utils.MyGridView;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetail;
 import com.fansfunding.internal.ProjectDetailComment;
@@ -56,31 +65,10 @@ import okhttp3.Response;
  */
 public class ProjectDetailMainFragment extends Fragment {
 
-    //获取项目详情成功
-    private static final int GET_PROJECT_DETAIL_SUCCESS=100;
-
-    //获取项目详情失败
-    private static final int GET_PROJECT_DETAIL_FAILURE=101;
-
-    //获取第一条评论成功
-    private static final int GET_PROJECT_COMMENT_SUCCESS=102;
-    //获取第一条评论失败
-    private static final int GET_PROJECT_COMMENT_FAILURE=103;
-
-    //获取关注者信息成功
-    private static final int GET_PROJECT_FOLLOWER_SUCCESS=104;
-
-    //获取关注者信息失败
-    private static final int GET_PROJECT_FOLLOWER_FAILURE=105;
-
-
-
-    //发表评论请求码
-    private static final int REQUEST_CODE_SEND_COMMENT=300;
-
+    //登录按钮启动码
+    private static final int REQUEST_CODE_LOGIN=300;
     //httpclient
-    //private OkHttpClient httpClient;
-
+    private OkHttpClient httpClient;
 
     //项目分类
     private int categoryId;
@@ -88,98 +76,145 @@ public class ProjectDetailMainFragment extends Fragment {
     //项目Id
     private int projectId;
 
-    //每次获取关注者的数量
-    private final int followerRows=10;
-
-    //关注者信息
-    private ProjectFollower follower=null;
-
-    //项目附件描述信息(比如图片呀，音频呀)
-    private ProjectDetail detail;
 
     //项目描述信息(比如目标金额之类的)
     private ProjectInfo projectDetail;
 
-    //项目评论
-    private  ProjectDetailComment projectDetailComment;
-
     //项目详情图片
     private ConvenientBanner iv_project_detail_main_image;
 
-    //项目评论内容
-    private TextView tv_news_detail_comment;
-    //项目评论人头像
-    private ImageView iv_project_detail_dynamic_head;
-    //项目评论人头像昵称
-    private TextView tv_news_detail_commenter_name;
-    //评论时间
-    private TextView tv_news_detail_comment_tine;
 
-    //关注人数
-    private TextView tv_project_detail_main_follower_number;
+    //剩余时间
+    private TextView tv_project_detail_main_remain_time;
 
+    //支持者头像适配器
+    private ProjectSupportHeadAdapter adapter;
 
-    //获取或发表评论函数
-    private Button btn_project_detail_main_all_comment;
+    //获取支持者信息
+    private RequestProjectSupportInfo requestProjectSupportInfo;
 
-    private Handler handler=new Handler(){
+    //支持者人数
+    private TextView tv_project_detail_main_support_number;
+
+    //关注按钮
+    private Button btn_project_detail_main_follow_user;
+
+    //关注用户
+    private RequestFollowUser requestFollowUser;
+
+    //取消关注用户
+    private RequestCancelFollowUser requestCancelFollowUser;
+
+    //是否已经关注了发起人
+    private RequestEnsureFollowUser requestEnsureFollowUser;
+
+    //是否正在请求 用户是否已经关注了该发起人
+    private boolean isGetUserFollowMessage=false;
+
+    //是否正在请求发起人
+    private boolean isFinishFollow=true;
+
+    //是否已经关注了发起人
+    private boolean isFollow=false;
+
+    //用户是否登录
+    private boolean isLogin;
+    //用户id
+    private int userId;
+    //用户token
+    private String token;
+
+    //要显示的支持者的头像的数量
+    private final int supportHeadNumber=5;
+
+    private ErrorHandler handler=new ErrorHandler(this.getActivity()){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
-                //获取项目详情成功
-                case GET_PROJECT_DETAIL_SUCCESS:
-                    initProject();
-                    break;
-                //获取项目详情失败
-                case GET_PROJECT_DETAIL_FAILURE:
+                //获取支持者人数成功
+                case FANRequestCode.GET_PROJECT_DETAIL_SUPPORTER_SUCCESS:
                     if(ProjectDetailMainFragment.this.getActivity()==null){
                         break;
                     }
-                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"获取项目详情失败",Toast.LENGTH_LONG).show();
+                    //设置支持人数
+                    tv_project_detail_main_support_number.setText(requestProjectSupportInfo.getSupportsInfo().getData().getTotal()+"人支持 >");
+                    //设置支持者头像
+                    if(requestProjectSupportInfo.getSupportsInfo().getData().getList()!=null&&requestProjectSupportInfo.getSupportsInfo().getData().getList().size()>0){
+                        for(int i=0;i<requestProjectSupportInfo.getSupportsInfo().getData().getList().size();i++){
+                            if(i>=supportHeadNumber){
+                                break;
+                            }
+                            if(requestProjectSupportInfo.getSupportsInfo().getData().getList().get(i)!=null
+                                    &&requestProjectSupportInfo.getSupportsInfo().getData().getList().get(i).getHead()!=null
+                                    &&requestProjectSupportInfo.getSupportsInfo().getData().getList().get(i).getHead().equals("")==false){
+                                adapter.addItem(requestProjectSupportInfo.getSupportsInfo().getData().getList().get(i).getHead());
+                            }
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
                     break;
+                case FANRequestCode.GET_PROJECT_DETAIL_SUPPORTER_FAILURE:
+                    if(ProjectDetailMainFragment.this.getActivity()==null){
+                        break;
+                    }
+                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"获取项目支持信息失败",Toast.LENGTH_SHORT).show();
+                    break;
+                case FANRequestCode.GET_IS_FOLLOW_PUBLISH_SUCCESS:
+                    isGetUserFollowMessage=true;
+                    if(requestEnsureFollowUser.getEnsureFollowUser()!=null){
+                        if(requestEnsureFollowUser.getEnsureFollowUser().isData()==true){
+                            btn_project_detail_main_follow_user.setText("已关注");
+                            isFollow=true;
+                        }else {
+                            btn_project_detail_main_follow_user.setText("关注");
+                            isFollow=false;
+                        }
+                    }
+                    break;
+                case FANRequestCode.GET_IS_FOLLOW_PUBLISH_FAILURE:
+                    isGetUserFollowMessage=true;
+                    if(ProjectDetailMainFragment.this.getActivity().isFinishing()==true){
+                        break;
+                    }
+                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(), "请求关注信息失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case FANRequestCode.FOLLOW_USER_SUCCESS:
+                    if(ProjectDetailMainFragment.this.getActivity().isFinishing()==false){
+                        Toast.makeText(ProjectDetailMainFragment.this.getActivity(), "关注成功", Toast.LENGTH_SHORT).show();
+                    }else {
+                        break;
+                    }
+                    btn_project_detail_main_follow_user.setText("已关注");
+                    isFollow=true;
+                    isFinishFollow=true;
+                    break;
+                case FANRequestCode.FOLLOW_USER_FAILURE:
+                    if(ProjectDetailMainFragment.this.getActivity().isFinishing()==false){
+                        Toast.makeText(ProjectDetailMainFragment.this.getActivity(), "关注失败", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case FANRequestCode.CANCEL_FOLLOW_USER_SUCCESS:
 
-                //获取第一条评论成功
-                case GET_PROJECT_COMMENT_SUCCESS:
-                    initComment();
-                    break;
-                //获取第一条评论失败
-                case GET_PROJECT_COMMENT_FAILURE:
-                    if(ProjectDetailMainFragment.this.getActivity()==null){
+                    if(ProjectDetailMainFragment.this.getActivity().isFinishing()==false){
+                        Toast.makeText(ProjectDetailMainFragment.this.getActivity(), "取消关注成功", Toast.LENGTH_SHORT).show();
+                    }else {
                         break;
                     }
-                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"获取评论失败",Toast.LENGTH_LONG).show();
+                    btn_project_detail_main_follow_user.setText("关注");
+                    isFollow=false;
+                    isFinishFollow=true;
                     break;
-
-                //获取关注者信息成功
-                case GET_PROJECT_FOLLOWER_SUCCESS:
-
-                    //设置关注者信息
-                    if(follower!=null&&follower.getData()!=null){
-                        tv_project_detail_main_follower_number.setText(String.valueOf(follower.getData().getTotal()));
-                    }
-                    break;
-                //获取关注者信息失败
-                case GET_PROJECT_FOLLOWER_FAILURE:
-                    if(ProjectDetailMainFragment.this.getActivity()==null){
+                case FANRequestCode.CANCEL_FOLLOW_USER_FAILURE:
+                    if(ProjectDetailMainFragment.this.getActivity().isFinishing()==false){
+                        Toast.makeText(ProjectDetailMainFragment.this.getActivity(), "取消关注失败", Toast.LENGTH_SHORT).show();
+                    }else {
                         break;
                     }
-                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"获取关注者信息失败",Toast.LENGTH_LONG).show();
                     break;
-                case ErrorCode.REQUEST_TOO_FRENQUENTLY:
-                    if(ProjectDetailMainFragment.this.getActivity()==null){
-                        break;
-                    }
-                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"请求过于频繁",Toast.LENGTH_LONG).show();
-
-                    break;
-                case ErrorCode.PARAMETER_ERROR:
-                    if(ProjectDetailMainFragment.this.getActivity()==null){
-                        break;
-                    }
-                    Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"参数错误",Toast.LENGTH_LONG).show();
-                    break;
+                default:
+                    super.handleMessage(msg);
             }
-            super.handleMessage(msg);
+
         }
     };
     public ProjectDetailMainFragment(){
@@ -216,21 +251,16 @@ public class ProjectDetailMainFragment extends Fragment {
         //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
         View rootView=inflater.inflate(R.layout.fragment_project_detail_main, container, false);
+        handler.setContext(this.getActivity());
+        adapter=new ProjectSupportHeadAdapter(this.getActivity());
+        requestProjectSupportInfo=new RequestProjectSupportInfo();
+        requestFollowUser=new RequestFollowUser();
+        requestCancelFollowUser=new RequestCancelFollowUser();
+        requestEnsureFollowUser=new RequestEnsureFollowUser();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
         //项目图片
         iv_project_detail_main_image=(ConvenientBanner)rootView.findViewById(R.id.iv_project_detail_main_image);
-        /*if(projectDetail.getCover()!=null&&projectDetail.getCover().equals("")==false){
-            Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getCover()).into(iv_project_detail_main_image);
-            //点击查看大图
-            iv_project_detail_main_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent();
-                    intent.setAction(getString(R.string.activity_big_picture));
-                    intent.putExtra("url",getString(R.string.url_resources)+projectDetail.getCover());
-                    startActivity(intent);
-                }
-            });
-        }*/
         ArrayList<String> networkImages=new ArrayList<String>();
         if(projectDetail.getCover()!=null&&projectDetail.getCover().equals("")==false){
             networkImages.add(getString(R.string.url_resources)+projectDetail.getCover());
@@ -254,15 +284,6 @@ public class ProjectDetailMainFragment extends Fragment {
         },networkImages)
                 .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused}) ;
 
-        //项目评论内容
-        tv_news_detail_comment=(TextView)rootView.findViewById(R.id.tv_news_detail_comment);
-        //项目评论人头像
-        iv_project_detail_dynamic_head=(ImageView)rootView.findViewById(R.id.iv_project_detail_dynamic_head);
-        //项目评论人昵称
-        tv_news_detail_commenter_name=(TextView)rootView.findViewById(R.id.tv_news_detail_commenter_name);
-        //评论时间
-        tv_news_detail_comment_tine=(TextView) rootView.findViewById(R.id.tv_news_detail_comment_tine);
-
 
         //筹集金额
         TextView tv_project_detail_main_target_money=(TextView)rootView.findViewById(R.id.tv_project_detail_main_target_money);
@@ -272,16 +293,21 @@ public class ProjectDetailMainFragment extends Fragment {
         TextView tv_project_detail_main_get_money=(TextView)rootView.findViewById(R.id.tv_project_detail_main_get_money);
         tv_project_detail_main_get_money.setText(new java.text.DecimalFormat("0.00").format(projectDetail.getSum()));
 
-        //关注人数
-        tv_project_detail_main_follower_number=(TextView)rootView.findViewById(R.id.tv_project_detail_main_support_times);
+        //剩余时间
+        tv_project_detail_main_remain_time=(TextView)rootView.findViewById(R.id.tv_project_detail_main_remain_time);
+        tv_project_detail_main_remain_time.setText(getEndTime(projectDetail.getTargetDeadline()));
 
         //项目进度
-        ProgressBar progressBar=(ProgressBar)rootView.findViewById(R.id.progressBar_project_detail_main);
+        final ProgressBar progressBar=(ProgressBar)rootView.findViewById(R.id.progressBar_project_detail_main);
         progressBar.setProgress((int)(100*(projectDetail.getSum().doubleValue()/projectDetail.getTargetMoney().doubleValue())));
 
         //项目名称
         TextView tv_project_detail_name=(TextView)rootView.findViewById(R.id.tv_project_detail_name);
         tv_project_detail_name.setText(projectDetail.getName());
+
+        //项目简介
+        TextView tv_project_detail_intro=(TextView)rootView.findViewById(R.id.tv_project_detail_intro);
+        tv_project_detail_intro.setText(projectDetail.getDescription());
 
 
         //项目发起人昵称
@@ -294,34 +320,86 @@ public class ProjectDetailMainFragment extends Fragment {
             Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getSponsorHead()).into(iv_project_detail_main_publisher_head);
         }
 
-
-        //开始时间
-        TextView tv_project_detail_main_time_start=(TextView)rootView.findViewById(R.id.tv_project_detail_main_time_start);
-        tv_project_detail_main_time_start.setText(getStartTime(projectDetail.getCreateTime()));
-
-
-        //截止日期
-        TextView tv_project_detail_main_time_end=(TextView)rootView.findViewById(R.id.tv_project_detail_main_time_end);
-        tv_project_detail_main_time_end.setText(getEndTime(projectDetail.getTargetDeadline()));
-
-        //获取全部评论按钮
-        btn_project_detail_main_all_comment=(Button) rootView.findViewById(R.id.btn_project_detail_main_all_comment);
-        btn_project_detail_main_all_comment.setOnClickListener(new View.OnClickListener() {
+        //支持者人数
+        tv_project_detail_main_support_number=(TextView)rootView.findViewById(R.id.tv_project_detail_main_support_number);
+        tv_project_detail_main_support_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getComment();
+                Intent intent=new Intent();
+                intent.setAction(getString(R.string.activity_project_supporter_list));
+                intent.putExtra("categoryId",categoryId);
+                intent.putExtra("projectId",projectId);
+                startActivity(intent);
+            }
+        });
+
+        //项目支持者列表
+        MyGridView gv_project_detail_main_support_head=(MyGridView)rootView.findViewById(R.id.gv_project_detail_main_support_head);
+        gv_project_detail_main_support_head.setAdapter(adapter);
+
+        //富文本信息按钮
+        TextView tv_project_detail_main_richtext=(TextView)rootView.findViewById(R.id.tv_project_detail_main_richtext);
+        tv_project_detail_main_richtext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setAction(getString(R.string.activity_project_web));
+                intent.putExtra("categoryId",categoryId);
+                intent.putExtra("projectId",projectId);
+                startActivity(intent);
+            }
+        });
+
+        //关注按钮
+        btn_project_detail_main_follow_user=(Button)rootView.findViewById(R.id.btn_project_detail_main_follow_user);
+        btn_project_detail_main_follow_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(isFinishFollow==false){
+                    return;
+                }
+                if(isLogin==true){
+                    if(isGetUserFollowMessage==false){
+                        Toast.makeText(ProjectDetailMainFragment.this.getActivity(),"正在获取关注信息，请稍等",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    isFinishFollow=false;
+                    //如果没有关注
+                    if(isFollow==false){
+                        requestFollowUser.followUser(ProjectDetailMainFragment.this.getActivity(),handler,httpClient,userId,projectDetail.getSponsor(),token);
+                    }
+                    //如果已经关注
+                    else {
+                        requestCancelFollowUser.cancelFollowUser(ProjectDetailMainFragment.this.getActivity(),handler,httpClient,userId,projectDetail.getSponsor(),token);
+                    }
+
+                }else{
+                    Intent intent=new Intent();
+                    intent.setAction(getString(R.string.activity_login));
+                    startActivityForResult(intent,REQUEST_CODE_LOGIN);
+                }
 
             }
         });
 
-        //获取关注信息
-        getProjectFollower();
+        SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),Context.MODE_PRIVATE);
+        isLogin=share.getBoolean("isLogin",false);
+        userId=share.getInt("id",0);
+        token=share.getString("token"," ");
 
-        //获取项目详情
-        getProjectDetailMain();
+        requestProjectSupportInfo.setRows(supportHeadNumber);
+        requestProjectSupportInfo.getProjectSupportsInfo(this.getActivity(),handler,httpClient,categoryId,projectId);
 
-        //获取项目第一条评论
-        getProjectDetailComment();
+        //获取是否关注信息
+        if(isLogin==true){
+            isGetUserFollowMessage=false;
+            requestEnsureFollowUser.ensureFollowUser(this.getActivity(),handler,httpClient,userId,projectDetail.getSponsor(),token);
+        }else {
+            //isGetUserFollowMessage=true;
+        }
+
+
 
 
         return rootView;
@@ -348,70 +426,28 @@ public class ProjectDetailMainFragment extends Fragment {
 
         //初始化剩余时间
 
-
-
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
-            case REQUEST_CODE_SEND_COMMENT:
-                if(resultCode==getActivity().RESULT_OK)
-                getProjectDetailComment();
+            case REQUEST_CODE_LOGIN:
+                if(resultCode==getActivity().RESULT_OK){
+                    SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),getActivity().MODE_PRIVATE);
+                    isLogin=share.getBoolean("isLogin",false);
+                    userId=share.getInt("id",0);
+                    token=share.getString("token"," ");
+                    requestEnsureFollowUser.ensureFollowUser(this.getActivity(),handler,httpClient,userId,projectDetail.getSponsor(),token);
+                }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //初始化评论
-    private void initComment(){
-        if(projectDetailComment.getData().getList()!=null&&projectDetailComment.getData().getList().size()>0){
-
-            //更改按钮
-            btn_project_detail_main_all_comment.setText("查看全部评论");
-            btn_project_detail_main_all_comment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getComment();
-                }
-            });
 
 
-            //项目评论人内容
-            if(projectDetailComment.getData().getList().get(0).getPointTo()==0){
-                tv_news_detail_comment.setText(projectDetailComment.getData().getList().get(0).getContent());
-            }else{
-                String comment="回复 "
-                        +projectDetailComment.getData().getList().get(0).getPointToNickname()
-                        + ": "
-                        +projectDetailComment.getData().getList().get(0).getContent();
-                tv_news_detail_comment.setText(comment);
-
-            }
-
-            //项目评论人头像
-            if(this.getActivity()!=null)
-                Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetailComment.getData().getList().get(0).getCommenterHead()).into(iv_project_detail_dynamic_head);
-
-            //项目评论人昵称
-            tv_news_detail_commenter_name.setText(projectDetailComment.getData().getList().get(0).getCommenterNickname());
-
-            //评论时间
-            tv_news_detail_comment_tine.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(projectDetailComment.getData().getList().get(0).getCommentTime())));
-        }else{
-            btn_project_detail_main_all_comment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    btn_project_detail_main_all_comment.setText("评论");
-                    sendComment();
-                }
-            });
-        }
-
-    }
 
     //获取项目详情
-    private void getProjectDetailMain(){
+    /*private void getProjectDetailMain(){
 
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
@@ -484,7 +520,7 @@ public class ProjectDetailMainFragment extends Fragment {
             }
         });
     }
-
+*/
     //转化时间,获取开始的时间格式
     private String getStartTime(long milliscond){
         String time="";
@@ -519,41 +555,15 @@ public class ProjectDetailMainFragment extends Fragment {
         if(differ<0){
             time="已完成";
         }else {
-            time="还剩"+(differ+1)+"天";
+            time=(differ+1)+"天";
         }
         return time;
     }
 
 
-    //直接发表评论函数
-    private void sendComment(){
-        SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),getActivity().MODE_PRIVATE);
-        boolean isLogin=share.getBoolean("isLogin",false);
 
-        Intent intent=new Intent();
-        //如果没有登陆，则先登陆
-        if(isLogin==false){
-            intent.setAction(getString(R.string.activity_login));
-            startActivity(intent);
-            return;
-        }
-        //打开评论页
-        intent.setAction(getString(R.string.activity_project_comment));
-        intent.putExtra("categoryId",categoryId);
-        intent.putExtra("projectId",projectId);
-        intent.putExtra("pointTo",0);
-        startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
-    }
-
-    //获取全部评论函数
-    private void getComment(){
-        Intent intent=new Intent();
-        intent.setAction(getString(R.string.activity_project_detail_comment));
-        intent.putExtra("detail",projectDetail);
-        startActivity(intent);
-    }
     //获取评论
-    private void getProjectDetailComment(){
+    /*private void getProjectDetailComment(){
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
@@ -579,9 +589,6 @@ public class ProjectDetailMainFragment extends Fragment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-
-                Log.i("TAG",str_response);
-
                 projectDetailComment=new ProjectDetailComment();
                 try {
 
@@ -628,8 +635,8 @@ public class ProjectDetailMainFragment extends Fragment {
             }
         });
     }
-
-    //获取关注者信息
+*/
+    /*//获取关注者信息
     private void getProjectFollower(){
 
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
@@ -690,22 +697,7 @@ public class ProjectDetailMainFragment extends Fragment {
             }
         });
     }
-
-
-    //通过用户是否按下关注按钮来增加或减少关注人数
-    public void refreshFollowNumber(int number){
-        if(number!=1&&number!=-1){
-            return;
-        }
-        else {
-            if(follower!=null&&follower.getData()!=null){
-                if(follower.getData().getTotal()+number>=0){
-                    follower.getData().setTotal(follower.getData().getTotal()+number);
-                    handler.sendEmptyMessage(GET_PROJECT_FOLLOWER_SUCCESS);
-                }
-            }
-        }
-    }
+*/
 
 
     public class NetworkImageHolderView implements Holder<String> {

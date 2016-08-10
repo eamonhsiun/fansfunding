@@ -84,9 +84,11 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                     if(projectDetailComment.getData().getList().size()<rows){
                         page=1;
                         lv_PJ_detail_comment.setPullLoadEnable(false);
+                        lv_PJ_detail_comment.setAutoLoadEnable(false);
                     }else{
                         page++;
                         lv_PJ_detail_comment.setPullLoadEnable(true);
+                        lv_PJ_detail_comment.setAutoLoadEnable(true);
                     }
                     for(int i=0;i<projectDetailComment.getData().getList().size();i++){
                         adapter.addItem(projectDetailComment.getData().getList().get(i));

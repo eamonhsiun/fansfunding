@@ -8,10 +8,10 @@
     tools:context="com.fansfunding.fan.project.fragment.ProjectDetailRewardFragment">
 
 
-    <com.fansfunding.verticalslide.CustListView
+    <com.fansfunding.fan.utils.ProjectDetailListView
         android:id="@+id/lv_project_detail_reward"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.fansfunding.verticalslide.CustListView>
+    </com.fansfunding.fan.utils.ProjectDetailListView>
 </LinearLayout>

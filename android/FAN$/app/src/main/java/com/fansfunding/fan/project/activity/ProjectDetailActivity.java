@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fansfunding.fan.project.adapter.ProjectDetailAdapter;
@@ -42,7 +43,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ProjectDetailActivity extends AppCompatActivity {
-    private ProjectDetailActivity projectDetailActivity;
 
     //关注项目成功
     private static final int FOLLOW_PROJECT_SUCCESS=100;
@@ -85,7 +85,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
     //关注按钮
     private MenuItem menuItem_follow;
-
+    private ImageView iv_project_detail_follow_project;
     //是否正在请求关注项目
     private boolean isFinishFollow=true;
 
@@ -155,13 +155,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
                         break;
                     }
                     //设置menu菜单上的按钮图标
-                    menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like_pressed));
-                    //让fragment里的数据也同时加1
-                    if(fragment_first!=null&&fragment_first instanceof ProjectDetailMainFragment){
-                        ((ProjectDetailMainFragment) fragment_first).refreshFollowNumber(1);
-                    }
-
-
+                    //menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like_pressed));
+                    iv_project_detail_follow_project.setImageResource(R.drawable.like_pressed);
                     break;
                 case FOLLOW_PROJECT_FAILURE:
                     if(ProjectDetailActivity.this.isFinishing()==true){
@@ -172,7 +167,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
                     break;
                 case CANCEL_FOLLOW_PROJECT_SUCCESS:
 
-                    //关注状态为关注
+                    //关注状态未关注
                     isFollow=false;
                     //已经结束了请求
                     isFinishFollow=true;
@@ -182,12 +177,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
                         break;
                     }
                     //设置menu菜单上的按钮图标
-                    menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like));
-                    //让fragment里的数据也同时减1
-                    if(fragment_first!=null&&fragment_first instanceof ProjectDetailMainFragment){
-                        ((ProjectDetailMainFragment) fragment_first).refreshFollowNumber(-1);
-                    }
-
+                    //menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like));
+                    iv_project_detail_follow_project.setImageResource(R.drawable.like);
                     break;
 
                 case CANCEL_FOLLOW_PROJECT_FAILURE:
@@ -202,16 +193,18 @@ public class ProjectDetailActivity extends AppCompatActivity {
                     //设置菜单按钮的图片
                     if(feedbackCode.isData()==true){
                         isFollow=true;
-                        if(menuItem_follow !=null){
+                        /*if(menuItem_follow !=null){
                             menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like_pressed));
+                        }*/
+                        iv_project_detail_follow_project.setImageResource(R.drawable.like_pressed);
 
-                        }
                     }else {
                         isFollow=false;
-                        if(menuItem_follow !=null){
+                        /*if(menuItem_follow !=null){
                             menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like));
 
-                        }
+                        }*/
+                        iv_project_detail_follow_project.setImageResource(R.drawable.like);
                     }
 
                     break;
@@ -252,7 +245,6 @@ public class ProjectDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_detial);
-        projectDetailActivity=this;
 
         //httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
@@ -265,6 +257,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
         //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
         toolbar.setTitleTextColor(Color.WHITE);
         Intent intent=getIntent();
+
+
 
         //获取登录状态和用户id和token
         SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
@@ -282,7 +276,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
                 isUserFollow(userId,categoryId,projectId);
                 isGetUserFollowMessage=false;
             }else{
-                isGetUserFollowMessage=true;
+                //isGetUserFollowMessage=true;
             }
 
             //初始化其他fragment
@@ -293,6 +287,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
         }
 
+        //获取项目信息
         getProjectInfo(categoryId,projectId);
 
 
@@ -321,6 +316,36 @@ public class ProjectDetailActivity extends AppCompatActivity {
             }
         });
 
+        //关注按钮
+        iv_project_detail_follow_project=(ImageView)findViewById(R.id.iv_project_detail_follow_project);
+        iv_project_detail_follow_project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFinishFollow==false){
+                    return;
+                }
+                if(isLogin==true){
+                    if(isGetUserFollowMessage==false){
+                        Toast.makeText(ProjectDetailActivity.this,"正在获取关注信息，请稍等",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //如果没有关注
+                    if(isFollow==false){
+                        FollowProject(userId,token,categoryId,projectId);
+                    }
+                    //如果已经关注
+                    else {
+                        CancelFollowProject(userId,token,categoryId,projectId);
+                    }
+
+                }else{
+                    Intent intent=new Intent();
+                    intent.setAction(getString(R.string.activity_login));
+                    startActivityForResult(intent,REQUEST_CODE_LOGIN);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -330,7 +355,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.menu_project_detail_follow:
+           /* case R.id.menu_project_detail_follow:
                 //如果正在请求关注或者取消关注，则不做任何反应
                 if(isFinishFollow==false){
                     break;
@@ -353,7 +378,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
                 break;
             case R.id.menu_project_detail_share:
 
-                break;
+                break;*/
 
 
             default:
@@ -368,7 +393,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_project_detail, menu);
+        /*getMenuInflater().inflate(R.menu.menu_project_detail, menu);
         menuItem_follow =menu.getItem(0);
         if(menuItem_follow !=null){
             if(isFollow==true){
@@ -376,7 +401,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
             }else{
                 menuItem_follow.setIcon(getResources().getDrawable(R.drawable.like));
             }
-        }
+        }*/
         return super.onCreateOptionsMenu(menu);
 
     }
@@ -391,6 +416,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
                     isLogin=share.getBoolean("isLogin",false);
                     userId=share.getInt("id",0);
                     token=share.getString("token"," ");
+                    isUserFollow(userId,categoryId,projectId);
                 }
                 break;
         }
@@ -409,7 +435,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
     }
 
 
-    //关注按钮响应函数
+
+    //关注请求
     private void FollowProject(final int userId,final String token,final int categoryId,final int projectId){
         if(isGetUserFollowMessage==false){
             handler.sendEmptyMessage(ENSUREING_USER_FOLLOW_INFO);
@@ -552,7 +579,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
     }
 
 
-    //用户是否关注
+    //判断用户是否关注
     private void isUserFollow(final int userId,final int categoryId,final int projectId){
 
         OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();

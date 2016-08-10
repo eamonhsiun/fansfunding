@@ -50,6 +50,7 @@ public class MyOrderActivity extends AppCompatActivity {
 
     //httpclient
     //private OkHttpClient httpClient;
+
     //热门项目列表
     private XListView lv_order_list;
 
@@ -273,4 +274,6 @@ public class MyOrderActivity extends AppCompatActivity {
         lv_order_list.stopLoadMore();
         lv_order_list.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
+
+
 }

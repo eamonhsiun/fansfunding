@@ -2,13 +2,12 @@ package com.fansfunding.fan.request;
 
 import android.app.Activity;
 import android.os.Message;
-import android.util.Log;
 
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.internal.ErrorCode;
-import com.fansfunding.internal.ProjectDetailReward;
+import com.fansfunding.internal.ProjectDetailComment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -23,21 +22,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by 13616 on 2016/7/24.
+ * Created by 13616 on 2016/8/9.
  */
-public class RequestProjectDetailReward {
-
-    //获取到的回报信息
-    private ProjectDetailReward reward=null;
-
-    public ProjectDetailReward getReward(){
-        return reward;
-    }
-
-    //一次获取回报的数量
-    private int rows=10;
-    //获取回报的页数
+public class RequestProjectDetailComment {
+    //项目评论
+    private ProjectDetailComment projectDetailComment=null;
+    //一次获取评论的数量
+    private int rows=20;
+    //获取评论的页数
     private int page=1;
+
+    public ProjectDetailComment getProjectDetailComment() {
+        return projectDetailComment;
+    }
 
     public int getRows() {
         return rows;
@@ -48,7 +45,6 @@ public class RequestProjectDetailReward {
             this.rows = rows;
     }
 
-
     public int getPage() {
         return page;
     }
@@ -58,56 +54,60 @@ public class RequestProjectDetailReward {
             this.page = page;
     }
 
-    public void getProjectDetailReward(Activity activity,final ErrorHandler handler,OkHttpClient httpClient,final int categoryId,final int projectId){
+    public void getProjectDetailComment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,final int categoryId,final int projectId){
+        //OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_project)+categoryId+"/"+projectId+"/feedbacks?rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_project)+categoryId+"/"+projectId+"/comments?rows="+rows+"&page="+page)
                 .build();
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_FAILURE);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //服务器响应失败
                 if(response==null||response.isSuccessful()==false){
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_FAILURE);
                     return;
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-                reward=new ProjectDetailReward();
+                projectDetailComment=new ProjectDetailComment();
+
                 try {
+
                     //用Gson进行解析，并判断结果是否为空
-                    if((reward = gson.fromJson(str_response, reward.getClass()))==null){
-                        handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    if((projectDetailComment = gson.fromJson(str_response, projectDetailComment.getClass()))==null){
+                        handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_FAILURE);
                         return;
                     }
-                    //获取项目详情失败
-                    if(reward.isResult()==false){
-                        switch (reward.getErrCode()){
+                    //获取评论失败
+                    if(projectDetailComment.isResult()==false){
+                        switch (projectDetailComment.getErrCode()){
                             case ErrorCode.REQUEST_TOO_FRENQUENTLY:
                                 handler.sendEmptyMessage(ErrorCode.REQUEST_TOO_FRENQUENTLY);
-                                break;
+                            break;
                             case ErrorCode.PARAMETER_ERROR:
                                 handler.sendEmptyMessage(ErrorCode.PARAMETER_ERROR);
                                 break;
                             default:
-                                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                                handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_FAILURE);
+                                break;
                         }
                         return;
                     }
 
-                    //获取项目信息成功
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_SUCCESS);
+                    //获取评论成功
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_SUCCESS);
                 }catch (IllegalStateException e){
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_FAILURE);
                     e.printStackTrace();
                 }catch (JsonSyntaxException e){
-                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_DETAIL_REWARD_FAILURE);
+                    handler.sendEmptyMessage(FANRequestCode.GET_PROJECT_COMMENT_FAILURE);
                     e.printStackTrace();
                 }
             }

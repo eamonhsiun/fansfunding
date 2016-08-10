@@ -178,6 +178,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         //初始化项目名字
         tv_order_detail_name.setText(orderDetail.getData().getProjectName());
 
+
         //初始化项目金额
         if(orderDetail.getData().getTotalFee()!=null){
             tv_order_detail_price.setText(new java.text.DecimalFormat("0.00").format(orderDetail.getData().getTotalFee()));

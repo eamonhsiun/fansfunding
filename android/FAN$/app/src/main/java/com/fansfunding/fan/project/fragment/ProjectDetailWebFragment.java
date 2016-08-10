@@ -68,7 +68,6 @@ public class ProjectDetailWebFragment extends Fragment {
                 //获取项目详情成功
                 case GET_PROJECT_DETAIL_SUCCESS:
                     InitWeb();
-                    Log.i("TAG","webSuccess");
                     break;
                 //获取项目详情失败
                 case GET_PROJECT_DETAIL_FAILURE:
@@ -76,7 +75,6 @@ public class ProjectDetailWebFragment extends Fragment {
                         break;
                     }
                     Toast.makeText(ProjectDetailWebFragment.this.getActivity(),"获取项目详情失败",Toast.LENGTH_LONG).show();
-                    Log.i("TAG","webfailure");
                     break;
 
                 case ErrorCode.REQUEST_TOO_FRENQUENTLY:
@@ -84,14 +82,12 @@ public class ProjectDetailWebFragment extends Fragment {
                         break;
                     }
                     Toast.makeText(ProjectDetailWebFragment.this.getActivity(),"请求过于频繁",Toast.LENGTH_LONG).show();
-                    Log.i("TAG","webfailure");
                     break;
                 case ErrorCode.PARAMETER_ERROR:
                     if(ProjectDetailWebFragment.this.getActivity()==null){
                         break;
                     }
                     Toast.makeText(ProjectDetailWebFragment.this.getActivity(),"参数错误",Toast.LENGTH_LONG).show();
-                    Log.i("TAG","webfailure");
                     break;
             }
             super.handleMessage(msg);
@@ -192,7 +188,6 @@ public class ProjectDetailWebFragment extends Fragment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-                Log.i("TAG","Webresponse:"+str_response);
                 detail =new ProjectDetail();
                 try {
 
@@ -246,7 +241,7 @@ public class ProjectDetailWebFragment extends Fragment {
         if(detail.getData().getContent()!=null&&detail.getData().getContent().equals("")==false){
 
             //还需要继续更改
-            String web="<html><head <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0 />>"
+            String web="<html><head> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0\" />"
                     +"</head><body>"
                     +detail.getData().getContent()
                     +"</body><html>";

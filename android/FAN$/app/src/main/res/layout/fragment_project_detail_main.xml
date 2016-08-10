@@ -3,20 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorWhite"
     tools:context="com.fansfunding.fan.project.fragment.ProjectDetailMainFragment">
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--项目图片-->
-    <!--<ImageView
-        android:id="@+id/iv_project_detail_main_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bannertest1"
-        android:adjustViewBounds="true"
-        android:layout_centerHorizontal="true"/>-->
     <com.bigkoo.convenientbanner.ConvenientBanner
         android:id="@+id/iv_project_detail_main_image"
         android:layout_width="match_parent"
@@ -24,103 +16,97 @@
         app:canLoop="true">
 
     </com.bigkoo.convenientbanner.ConvenientBanner>
-    <!--项目详情信息-->
+
+    <!--发起人信息-->
     <RelativeLayout
+        android:id="@+id/rl_project_detail_main_publisher_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/layout_padding"
+        android:layout_below="@id/iv_project_detail_main_image">
+        <!--发起人头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_project_detail_main_publisher_head"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="@dimen/icon_padding"
+            android:src="@drawable/pjimagetest"/>
+
+        <!--发起人昵称-->
+        <TextView
+            android:id="@+id/tv_project_detail_main_publisher_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_project_detail_main_publisher_head"
+            android:layout_toLeftOf="@+id/btn_project_detail_main_follow_user"
+            android:layout_centerVertical="true"
+            android:text="Immortals"/>
+        <!--关注按钮-->
+        <Button
+            android:id="@+id/btn_project_detail_main_follow_user"
+            android:layout_width="60dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:background="@drawable/btn_see_all_comment"
+            android:text="关注"
+            android:textColor="@color/colorPrimary"/>
+
+
+    </RelativeLayout>
+
+
+    <!--项目详情信息-->
+    <LinearLayout
         android:id="@+id/rl_project_detail_main_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/layout_padding"
-        android:layout_below="@id/iv_project_detail_main_image"
+        android:layout_below="@id/rl_project_detail_main_publisher_information"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
         android:background="@color/colorWhite">
-        <!--项目发起人信息-->
-        <RelativeLayout
-            android:id="@+id/rl_project_detail_main_publisher_information"
+
+        <!--项目名-->
+        <TextView
+            android:id="@+id/tv_project_detail_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--项目发起人头像-->
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_project_detail_main_publisher_head"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="@dimen/icon_padding"
-                android:src="@drawable/pjimagetest"/>
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:text="武大难友：你的皮划艇已上线"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/colorBlack"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_toRightOf="@id/iv_project_detail_main_publisher_head">
-                <!--项目名字-->
-                <TextView
-                    android:id="@+id/tv_project_detail_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/subhead_text_size"
-                    android:text="武大难友：你的皮划艇已上线"
-                    android:singleLine="true"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/colorBlack"/>
+        <!--项目简介-->
+        <TextView
+            android:id="@+id/tv_project_detail_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_padding"
+            android:text="这是一段项目简介呀打这么多字就是会为了测试一下一行可以打多少字呀哈哈哈"/>
 
-                <!--发起人-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp">
-                    <TextView
-                        android:id="@+id/tv_PJ_publish_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="发起人:"
-                        android:textColor="@color/colorPublishGrey"/>
-                    <TextView
-                        android:id="@+id/tv_project_detail_main_publisher_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/tv_PJ_publish_label"
-                        android:layout_toLeftOf="@+id/ll_PJ_time"
-                        android:text="Immortals"/>
-                    <LinearLayout
-                        android:id="@+id/ll_PJ_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true">
-
-                        <TextView
-                            android:id="@+id/tv_project_detail_main_time_start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1天前"
-                            android:textColor="@color/colorPublishGrey"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
-                            android:textColor="@color/colorPublishGrey"
-                            android:text="|"
-                            />
-                        <TextView
-                            android:id="@+id/tv_project_detail_main_time_end"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPublishGrey"
-                            android:text="还剩 天"/>
-                    </LinearLayout>
-                </RelativeLayout>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
+        <!--查看项目详情按钮(即查看富文本内容)-->
+        <TextView
+            android:id="@+id/tv_project_detail_main_richtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="@dimen/layout_padding"
+            android:paddingBottom="@dimen/layout_padding"
+            android:gravity="center_horizontal"
+            android:text="查看项目详情  >"/>
+        <!--进度条-->
         <ProgressBar
             android:id="@+id/progressBar_project_detail_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
-            android:layout_below="@id/rl_project_detail_main_publisher_information"
             android:progressTint="@color/colorPrimary"
-            android:layout_marginTop="16dp"
             android:max="100"
             android:progress="50"
             />
@@ -131,8 +117,7 @@
             android:id="@+id/ll_project_detail_main_project_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/content_padding"
-            android:layout_below="@id/progressBar_project_detail_main">
+            android:paddingTop="@dimen/content_padding">
 
             <!--已筹金额-->
             <RelativeLayout
@@ -172,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorBlack"
                         android:text="￥"/>
                     <!--目标金额-->
                     <TextView
@@ -183,7 +168,7 @@
                         android:gravity="center_vertical"
                         android:text="600"
                         android:textSize="@dimen/subhead_text_size"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorBlack"/>
 
                 </LinearLayout>
 
@@ -237,7 +222,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorBlack"
                         android:text="￥"/>
                     <!--目标金额-->
                     <TextView
@@ -248,7 +233,7 @@
                         android:gravity="center_vertical"
                         android:text="233"
                         android:textSize="@dimen/subhead_text_size"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorBlack"/>
 
                 </LinearLayout>
 
@@ -259,14 +244,15 @@
                 layout="@layout/divider_vertical"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"/>
-            <!--关注人数-->
+
+            <!--剩余天数-->
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center">
                 <LinearLayout
-                    android:id="@+id/ll_support_times"
+                    android:id="@+id/ll_remain_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -275,13 +261,13 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/project_follow"/>
-                    <!--关注人数标签-->
+                    <!--剩余天数标签-->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center_horizontal"
-                        android:text="关注人数"
+                        android:text="剩余天数"
                         android:textColor="@color/colorLabelGrey"
                         />
                 </LinearLayout>
@@ -291,86 +277,67 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_horizontal"
-                    android:layout_below="@id/ll_support_times"
+                    android:layout_below="@id/ll_remain_time"
                     android:paddingTop="@dimen/layout_padding">
 
                     <TextView
-                        android:id="@+id/tv_project_detail_main_support_times"
+                        android:id="@+id/tv_project_detail_main_remain_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center_vertical"
                         android:text="0"
                         android:textSize="@dimen/subhead_text_size"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/colorBlack"/>
 
                 </LinearLayout>
 
             </RelativeLayout>
         </LinearLayout>
 
+    </LinearLayout>
+
+    <!--支持列表-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/rl_project_detail_main_information"
+        android:padding="@dimen/layout_padding"
+        android:background="@color/colorWhite">
+        <!--支持者头像列表-->
+        <com.fansfunding.fan.utils.MyGridView
+            android:id="@+id/gv_project_detail_main_support_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numColumns="5"
+            android:horizontalSpacing="4dp"
+            android:layout_toLeftOf="@+id/divider_project_detail_main"
+            android:listSelector="@color/transparent"
+            >
+        </com.fansfunding.fan.utils.MyGridView>
+
+        <!--分割线-->
+        <include
+            android:id="@+id/divider_project_detail_main"
+            android:layout_height="25dp"
+            android:layout_width="1dp"
+            layout="@layout/divider_vertical"
+            android:layout_toLeftOf="@+id/tv_project_detail_main_support_number"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"/>
+        <!--支持人数-->
+        <TextView
+            android:id="@+id/tv_project_detail_main_support_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0人支持 >"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
     </RelativeLayout>
 
-    <View
-        android:id="@+id/divider_project_detail_main"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/colorBackgroundGrey"
-        android:layout_below="@id/rl_project_detail_main_information"/>
-    <!--项目评论-->
-    <LinearLayout
-        android:id="@+id/ll_project_detail_main_comment_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider_project_detail_main"
-        android:paddingLeft="@dimen/layout_padding"
-        android:paddingTop="@dimen/layout_padding"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="3dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/rectangle"/>
-        <TextView
-            android:id="@+id/tv_"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subhead_text_size"
-            android:layout_gravity="center_vertical"
-
-            android:textColor="@color/colorLabelGrey"
-            android:paddingLeft="@dimen/layout_padding"
-            android:text="项目评论"
-            />
-    </LinearLayout>
-   
-    <include
-        android:id="@+id/include_project_detail_main_comment"
-        layout="@layout/item_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_project_detail_main_comment_label">
-
-    </include>
-    <Button
-        android:id="@+id/btn_project_detail_main_all_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:layout_marginBottom="@dimen/layout_padding"
-        android:layout_marginTop="@dimen/layout_padding"
-        android:text="评论"
-        android:textColor="@color/colorPrimaryRed"
-        android:layout_below="@id/include_project_detail_main_comment"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/btn_see_all_comment"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_padding"
-        android:background="@color/transparent"
-        android:layout_below="@id/btn_project_detail_main_all_comment"/>
 
 
 </RelativeLayout>

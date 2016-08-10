@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_project_detail"
-        android:layout_above="@+id/btn_project_detail_support">
+        android:layout_above="@+id/divider_shadow">
         <FrameLayout
             android:id="@+id/frame_project_detail_first"
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:layout_height="match_parent"></FrameLayout>
 
     </com.fansfunding.verticalslide.DragLayout>
-    <Button
+    <!--<Button
         android:id="@+id/btn_project_detail_support"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +59,58 @@
         android:background="@color/colorButtonRed"
         android:textColor="@color/colorWhite"
         android:layout_alignParentBottom="true"
-        />
+        />-->
+    <include
+        android:id="@+id/divider_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/divider"
+        android:layout_above="@+id/ll_project_detail_support"/>
+    <LinearLayout
+        android:id="@+id/ll_project_detail_support"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:elevation="4dp">
+
+        <!--关注按钮-->
+        <ImageView
+            android:id="@+id/iv_project_detail_follow_project"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="1"
+            android:src="@drawable/like"
+            android:layout_gravity="center_vertical"
+            />
+
+        <!--支持按钮-->
+        <Button
+            android:id="@+id/btn_project_detail_support"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="2"
+            android:text="立即支持"
+            android:textSize="@dimen/subhead_text_size"
+            android:background="@drawable/frame_project_detial_btn_support"
+            android:textColor="@color/colorWhite"
+            android:elevation="4dp"
+            />
+
+        <!--分享按钮-->
+        <ImageView
+            android:id="@+id/iv_project_detail_share_project"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="1"
+            android:src="@drawable/share"
+            android:layout_gravity="center_vertical"
+            />
+
+    </LinearLayout>
     <!--<ScrollView
         android:id="@+id/sv_project_detail_information"
         android:layout_width="match_parent"

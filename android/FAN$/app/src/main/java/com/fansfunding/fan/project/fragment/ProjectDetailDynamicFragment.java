@@ -17,10 +17,15 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.fansfunding.PullListView.XListView;
 import com.fansfunding.fan.project.activity.ProjectDetailActivity;
 import com.fansfunding.fan.project.adapter.ProjectDetailDynamicAdapter;
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.project.adapter.ProjectDetailDynamicPhotoAdapter;
+import com.fansfunding.fan.request.RequestProjectDetailDynamic;
+import com.fansfunding.fan.utils.ErrorHandler;
+import com.fansfunding.fan.utils.FANRequestCode;
+import com.fansfunding.fan.utils.ProjectDetailListView;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetailDynamic;
 import com.fansfunding.internal.ProjectInfo;
@@ -30,6 +35,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -45,49 +52,64 @@ import okhttp3.Response;
  * create an instance of this fragment.
  */
 public class ProjectDetailDynamicFragment extends Fragment {
-
-    //获取动态成功
-    private final static int GET_PROJECT_DETAIL_MOMENT_SUCCESS=100;
-
-    //获取动态失败
-    private final static int GET_PROJECT_DETAIL_MOMENT_FAILURE=101;
+    //是否已经完成了项目数据获取的请求
+    private boolean isFinishRequest=true;
 
     private FloatingActionButton btnCreateDynamic;
     //动态内容
-    private ProjectDetailDynamic dynamic;
+    //private ProjectDetailDynamic dynamic;
 
     //list适配器
     private ProjectDetailDynamicAdapter adapter;
 
+    //动态展示适配器
+    private ProjectDetailListView lv_project_detail_reward;
 
-
+    //httpclient
+    private OkHttpClient httpClient;
+    //获取动态
+    RequestProjectDetailDynamic requestProjectDetailDynamic;
 
     //项目分类
     private int categoryId;
 
     //项目Id
     private int projectId;
+
+
     //项目描述信息(比如目标金额之类的)
     private ProjectInfo projectDetail;
 
-    private Handler handler=new Handler(){
+
+
+    private ErrorHandler handler=new ErrorHandler(this.getActivity()){
         @Override
         public void handleMessage(Message msg) {
+            endRefresh();
             switch (msg.what) {
-                case GET_PROJECT_DETAIL_MOMENT_SUCCESS:
-                    for(int i=0;i<dynamic.getData().getList().size();i++){
-                        if(dynamic.getData().getList().get(i)!=null)
-                            adapter.addItem(dynamic.getData().getList().get(i));
+                case FANRequestCode.GET_PROJECT_DETAIL_MOMENT_SUCCESS:
+                    if(requestProjectDetailDynamic.getDynamic().getData().getList().size()< requestProjectDetailDynamic.getRows()){
+                        requestProjectDetailDynamic.setPage(1);
+                        lv_project_detail_reward.setPullLoadEnable(false);
+                        lv_project_detail_reward.setAutoLoadEnable(false);
+                    }else{
+                        requestProjectDetailDynamic.setPage(requestProjectDetailDynamic.getPage()+1);
+                        lv_project_detail_reward.setPullLoadEnable(true);
+                        lv_project_detail_reward.setAutoLoadEnable(true);
+                    }
+                    for(int i=0;i<requestProjectDetailDynamic.getDynamic().getData().getList().size();i++){
+                        if(requestProjectDetailDynamic.getDynamic().getData().getList().get(i)!=null)
+                            adapter.addItem(requestProjectDetailDynamic.getDynamic().getData().getList().get(i));
                     }
                     adapter.notifyDataSetChanged();
                     break;
-                case GET_PROJECT_DETAIL_MOMENT_FAILURE:
+                case FANRequestCode.GET_PROJECT_DETAIL_MOMENT_FAILURE:
                     if (ProjectDetailDynamicFragment.this.getActivity() == null) {
                         break;
                     }
                     Toast.makeText(ProjectDetailDynamicFragment.this.getActivity(), "获取动态信息失败", Toast.LENGTH_LONG).show();
                     break;
-                case ErrorCode.PARAMETER_ERROR:
+                /*case ErrorCode.PARAMETER_ERROR:
                     if (ProjectDetailDynamicFragment.this.getActivity() == null) {
                         break;
                     }
@@ -98,9 +120,11 @@ public class ProjectDetailDynamicFragment extends Fragment {
                         break;
                     }
                     Toast.makeText(ProjectDetailDynamicFragment.this.getActivity(), "请求过于频繁", Toast.LENGTH_LONG).show();
-                    break;
+                    break;*/
+                default:
+                    super.handleMessage(msg);
             }
-            super.handleMessage(msg);
+
         }
 
     };
@@ -142,9 +166,26 @@ public class ProjectDetailDynamicFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_project_detail_dynamic, container, false);
+        requestProjectDetailDynamic=new RequestProjectDetailDynamic();
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        lv_project_detail_reward=(ProjectDetailListView)rootView.findViewById(R.id.lv_project_detail_dynamic);
+        lv_project_detail_reward.setAutoLoadEnable(false);
+        lv_project_detail_reward.setPullLoadEnable(false);
+        lv_project_detail_reward.setPullRefreshEnable(false);
+        lv_project_detail_reward.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        lv_project_detail_reward.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+            }
 
-
-        CustListView lv_project_detail_reward=(CustListView)rootView.findViewById(R.id.lv_project_detail_dynamic);
+            @Override
+            public void onLoadMore() {
+                if(isFinishRequest==true){
+                    isFinishRequest=false;
+                    requestProjectDetailDynamic.getProjectDetailDynamic(ProjectDetailDynamicFragment.this.getActivity(),handler,httpClient,categoryId,projectId);
+                }
+            }
+        });
 
         btnCreateDynamic= (FloatingActionButton) rootView.findViewById(R.id.btn_create_dynamic);
 
@@ -173,7 +214,8 @@ public class ProjectDetailDynamicFragment extends Fragment {
 
 
         //获取动态信息
-        getProjectDetailDynamic();
+        requestProjectDetailDynamic.getProjectDetailDynamic(this.getActivity(),handler,httpClient,categoryId,projectId);
+
         return rootView;
     }
 
@@ -190,9 +232,14 @@ public class ProjectDetailDynamicFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+    private void endRefresh(){
+        isFinishRequest=true;
+        lv_project_detail_reward.stopRefresh();
+        lv_project_detail_reward.stopLoadMore();
+        lv_project_detail_reward.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+    }
 
-
-    //获取动态信息
+    /*//获取动态信息
     private void getProjectDetailDynamic(){
         OkHttpClient okHttpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
@@ -268,6 +315,6 @@ public class ProjectDetailDynamicFragment extends Fragment {
             }
 
         });
-    }
+    }*/
 
 }

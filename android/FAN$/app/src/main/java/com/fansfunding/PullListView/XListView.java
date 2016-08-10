@@ -86,6 +86,8 @@ public class XListView extends ListView implements OnScrollListener {
     public XListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initWithContext(context);
+
+
     }
 
     private void initWithContext(Context context) {

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.fansfunding.fan.project.fragment.ProjectDetailCommentFragment;
 import com.fansfunding.fan.project.fragment.ProjectDetailDynamicFragment;
 import com.fansfunding.fan.project.fragment.ProjectDetailRewardFragment;
 import com.fansfunding.fan.project.fragment.ProjectDetailWebFragment;
@@ -25,9 +26,9 @@ public class ProjectDetailAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return ProjectDetailWebFragment.newInstance(detail);
-            case 1:
                 return ProjectDetailRewardFragment.newInstance(detail);
+            case 1:
+                return ProjectDetailCommentFragment.newInstance(detail);
             case 2:
                 return ProjectDetailDynamicFragment.newInstance(detail);
         }
@@ -43,11 +44,11 @@ public class ProjectDetailAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "详情";
-            case 1:
                 return "回报";
+            case 1:
+                return "评论";
             case 2:
-                return "动态";
+                return "更新";
 
         }
         return null;

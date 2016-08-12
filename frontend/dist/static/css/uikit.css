@@ -217,3 +217,115 @@
   .FFbtn:hover {
     color: #ffffff;
     background-color: #d65152; }
+
+.kit-input {
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  border-bottom: 2px solid #505050;
+  transition: all 0.3s ease; }
+  .kit-input:focus, .kit-input.error {
+    border-bottom-color: #ee554d; }
+  .kit-input.valid {
+    border-bottom-color: #5aa133; }
+
+.kit-check:after {
+  content: "";
+  clear: both;
+  display: block; }
+
+.kit-check label {
+  position: relative;
+  font-size: 1.5rem;
+  float: left; }
+  .kit-check label input {
+    display: none;
+    width: 16px;
+    height: 36px;
+    margin: 0;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+    left: 0;
+    visibility: hidden; }
+  .kit-check label input:checked + .check-arrow {
+    border-bottom-color: #ee554d; }
+    .kit-check label input:checked + .check-arrow:after {
+      border-bottom-color: #ee554d; }
+  .kit-check label .check-arrow {
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    width: 0;
+    height: 0;
+    border-radius: 0;
+    opacity: 1;
+    background: transparent;
+    border-right: 14px solid transparent;
+    border-left: 14px solid transparent;
+    border-bottom: 24px solid #505050;
+    transition: all 0.2s ease; }
+    .kit-check label .check-arrow:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 4px;
+      left: -10px;
+      opacity: 1;
+      background: transparent;
+      border-radius: 0;
+      width: 0;
+      height: 0;
+      border-right: 10px solid transparent;
+      border-left: 10px solid transparent;
+      border-bottom: 18px solid #ffffff; }
+    .kit-check label .check-arrow:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 8px;
+      left: -7px;
+      opacity: 1;
+      background: transparent;
+      border-radius: 0;
+      width: 0;
+      height: 0;
+      border-right: 7px solid transparent;
+      border-left: 7px solid transparent;
+      border-bottom: 12px solid #ffffff;
+      transition: all 0.2s ease; }
+
+@media screen and (max-width: 800px) {
+  .kit-progress-tab .kit-tab {
+    font-size: 1.2rem;
+    height: 50px;
+    line-height: 50px; }
+    .kit-progress-tab .kit-tab.FFtab-active:before {
+      left: -10px;
+      border-top: 25px solid #ee554d;
+      border-bottom: 25px solid #ee554d;
+      border-left: 25px solid #ffffff; }
+    .kit-progress-tab .kit-tab.FFtab-active:after {
+      right: -10px;
+      border-top: 25px solid #ffffff;
+      border-bottom: 25px solid #ffffff;
+      border-left: 25px solid #ee554d; } }
+
+@media screen and (max-width: 500px) {
+  .kit-progress-tab .kit-tab {
+    height: 40px;
+    line-height: 40px; }
+    .kit-progress-tab .kit-tab.FFtab-active:before {
+      border-top: 20px solid #ee554d;
+      border-bottom: 20px solid #ee554d;
+      border-left: 20px solid #ffffff; }
+    .kit-progress-tab .kit-tab.FFtab-active:after {
+      border-top: 20px solid #ffffff;
+      border-bottom: 20px solid #ffffff;
+      border-left: 20px solid #ee554d; } }

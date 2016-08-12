@@ -24,6 +24,8 @@ var initiationVm = new Vue({
         limitation: "",
         description: "",
         images:[],
+        ceiling: -1,
+        title: "",
         uploadCount: 0,
         uploadUrl: [],
       }],
@@ -76,7 +78,8 @@ var initiationVm = new Vue({
         cropper = new Cropper($("#upload-cover-img")[0], {
           viewMode: 2,
           aspectRatio: 16 / 9,
-          preview: "#upload-cover-preview"
+          preview: "#upload-cover-preview",
+          dragMode: 'move',
         });
         $("#upload-cover-img")[0].addEventListener('crop', function (e) {
           var data = cropper.getData();
@@ -252,19 +255,20 @@ var initiationVm = new Vue({
       var i = index || 0;
       var feedbacks = this.feedbacks.list;
       var amount = feedbacks.length;
-      this.request.progress += (60 / _this.feedbacks.list.length);
       if(i >= amount){
         console.log("回馈上传完成");
         alert("项目发起完成");
         redirect(true);
         return false;
       }else{
+        this.request.progress += (60 / _this.feedbacks.list.length);
         this.feedbacks.list[i].uploadUrl = [];
         this.uploadFeedbackImage( i ,function(url){
           console.log("回馈" + i + "开始上传");
           var data = {
             token: localToken,
-            title: "什么是回报名",
+            title: _this.feedbacks.list[i].title,
+            ceiling: _this.feedbacks.list[i].ceiling,
             description: _this.feedbacks.list[i].description,
             limitation: _this.feedbacks.list[i].limitation,
           }
@@ -302,11 +306,15 @@ var initiationVm = new Vue({
       this.feedbacks.list.push(feedback);
     },
     removeFeedback: function(index){
+      if(this.feedbacks.list.length<=1){
+        alert("必须保留一个回报项");
+        return;
+      }
       if(confirm("确定要删除此回报项吗？")){
         this.feedbacks.list.splice(index, 1);
       }
     },
-    loadFeedbackImage: function(index,event){
+    loadFeedbackImage: function(index, event){
       var _this = this;
       var file = event.target.files[0];
       if(file.type.indexOf("image") < 0){
@@ -318,10 +326,8 @@ var initiationVm = new Vue({
         _this.feedbacks.list[index].uploadCount = _this.feedbacks.list[index].images.length;
         _this.feedbacks.list[index].uploadUrl = [];
       })
-      // var img = window.URL.createObjectURL(file);
     },
     deleteFeedbackImage: function(index, imgIndex){
-      // window.URL.revokeObjectURL(this.feedbacks.list[index].images[imgIndex]);
       this.feedbacks.list[index].images.splice(imgIndex, 1);
       this.feedbacks.list[index].uploadCount = this.feedbacks.list[index].images.length;
     },
@@ -339,6 +345,7 @@ var initiationVm = new Vue({
     });
   }
 })
+
 
 
 var projectTimePicker = rome($("#time-end")[0], {
@@ -379,6 +386,8 @@ var editor = new Simditor({
     connectionCount: 3,
     leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
   },
+  toolbarFloat: true,
+  toolbarFloatOffset: 70,
   pasteImage: true
   //optional options
 });
@@ -386,3 +395,9 @@ editor.on('valuechanged', function(e, src){
   initiationVm.project.content = this.getValue();
 });
 var cropper = null;
+// window.onbeforeunload = function(e){
+//   if(!confirm("确认要离开吗")){
+//     return false;
+//   }
+//   return true;
+// }

@@ -41,7 +41,7 @@ Vue.filter("commentTime" ,function(value){
 });
 
 //-----------vue对象---------------
-var vm = new Vue({
+var projectVm = new Vue({
   el: "#project",
   data: {
     status: false, //登陆状态

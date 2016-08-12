@@ -26,7 +26,7 @@
           <div class="initiator-avatar"><img v-bind:src="project.data.sponsorHead | resource" alt=""></div>
           <div class="initiator-info">
             <div class="initiator-name">发起人：<a href="space.html?userid={{project.data.sponsor}}" v-cloak>{{project.data.sponsorNickname}}</a></div>
-            <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
+<!--             <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div> -->
           </div>
         </div>
         <div class="initiator-follow" :class="{'followed': sponsor.isFollowed}" @click.prevent="followUser">{{ sponsor.isFollowed ? "已关注" : "关注"}}</div>
@@ -56,7 +56,7 @@
                   <img v-bind:src="userInfo.head | resource" alt="">
                 </div>
                 <div class="comment-userinfo-name" id="moment-user-nickname">{{ userInfo.nickname }}</div>
-                <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+<!--                 <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
               </div>
               <div class="comment-input">
                 <textarea name="" id="moment-textarea" cols="30" rows="10" v-model="moments.content"></textarea >
@@ -79,7 +79,7 @@
                     <img v-bind:src="moment.sponsorHead | resource" alt="">
                   </div>
                   <a href="space.html?userid={{moment.sponsor}}"><div class="moment-userinfo-name comment-userinfo-name">{{ moment.sponsorNickname }}</div></a>
-                  <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+<!--                   <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
                 </div>
                 <div class="moment-content comment-content">
                   <div class="moment-inner comment-inner">{{ moment.content }}</div>
@@ -108,7 +108,7 @@
                   <img v-bind:src="userInfo.head | resource" alt="">
                 </div>
                 <div class="comment-userinfo-name" id="comment-user-nickname">{{ userInfo.nickname }}</div>
-                <div class="comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+<!--                 <div class="comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
               </div>
               <div class="comment-input">
                 <textarea name="" id="comment-textarea" cols="30" rows="10" v-model="comments.content" placeholder="{{comments.reply.placeholder}}"></textarea >
@@ -157,8 +157,9 @@
         <div id="feedback-errormsg" class="errormsg FFerrormsg">没有回报信息</div>
         <ul>
           <li class="feedback-list" v-for="feedback in feedbacks.list">
+            <div class="feedback-title">{{feedback.title}}</div>
             <div class="feedback-money">支持<span>{{feedback.limitation}}</span>元</div>
-            <div class="feedback-num">已支持<span>{{feedback.supportTimes}}</span>人</div>
+            <div class="feedback-num">已支持<span>{{feedback.supportTimes}}</span>人<span v-if="feedback.ceiling>0">，最多<span>{{feedback.ceiling}}</span>人</span></div>
             <div class="feedback-detail">
               <div class="feedback-detail-content">{{feedback.description}}</div>
               <div class="feedback-detail-pics">

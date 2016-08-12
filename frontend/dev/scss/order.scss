@@ -7,12 +7,12 @@
   .kit-progress-tab{
     .kit-tab{
       width: 33.3%;
+      cursor: default;
     }
   }
 }
 .order-step{
   padding-bottom: 40px;
-  padding-top: 40px;
   text-align: center;
   .order-submit{
     width: 100%;
@@ -153,6 +153,7 @@
   }
 }
 #order-address{
+  margin-bottom: 40px;
   &:after{
     content: "";
     display: block;
@@ -309,8 +310,54 @@
     margin-top: 5px;
   }
 }
+#pay-confirm{
+  margin-bottom: 30px;
+}
 .pay-info{
   font-size: 1.8rem;
   text-align: center;
-
+}
+.pay-result{
+  width: 500px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  &:after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .pay-icon{
+    float: left;
+    width: 140px;
+    line-height: 140px;
+    height: 140px;
+    &:before{
+      font-size: 160px;
+      color: $color_green_1;
+      @include font_icon_content($fa-var-check-circle-o);
+    }
+    &.failure:before{
+      color: $color_red_1;
+      @include font_icon_content($fa-var-times-circle-o);
+    }
+  }
+  .pay-content{
+    margin-left: 160px;
+    .pay-msg{
+      font-size: 2rem;
+      height: 60px;
+      line-height: 60px;
+      padding-left: 100px;
+      padding-top: 10px;
+    }
+    .pay-btn{
+      float: left;
+      margin-left: 30px;
+      margin-top: 10px;
+      &:only-child{
+        margin-left: 100px;
+      }
+    }
+  }
 }

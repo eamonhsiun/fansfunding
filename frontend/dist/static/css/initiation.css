@@ -1090,19 +1090,6 @@
   margin: 0 5px;
   vertical-align: middle; }
 
-.FFbtn {
-  width: 120px;
-  background-color: #ee554d;
-  color: #ffffff;
-  text-align: center;
-  line-height: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease; }
-  .FFbtn:hover {
-    background-color: #d65152; }
-
 .progress-content {
   background-color: #ffffff;
   padding: 20px; }
@@ -1174,7 +1161,7 @@
     width: 100px;
     text-align: center; }
   .progress-info .progress-info-wrap {
-    height: 100%;
+    height: 30px;
     margin-left: 100px;
     position: relative; }
   .progress-info .progress-info-input {
@@ -1210,10 +1197,10 @@
     padding-left: 8px;
     padding-right: 8px; }
 
-.progress-description {
+#progress-description {
   width: 100%;
   margin-top: 20px; }
-  .progress-description .progress-info-input {
+  #progress-description .progress-info-input {
     text-align: left;
     padding-left: 20px;
     padding-right: 20px; }
@@ -1252,6 +1239,9 @@
     .progress-cover #upload-cover-preview img {
       max-width: 100%; }
 
+.add-feedback-btn {
+  margin-top: 20px; }
+
 .feedback-list {
   width: 100%;
   border: 2px solid #ee7419;
@@ -1277,18 +1267,21 @@
     padding-right: 20px;
     box-sizing: border-box;
     font-size: 1.2rem;
-    margin-top: 10px; }
+    margin-top: 10px;
+    position: relative;
+    z-index: 9; }
   .feedback-list .feedback-hint {
     width: 100px;
     float: left;
-    text-align: center; }
+    text-align: right; }
   .feedback-list .feedback-input-wrap {
     height: 100%;
-    width: 160px;
+    width: 220px;
     margin-left: 120px; }
   .feedback-list .feedback-textarea-wrap {
     height: 100%;
-    margin-left: 120px; }
+    margin-left: 120px;
+    padding-top: 10px; }
   .feedback-list .feedback-input {
     text-align: center;
     width: 100%;
@@ -1296,6 +1289,7 @@
     border: 0;
     box-sizing: border-box;
     border-bottom: 2px solid #505050;
+    background-color: transparent;
     transition: all 0.3s ease; }
     .feedback-list .feedback-input:focus {
       border-bottom-color: #ee554d; }
@@ -1307,6 +1301,7 @@
     border: 1px solid #ababab;
     box-sizing: border-box;
     padding: 5px 10px;
+    background-color: transparent;
     transition: all 0.3s ease; }
     .feedback-list .feedback-textarea:focus {
       border-color: #ee554d; }
@@ -1319,35 +1314,33 @@
     height: 120px;
     float: left;
     margin-left: 20px;
+    margin-top: 10px;
     position: relative; }
     .feedback-list .feedback-images-preview-list .feedback-image-preview img {
       width: 100%;
       height: 100%; }
-    .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn:after {
-      position: absolute;
-      right: -10px;
-      top: -10px;
-      font-size: 1.1rem;
-      color: #ffffff;
-      background-color: #ee554d;
-      display: block;
-      border-radius: 50%;
-      width: 30px;
-      line-height: 30px;
-      text-align: center;
-      height: 30px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: "FontAwesome";
-      content: ""; }
-    .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn:hover:after {
-      background-color: #d65152; }
+    .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn {
+      cursor: pointer; }
+      .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn:after {
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        font-size: 1.1rem;
+        color: #ffffff;
+        background-color: #ee554d;
+        display: block;
+        border-radius: 50%;
+        width: 30px;
+        line-height: 30px;
+        text-align: center;
+        height: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "FontAwesome";
+        content: ""; }
+      .feedback-list .feedback-images-preview-list .feedback-image-preview .feedback-image-preview-btn:hover:after {
+        background-color: #d65152; }
   .feedback-list .feedback-image-btn {
-    width: 120px;
-    height: 120px;
-    position: relative;
-    float: left;
-    margin-left: 20px;
     box-sizing: border-box;
     border: 1px solid #ababab;
     transition: all 0.3s ease; }
@@ -1381,3 +1374,160 @@
     height: 100%;
     background-color: #ee554d;
     transition: all 0.3s ease; }
+
+@media screen and (max-width: 1400px) {
+  #progress-title-input {
+    font-size: 1.6rem;
+    margin-top: 5px;
+    margin-bottom: 5px; }
+  .progress-info {
+    width: 50%; }
+  .progress-cover .upload-cover-wrap {
+    width: 750px;
+    height: 500px; }
+  .progress-cover #upload-cover-btn {
+    margin-right: 0; }
+  #upload-cover-preview {
+    display: none; } }
+
+@media screen and (max-width: 1100px) {
+  #progress-title-input {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 0; }
+  .progress-title {
+    padding-top: 15px;
+    padding-bottom: 15px; }
+  .progress-info {
+    padding-left: 10px;
+    padding-right: 10px; }
+  .progress-cover .upload-cover-wrap {
+    width: 100%;
+    height: 420px;
+    float: none; }
+  .progress-cover #upload-cover-btn {
+    clear: both;
+    float: none;
+    margin-top: 20px;
+    margin-left: 0; }
+  #initiation-errormsg {
+    padding: 15px;
+    font-size: 1.4rem; }
+  .feedback-list .feedback-textarea {
+    width: 100%; } }
+
+@media screen and (max-width: 800px) {
+  #progress-title-input {
+    height: 40px;
+    line-height: 40px; }
+  .progress-content {
+    padding: 15px; }
+  .progress-title {
+    padding: 10px; }
+  .progress-info {
+    float: none;
+    margin-top: 20px;
+    width: 60%; }
+    .progress-info:first-child {
+      margin-top: 0; }
+  .progress-cover .upload-cover-wrap {
+    width: 100%;
+    height: 360px;
+    float: none; }
+  .progress-cover {
+    padding-left: 25px;
+    padding-right: 25px; }
+    .progress-cover .upload-cover-wrap {
+      height: 320px; }
+    .progress-cover #upload-cover-btn {
+      margin-top: 15px; }
+  .add-feedback-btn {
+    margin-top: 15px; } }
+
+@media screen and (max-width: 700px) {
+  .progress-info {
+    width: 70%; }
+  .feedback-list .feedback-textarea {
+    width: 100%;
+    height: 80px; }
+  .feedback-list .feedback-images-preview-list .feedback-image-preview {
+    width: 100px;
+    height: 100px;
+    margin-left: 15px; }
+  .feedback-list .feedback-image-btn p {
+    line-height: 98px; }
+  .progress-cover .upload-cover-wrap {
+    height: 300px; }
+  .kit-progress-tab, .progress-content {
+    margin-top: 10px;
+    margin-bottom: 10px; } }
+
+@media screen and (max-width: 600px) {
+  .progress-info {
+    width: 90%; }
+  .progress-cover .upload-cover-wrap {
+    height: 260px; }
+  .feedback-list .feedback-wrap {
+    padding-left: 10px;
+    padding-right: 10px; }
+  .feedback-list .feedback-input-wrap, .feedback-list .feedback-textarea-wrap {
+    margin-left: 110px; }
+  .feedback-list .feedback-hint {
+    width: 100px; }
+  .feedback-list .feedback-images-preview-list {
+    margin-left: 110px; }
+    .feedback-list .feedback-images-preview-list .feedback-image-preview {
+      margin-left: 0;
+      margin-right: 15px; }
+      .feedback-list .feedback-images-preview-list .feedback-image-preview:nth-child(3) {
+        margin-top: 20px; } }
+
+@media screen and (max-width: 500px) {
+  .feedback-list .feedback-input-wrap {
+    width: auto; }
+  .progress-info {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0; }
+  #progress-title-input {
+    width: 90%; }
+  .feedback-list .feedback-images-preview-list .feedback-image-preview {
+    width: 150px;
+    height: 150px; }
+  .feedback-list .feedback-image-btn p {
+    line-height: 148px; } }
+
+@media screen and (max-width: 400px) {
+  .progress-info {
+    height: auto;
+    margin-top: 10px; }
+    .progress-info .progress-info-hint {
+      float: none; }
+    .progress-info .progress-info-wrap {
+      margin-left: 0;
+      margin-top: 5px; }
+  #progress-description {
+    margin-top: 10px; }
+  .feedback-list {
+    margin-top: 10px; }
+    .feedback-list .feedback-wrap {
+      line-height: 30px;
+      padding-left: 10px;
+      padding-right: 10px; }
+    .feedback-list .feedback-hint {
+      width: 100px;
+      float: none;
+      text-align: left; }
+    .feedback-list .feedback-input-wrap {
+      margin-left: 0; }
+    .feedback-list .feedback-textarea-wrap {
+      margin-left: 0; }
+    .feedback-list .feedback-images-preview-list {
+      margin-left: 0; }
+      .feedback-list .feedback-images-preview-list .feedback-image-preview {
+        width: 100px;
+        height: 100px; }
+        .feedback-list .feedback-images-preview-list .feedback-image-preview:nth-child(3) {
+          margin-top: 15px; }
+    .feedback-list .feedback-image-btn p {
+      line-height: 98px; } }

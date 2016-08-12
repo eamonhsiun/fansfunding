@@ -312,7 +312,7 @@
   padding: 30px 40px; }
 
 .setting-list {
-  margin-top: 40px;
+  margin-top: 30px;
   clear: both;
   width: 100%; }
   .setting-list:after {
@@ -330,14 +330,14 @@
   .setting-list:first-child {
     margin-top: 20px; }
   .setting-list .setting-inner {
-    float: left; }
+    margin-left: 140px;
+    box-sizing: border-box; }
 
 .setting-alert {
   text-align: center;
   color: #ec2c22;
   font-size: 1.2rem;
-  margin-top: 20px;
-  display: none; }
+  margin-top: 20px; }
 
 .setting-submit {
   clear: both;
@@ -349,77 +349,31 @@
   font-size: 1.4rem;
   border-radius: 10px; }
 
-#setting-profile .setting-profile-list {
+#setting-profile #setting-avatar > div {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 50%;
+  float: left; }
+  #setting-profile #setting-avatar > div img {
+    width: 100%;
+    height: 100%; }
+
+#setting-profile #setting-avatar a {
+  float: left;
   margin-top: 40px;
-  clear: both;
-  width: 100%; }
-  #setting-profile .setting-profile-list > span {
-    font-size: 1.5rem;
-    display: block;
-    float: left;
-    width: 100px;
-    height: 100%;
-    padding-left: 50px; }
-  #setting-profile .setting-profile-list:first-child {
-    margin-top: 20px; }
+  margin-left: 20px; }
 
-#setting-profile #setting-avatar {
-  height: 100px;
-  line-height: 100px; }
-  #setting-profile #setting-avatar .setting-avatar-wrap {
-    height: 100%;
-    display: block; }
-    #setting-profile #setting-avatar .setting-avatar-wrap img {
-      display: block;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      float: left; }
-    #setting-profile #setting-avatar .setting-avatar-wrap input[type="file"] {
-      display: none; }
-    #setting-profile #setting-avatar .setting-avatar-wrap a {
-      line-height: 45px;
-      text-align: center;
-      display: block;
-      float: left;
-      width: 110px;
-      height: 45px;
-      font-size: 1.6rem;
-      background-color: #ff6268;
-      color: white;
-      transition: all 0.3s ease;
-      margin-left: 20px;
-      margin-top: 30px; }
-      #setting-profile #setting-avatar .setting-avatar-wrap a:hover {
-        background-color: #ff2f37; }
+#setting-profile .kit-input-short {
+  max-width: 400px; }
 
-#setting-profile #setting-nickname {
-  height: 60px;
-  line-height: 60px; }
-  #setting-profile #setting-nickname .setting-nickname-wrap input {
-    width: 230px;
-    font-size: 1.2rem;
-    padding: 3px 8px;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    border: 1px solid #cccccc; }
-    #setting-profile #setting-nickname .setting-nickname-wrap input:focus {
-      border: 1px solid #57bff3; }
+#setting-profile #setting-intro .kit-input {
+  max-width: 900px;
+  text-align: left; }
 
-#setting-profile .setting-profile-submit {
-  clear: both;
-  margin-top: 40px; }
-  #setting-profile .setting-profile-submit a {
-    display: block;
-    text-align: center;
-    width: 180px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 1.6rem;
-    background-color: #ff6268;
-    color: white;
-    transition: all 0.3s ease;
-    margin-left: 120px; }
+#setting-profile #setting-sex label {
+  width: 200px;
+  text-align: center; }
 
 @media screen and (max-width: 600px) {
   .setting-contents .setting-content {

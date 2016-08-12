@@ -35,7 +35,8 @@
 
 .project-title {
   font-size: 2.4rem;
-  line-height: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-weight: normal;
   text-align: center; }
 
@@ -214,9 +215,8 @@
     padding-top: 50px;
     padding-bottom: 50px; }
   .project-feedback .feedback-title {
-    font-size: 1.4rem;
-    line-height: 3rem;
-    font-weight: bold; }
+    font-size: 1.2rem;
+    line-height: 2rem; }
   .project-feedback .feedback-num {
     color: #ababab; }
   .project-feedback .feedback-list {
@@ -371,7 +371,8 @@
       height: 120px;
       box-sizing: border-box;
       padding: 10px;
-      resize: none; }
+      resize: none;
+      border: 1px solid #ababab; }
     .comment-text .comment-input .comment-input-more {
       color: #ababab;
       margin-top: 10px;

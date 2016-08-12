@@ -1,5 +1,8 @@
 var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
+var orderTab = new FFtab($('.kit-progress-tab'),$('.order-progress'),{
+  click: false
+});
 
 Vue.filter("resource" ,function(value) {
   if(!value){
@@ -16,6 +19,8 @@ var orderVm = new Vue({
     projectId: getQueryString("id"),
     categoryId: getQueryString("categoryId"),
     feedbackId: getQueryString("feedbackId"),
+    orderStatus: getQueryString("orderStatus") ? (getQueryString("orderStatus") === "true" ? true : false) : null,
+    orderNo: getQueryString("orderNo"),
     step: 1,
     totalStep: 3,
     error: false,
@@ -68,7 +73,17 @@ var orderVm = new Vue({
       if(target){
         switch(target){
           case "login":
-          window.location.href = "login.html";
+            window.location.href = "login.html";
+            return;
+          case "project":
+            if(!this.categoryId || !this.projectId){
+              window.location.href = "index.html";
+              return;
+            }
+            window.location.href = "project-vue.html?categoryId="+ this.categoryId + "&id="+this.projectId;
+            return;
+          case "order":
+
         }
         return;
       }
@@ -248,6 +263,7 @@ var orderVm = new Vue({
     submitOrder: function(){
       var _this = this;
       orderTab.next();
+      this.step = 2;
       var temp_form = document.createElement("form");
       temp_form .action = apiUrl + "/pay/web";
       temp_form .target = "_blank";
@@ -276,11 +292,22 @@ var orderVm = new Vue({
 
       document.body.appendChild(temp_form);
       temp_form.submit();
+    },
+    cancelOrder: function(){
+      orderTab.goto(0);
+      this.step = 1;
+    },
+    finishOrder: function(){
+      orderTab.goto(2);
+      this.step = 3;
     }
   },
   ready: function(){
     if(!this.projectId || !this.categoryId || !this.feedbackId){
-      this.redirect();
+      if(this.orderStatus === null || !this.orderNo){
+        this.redirect();
+        return;
+      }
     }
     var _this = this;
     FFaccount.getAccountStatus(function(status){
@@ -292,18 +319,13 @@ var orderVm = new Vue({
         _this.redirect("login");
       }
     });
-    this.getProject();
-    this.getFeedback();
-    this.getUserAddress();
+    if(this.orderNo){
+      this.finishOrder();
+    }else{
+      this.getProject();
+      this.getFeedback();
+      this.getUserAddress();
+    }
   }
-});
-
-
-var orderTab = new FFtab($('.kit-progress-tab'),$('.order-progress'),{
-  callback: function(index, tab1, content1, tab2, content2){
-    tab2.classList.add("FFtab-visited");
-    orderVm.step = index + 1;
-  },
-  click: false
 });
 

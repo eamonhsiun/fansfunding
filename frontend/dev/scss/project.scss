@@ -5,7 +5,8 @@
 
 .project-title{
   font-size: 2.4rem;
-  line-height: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-weight: normal;
   text-align: center;
 }
@@ -219,9 +220,8 @@
     padding-bottom: 50px;
   }
   .feedback-title{
-    font-size: 1.4rem;
-    line-height: 3rem;
-    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 2rem;
   }
   .feedback-num{
     color: $color_disabled;
@@ -419,6 +419,7 @@
       box-sizing: border-box;
       padding: 10px;
       resize: none;
+      border: 1px solid $color_disabled;
     }
     .comment-input-more{
       color: $color_disabled;

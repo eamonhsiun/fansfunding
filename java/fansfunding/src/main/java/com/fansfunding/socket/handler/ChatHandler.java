@@ -9,10 +9,10 @@ import org.springframework.web.socket.WebSocketSession;
 
 
 @Component
-public class TestHandler implements WebSocketHandler {
+public class ChatHandler implements WebSocketHandler {
+	
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("connect to the websocket success......");
         session.sendMessage(new TextMessage("Server:connected OK!"));
     }
 
@@ -38,6 +38,6 @@ public class TestHandler implements WebSocketHandler {
 
     @Override
     public boolean supportsPartialMessages() {
-        return false;
+        return true;
     }
 }

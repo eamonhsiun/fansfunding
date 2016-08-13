@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fansfunding.socket.dao.MessageDao">
+  <resultMap id="BaseResultMap" type="com.fansfunding.socket.entity.Message">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="sender" jdbcType="INTEGER" property="sender" />
+    <result column="receiver" jdbcType="INTEGER" property="receiver" />
+    <result column="is_read" jdbcType="CHAR" property="isRead" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update message
+    set del_flag='1'
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.socket.entity.Message">
+    insert into message (content, sender, receiver,
+    create_by, create_time)
+    values (#{content,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
+      #{receiver,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR},NOW())
+  </insert>
+  <update id="read" parameterType="java.lang.Integer">
+    update message
+    set is_read = '1'
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="unread" parameterType="java.lang.Integer">
+    update message
+    set is_read = '0'
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, content, sender, receiver, is_read, create_by, create_time, del_flag
+    from message
+    where id = #{id,jdbcType=INTEGER}
+    and del_flag='0'
+  </select>
+  <select id="selectBySender" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select id, content, sender, receiver, is_read, create_by, create_time, del_flag
+    from message
+    where del_flag='0'
+    and sender={sender,jdbcType=INTEGER}
+  </select>
+  <select id="selectByReceiver" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select id, content, sender, receiver, is_read, create_by, create_time, del_flag
+    from message
+    where del_flag='0'
+    and receiver={receiver,jdbcType=INTEGER}
+  </select>
+  <select id="selectUnread" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select id, content, sender, receiver, is_read, create_by, create_time, del_flag
+    from message
+    where del_flag='0'
+    and is_read='0'
+    and receiver={receiver,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -8,8 +8,9 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
-import com.fansfunding.socket.handler.TestHandler;
-import com.fansfunding.socket.interceptor.WebSocketHandshakeInterceptor;
+import com.fansfunding.socket.handler.ChatHandler;
+import com.fansfunding.socket.handler.NotificationHandler;
+import com.fansfunding.socket.interceptor.ChatHandshakeInterceptor;
 
 
 /**
@@ -27,10 +28,14 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	 */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(userHandler(),"/websocket/test").setAllowedOrigins("*")
-        		.addInterceptors(new WebSocketHandshakeInterceptor());
-        registry.addHandler(userHandler(), "/sockjs/test").setAllowedOrigins("*")
-        		.addInterceptors(new WebSocketHandshakeInterceptor()).withSockJS();
+        registry.addHandler(chatHandler(),"/websocket/chat").setAllowedOrigins("*")
+        		.addInterceptors(new ChatHandshakeInterceptor());
+        registry.addHandler(chatHandler(), "/sockjs/chat").setAllowedOrigins("*")
+        		.addInterceptors(new ChatHandshakeInterceptor()).withSockJS();
+        registry.addHandler(notificationHandler(), "/websocket/notification").setAllowedOrigins("*")
+        		.addInterceptors(new ChatHandshakeInterceptor());
+        registry.addHandler(chatHandler(), "/sockjs/notification").setAllowedOrigins("*")
+				.addInterceptors(new ChatHandshakeInterceptor()).withSockJS();
     }
 
     /**
@@ -45,11 +50,19 @@ public class WebSocketConfig implements WebSocketConfigurer {
         return container;
     }
     /**
-     * 注入
+     * 私聊处理
      * @return
      */
     @Bean
-    public WebSocketHandler userHandler(){
-        return new TestHandler();
+    public WebSocketHandler chatHandler(){
+        return new ChatHandler();
+    }
+    /**
+     * 通知处理
+     * @return
+     */
+    @Bean
+    public WebSocketHandler notificationHandler(){
+    	return new NotificationHandler();
     }
 }

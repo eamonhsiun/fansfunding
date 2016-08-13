@@ -10,7 +10,9 @@
   <update id="delete" parameterType="com.fansfunding.user.entity.FollowUser" >
     update follow_user
     set del_flag='1'
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+    and 
+    follower_id=#{followerId,jdbcType=INTEGER}
   </update>
   <insert id="insert" parameterType="com.fansfunding.user.entity.FollowUser" >
     insert into follow_user (user_id, follower_id)

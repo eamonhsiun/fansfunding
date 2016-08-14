@@ -47,7 +47,7 @@ var projectVm = new Vue({
     status: false, //登陆状态
     userInfo: {}, //用户信息
     categoryId: getQueryString("categoryId"), //分类id
-    projectId: getQueryString("id"), // 项目id
+    projectId: getQueryString("projectId"), // 项目id
     isFollowed: false, //项目follow
     isSelf: false,
     project: {

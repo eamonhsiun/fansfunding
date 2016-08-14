@@ -16,7 +16,7 @@ var orderVm = new Vue({
   data: {
     status: false,
     userInfo: {},
-    projectId: getQueryString("id"),
+    projectId: getQueryString("projectId"),
     categoryId: getQueryString("categoryId"),
     feedbackId: getQueryString("feedbackId"),
     orderStatus: getQueryString("orderStatus") ? (getQueryString("orderStatus") === "true" ? true : false) : null,

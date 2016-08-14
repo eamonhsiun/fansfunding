@@ -3,8 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="
    		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
@@ -18,15 +17,15 @@
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	<mvc:annotation-driven />
-    <context:annotation-config/>
+	<context:annotation-config />
 	<!-- 静态资源访问 -->
 	<mvc:resources location="/" mapping="/**" />
-	
-	<mvc:interceptors>  
-        <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->  
-        <bean class="com.fansfunding.common.interceptor.AllInterceptor"/>  
-    </mvc:interceptors>  
-    
+
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<bean class="com.fansfunding.common.interceptor.AllInterceptor" />
+	</mvc:interceptors>
+
 	<!-- 避免IE在ajax请求时，返回json出现下载 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -44,7 +43,7 @@
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 	<bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
-		
+
 	<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"

@@ -8,10 +8,8 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
-import com.fansfunding.socket.handler.ChatHandler;
-import com.fansfunding.socket.handler.NotificationHandler;
-import com.fansfunding.socket.interceptor.ChatHandshakeInterceptor;
-
+import com.fansfunding.socket.handler.WebsocketHandshakeInterceptor;
+import com.fansfunding.socket.handler.SocketHandler;
 
 /**
  * websocket配置
@@ -28,14 +26,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	 */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(chatHandler(),"/websocket/chat").setAllowedOrigins("*")
-        		.addInterceptors(new ChatHandshakeInterceptor());
-        registry.addHandler(chatHandler(), "/sockjs/chat").setAllowedOrigins("*")
-        		.addInterceptors(new ChatHandshakeInterceptor()).withSockJS();
-        registry.addHandler(notificationHandler(), "/websocket/notification").setAllowedOrigins("*")
-        		.addInterceptors(new ChatHandshakeInterceptor());
-        registry.addHandler(chatHandler(), "/sockjs/notification").setAllowedOrigins("*")
-				.addInterceptors(new ChatHandshakeInterceptor()).withSockJS();
+        registry.addHandler(socketHandler(),"/websocket").setAllowedOrigins("*")
+        		.addInterceptors(new WebsocketHandshakeInterceptor());
+        registry.addHandler(socketHandler(), "/sockjs").setAllowedOrigins("*")
+        		.addInterceptors(new WebsocketHandshakeInterceptor()).withSockJS();
     }
 
     /**
@@ -50,19 +44,11 @@ public class WebSocketConfig implements WebSocketConfigurer {
         return container;
     }
     /**
-     * 私聊处理
+     * 处理
      * @return
      */
     @Bean
-    public WebSocketHandler chatHandler(){
-        return new ChatHandler();
-    }
-    /**
-     * 通知处理
-     * @return
-     */
-    @Bean
-    public WebSocketHandler notificationHandler(){
-    	return new NotificationHandler();
+    public WebSocketHandler socketHandler(){
+        return new SocketHandler();
     }
 }

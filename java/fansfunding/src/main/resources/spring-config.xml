@@ -23,6 +23,10 @@
 	<context:component-scan base-package="com.fansfunding">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
+			<!-- 
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />
+			-->
 	</context:component-scan>
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"

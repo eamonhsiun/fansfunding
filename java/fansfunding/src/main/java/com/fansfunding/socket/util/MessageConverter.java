@@ -3,7 +3,6 @@ package com.fansfunding.socket.util;
 import java.io.IOException;
 
 import com.fansfunding.socket.entity.SocketRequest;
-import com.fansfunding.socket.entity.SocketResponse;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,19 +28,13 @@ public class MessageConverter {
 	 * @return
 	 * @throws JsonProcessingException
 	 */
-	public static String objectToJson(Object obj)
-			throws JsonProcessingException{
-		return mapper.writeValueAsString(obj);
-	}
-	/**
-	 * 转换响应为json
-	 * @param response 响应信息
-	 * @return
-	 * @throws JsonProcessingException
-	 */
-	public static String responseToJson(SocketResponse response)
-			throws JsonProcessingException{
-		return mapper.writeValueAsString(response);
+	public static String objectToJson(Object obj){
+		try {
+			return mapper.writeValueAsString(obj);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 	/**
 	 * 将请求转换为对象
@@ -51,8 +44,12 @@ public class MessageConverter {
 	 * @throws JsonMappingException
 	 * @throws IOException
 	 */
-	public static SocketRequest jsonToRequest(String request)
-			throws JsonParseException, JsonMappingException, IOException{
-		return mapper.readValue(request, SocketRequest.class);
+	public static SocketRequest jsonToRequest(String request){
+		try {
+			return mapper.readValue(request, SocketRequest.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

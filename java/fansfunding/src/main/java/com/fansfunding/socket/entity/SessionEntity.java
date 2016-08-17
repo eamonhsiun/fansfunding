@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SessionEntity {
 	private int userId;
-	private boolean isOffline;
 	private String token;
+	private String identification;
 }

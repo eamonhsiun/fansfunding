@@ -1,7 +1,5 @@
 package com.fansfunding.socket.entity;
 
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,20 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SocketRequest {
-	/**
-	 * 请求时间
-	 */
-	private long time;
-	/**
-	 * 内容
-	 */
-	private int userId;
-	/**
-	 * Token
-	 */
-	private String token;
-	/**
-	 * 请求参数
-	 */
-	private Map<String,Object> params;
+	private int type;
+	private int sender;
+	private int receiver;
+	private String content;
 }

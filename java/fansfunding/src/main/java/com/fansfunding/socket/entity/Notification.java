@@ -15,7 +15,7 @@ public class Notification {
     private Integer id;
     private String title;
     private String content;
-    private String receiver;
+    private int receiver;
     private String isRead;
     private String createBy;
     private Date createTime;

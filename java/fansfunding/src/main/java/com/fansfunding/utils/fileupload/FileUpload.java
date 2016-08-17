@@ -42,6 +42,11 @@ public class FileUpload {
 			public String getPath(){
 				return FileUpload.chatFiles;
 			}
+		},
+		USER_MOMENT{
+			public String getPath(){
+				return FileUpload.userMoment;
+			}
 		};
 		public abstract String getPath();
 	}
@@ -61,6 +66,11 @@ public class FileUpload {
 	 * 群聊文件（图片等）
 	 */
 	private static String chatFiles;
+	
+	/**
+	 * 用户动态
+	 */
+	private static String userMoment;
 
 	//加载配置
 	static{
@@ -72,6 +82,7 @@ public class FileUpload {
 			userHead=prop.getProperty("user.head");
 			projectAttachment=prop.getProperty("project.attachment");
 			chatFiles=prop.getProperty("chat.files");
+			userMoment=prop.getProperty("user.moments");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

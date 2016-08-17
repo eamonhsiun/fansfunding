@@ -88,4 +88,8 @@ public class StatusCode {
 	 * 邮箱已存在
 	 */
 	public static final int EMAIL_EXIST=424;
+	/**
+	 * 动态不存在
+	 */
+	public static final int MOMENT_NULL = 211;
 }

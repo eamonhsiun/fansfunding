@@ -152,9 +152,6 @@ public class ProjectController {
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
 		if(CheckUtils.isNullOrEmpty(content)){
-			if(projectService.addMoment(categoryId,projectId,content,images,sponsorId)){
-				return new Status(true,StatusCode.SUCCESS,"动态添加成功",null);
-			} 
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}

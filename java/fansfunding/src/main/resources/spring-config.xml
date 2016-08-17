@@ -138,9 +138,9 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/userbasic/**=anon
+<!-- 				/userbasic/**=anon
 				/user/head=anon
-			    /user/**=statelessAuthc
+			    /user/**=statelessAuthc -->
 			</value>
 		</property>
 	</bean>

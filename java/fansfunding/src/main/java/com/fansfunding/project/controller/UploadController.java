@@ -20,7 +20,7 @@ import com.fansfunding.utils.response.StatusCode;
 
 @Controller
 @RequestMapping("project")
-public class UpoadController {
+public class UploadController {
 	@Autowired
 	private UploadService uploadService;
 	@Autowired

@@ -151,7 +151,7 @@ public class ProjectController {
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		if(!CheckUtils.isNullOrEmpty(content)){
+		if(CheckUtils.isNullOrEmpty(content)){
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
@@ -181,24 +181,6 @@ public class ProjectController {
 		return new Status(true,StatusCode.SUCCESS,projectService.getFollowers(projectId,page,rows),null);
 	}
 	/**
-	 * 获取项目的所有支持者
-	 * @param categoryId
-	 * @param projectId
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-	@RequestMapping(path="{categoryId}/{projectId}/supporters",method=RequestMethod.GET)
-	@ResponseBody
-	public Status supporters(@PathVariable int categoryId,@PathVariable int projectId,
-			@RequestParam(required = false, defaultValue = "1") int page,
-			@RequestParam(required = false, defaultValue = "10") int rows){
-		if(!projectService.inCategory(categoryId, projectId)){
-			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
-		}
-		return new Status(true,StatusCode.SUCCESS,projectService.getSupporters(projectId,page,rows),null);
-	}
-	/**
 	 * 验证用户是否关注了项目
 	 * @param categoryId
 	 * @param projectId
@@ -217,5 +199,4 @@ public class ProjectController {
 		}
 		return new Status(true,StatusCode.SUCCESS,projectService.isFollower(userId,projectId),null);
 	}
-	
 }

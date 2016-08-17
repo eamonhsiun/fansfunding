@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fansfunding.user.dao.UserMomentCommentDao" >
+  <resultMap id="BaseResultMap" type="com.fansfunding.user.entity.UserMomentComment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="moment_id" property="momentId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+  </update>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.UserMomentComment" >
+	insert into user_moment_comment(moment_id,user_id,content) values(#{momentId},#{userId},#{content})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.UserMoment" >
+
+  </update>
+  
+  
+  <select id="selectByMomentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		select id, user_id,moment_id,create_time, del_flag, content
+			from user_moment_comment
+			where moment_id=#{momentId,jdbcType=INTEGER}
+			and del_flag !=1
+			order by create_time desc
+  </select>
+  
+  
+  
+  
+  
+</mapper>

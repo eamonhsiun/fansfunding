@@ -59,7 +59,7 @@
                     <div class="space-kit-hint" v-if="projects.length == 0">没有相关项目</div>
                     <ul>
                       <li class="space-project-list" v-for="project in projects">
-                        <a href="project-vue.html?categoryId={{project.categoryId}}&id={{project.id}}">
+                        <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}">
                           <div class="project-cover">
                             <img :src="project.cover | resource" alt="">
                           </div>
@@ -129,7 +129,7 @@
                     <div class="space-kit-hint" v-if="orders.length == 0">没有订单</div>
                     <ul>
                       <li class="space-order-list" v-for="order in orders">
-                        <a href="order-result.html?orderNo={{order.orderNo}}">
+                        <a href="order-detail.html?orderNo={{order.orderNo}}">
                           <div class="order-cover">
                             <img :src="order.feedbackImages[0] | resource" alt="">
                           </div>

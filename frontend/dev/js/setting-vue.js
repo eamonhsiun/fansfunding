@@ -21,6 +21,17 @@ var settingVm = new Vue({
         show: false,
         text: "保存成功"
       }
+    },
+    security: {
+      connect: false,
+      status: false,
+      oldPwd: "",
+      newPwd: "",
+      confirmPwd: "",
+      alert: {
+        show: false,
+        text: "修改成功"
+      }
     }
   },
   watch: {
@@ -70,6 +81,48 @@ var settingVm = new Vue({
 
       }).catch(function (response, xhr) {
         _this.activeAlert("profile", "服务器连接失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
+    changePassword: function(){
+      var _this = this;
+      // if(!this.security.oldPwd){
+      //   this.activeAlert("security", "旧密码不能为空");
+      //   return;
+      // }
+      if(!this.security.newPwd){
+        this.activeAlert("security", "新密码不能为空");
+        return;
+      }
+      if(this.security.newPwd.length < 6 || this.security.newPwd.length > 16){
+        this.activeAlert("security", "密码位数错误");
+        return;
+      }
+      if(this.security.confirmPwd !== this.security.newPwd){
+        this.activeAlert("security", "两次密码不一致");
+        return;
+      }
+      this.activeAlert("security");
+
+      var encryptPwd = CryptoJS.MD5(this.security.newPwd).toString().toUpperCase();
+
+      var changePasswordRequest = ajax({
+        method: 'post',
+        url: apiUrl + '/user/' + localId + '/newPwd',
+        data: {
+          token: localToken,
+          password: encryptPwd
+        }
+      }).then(function (response, xhr) {
+        if(!response.result){
+          _this.activeAlert("security", getErrorMsg(response.errCode));
+          return;
+        }
+        _this.activeAlert("security", "修改成功");
+
+      }).catch(function (response, xhr) {
+        _this.activeAlert("security", "服务器连接失败");
       }).always(function (response, xhr) {
         // Do something
       });

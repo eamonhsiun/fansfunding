@@ -35,8 +35,8 @@
         <div class="project-tabs tabs">
           <ul>
             <li class="project-tab FFtab" id="project-detail-btn">项目详情</li>
-            <li class="project-tab FFtab" id="project-moment-btn" @click.prevent="getMoments">项目动态</li>
-            <li class="project-tab FFtab" id="project-comment-btn" v-on:click.prevent="getComments">项目评论</li>
+            <li class="project-tab FFtab" id="project-moment-btn" @click.prevent="getMoments(0)">项目动态</li>
+            <li class="project-tab FFtab" id="project-comment-btn" v-on:click.prevent="getComments(0)">项目评论</li>
           </ul>
         </div>
         <div class="project-contents">
@@ -97,6 +97,7 @@
                 </div>
               </li>
             </ul>
+            <pagination :pagination="moments.pagination" :callback="getMoments" :offset="3"></pagination>
           </div>
           <div class="project-content FFtab-content" id="project-comment">
             <div class="comment-login" v-if="!status">
@@ -125,13 +126,13 @@
             </div>
             <div id="comment-errormsg" class="errormsg FFerrormsg">还没有评论，快来评论吧</div>
             <ul>
-              <li class="comment-wrap" v-for="comment in comments.list">
+              <li class="comment-wrap" v-for="comment in comments.list" track-by="$index">
                 <div class="comment-userinfo">
                   <div class="comment-avatar">
                     <img v-bind:src="comment.commenterHead | resource" alt="">
                   </div>
                   <a href="space.html?userid={{comment.commenterId}}"><div class="comment-userinfo-name">{{ comment.commenterNickname }}</div></a>
-                  <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div>
+<!--                   <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
                 </div>
                 <div class="comment-content">
                   <div class="comment-inner">{{ (comment.pointToNickname ? "回复" + comment.pointToNickname + "：" : "") + comment.content }}</div>
@@ -145,6 +146,7 @@
                 </div>
               </li>
             </ul>
+            <pagination :pagination="comments.pagination" :callback="getComments" :offset="3"></pagination>
           </div>
         </div>
       </div>
@@ -168,7 +170,8 @@
                 </div>
               </div>
             </div>
-            <a class="feedback-btn" href="order.html?categoryId={{categoryId}}&projectId={{projectId}}&feedbackId={{feedback.id}}">前往支持</a>
+            <a class="feedback-btn FFbtn" v-if="feedback.ceiling < 0 || feedback.supportTimes < feedback.ceiling" href="order.html?categoryId={{categoryId}}&projectId={{projectId}}&feedbackId={{feedback.id}}">前往支持</a>
+            <a class="feedback-btn FFbtn disabled" v-if="feedback.ceiling > 0 && feedback.supportTimes >= feedback.ceiling">支持人已满</a>
           </li>
         </ul>
       </div>

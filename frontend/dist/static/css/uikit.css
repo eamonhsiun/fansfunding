@@ -217,6 +217,13 @@
   .FFbtn:hover {
     color: #ffffff;
     background-color: #d65152; }
+  .FFbtn.cancel {
+    background-color: #ababab; }
+    .FFbtn.cancel:hover {
+      background-color: #929292; }
+  .FFbtn.disabled, .FFbtn:disabled {
+    background-color: #ababab;
+    cursor: default; }
 
 .kit-input {
   width: 100%;
@@ -233,6 +240,8 @@
     border-bottom-color: #ee554d; }
   .kit-input.valid {
     border-bottom-color: #5aa133; }
+  .kit-input.kit-input-short {
+    max-width: 400px; }
 
 .kit-check:after {
   content: "";
@@ -300,6 +309,208 @@
       border-left: 7px solid transparent;
       border-bottom: 12px solid #ffffff;
       transition: all 0.2s ease; }
+
+.address-selector:after {
+  content: "";
+  clear: both;
+  display: block; }
+
+.address-list {
+  width: 50%;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  float: left;
+  color: #505050;
+  box-sizing: border-box;
+  transition: all 0.3s ease; }
+  .address-list:nth-child(1), .address-list:nth-child(2) {
+    margin-top: 0; }
+  .address-list:nth-child(2n) {
+    padding-left: 10px; }
+  .address-list:nth-child(2n+1) {
+    clear: both;
+    padding-right: 10px; }
+  .address-list:hover .address-default {
+    display: block; }
+  .address-list:hover .address-alter {
+    display: block; }
+  .address-list.selected .address-block {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 3px solid #ee554d;
+    position: relative;
+    padding: 17px; }
+    .address-list.selected .address-block:before {
+      position: absolute;
+      right: 3px;
+      bottom: 0;
+      font-size: 1.1rem;
+      font-family: "FontAwesome";
+      content: "";
+      color: #ffffff;
+      z-index: 10; }
+    .address-list.selected .address-block:after {
+      position: absolute;
+      display: block;
+      content: "";
+      right: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-top: 40px solid transparent;
+      border-right: 40px solid #ee554d; }
+  .address-list.selected .address-default {
+    top: 7px;
+    right: 17px; }
+  .address-list.selected .address-alter {
+    top: 27px;
+    right: 17px; }
+  .address-list.selected .address-delete {
+    top: 47px;
+    right: 17px; }
+  .address-list .address-block {
+    cursor: pointer;
+    margin-bottom: 0;
+    margin-top: 0;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease; }
+    .address-list .address-block:hover {
+      box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.3); }
+  .address-list .address-content {
+    padding-bottom: 5px; }
+    .address-list .address-content:last-child {
+      padding-bottom: 0; }
+    .address-list .address-content .address-hint {
+      float: left;
+      display: block;
+      width: 100px;
+      text-align: right; }
+    .address-list .address-content .address-inner {
+      display: block;
+      margin-left: 100px;
+      padding-left: 5px; }
+  .address-list .address-editor {
+    display: none;
+    position: absolute;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #ababab; }
+    .address-list .address-editor:hover {
+      color: #ee7419; }
+  .address-list .address-default {
+    top: 10px;
+    right: 20px; }
+    .address-list .address-default.default {
+      display: block;
+      cursor: default;
+      color: #ee7419; }
+  .address-list .address-alter {
+    top: 30px;
+    right: 20px; }
+  .address-list .address-delete {
+    top: 50px;
+    right: 20px; }
+
+.editor .address-editor {
+  display: block !important; }
+
+#address-add .address-block {
+  cursor: default; }
+
+#address-add .address-add-mask {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  text-align: center;
+  color: #5d5d5d; }
+  #address-add .address-add-mask.active {
+    display: none; }
+    #address-add .address-add-mask.active + .address-add-content {
+      display: block; }
+  #address-add .address-add-mask:before {
+    display: block;
+    font-size: 7rem;
+    line-height: 120px;
+    margin: auto;
+    font-family: "FontAwesome";
+    content: ""; }
+  #address-add .address-add-mask span {
+    display: block;
+    padding-top: 5px; }
+    #address-add .address-add-mask span:before {
+      padding-right: 10px;
+      font-family: "FontAwesome";
+      content: ""; }
+
+#address-add .address-add-content {
+  display: none; }
+
+#address-add .address-content {
+  padding-bottom: 10px; }
+  #address-add .address-content .address-inner input {
+    width: 80%;
+    height: 100%;
+    border: 0;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid #505050;
+    transition: all 0.3s ease; }
+    #address-add .address-content .address-inner input:focus {
+      border-bottom-color: #ee554d; }
+    #address-add .address-content .address-inner input.valid {
+      border-bottom-color: #5aa133; }
+
+#address-add .address-alert {
+  color: #ee554d;
+  font-size: 1.1rem;
+  margin-left: 100px;
+  margin-bottom: 5px; }
+
+#address-add .address-add-btn {
+  margin-top: 5px;
+  float: left; }
+
+#address-add .address-cancel-btn {
+  float: left;
+  margin-top: 5px;
+  margin-left: 10px; }
+
+.kit-pagination {
+  width: 100%;
+  text-align: center;
+  margin-top: 5px; }
+  .kit-pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 28px;
+    box-sizing: border-box;
+    border: 1px solid #ababab;
+    margin-right: 10px;
+    transition: all 0.3s ease; }
+    .kit-pagination li:last-child {
+      margin-right: 0; }
+    .kit-pagination li a {
+      display: block;
+      width: 100%;
+      height: 100%; }
+      .kit-pagination li a .prev-btn:before {
+        font-size: 1.1rem;
+        font-family: "FontAwesome";
+        content: ""; }
+      .kit-pagination li a .next-btn:before {
+        font-size: 1.1rem;
+        font-family: "FontAwesome";
+        content: ""; }
+    .kit-pagination li.active {
+      border-color: #ee554d; }
+    .kit-pagination li.disabled a {
+      color: #ababab;
+      cursor: default; }
 
 @media screen and (max-width: 800px) {
   .kit-progress-tab .kit-tab {

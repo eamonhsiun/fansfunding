@@ -76,8 +76,12 @@ var projectVm = new Vue({
         pointToNickname: "", //回复对象昵称
         placeholder: ""
       },
-      page: 0,
-      totalPages: 0,
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
       list: [] //评论列表
     },
     moments: {
@@ -89,23 +93,34 @@ var projectVm = new Vue({
       overflow: false,
       content: "",
       images: [],
-      page: 0,
-      totalPages: 0,
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
       list: [],
     },
     feedbacks: {
       status: false,
       connect: false,
-      page: 0,
-      totalPages: 0,
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
       list: []
     },
     followers: {
       status: false,
       connect: false,
-      page: 0,
-      totalPages: 0,
-      count: 0,
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
       list: []
     }
   },
@@ -153,6 +168,12 @@ var projectVm = new Vue({
     redirect: function(){
       window.location.href = "404.html";
     },
+    getPagination: function(pagination, data){
+      pagination.total = data.total;
+      pagination.pageNum = data.pageNum;
+      pagination.pages = data.pages;
+      pagination.pageSize = data. pageSize;
+    },
     getProject: function(callback){
       var _this = this;
       var projectRequest = ajax({
@@ -198,23 +219,26 @@ var projectVm = new Vue({
     },
     getComments: function(page){
       var _this = this;
+      var comments = this.comments;
       var commentsRequest = ajax({
         method: 'get',
-        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/comments",
+        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/comments" + (page ? "?page=" + page : ""),
       }).then(function (response, xhr) {
-        _this.comments.connect = true;
+        comments.connect = true;
         a = response;
         if(!response.result){
           commentLoader.endLoad(false, "获取评论失败");
-          _this.comments.status = false;
+          comments.status = false;
         }else{
-          _this.comments.list = response.data.list;
-          if(_this.comments.list.length !== 0){
+          var res = response.data;
+          comments.list = res.list;
+          if(comments.list.length !== 0){
             commentLoader.endLoad();
           }else{
             commentLoader.endLoad(false, "还没有评论，快来评论吧");
           }
-          _this.comments.status = true;
+          _this.getPagination(comments.pagination, res);
+          comments.status = true;
         }
       }).catch(function (response, xhr) {
         commentLoader.endLoad(false, "连接服务器失败");
@@ -226,7 +250,7 @@ var projectVm = new Vue({
       var _this = this;
       var feedbacksRequest = ajax({
         method: 'get',
-        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/feedbacks",
+        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/feedbacks" + (page ? "?page=" + page : ""),
       }).then(function (response, xhr) {
         _this.feedbacks.connect = true;
         if(!response.result){
@@ -239,6 +263,7 @@ var projectVm = new Vue({
           }else{
             feedbackLoader.endLoad();
           }
+          _this.getPagination(_this.feedbacks.pagination, response.data);
           _this.feedbacks.status = true;
         }
       }).catch(function (response, xhr) {
@@ -270,17 +295,21 @@ var projectVm = new Vue({
         if(!response.result){
           commentLoader.endLoad(false, "评论失败");
         }else{
-          _this.comments.list.unshift({
-            commenterHead: _this.userInfo.head,
-            pointTo: _this.comments.reply.pointTo,
-            pointToNickname: _this.comments.reply.pointToNickname,
-            commenterName: _this.userInfo.name,
-            commenterId: localId,
-            commenterNickname: _this.userInfo.nickname,
-            projectId: _this.projectId,
-            commentTime: (new Date()).getTime(),
-            content: _this.comments.content,
-          });
+          // _this.comments.list.unshift({
+          //   commenterHead: _this.userInfo.head,
+          //   pointTo: _this.comments.reply.pointTo,
+          //   pointToNickname: _this.comments.reply.pointToNickname,
+          //   commenterName: _this.userInfo.name,
+          //   commenterId: localId,
+          //   commenterNickname: _this.userInfo.nickname,
+          //   projectId: _this.projectId,
+          //   commentTime: (new Date()).getTime(),
+          //   content: _this.comments.content,
+          // });
+          // if(_this.comments.list.length > 10){
+          //   _this.comments.list.pop();
+          // }
+          _this.getComments(0);
           _this.comments.content = "";
           _this.replyComment();
           commentLoader.endLoad();
@@ -365,7 +394,7 @@ var projectVm = new Vue({
       var _this = this;
       var momentsRequest = ajax({
         method: 'get',
-        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/moment",
+        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/moment" + (page ? "?page=" + page : ""),
       }).then(function (response, xhr) {
         _this.moments.connect = true;
         a = response;
@@ -379,6 +408,7 @@ var projectVm = new Vue({
           }else{
             momentLoader.endLoad(false, "发起人还没有发布动态");
           }
+          _this.getPagination(_this.moments.pagination, response.data);
           _this.moments.status = true;
         }
       }).catch(function (response, xhr) {
@@ -407,14 +437,15 @@ var projectVm = new Vue({
         if(!response.result){
           momentLoader.endLoad(false, "发布动态失败");
         }else{
-          _this.moments.list.unshift({
-            sponsor: localId,
-            images: [],
-            sponsorNickname: _this.userInfo.nickname,
-            sponsorHead: _this.userInfo.head,
-            updateTime: (new Date()).getTime(),
-            content: _this.moments.content
-          });
+          // _this.moments.list.unshift({
+          //   sponsor: localId,
+          //   images: [],
+          //   sponsorNickname: _this.userInfo.nickname,
+          //   sponsorHead: _this.userInfo.head,
+          //   updateTime: (new Date()).getTime(),
+          //   content: _this.moments.content
+          // });
+          _this.getMoments(0);
           _this.moments.content = "";
           momentLoader.endLoad();
         }

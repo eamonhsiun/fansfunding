@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  *  Font Awesome 3.2.1
  *  the iconic font designed for Bootstrap
@@ -332,6 +333,8 @@
   .setting-list .setting-inner {
     margin-left: 140px;
     box-sizing: border-box; }
+    .setting-list .setting-inner .setting-input-hint {
+      color: #ababab; }
 
 .setting-alert {
   text-align: center;
@@ -348,6 +351,10 @@
   line-height: 50px;
   font-size: 1.4rem;
   border-radius: 10px; }
+  .setting-submit:before {
+    font-family: "FontAwesome";
+    content: "";
+    padding-right: 10px; }
 
 #setting-profile #setting-avatar > div {
   width: 120px;
@@ -363,9 +370,6 @@
   float: left;
   margin-top: 40px;
   margin-left: 20px; }
-
-#setting-profile .kit-input-short {
-  max-width: 400px; }
 
 #setting-profile #setting-intro .kit-input {
   max-width: 900px;

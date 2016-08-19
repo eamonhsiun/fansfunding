@@ -255,20 +255,7 @@
         display: block;
         clear: both; }
     .project-feedback .feedback-list .feedback-btn {
-      display: block;
-      cursor: pointer;
-      margin-top: 10px;
-      clear: both;
-      text-align: center;
-      font-size: 1.2rem;
-      width: 120px;
-      height: 40px;
-      line-height: 40px;
-      color: #ffffff;
-      background-color: #ee554d;
-      transition: all 0.3s ease; }
-      .project-feedback .feedback-list .feedback-btn:hover {
-        background-color: #ec2c22; }
+      margin-top: 10px; }
 
 .project-wrap .project-tabs {
   border-bottom: 1px solid #aaaaaa; }
@@ -338,7 +325,7 @@
   display: none;
   text-align: center;
   padding-top: 50px;
-  padding-bottom: 50px; }
+  padding-bottom: 30px; }
 
 .comment-text {
   display: none;

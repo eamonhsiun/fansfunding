@@ -21,10 +21,13 @@
   }
 
   @@if( jstype === 'project_vue'){
+    <script src="static/js/module/pagination.js"></script>
     <script src="static/js/project-vue.js"></script>
   }
 
   @@if( jstype === 'setting'){
+    <script src="static/js/lib/crypto-js/crypto-js.js"></script>
+    <script src="static/js/module/address.js"></script>
     <script src="static/js/setting-vue.js"></script>
   }
 
@@ -63,6 +66,7 @@
     <script src="static/js/space.js"></script>
   }
   @@if( jstype === 'order'){
+    <script src="static/js/module/address.js"></script>
     <script src="static/js/order.js"></script>
   }
   </body>

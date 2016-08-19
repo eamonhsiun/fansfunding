@@ -40,25 +40,7 @@ var orderVm = new Vue({
     order: {
       money: 0,
     },
-    address: {
-      status: false,
-      connect: false,
-      selected: 0,
-      default: 0,
-      list: [],
-      maskHide: false,
-      newAddress: {
-        name: "",
-        province: "",
-        city: "",
-        district: "",
-        address: "",
-        postCode: "",
-        phone: "",
-        addressId: "",
-        isDefault: "",
-      }
-    },
+    addressId: -1,
     pay: {
       status: false,
       connect: false,
@@ -80,7 +62,7 @@ var orderVm = new Vue({
               window.location.href = "index.html";
               return;
             }
-            window.location.href = "project-vue.html?categoryId="+ this.categoryId + "&id="+this.projectId;
+            window.location.href = "project-vue.html?categoryId="+ this.categoryId + "&projectId="+this.projectId;
             return;
           case "order":
 
@@ -170,96 +152,6 @@ var orderVm = new Vue({
         // Do something
       });
     },
-    getUserAddress: function(){
-      var _this = this;
-      var userAddressRequest = ajax({
-        method: 'get',
-        url: apiUrl + "/user/" + localId + "/shopping_address?token=" + localToken,
-      }).then(function (response, xhr) {
-        _this.address.connect = true;
-        if(!response.result){
-          _this.address.status = false;
-          return;
-        }
-        _this.address.status = true;
-        _this.address.list = response.data;
-        for(var i = 0; i < _this.address.list.length; i++){
-          if(_this.address.list[i].isDefault){
-            _this.address.default = i;
-            _this.address.selected = i;
-          }
-        }
-      }).catch(function (response, xhr) {
-        _this.address.connect = false;
-        console.log("地址加载失败");
-      }).always(function (response, xhr) {
-      });
-    },
-    addUserAddress: function(){
-      var _this = this;
-      var addr = this.address.newAddress;
-      if(!addr.name || !addr.province || !addr.city || !addr.district || !addr.address || !addr.postCode || !addr.phone){
-        return;
-      }
-      var addAddressRequest = ajax({
-        method: 'post',
-        url: apiUrl + "/user/" + localId + "/shopping_address",
-        data: {
-          token: localToken,
-          name: addr.name,
-          province: addr.province,
-          city: addr.city,
-          district: addr.district,
-          address: addr.address,
-          phone: addr.phone,
-          postCode: addr.postCode
-        }
-      }).then(function (response, xhr) {
-        if(!response.result){
-          console.log("地址添加失败");
-          return;
-        }
-        addr.addressId = response.data;
-        addr.isDefault = 0;
-        _this.address.list.push({token: localToken,name: addr.name,province: addr.province,city: addr.city,district: addr.district,address: addr.address,phone: addr.phone,postCode: addr.postCode,addressId: addr.addressId,isDefault: addr.isDefault});
-        for(var key in addr){
-          addr[key] = "";
-        }
-      }).catch(function (response, xhr) {
-        _this.address.connect = false;
-        console.log("地址添加失败");
-      }).always(function (response, xhr) {
-      });
-    },
-    removeAddressMask: function(){
-      this.address.maskHide = true;
-    },
-    setDefaultUserAddress: function(index){
-      var _this = this;
-      if(index == this.address.default){
-        return;
-      }
-      var setDefaultAddressRequest = ajax({
-        method: 'post',
-        url: apiUrl + "/user/" + localId + "/shopping_address/default",
-        data: {
-          token: localToken,
-          addressId: _this.address.list[index].addressId
-        }
-      }).then(function (response, xhr) {
-        if(!response.result){
-          console.log("默认地址设置失败");
-          return;
-        }
-        _this.address.default = index;
-      }).catch(function (response, xhr) {
-        console.log("默认地址连接错误");
-      }).always(function (response, xhr) {
-      });
-    },
-    selectUserAddress: function(index){
-      this.address.selected = index;
-    },
     submitOrder: function(){
       var _this = this;
       orderTab.next();
@@ -287,7 +179,7 @@ var orderVm = new Vue({
 
       var addressId = document.createElement("input");
       addressId.name = "addressId";
-      addressId.value = _this.address.list[_this.address.selected].addressId;
+      addressId.value = this.addressId;
       temp_form.appendChild(addressId);
 
       document.body.appendChild(temp_form);
@@ -324,7 +216,6 @@ var orderVm = new Vue({
     }else{
       this.getProject();
       this.getFeedback();
-      this.getUserAddress();
     }
   }
 });

@@ -13,7 +13,7 @@
         <div class="block-title">订单信息</div>
         <div class="kit-wrap">
           <div class="kit-group" id="order-project">
-            <a href="project-vue.html?categoryId={{categoryId}}&id={{projectId}}" target="_blank">
+            <a href="project-vue.html?categoryId={{categoryId}}&projectId={{projectId}}" target="_blank">
               <div class="kit-block kit-content">
                 <div id="order-project-info">
                   <div class="project-cover">
@@ -49,67 +49,8 @@
         </div>
         <div class="block-title">地址选择</div>
         <div class="kit-wrap" id="order-address">
-          <div class="address-list" :class="{'selected': index == address.selected}" v-for="(index, addr) in address.list" @click.prevent="selectUserAddress(index)">
-            <div class="kit-block kit-content address-block">
-              <div>
-                <div class="address-content">
-                  <span class="address-hint">姓名：</span>
-                  <span class="address-inner">{{addr.name}}</span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">省市区：</span>
-                  <span class="address-inner">{{addr.province}} {{addr.city}} {{addr.district}}</span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">详细地址：</span>
-                  <span class="address-inner">{{addr.address}}</span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">邮编：</span>
-                  <span class="address-inner">{{addr.postCode}}</span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">电话：</span>
-                  <span class="address-inner">{{addr.phone}}</span>
-                </div>
-              </div>
-              <div class="address-default" :class="{'default': index == address.default}" @click.prevent="setDefaultUserAddress(index)">{{ index == address.default ? "默认地址" : "设为默认地址" }}</div>
-            </div>
-          </div>
-          <div class="address-list" id="address-add">
-            <div class="kit-block kit-content address-block">
-              <div class="address-add-mask" :class="{'active': address.maskHide}" @click.stop="removeAddressMask">
-                <span>添加收货地址</span>
-              </div>
-              <div class="address-add-content">
-                <div class="address-content">
-                  <span class="address-hint">姓名：</span>
-                  <span class="address-inner"><input type="text" v-model="address.newAddress.name"></span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">省市区：</span>
-                  <span class="address-inner">
-                    <input type="text" v-model="address.newAddress.province">
-                    <input type="text" v-model="address.newAddress.city">
-                    <input type="text" v-model="address.newAddress.district">
-                  </span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">详细地址：</span>
-                  <span class="address-inner"><input type="text" v-model="address.newAddress.address"></span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">邮编：</span>
-                  <span class="address-inner"><input type="text" v-model="address.newAddress.postCode"></span>
-                </div>
-                <div class="address-content">
-                  <span class="address-hint">电话：</span>
-                  <span class="address-inner"><input type="text" v-model="address.newAddress.phone"></span>
-                </div>
-                <div class="address-add-btn FFbtn" @click.prevent="addUserAddress">添加</div>
-              </div>
-            </div>
-          </div>
+          @@include('include/address.html')
+          <address-selector type="selector-editor" :selectedid.sync="addressId"></address-selector>
         </div>
       </div>
       <div class="FFtab-content">

@@ -173,7 +173,7 @@ var initiationVm = new Vue({
             _this.request.progress = 20;
             var initializeProjectRequest = ajax({
               method: 'post',
-              url: apiUrl +"/project/" + _this.categoryId,
+              url: apiUrl +"/project/" + _this.categoryId + "/add",
               data: {
                 token: localToken,
                 name: _this.project.title,

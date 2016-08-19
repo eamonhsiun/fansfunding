@@ -65,10 +65,37 @@
             </div>
           </div>
           <div class="FFtab-content">
-            <div class="setting-content" id="setting-security"></div>
+            <div class="setting-content" id="setting-security">
+<!--               <div class="setting-list">
+                <span class="setting-hint">旧密码：</span>
+                <div class="setting-inner" id="setting-oldpwd">
+                  <input type="password" class="kit-input kit-input-short" id="oldpwd-input" v-model="security.oldPwd">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div> -->
+              <div class="setting-list">
+                <span class="setting-hint">新密码：</span>
+                <div class="setting-inner" id="setting-newpwd">
+                  <input type="password" class="kit-input kit-input-short" id="newpwd-input" v-model="security.newPwd">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-list">
+                <span class="setting-hint">确认密码：</span>
+                <div class="setting-inner" id="setting-confirmpwd">
+                  <input type="password" class="kit-input kit-input-short" id="confirmpwd-input" v-model="security.confirmPwd">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-alert" id="security-alert" v-show="security.alert.show">{{security.alert.text}}</div>
+              <div class="setting-submit FFbtn" id="security-submit" @click.prevent="changePassword">修改密码</div>
+            </div>
           </div>
           <div class="FFtab-content">
-            <div class="setting-content" id="setting-address">地址目前只有在订单页才有</div>
+            <div class="setting-content" id="setting-address">
+              @@include('include/address.html')
+              <address-selector type="editor"></address-selector>
+            </div>
           </div>
         </div>
       </div>

@@ -276,21 +276,7 @@
       }
     }
     .feedback-btn{
-      display:block;
-      cursor: pointer;
       margin-top: 10px;
-      clear: both;
-      text-align: center;
-      font-size: 1.2rem;
-      width: 120px;
-      height: 40px;
-      line-height: 40px;
-      color: $color_text_light;
-      background-color: $color_red_1;
-      @include transition_all();
-      &:hover {
-        background-color: $color_primary;
-      }
     }
   }
 }
@@ -379,7 +365,7 @@
     display: none;
     text-align: center;
     padding-top: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
   }
 }
 .comment-text{

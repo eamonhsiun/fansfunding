@@ -251,6 +251,8 @@
   }
 }
 
+
+//------------radio checkbox------------
 .kit-check{
   &:after{
     content: "";
@@ -586,7 +588,12 @@
   }
 }
 //---------------分页器结束--------------
+//
 @media screen and (max-width: 800px) {
+  .kit-title{
+    height: 50px;
+    line-height: 50px;
+  }
   .kit-progress-tab{
     .kit-tab{
       font-size: 1.2rem;
@@ -608,8 +615,22 @@
       }
     }
   }
+  .kit-tabs{
+    ul{
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+  .kit-title{
+    height: 50px;
+    line-height: 50px;
+  }
 }
 @media screen and (max-width: 500px) {
+  .kit-block{
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
   .kit-progress-tab{
     .kit-tab{
       height: 40px;
@@ -628,6 +649,23 @@
           border-left: 20px solid $color_red_1;
         }
       }
+    }
+  }
+  .kit-tabs{
+    ul{
+      height: 45px;
+      line-height: 45px;
+      .kit-tab{
+        font-size: 1.2rem;
+      }
+    }
+  }
+  .kit-title{
+    height: 40px;
+    line-height: 40px;
+    padding: 0 25px;
+    .kit-title-left{
+      font-size: 1.2rem;
     }
   }
 }

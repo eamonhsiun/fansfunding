@@ -38,6 +38,28 @@ function getErrorMsg(errCode){
       return "用户名或密码错误";
     case 209:
       return "权限不足";
+    case 210:
+      return "密码长度错误";
+    case 211:
+      return "动态不存在";
+    case 400:
+      return "文件上传失败";
+    case 401:
+      return "文件过大";
+    case 402:
+      return "不支持的图片格式";
+    case 403:
+      return "不支持的文件格式";
+    case 420:
+      return "支付验证失败";
+    case 421:
+      return "非法订单（非本商户订单）";
+    case 422:
+      return "订单信息不一致";
+    case 423:
+      return "邮箱错误";
+    case 424:
+      return "邮箱已存在";
     default:
       return "其他错误";
   }

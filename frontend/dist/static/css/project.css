@@ -37,6 +37,8 @@
   font-size: 2.4rem;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-weight: normal;
   text-align: center; }
 
@@ -480,6 +482,8 @@
       padding-top: 15px; } }
 
 @media screen and (max-width: 1100px) {
+  .project-title {
+    font-size: 2.2rem; }
   .project-intro, .project-wrap {
     width: 100%; }
   .project-initiator, .project-feedback {
@@ -514,6 +518,8 @@
         font-size: 1.2rem; } }
 
 @media screen and (max-width: 900px) {
+  .project-title {
+    font-size: 2rem; }
   .project-intro {
     height: auto; }
     .project-intro .intro-content {
@@ -551,6 +557,8 @@
       margin-left: 120px; } }
 
 @media screen and (max-width: 600px) {
+  .project-title {
+    font-size: 1.8rem; }
   .project-intro .intro-content .intro-left {
     height: 350px; } }
 

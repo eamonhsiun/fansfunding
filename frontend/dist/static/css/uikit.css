@@ -513,6 +513,9 @@
       cursor: default; }
 
 @media screen and (max-width: 800px) {
+  .kit-title {
+    height: 50px;
+    line-height: 50px; }
   .kit-progress-tab .kit-tab {
     font-size: 1.2rem;
     height: 50px;
@@ -526,9 +529,18 @@
       right: -10px;
       border-top: 25px solid #ffffff;
       border-bottom: 25px solid #ffffff;
-      border-left: 25px solid #ee554d; } }
+      border-left: 25px solid #ee554d; }
+  .kit-tabs ul {
+    height: 50px;
+    line-height: 50px; }
+  .kit-title {
+    height: 50px;
+    line-height: 50px; } }
 
 @media screen and (max-width: 500px) {
+  .kit-block, .content-block {
+    margin-top: 15px;
+    margin-bottom: 15px; }
   .kit-progress-tab .kit-tab {
     height: 40px;
     line-height: 40px; }
@@ -539,4 +551,15 @@
     .kit-progress-tab .kit-tab.FFtab-active:after {
       border-top: 20px solid #ffffff;
       border-bottom: 20px solid #ffffff;
-      border-left: 20px solid #ee554d; } }
+      border-left: 20px solid #ee554d; }
+  .kit-tabs ul {
+    height: 45px;
+    line-height: 45px; }
+    .kit-tabs ul .kit-tab {
+      font-size: 1.2rem; }
+  .kit-title {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 25px; }
+    .kit-title .kit-title-left {
+      font-size: 1.2rem; } }

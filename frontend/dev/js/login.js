@@ -312,15 +312,13 @@
     }
     $("#signup-hint").classList.remove("show");
 
-    var encryptPwd = CryptoJS.MD5(signupPwd).toString().toUpperCase();
-
-    console.log(encryptPwd);
+    // var encryptPwd = CryptoJS.MD5(signupPwd).toString().toUpperCase();
 
     var signupRequest = ajax({
       method: 'post',
       url: apiUrl + '/userbasic/newUser',
       data: {
-        password: encryptPwd,
+        password: signupPwd,
         checker: signupIcode,
         token: icodeToken
       }
@@ -374,15 +372,13 @@
 
     $("#forgetpwd-hint").classList.remove("show");
 
-    var encryptPwd = CryptoJS.MD5(forgetpwdPwd).toString().toUpperCase();
-
-    console.log(encryptPwd);
+    // var encryptPwd = CryptoJS.MD5(forgetpwdPwd).toString().toUpperCase();
 
     var forgetpwdRequest = ajax({
       method: 'post',
       url: apiUrl + '/userbasic/forgetPwd',
       data: {
-        password: encryptPwd,
+        password: forgetpwdPwd,
         checker: forgetpwdIcode,
         token: icodeToken
       }

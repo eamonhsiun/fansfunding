@@ -487,7 +487,8 @@ button.swiper-pagination-bullet {
     overflow: hidden; }
     .project-card .project-card-pic img {
       min-width: 100%;
-      height: 100%; }
+      max-width: 120%;
+      min-height: 100%; }
   .project-card .project-card-detail {
     color: black;
     width: 100%;

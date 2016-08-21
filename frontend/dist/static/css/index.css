@@ -371,17 +371,17 @@ button.swiper-pagination-bullet {
   100% {
     transform: rotate(360deg); } }
 
-.banner, .project-card {
+.banner {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }
 
-.banner, .project-card {
+.banner {
   margin-top: 20px;
   margin-bottom: 20px; }
 
-.banner, .project-card {
+.banner {
   border-radius: 8px; }
 
-.banner, .project-card {
+.banner {
   overflow: hidden; }
 
 /*!
@@ -438,17 +438,6 @@ button.swiper-pagination-bullet {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px; }
-  .plate .plate-title {
-    font-size: 2rem; }
-    .plate .plate-title:before {
-      display: inline-block;
-      content: "";
-      width: 16px;
-      height: 28px;
-      background-image: url(../img/Title-01.png);
-      background-size: cover;
-      margin-right: 5px;
-      margin-bottom: -4px; }
   .plate .plate-content .loader {
     padding-top: 100px;
     padding-bottom: 100px; }
@@ -475,7 +464,6 @@ button.swiper-pagination-bullet {
   width: 100%;
   height: 100%;
   color: #505050;
-  background-color: #ffffff;
   transition: all 0.3s ease; }
   .project-card:hover {
     color: #505050; }

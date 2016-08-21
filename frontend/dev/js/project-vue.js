@@ -165,7 +165,19 @@ var projectVm = new Vue({
       var hour = Math.floor((d3%(24*3600*1000))/(3600*1000));
       return (day === 0 ? "" : day + "天") + hour + "小时";
     },
-    redirect: function(){
+    checkLogin: function(){
+      if(!this.status){
+        this.redirect("login");
+      }
+    },
+    redirect: function(target){
+      if(target){
+        switch (target){
+        case "login":
+          window.location.href = "login.html";
+          return;
+        }
+      }
       window.location.href = "404.html";
     },
     getPagination: function(pagination, data){
@@ -274,6 +286,7 @@ var projectVm = new Vue({
       });
     },
     sendComment: function(){
+      this.checkLogin();
       var _this = this;
       if(this.comments.overflow || !this.comments.content){
         return;
@@ -295,20 +308,6 @@ var projectVm = new Vue({
         if(!response.result){
           commentLoader.endLoad(false, "评论失败");
         }else{
-          // _this.comments.list.unshift({
-          //   commenterHead: _this.userInfo.head,
-          //   pointTo: _this.comments.reply.pointTo,
-          //   pointToNickname: _this.comments.reply.pointToNickname,
-          //   commenterName: _this.userInfo.name,
-          //   commenterId: localId,
-          //   commenterNickname: _this.userInfo.nickname,
-          //   projectId: _this.projectId,
-          //   commentTime: (new Date()).getTime(),
-          //   content: _this.comments.content,
-          // });
-          // if(_this.comments.list.length > 10){
-          //   _this.comments.list.pop();
-          // }
           _this.getComments(0);
           _this.comments.content = "";
           _this.replyComment();
@@ -321,6 +320,7 @@ var projectVm = new Vue({
       });
     },
     replyComment: function(id, nickname){
+      this.checkLogin();
       if(!id || !nickname || id == this.comments.reply.pointTo){
         this.comments.reply.status = false;
         this.comments.reply.pointTo = 0;
@@ -354,6 +354,7 @@ var projectVm = new Vue({
       });
     },
     followProject: function(){
+      this.checkLogin();
       var _this = this;
       if(!this.isFollowed){
         var followRequest = ajax({
@@ -418,6 +419,7 @@ var projectVm = new Vue({
       });
     },
     sendMoment: function(){
+      this.checkLogin();
       var _this = this;
       if(this.moments.overflow || !this.moments.content){
         return;
@@ -437,14 +439,6 @@ var projectVm = new Vue({
         if(!response.result){
           momentLoader.endLoad(false, "发布动态失败");
         }else{
-          // _this.moments.list.unshift({
-          //   sponsor: localId,
-          //   images: [],
-          //   sponsorNickname: _this.userInfo.nickname,
-          //   sponsorHead: _this.userInfo.head,
-          //   updateTime: (new Date()).getTime(),
-          //   content: _this.moments.content
-          // });
           _this.getMoments(0);
           _this.moments.content = "";
           momentLoader.endLoad();
@@ -456,24 +450,27 @@ var projectVm = new Vue({
       });
     },
     getUserFollowStatus: function(){
-      var _this = this;
-      var followStatusRequest = ajax({
-        method: 'post',
-        url: apiUrl +"/user/" + localId + "/following/" + _this.project.data.sponsor,
-        data: {
-          token: localToken
-        }
-      }).then(function (response, xhr) {
-        if(response.result){
-          _this.sponsor.isFollowed = response.data;
-        }
-      }).catch(function (response, xhr) {
+      if(localId){
+        var _this = this;
+        var followStatusRequest = ajax({
+          method: 'post',
+          url: apiUrl +"/user/" + localId + "/following/" + _this.project.data.sponsor,
+          data: {
+            token: localToken
+          }
+        }).then(function (response, xhr) {
+          if(response.result){
+            _this.sponsor.isFollowed = response.data;
+          }
+        }).catch(function (response, xhr) {
 
-      }).always(function (response, xhr) {
-        // Do something
-      });
+        }).always(function (response, xhr) {
+          // Do something
+        });
+      }
     },
     followUser: function(){
+      this.checkLogin();
       var _this = this;
       if(!this.sponsor.isFollowed){
         var followRequest = ajax({

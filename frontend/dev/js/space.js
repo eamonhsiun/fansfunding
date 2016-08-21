@@ -119,7 +119,11 @@ var spaceVm = new Vue({
         }
         callback();
       }).catch(function (response, xhr) {
-        console.log("加载失败");
+        if(xhr.status == 404 || xhr.status == 400){
+          _this.redirect();
+          return;
+        }
+        console.log("服务器连接失败");
       }).always(function (response, xhr) {
       });
     },

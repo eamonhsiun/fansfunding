@@ -430,6 +430,10 @@ button.swiper-pagination-bullet {
       width: 100%;
       min-height: 100%; }
 
+#project-list {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
 .mainwrap {
   width: 100%; }
 
@@ -442,6 +446,7 @@ button.swiper-pagination-bullet {
     padding-top: 100px;
     padding-bottom: 100px; }
   .plate .plate-content .errormsg {
+    display: none;
     text-align: center;
     padding-top: 100px;
     padding-bottom: 100px;

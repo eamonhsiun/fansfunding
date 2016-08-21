@@ -27,7 +27,7 @@ Vue.component("pagination", {
         },
         offset: {
             type: Number,
-            default: 4
+            default: 3
         }
     },
     computed: {
@@ -49,7 +49,7 @@ Vue.component("pagination", {
                 to--;
             }
             while(arr.length < (this.offset * 2 + 1)){
-                if(to > 1){
+                if(to >= 1){
                     arr.unshift(to);
                     to--
                 }else{

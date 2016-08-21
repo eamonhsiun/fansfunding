@@ -38,6 +38,13 @@
 .block-title{
   clear: both;
   font-size: 2rem;
+  a{
+    color: $color_text_dark;
+    @include transition_all(0.2s);
+    &:hover{
+      color: $color_red_2;
+    }
+  }
   &:before{
     display: inline-block;
     content: "";

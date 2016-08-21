@@ -180,7 +180,7 @@ var projectVm = new Vue({
       }
       window.location.href = "404.html";
     },
-    getPagination: function(pagination, data){
+    setPagination: function(pagination, data){
       pagination.total = data.total;
       pagination.pageNum = data.pageNum;
       pagination.pages = data.pages;
@@ -249,7 +249,7 @@ var projectVm = new Vue({
           }else{
             commentLoader.endLoad(false, "还没有评论，快来评论吧");
           }
-          _this.getPagination(comments.pagination, res);
+          _this.setPagination(comments.pagination, res);
           comments.status = true;
         }
       }).catch(function (response, xhr) {
@@ -275,7 +275,7 @@ var projectVm = new Vue({
           }else{
             feedbackLoader.endLoad();
           }
-          _this.getPagination(_this.feedbacks.pagination, response.data);
+          _this.setPagination(_this.feedbacks.pagination, response.data);
           _this.feedbacks.status = true;
         }
       }).catch(function (response, xhr) {
@@ -409,7 +409,7 @@ var projectVm = new Vue({
           }else{
             momentLoader.endLoad(false, "发起人还没有发布动态");
           }
-          _this.getPagination(_this.moments.pagination, response.data);
+          _this.setPagination(_this.moments.pagination, response.data);
           _this.moments.status = true;
         }
       }).catch(function (response, xhr) {

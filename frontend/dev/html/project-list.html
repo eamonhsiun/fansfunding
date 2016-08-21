@@ -1,49 +1,53 @@
 @@include('include/head.html',{"title": "项目列表 | FAN$","csstype": "index"})
-@@include('include/header.html',{"page": "index"})
-  <div class="container">
+@@include('include/header.html',{"page": "project_list"})
+  <div class="container" id="project-list">
     <div class="plate">
-      <div class="block-title">热门推荐</div>
+      <div class="block-title">热门项目</div>
       <div class="plate-content">
-        <ul>
-          <li class="plate-content-list" v-for="project in hotProjects.list">
-            <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
-              <div class="project-card-pic">
-                <img :src="project.cover | resource"alt="">
-              </div>
-              <div class="project-card-detail">
-                <div class="project-card-detail-name">{{project.name}}</div>
-                <div class="project-card-detail-hint">
-                  {{project.description}}
+        <template id="project-list-template">
+          <ul>
+            <li class="plate-content-list" v-for="project in projects">
+              <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}" target="_blank" class="project-card kit-block">
+                <div class="project-card-pic">
+                  <img :src="project.cover | resource"alt="">
                 </div>
-                <div class="project-card-detail-other">
-                  <div class="project-card-detail-info project-card-lefttime">
-                    剩余时间：<span>{{getLeftTime(new Date(), project.targetDeadline)}}</span>
+                <div class="project-card-detail">
+                  <div class="project-card-detail-name">{{project.name}}</div>
+                  <div class="project-card-detail-hint">
+                    {{project.description}}
                   </div>
-                  <div class="project-card-detail-info project-card-target">
-                    目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
-                  </div>
-                  <div class="project-card-detail-info project-card-progress">
-                    已达成：<span>{{project.sum/project.targetMoney | currency '' 2}}</span>%
+                  <div class="project-card-detail-other">
+                    <div class="project-card-detail-info project-card-lefttime">
+                      剩余时间：<span>{{getLeftTime(new Date(), project.targetDeadline)}}</span>
+                    </div>
+                    <div class="project-card-detail-info project-card-target">
+                      目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
+                    </div>
+                    <div class="project-card-detail-info project-card-progress">
+                      已达成：<span>{{project.sum/project.targetMoney | currency '' 2}}</span>%
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney + '%'}"></span></div>
-              <div class="project-card-initiator">
-                <div class="initiator-avatar"><img :src="project.sponsorHead | resource" alt=""></div>
-                <div class="initiator-info">
-                  <div class="initiator-name">发起人：<span>{{project.sponsorNickname}}</span></div>
-                  <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
+                <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney + '%'}"></span></div>
+                <div class="project-card-initiator">
+                  <div class="initiator-avatar"><img :src="project.sponsorHead | resource" alt=""></div>
+                  <div class="initiator-info">
+                    <div class="initiator-name">发起人：<span>{{project.sponsorNickname}}</span></div>
+                    <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
+                  </div>
                 </div>
-              </div>
-            </a>
-          </li>
-        </ul>
+              </a>
+            </li>
+          </ul>
+        </template>
+        <project-list :projects="projects.list"></project-list>
         <div class="loader FFloader" id="plate-loader">
           <div class="loader-inner triangle-skew-spin">
             <div></div>
           </div>
         </div>
         <div id="plate-errormsg" class="errormsg FFerrormsg">服务器连接失败</div>
+        <pagination :pagination="projects.pagination" :callback="getProjects" :offset="3"></pagination>
       </div>
     </div>
   </div>

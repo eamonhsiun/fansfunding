@@ -100,7 +100,14 @@ var spaceVm = new Vue({
     }
   },
   methods:{
-    redirect: function(){
+    redirect: function(target){
+      if(target){
+        switch (target){
+        case "login":
+          window.location.href = "login.html";
+          return;
+        }
+      }
       window.location.href = "404.html";
     },
     getSpaceUserInfo: function(callback){
@@ -243,6 +250,7 @@ var spaceVm = new Vue({
         _this.userInfo = localUserInfo;
       }else{
         _this.status = false;
+        _this.redirect("login");
       }
     });
     this.getSpaceUserInfo(function(){

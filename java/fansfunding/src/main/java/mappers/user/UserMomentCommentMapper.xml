@@ -24,10 +24,12 @@
   
   
   <select id="selectByMomentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-		select id, user_id,moment_id,create_time, del_flag, content
-			from user_moment_comment
-			where moment_id=#{momentId,jdbcType=INTEGER}
-			and del_flag !=1
+		select umc.id, umc.user_id,u.nickname,umc.moment_id,umc.create_time, umc.del_flag, umc.content
+			from user_moment_comment umc,user u
+			where umc.moment_id=#{momentId,jdbcType=INTEGER}
+			and u.id=umc.user_id
+			and umc.del_flag !=1
+			and u.del_flag !=1
 			order by create_time desc
   </select>
   

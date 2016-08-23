@@ -10,11 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fansfunding.project.dao.ResourceDao;
+import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.UserMomentCommentDao;
 import com.fansfunding.user.dao.UserMomentDao;
+import com.fansfunding.user.dao.UserMomentLikeDao;
 import com.fansfunding.user.entity.UserMoment;
 import com.fansfunding.user.entity.UserMomentComment;
+import com.fansfunding.user.entity.UserMomentLike;
+import com.fansfunding.utils.pagination.Page;
+import com.fansfunding.utils.pagination.PageAdapter;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class UserMomentService {
@@ -24,16 +31,48 @@ public class UserMomentService {
 	private ResourceDao resourceDao;
 	@Autowired
 	private UserMomentCommentDao userMomentCommentDao;
+	@Autowired
+	private UserMomentLikeDao userMomentLikeDao;
+	
+	public Map<String,Object> getMomentById(int momentId) {
+		Map<String,Object> moment = new HashMap<>();
+		UserMoment u = userMomentDao.selectById(momentId);
+		
+		moment.put("momentId", u.getId());
+		moment.put("userId", u.getUserId());
+		moment.put("nickname", u.getNickname());
+		moment.put("content", u.getContent());
+		moment.put("postTime", u.getCreateTime());
+		
+		List<Resource> images=resourceDao.selectProjectImages(u.getId());
+		String[] paths=new String[images.size()];
+		for(int i=0;i<images.size();i++){
+			paths[i]=images.get(i).getPath();
+		}
+		moment.put("images", paths);
+		List<Map<String,Object>> comments= getCommentByMomentId(u.getId());
+		List<Map<String,Object>> likes= getMomentLike(u.getId());
+		
+		moment.put("comment", comments);
+		moment.put("likeNum", likes.size());
+		moment.put("commentNum", comments.size());
+		moment.put("forwardNum", 0);
+		moment.put("origin", u.getOrigin());
+		moment.put("linkProject", u.getLinkProject());
+		
+		return moment;
+	}
 	
 	public List<Map<String,Object>> getCommentByMomentId(int momentId) {
+		
 		List<Map<String,Object>> commentMap = new ArrayList<>();
 		List<UserMomentComment> userMomentComments = userMomentCommentDao.selectByMomentId(momentId);
 		for(UserMomentComment u:userMomentComments){
 			Map<String,Object> comment=new HashMap<>();
-			comment.put("id", u.getId());
+			comment.put("commentId", u.getId());
 			comment.put("content", u.getContent());
-			comment.put("momentId", u.getMomentId());
 			comment.put("userId", u.getUserId());
+			comment.put("nickname", u.getNickname());
 			comment.put("postTime", u.getCreateTime());
 			commentMap.add(comment);
 		}
@@ -44,54 +83,36 @@ public class UserMomentService {
 	/**
 	 * 根据用户id获取用户动态
 	 * @param userId
+	 * @param page 
+	 * @param rows 
 	 * @return
 	 */
-	public List<Map<String,Object>> getMomentsById(int userId) {
+	public Page getMomentsById(int userId, int page, int rows) {
+		PageHelper.startPage(page, rows);
 		List<Map<String,Object>> momentMap = new ArrayList<>();
 		List<UserMoment> userMoments = userMomentDao.selectByUserId(userId);
-		for(UserMoment u:userMoments){
-			Map<String,Object> moment=new HashMap<>();
-			moment.put("id", u.getId());
-			moment.put("content", u.getContent());
-			moment.put("postTime", u.getCreateTime());
-			List<Resource> images=resourceDao.selectProjectImages(u.getId());
-			String[] paths=new String[images.size()];
-			for(int i=0;i<images.size();i++){
-				paths[i]=images.get(i).getPath();
-			}
-			moment.put("images", paths);
-			moment.put("comment", getCommentByMomentId(u.getId()));
-			momentMap.add(moment);
-		}
-
-		return momentMap;
+		PageInfo<UserMoment> info=new PageInfo<>(userMoments);
+		
+		genMomentMap(momentMap, userMoments);
+		return PageAdapter.adapt(info, momentMap);
 	}
 
-	public Object getFriendsMomentsById(int userId) {
+
+	public Page getFriendsMomentsById(int userId, int page, int rows) {
+		PageHelper.startPage(page, rows);
 		List<Map<String,Object>> momentMap = new ArrayList<>();
-		List<UserMoment> userMoments = userMomentDao.selectFriendsByUserId(userId);
-		for(UserMoment u:userMoments){
-			Map<String,Object> moment=new HashMap<>();
-			moment.put("id", u.getId());
-			moment.put("content", u.getContent());
-			moment.put("postTime", u.getCreateTime());
-			moment.put("friendId", u.getUserId());
-			List<Resource> images=resourceDao.selectProjectImages(u.getId());
-			String[] paths=new String[images.size()];
-			for(int i=0;i<images.size();i++){
-				paths[i]=images.get(i).getPath();
-			}
-			moment.put("images", paths);
-			moment.put("comment", getCommentByMomentId(u.getId()));
-			momentMap.add(moment);
-		}
-		return momentMap;
+		List<UserMoment> userMoments = userMomentDao.selectFriendsByUserId(userId);		
+		PageInfo<UserMoment> info=new PageInfo<>(userMoments);
+		
+		genMomentMap(momentMap, userMoments);
+		return PageAdapter.adapt(info, momentMap);
 	}
 
-	public boolean postMoment(int userId, String content, String images) {
+	public boolean postMoment(int userId, String content, String images, int origin) {
 		UserMoment moment = new UserMoment();
 		moment.setContent(content);
 		moment.setUserId(userId);
+		moment.setOrigin(origin);
 		
 		userMomentDao.insert(moment);
 		for(String s:images.split(",")){
@@ -119,6 +140,68 @@ public class UserMomentService {
 		userMomentCommentDao.insert(userMomentComment);
 		return true;
 	}
+
+	/**
+	 * 获取点赞信息
+	 * @param momentId
+	 * @return
+	 */
+	public List<Map<String,Object>> getMomentLike(int momentId) {
+		List<Map<String,Object>> momentMap = new ArrayList<>();
+		List<UserMomentLike> momentLike = userMomentLikeDao.selectByMomentId(momentId);
+		for(UserMomentLike l:momentLike){
+			Map<String,Object> like=new HashMap<>();
+			like.put("userId", l.getUserId());
+			like.put("nickName", l.getNickname());
+			momentMap.add(like);
+		}
+		return momentMap;
+	}
+
+	public boolean postLike(int userId, int momentId) {
+		UserMomentLike userMomentLike = new UserMomentLike();
+		userMomentLike.setMomentId(momentId);
+		userMomentLike.setUserId(userId);
+		return false;
+	}
+
+
+	public boolean postDisLike(int userId, int momentId) {
+		return false;
+	}
+
+
+	private void genMomentMap(List<Map<String, Object>> momentMap, List<UserMoment> userMoments) {
+		for(UserMoment u:userMoments){
+			Map<String,Object> moment=new HashMap<>();
+			moment.put("momentId", u.getId());
+			moment.put("userId", u.getUserId());
+			moment.put("nickname", u.getNickname());
+			moment.put("content", u.getContent());
+			moment.put("postTime", u.getCreateTime());
+			
+			List<Resource> images=resourceDao.selectProjectImages(u.getId());
+			String[] paths=new String[images.size()];
+			for(int i=0;i<images.size();i++){
+				paths[i]=images.get(i).getPath();
+			}
+			moment.put("images", paths);
+			List<Map<String,Object>> comments= getCommentByMomentId(u.getId());
+			List<Map<String,Object>> likes= getMomentLike(u.getId());
+			
+			moment.put("comment", comments);
+			moment.put("likeNum", likes.size());
+			moment.put("commentNum", comments.size());
+			moment.put("forwardNum", 0);
+			moment.put("origin", u.getOrigin());
+			moment.put("linkProject", u.getLinkProject());
+			
+			momentMap.add(moment);
+		}
+	}
+
+
+
 
 
 

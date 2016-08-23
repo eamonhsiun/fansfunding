@@ -8,12 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-
-
-
-
-
 import com.fansfunding.user.service.UserMomentService;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.CheckUtils;
@@ -33,16 +27,40 @@ public class UserMomentController {
 	/**
 	 * 获取用户动态
 	 * @param userId
+	 * @param page 
+	 * @param rows 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(path="{userId}/moment",method=RequestMethod.GET)
 	@ResponseBody
-	public Status getMoment(@PathVariable int userId) throws Exception{
+	public Status getMoment(
+			@PathVariable int userId, 
+			@RequestParam(required=false,defaultValue="1") Integer page,
+			@RequestParam(required=false,defaultValue="10") Integer rows
+			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId), 0);
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows), 0);
+	}
+	
+	/**
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="{userId}/moment/follow ",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getFriendMoment(
+			@PathVariable int userId,
+			@RequestParam(required=false,defaultValue="1") Integer page,
+			@RequestParam(required=false,defaultValue="10") Integer rows
+			) throws Exception{
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getFriendsMomentsById(userId, page, rows), 0);
 	}
 	
 	/**
@@ -57,7 +75,8 @@ public class UserMomentController {
 	@ResponseBody
 	public Status postMoment(@PathVariable int userId,
 			@RequestParam String content,
-			@RequestParam(required=false,defaultValue="") String images
+			@RequestParam(required=false,defaultValue="") String images,
+			@RequestParam(required=false,defaultValue="0")int origin
 			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
@@ -66,12 +85,30 @@ public class UserMomentController {
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
-			if(userMomentService.postMoment(userId,content,images)){
+			if(userMomentService.postMoment(userId,content,images,origin)){
 				return new Status(true, StatusCode.SUCCESS, "发布成功", 0);
 			}
 			return new Status(false,StatusCode.PERMISSION_LOW,"权限过低",null);			
 		}
 		return new Status(false,StatusCode.FAILED,"参数错误",null);
+	}
+	
+	/**
+	 * 获得用户动态
+	 * @param momentId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="moment/{momentId}",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getMomentById(
+			@PathVariable int momentId
+			) throws Exception{
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentById(momentId), 0);
 	}
 	
 	/**
@@ -91,6 +128,8 @@ public class UserMomentController {
 		
 		return new Status(true, StatusCode.SUCCESS, userMomentService.getCommentByMomentId(momentId), 0);
 	}
+	
+	
 	
 	
 	
@@ -129,16 +168,75 @@ public class UserMomentController {
 	}
 	
 	/**
+	 * 获取动态点赞
 	 * @param userId
+	 * @param momentId
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="{userId}/moment/follow ",method=RequestMethod.GET)
+	@RequestMapping(path="moment/{momentId}/like",method=RequestMethod.GET)
 	@ResponseBody
-	public Status getFriendMoment(@PathVariable int userId) throws Exception{
+	public Status getMomentLike(
+			@PathVariable int momentId
+			) throws Exception{
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userMomentService.getMomentLike(momentId),null);
+	}
+	
+	
+	
+	
+	/**
+	 * 上传动态点赞
+	 * @param userId
+	 * @param momentId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="{userId}/moment/{momentId}/like",method=RequestMethod.POST)
+	@ResponseBody
+	public Status postMomentLike(
+			@PathVariable int userId,
+			@PathVariable int momentId
+			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getFriendsMomentsById(userId), 0);
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		if(userMomentService.postLike(userId,momentId)){
+			return new Status(true, StatusCode.SUCCESS, "发布成功", 0);
+		}		
+		return new Status(false,StatusCode.FAILED,"参数错误",null);
 	}
+	
+	/**
+	 * 取消动态点赞
+	 * @param userId
+	 * @param momentId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="{userId}/moment/{momentId}/unlike",method=RequestMethod.POST)
+	@ResponseBody
+	public Status postMomentDisLike(
+			@PathVariable int userId,
+			@PathVariable int momentId
+			) throws Exception{
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		if(userMomentService.postDisLike(userId,momentId)){
+			return new Status(true, StatusCode.SUCCESS, "发布成功", 0);
+		}		
+		return new Status(false,StatusCode.FAILED,"参数错误",null);
+	}
+	
+
 }

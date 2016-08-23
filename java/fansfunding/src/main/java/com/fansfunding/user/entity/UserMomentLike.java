@@ -1,6 +1,5 @@
 package com.fansfunding.user.entity;
 
-import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,20 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserMoment {
-    private Integer id;
+public class UserMomentLike {
 
     private Integer userId;
     
+    private Integer momentId;
+    
     private String nickname;
 
-    private Date createTime;
-
-    private String delFlag;
-
-    private String content;
-    
-    private Integer origin;
-    
-    private Integer linkProject;
 }

@@ -1,15 +1,16 @@
 package com.fansfunding.socket.entity;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class SessionEntity {
-	private int userId;
-	private String token;
+public class NotificationMessage {
+	private Map<String,Object> causer;
+	private int subType;
+	private Map<String,Object> reference;
 }

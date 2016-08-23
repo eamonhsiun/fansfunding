@@ -10,7 +10,7 @@ public class TestMessageConverter {
 	private SocketRequest request;
 	@Before
 	public void before(){
-		request=SocketRequest.builder().content("content").receiver(123).sender(456).type(1).build();
+		request=SocketRequest.builder().content("content").receiver(123).build();
 	}
 	@Test
 	public void testConvertRequest() {

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Notification {
     private Integer id;
-    private String title;
+    private Integer type;
     private String content;
     private int receiver;
     private String isRead;

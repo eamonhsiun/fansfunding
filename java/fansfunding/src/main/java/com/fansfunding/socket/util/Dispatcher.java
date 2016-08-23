@@ -1,17 +1,19 @@
 package com.fansfunding.socket.util;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import lombok.extern.log4j.Log4j;
 
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.TextMessage;
 
-import com.fansfunding.socket.entity.Message;
-import com.fansfunding.socket.entity.Notification;
+import com.fansfunding.socket.entity.CommentMessage;
+import com.fansfunding.socket.entity.NotificationMessage;
 import com.fansfunding.socket.entity.SessionEntity;
-import com.fansfunding.utils.response.Status;
+import com.fansfunding.socket.entity.SocketResponse;
+import com.fansfunding.utils.response.StatusCode;
 
 /**
  * 消息分发器
@@ -31,8 +33,19 @@ public class Dispatcher {
 	 * 获取在线人数
 	 * @return
 	 */
-	public int online(){
+	public static int online(){
 		return pool.size();
+	}
+	/**
+	 * 是否在线
+	 * @param userId
+	 * @return
+	 */
+	public static boolean isOnline(int userId){
+		return pool.isOnline(userId);
+	}
+	public static SessionEntity get(WebSocketSession session){
+		return pool.get(session);
 	}
 	/**
 	 * 添加
@@ -52,41 +65,22 @@ public class Dispatcher {
 		return pool.remove(session);
 	}
 	/**
-	 * 发送通知，成功则返回true，失败（例如用户不在线）返回false
+	 * 发送通知消息
+	 * @param receiver
+	 * @param notification
 	 * @return
 	 */
-	public static boolean notification(Notification notification){
-		if(!pool.isOnline(notification.getReceiver())){
-			return false;
-		}
-		return pool.get(notification.getReceiver()).map(session->{
-			try {
-				session.sendMessage(new TextMessage(MessageConverter.objectToJson(notification)));
-				return true;
-			} catch (Exception e) {
-				log.error("通知发送失败："+notification, e);
-				return false;
-			}
-		}).orElse(false);
+	public static boolean notice(int receiver,NotificationMessage notification){
+		return Dispatcher.send(receiver,new SocketResponse(true,3,StatusCode.SUCCESS,notification));
 	}
 	/**
-	 * 发送消息
-	 * @param message
+	 * 发送评论消息
+	 * @param receiver
+	 * @param notification
 	 * @return
 	 */
-	public static boolean message(Message message){
-		if(!pool.isOnline(message.getReceiver())){
-			return false;
-		}
-		return pool.get(message.getReceiver()).map(session->{
-			try {
-				session.sendMessage(new TextMessage(MessageConverter.objectToJson(message)));
-				return true;
-			} catch (Exception e) {
-				log.error("消息发送失败："+message, e);
-				return false;
-			}
-		}).orElse(false);
+	public static boolean comment(int receiver,CommentMessage comment){
+		return Dispatcher.send(receiver,new SocketResponse(true,3,StatusCode.SUCCESS,comment));
 	}
 	/**
 	 * 发送
@@ -94,34 +88,34 @@ public class Dispatcher {
 	 * @param message 消息
 	 * @return
 	 */
-	public static boolean send(int receiver,String message){
+	public static boolean send(int receiver,String json){
 		if(!pool.isOnline(receiver)){
 			return false;
 		}
-		return pool.get(receiver).map(session->{
+		return pool.get(receiver).stream().map(session->{
 			try {
-				session.sendMessage(new TextMessage(message));
+				session.sendMessage(new TextMessage(json));
 				return true;
 			} catch (Exception e) {
-				log.error("发送失败："+message, e);
+				log.error("发送失败："+json, e);
 				return false;
 			}
-		}).orElse(false);
+		}).reduce(true, (a,b)->a&&b);
 	}
-	public static boolean send(WebSocketSession session,String message){
+	public static boolean send(WebSocketSession session,String json){
 		try {
-			session.sendMessage(new TextMessage(message));
+			session.sendMessage(new TextMessage(json));
 			return true;
 		} catch (Exception e) {
-			log.error("发送失败："+message, e);
+			log.error("发送失败："+json, e);
 			return false;
 		}
 	}
-	public static boolean send(int receiver,Status status){
-		return Dispatcher.send(receiver, MessageConverter.objectToJson(status));
+	public static boolean send(int receiver,SocketResponse response){
+		return Dispatcher.send(receiver, MessageConverter.objectToJson(response));
 	}
-	public static boolean send(WebSocketSession session,Status status){
-		return Dispatcher.send(session, MessageConverter.objectToJson(status));
+	public static boolean send(WebSocketSession session,SocketResponse response){
+		return Dispatcher.send(session, MessageConverter.objectToJson(response));
 	}
 	
 	/*————————————————————————————————我只是萌萌哒分割线————————————————————————————————————*/
@@ -151,6 +145,14 @@ public class Dispatcher {
 		 */
 		public SessionEntity put(WebSocketSession session,SessionEntity entity){
 			return sessionPool.put(session,entity);
+		}
+		/**
+		 * 获取实体
+		 * @param session
+		 * @return
+		 */
+		public SessionEntity get(WebSocketSession session){
+			return sessionPool.get(session);
 		}
 		/**
 		 * 移出连接池
@@ -184,12 +186,12 @@ public class Dispatcher {
 		 * @param userId 用户id
 		 * @return
 		 */
-		public Optional<WebSocketSession> get(int userId){
-			return sessionPool.entrySet()
+		public List<WebSocketSession> get(int userId){
+			return (List<WebSocketSession>) sessionPool.entrySet()
 					.parallelStream()
 					.filter((conn)->conn.getValue().getUserId()==userId)
-					.findAny()
-					.map(e->e.getKey());
+					.map(e->e.getKey())
+					.collect(Collectors.toList());
 		}
 	}
 }

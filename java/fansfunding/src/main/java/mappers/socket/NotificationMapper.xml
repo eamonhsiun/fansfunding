@@ -3,7 +3,7 @@
 <mapper namespace="com.fansfunding.socket.dao.NotificationDao">
   <resultMap id="BaseResultMap" type="com.fansfunding.socket.entity.Notification">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="receiver" jdbcType="INTEGER" property="receiver" />
     <result column="is_read" jdbcType="CHAR" property="isRead" />
@@ -17,9 +17,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.socket.entity.Notification">
-    insert into notification (title, receiver, content,
+    insert into notification (type, receiver, content,
       create_by, create_time)
-    values (#{title,jdbcType=VARCHAR}, #{receiver,jdbcType=INTEGER},
+    values (#{type,jdbcType=INTEGER}, #{receiver,jdbcType=INTEGER},
     #{content,jdbcType=LONGVARCHAR}, #{createBy,jdbcType=VARCHAR},NOW())
   </insert>
   <update id="read" parameterType="java.lang.Integer">
@@ -33,22 +33,39 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, title, receiver, create_by, create_time, del_flag, content
+    select id, type, receiver, create_by, create_time, del_flag, content
     from notification
     where id = #{id,jdbcType=INTEGER}
     and del_flag='0'
   </select>
-  <select id="selectByReceiver" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, title, receiver, create_by, create_time, del_flag, content
+  <select id="selectComment" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type, receiver, create_by, create_time, del_flag, content
     from notification
     where del_flag='0'
+    and type=2
     and receiver=#{receiver,jdbcType=INTEGER}
   </select>
-  <select id="selectUnread" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, title, receiver, create_by, create_time, del_flag, content
+  <select id="selectNotification" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type, receiver, create_by, create_time, del_flag, content
+    from notification
+    where del_flag='0'
+    and type=3
+    and receiver=#{receiver,jdbcType=INTEGER}
+  </select>
+  <select id="selectUnreadComment" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type, receiver, create_by, create_time, del_flag, content
     from notification
     where del_flag='0'
     and is_read='0'
+    and type=2
+    and receiver=#{receiver,jdbcType=INTEGER}
+  </select>
+  <select id="selectUnreadNotification" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type, receiver, create_by, create_time, del_flag, content
+    from notification
+    where del_flag='0'
+    and is_read='0'
+    and type=3
     and receiver=#{receiver,jdbcType=INTEGER}
   </select>
 </mapper>

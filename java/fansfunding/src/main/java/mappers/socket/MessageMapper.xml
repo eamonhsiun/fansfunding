@@ -17,10 +17,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.socket.entity.Message">
-    insert into message (content, sender, receiver,
+    insert into message (content, sender, receiver,is_read,
     create_by, create_time)
-    values (#{content,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER}, 
-      #{receiver,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR},NOW())
+    values (#{content,jdbcType=VARCHAR}, #{sender,jdbcType=INTEGER},#{receiver,jdbcType=INTEGER},
+     #{isRead,jdbcType=CHAR},#{createBy,jdbcType=VARCHAR},NOW())
   </insert>
   <update id="read" parameterType="java.lang.Integer">
     update message
@@ -42,19 +42,19 @@
     select id, content, sender, receiver, is_read, create_by, create_time, del_flag
     from message
     where del_flag='0'
-    and sender={sender,jdbcType=INTEGER}
+    and sender=#{sender,jdbcType=INTEGER}
   </select>
   <select id="selectByReceiver" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
     select id, content, sender, receiver, is_read, create_by, create_time, del_flag
     from message
     where del_flag='0'
-    and receiver={receiver,jdbcType=INTEGER}
+    and receiver=#{receiver,jdbcType=INTEGER}
   </select>
   <select id="selectUnread" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
     select id, content, sender, receiver, is_read, create_by, create_time, del_flag
     from message
     where del_flag='0'
     and is_read='0'
-    and receiver={receiver,jdbcType=INTEGER}
+    and receiver=#{receiver,jdbcType=INTEGER}
   </select>
 </mapper>

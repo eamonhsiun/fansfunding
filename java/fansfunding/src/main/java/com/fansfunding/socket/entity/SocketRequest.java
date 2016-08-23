@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SocketRequest {
-	private int type;
-	private int sender;
 	private int receiver;
 	private String content;
 }

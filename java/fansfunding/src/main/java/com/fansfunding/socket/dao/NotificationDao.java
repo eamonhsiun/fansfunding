@@ -9,6 +9,8 @@ public interface NotificationDao {
     Notification selectByPrimaryKey(Integer id);
     void read(Integer id);
     void unread(Integer id);
-    List<Notification> selectByReceiver(Integer receiver);
-    List<Notification> selectyUnread(Integer receiver);
+    List<Notification> selectComment(Integer receiver);
+    List<Notification> selectNotification(Integer receiver);
+    List<Notification> selectUnreadComment(Integer receiver);
+    List<Notification> selectUnreadNotification(Integer receiver);
 }

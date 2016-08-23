@@ -596,6 +596,21 @@
 }
 //---------------分页器结束--------------
 //
+@media screen and (max-width: 1100px) {
+  .address-list{
+    width: 100%;
+    float: none;
+    &:nth-child(2){
+      margin-top: 20px;
+    }
+    &:nth-child(2n){
+      padding-left: 0;
+    }
+    &:nth-child(2n+1){
+      padding-right: 0;
+    }
+  }
+}
 @media screen and (max-width: 800px) {
   .kit-title{
     height: 50px;
@@ -673,6 +688,20 @@
     padding: 0 25px;
     .kit-title-left{
       font-size: 1.2rem;
+    }
+  }
+  .address-list{
+    .address-block{
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .address-content{
+      .address-hint{
+        width: 90px;
+      }
+      .address-inner{
+        margin-left: 90px;
+      }
     }
   }
 }

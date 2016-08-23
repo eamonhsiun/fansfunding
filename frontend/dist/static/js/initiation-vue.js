@@ -173,7 +173,7 @@ var initiationVm = new Vue({
             _this.request.progress = 20;
             var initializeProjectRequest = ajax({
               method: 'post',
-              url: apiUrl +"/project/" + _this.categoryId + "/add",
+              url: apiUrl +"/project/" + _this.categoryId,
               data: {
                 token: localToken,
                 name: _this.project.title,
@@ -395,9 +395,9 @@ editor.on('valuechanged', function(e, src){
   initiationVm.project.content = this.getValue();
 });
 var cropper = null;
-// window.onbeforeunload = function(e){
-//   if(!confirm("确认要离开吗")){
-//     return false;
-//   }
-//   return true;
-// }
+window.onbeforeunload = function(e){
+  if(!confirm("确认要离开吗")){
+    return false;
+  }
+  return true;
+}

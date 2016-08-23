@@ -69,6 +69,7 @@ var projectListVm = new Vue({
           _this.projects.list = response.data.list;
           _this.setPagination(_this.projects.pagination, response.data);
           plateLoader.endLoad();
+          window.scrollTo(0, 0);
         }
       }).catch(function (response, xhr) {
         plateLoader.endLoad(false, "连接服务器失败");

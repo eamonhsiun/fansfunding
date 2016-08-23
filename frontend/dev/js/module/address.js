@@ -122,6 +122,7 @@ Vue.component('address-selector', {
     },
     removeAddressMask: function(){
       this.maskHide = true;
+      window.scrollTo(0, document.getElementById("address-add").offsetTop);
     },
     addAddressMask: function(){
       this.maskHide = false;
@@ -179,6 +180,13 @@ Vue.component('address-selector', {
     },
     alterUserAddress: function(index){
       var alter = this.newAddress
+      if(alter.alter.status){
+        this.list.splice(alter.alter.lastNum, 0, alter.alter.backup);
+        if(index >= alter.alter.lastNum){
+          index += 1;
+        }
+      }
+
       var temp = this.list[index];
       this.list.splice(index, 1);
       alter.alter.lastNum = index;
@@ -186,7 +194,7 @@ Vue.component('address-selector', {
       alter.alter.backup = temp;
       for(var key in alter){
         if(temp[key]){
-          alter[key] = temp[key]
+          alter[key] = temp[key];
         }
       }
       this.removeAddressMask();

@@ -517,6 +517,17 @@
       color: #ababab;
       cursor: default; }
 
+@media screen and (max-width: 1100px) {
+  .address-list {
+    width: 100%;
+    float: none; }
+    .address-list:nth-child(2) {
+      margin-top: 20px; }
+    .address-list:nth-child(2n) {
+      padding-left: 0; }
+    .address-list:nth-child(2n+1) {
+      padding-right: 0; } }
+
 @media screen and (max-width: 800px) {
   .kit-title {
     height: 50px;
@@ -567,4 +578,11 @@
     line-height: 40px;
     padding: 0 25px; }
     .kit-title .kit-title-left {
-      font-size: 1.2rem; } }
+      font-size: 1.2rem; }
+  .address-list .address-block {
+    padding-left: 10px;
+    padding-right: 10px; }
+  .address-list .address-content .address-hint {
+    width: 90px; }
+  .address-list .address-content .address-inner {
+    margin-left: 90px; } }

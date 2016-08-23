@@ -290,24 +290,6 @@
 .kit-tabs {
   border-bottom: 1px solid #ababab; }
 
-.setting-wrap .setting-wrap-tabs ul {
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  box-sizing: border-box;
-  padding-left: 20px;
-  padding-right: 20px; }
-  .setting-wrap .setting-wrap-tabs ul .setting-wrap-tab {
-    font-size: 1.3rem;
-    text-align: center;
-    width: 120px;
-    float: left;
-    height: 100%;
-    cursor: pointer;
-    transition: all 0.3s ease; }
-  .setting-wrap .setting-wrap-tabs ul .seting-wrap-tab:hover, .setting-wrap .setting-wrap-tabs ul .tab-active {
-    background-color: #ffc8ca; }
-
 .setting-content {
   clear: both;
   padding: 30px 40px; }
@@ -379,11 +361,46 @@
   width: 200px;
   text-align: center; }
 
-@media screen and (max-width: 600px) {
-  .setting-contents .setting-content {
-    padding-left: 30px;
-    padding-right: 30px; }
-  #setting-profile .setting-profile-list > span {
-    padding-left: 20px; }
-  #setting-profile .setting-profile-submit a {
-    margin: auto; } }
+@media screen and (max-width: 700px) {
+  .setting-content {
+    padding: 20px 15px; }
+  .setting-list .setting-hint {
+    font-size: 1.5rem;
+    width: 110px;
+    padding-right: 5px; }
+  .setting-list .setting-inner {
+    margin-left: 115px;
+    box-sizing: border-box; }
+    .setting-list .setting-inner .setting-input-hint {
+      color: #ababab; }
+  #setting-profile #setting-sex label {
+    width: 50%; } }
+
+@media screen and (max-width: 500px) {
+  .kit-tabs ul .kit-tab {
+    width: 33.3333%; }
+  .setting-content {
+    padding: 20px 10px; }
+  .setting-list .setting-hint {
+    font-size: 1.2rem;
+    width: 90px; }
+  .setting-list .setting-inner {
+    margin-left: 95px; }
+    .setting-list .setting-inner .kit-input {
+      font-size: 1.2rem; } }
+
+@media screen and (max-width: 400px) {
+  #setting-profile #setting-avatar > div {
+    width: 70%;
+    height: 70%;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 50%;
+    float: none; }
+    #setting-profile #setting-avatar > div img {
+      width: 100%;
+      height: 100%; }
+  #setting-profile #setting-avatar a {
+    float: none;
+    margin: auto;
+    margin-top: 20px; } }

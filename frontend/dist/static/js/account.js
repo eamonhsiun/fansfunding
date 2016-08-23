@@ -182,4 +182,35 @@ function getErrorMsg(errCode){
   FFaccount.checkAccountStatus();
 })();
 
-
+;(function(){
+  var topBtn = document.getElementById("back-to-top");
+  var timer = null;
+  var v = 30;
+  var a = 2;
+  if(topBtn){
+    window.onscroll = function(){
+      var top = document.documentElement.scrollTop || document.body.scrollTop;
+      var height = window.innerHeight;
+      if(top >= height){
+        topBtn.classList.add("show");
+      }else{
+        topBtn.classList.remove("show");
+      }
+    }
+    topBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      timer = setInterval(function(){
+        var top = document.documentElement.scrollTop || document.body.scrollTop;
+        top = top-v;
+        v += a;
+        if(top<50){
+          window.scrollTo(0,0);
+          v=20;
+          clearInterval(timer);
+        }else{
+          window.scrollTo(0,top);
+        }
+      }, 2);
+    });
+  }
+})();

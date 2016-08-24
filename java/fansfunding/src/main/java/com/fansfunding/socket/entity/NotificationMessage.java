@@ -11,6 +11,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class NotificationMessage {
 	private Map<String,Object> causer;
-	private int subType;
+	private int type;
 	private Map<String,Object> reference;
 }

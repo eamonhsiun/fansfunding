@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fansfunding.pay.entity.Order;
+import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.pay.dao.OrderDao;
 
 @Service
@@ -15,6 +16,8 @@ public class PayResultService {
 
 	@Autowired
 	private OrderDao orderDao;
+	@Autowired
+	private ProjectDao projectDao;
 
 	/**
 	 * 分析请求，获取参数
@@ -114,6 +117,16 @@ public class PayResultService {
 		if(order.getNotifyTime()==null){
 			orderDao.updateNotifyTime(order);
 		}
+	}
+	public Map<String,String> getResult(Map<String,String> callbackParams){
+		Map<String,String> result=new HashMap<String,String>();
+		String orderNo=callbackParams.get("out_trade_no");
+		Order order=orderDao.selectByOrderNo(orderNo);
+		result.put("categoryId", String.valueOf(projectDao.selectByProjectId(order.getProjectId()).getCategoryId()));
+		result.put("projectId", String.valueOf(order.getProjectId()));
+		result.put("feedbackId", String.valueOf(order.getFeedbackId()));
+		result.put("orderNo", orderNo);
+		return result;
 	}
 	/**
 	 * 

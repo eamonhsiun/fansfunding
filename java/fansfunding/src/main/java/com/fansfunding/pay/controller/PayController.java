@@ -37,13 +37,24 @@ public class PayController {
 	@RequestMapping(path="web",method=RequestMethod.POST)
 	public ModelAndView webPay(@RequestParam int feedbackId,@RequestParam int userId,@RequestParam int addressId){
 		if(!userService.isExist(userId)){
-			return null;
+			ModelAndView error=new ModelAndView("payError");
+			error.addObject("message", "用户不存在");
+			return error;
 		}
 		if(!feedbackService.isExist(feedbackId)){
-			return null;
+			ModelAndView error=new ModelAndView("payError");
+			error.addObject("message", "回报不存在");
+			return error;
 		}
 		if(!addressService.exist(addressId)){
-			return null;
+			ModelAndView error=new ModelAndView("payError");
+			error.addObject("message", "地址不存在");
+			return error;
+		}
+		if(!orderService.isPayable(feedbackId)){
+			ModelAndView error=new ModelAndView("payError");
+			error.addObject("message", "回报支持人数超过限制");
+			return error;
 		}
 		ModelAndView mv=new ModelAndView("webPay");
 		mv.addObject("params", orderService.buildWebOrder(feedbackId,userId,addressId));
@@ -65,6 +76,9 @@ public class PayController {
 		}
 		if(!feedbackService.isExist(feedbackId)){
 			return new Status(false,StatusCode.FAILED,"回报不存在",null);
+		}
+		if(!orderService.isPayable(feedbackId)){
+			return new Status(false,StatusCode.FAILED,"回报支持人数超过限制",null);
 		}
 		if(!addressService.exist(addressId)){
 			return new Status(false,StatusCode.FAILED,"地址不存在",null);

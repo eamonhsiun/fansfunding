@@ -25,7 +25,19 @@ public class OrderService {
 	private FeedbackDao feedbackDao;
 	@Autowired
 	private OrderDao orderDao;
-
+	
+	/**
+	 * 是否可以支付
+	 * @param feedbackId
+	 * @return
+	 */
+	public boolean isPayable(int feedbackId){
+		Feedback f=feedbackDao.selectByPrimaryKey(feedbackId);
+		if(f.getCeiling()==-1){
+			return true;
+		}
+		return orderDao.selectByFeedbackId(feedbackId).size()<f.getCeiling();
+	}
 	/**
 	 * 构建web支付订单
 	 * @param feedbackId 回馈方式id

@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fansfunding.pay.service.PayResultService;
 import com.fansfunding.pay.util.AlipayNotify;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
+
+import lombok.val;
 
 @Controller
 @RequestMapping("payResult")
@@ -31,9 +34,11 @@ public class PayResultController {
 	 * @return
 	 */
 	@RequestMapping(path="web/return",method=RequestMethod.GET)
-	@ResponseBody
-	public Status webReturn(HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView webReturn(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView result=new ModelAndView("payResult");
 		Map<String,String> params=payResultService.getParams(request);
+		
+		val args=payResultService.getResult(params);
 		//合法性验证
 		if(AlipayNotify.verify(params)){
 			//判断是否是本商户订单
@@ -47,16 +52,31 @@ public class PayResultController {
 					if(payResultService.verify(params)){
 						payResultService.finishOrder(params);
 						payResultService.confirmReturn(params);
-						return new Status(true,StatusCode.SUCCESS,"订单完成支付成功",null);
+						args.put("orderStatus", "true");
+						result.addObject("result", args);
+						return result;
+						//return new Status(true,StatusCode.SUCCESS,"订单完成支付成功",null);
 					}
-					return new Status(false,StatusCode.ORDER_INFO_DISAGREE,"订单信息不一致",null);
+					args.put("orderStatus", "false");
+					result.addObject("result", args);
+					return result;
+					//return new Status(false,StatusCode.ORDER_INFO_DISAGREE,"订单信息不一致",null);
 				}
 				payResultService.confirmReturn(params);
-				return new Status(true,StatusCode.SUCCESS,"订单已完成",null);
+				args.put("orderStatus", "true");
+				result.addObject("result", args);
+				return result;
+				//return new Status(true,StatusCode.SUCCESS,"订单已完成",null);
 			}
-			return new Status(false,StatusCode.NOT_ILLEGEL_ORDER,"非本商户订单",null);
+			args.put("orderStatus", "false");
+			result.addObject("result", args);
+			return result;
+			//return new Status(false,StatusCode.NOT_ILLEGEL_ORDER,"非本商户订单",null);
 		}
-		return new Status(false,StatusCode.PAY_VERIFY_FAILED,"验证失败",null);
+		args.put("orderStatus", "false");
+		//return new Status(false,StatusCode.PAY_VERIFY_FAILED,"验证失败",null);
+		result.addObject("result", args);
+		return result;
 	}
 	/**
 	 * 支付宝异步通知接口（网页支付）

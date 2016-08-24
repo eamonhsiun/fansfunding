@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.system.service.SysFeedbackService;
-import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.CheckUtils;
 import com.fansfunding.utils.response.Status;
 import com.fansfunding.utils.response.StatusCode;
@@ -18,8 +17,6 @@ import com.fansfunding.utils.response.StatusCode;
 public class SysFeedbackController {
 	@Autowired
 	private SysFeedbackService feedbackService;
-	@Autowired
-	private UserService userService;
 	/**
 	 * 添加反馈
 	 * @param feedback

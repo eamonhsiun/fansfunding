@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.pay.entity.Order;
-import com.fansfunding.project.dao.FeedbackDao;
 import com.fansfunding.project.dao.FollowProjectDao;
 import com.fansfunding.project.dao.ProjectDao;
 import com.fansfunding.project.dao.ProjectDetailDao;
@@ -41,8 +40,6 @@ public class ProjectService {
 	private UserDao userDao;
 	@Autowired
 	private OrderDao orderDao;
-	@Autowired
-	private FeedbackDao feedbackDao;
 	@Autowired
 	private ProjectMomentDao momentDao;
 	@Autowired

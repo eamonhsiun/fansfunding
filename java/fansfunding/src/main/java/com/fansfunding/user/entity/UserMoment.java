@@ -24,5 +24,7 @@ public class UserMoment {
     
     private Integer origin;
     
+    private Integer linkCategory;
+    
     private Integer linkProject;
 }

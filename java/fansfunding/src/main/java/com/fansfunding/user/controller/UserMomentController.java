@@ -76,7 +76,9 @@ public class UserMomentController {
 	public Status postMoment(@PathVariable int userId,
 			@RequestParam String content,
 			@RequestParam(required=false,defaultValue="") String images,
-			@RequestParam(required=false,defaultValue="0")int origin
+			@RequestParam(required=false,defaultValue="0")int origin,
+			@RequestParam(required=false,defaultValue="0")int linkCategory,
+			@RequestParam(required=false,defaultValue="0")int linkProject
 			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
@@ -85,7 +87,8 @@ public class UserMomentController {
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
-			if(userMomentService.postMoment(userId,content,images,origin)){
+			
+			if(userMomentService.postMoment(userId,content,images,origin,linkCategory,linkProject)){
 				return new Status(true, StatusCode.SUCCESS, "发布成功", 0);
 			}
 			return new Status(false,StatusCode.PERMISSION_LOW,"权限过低",null);			

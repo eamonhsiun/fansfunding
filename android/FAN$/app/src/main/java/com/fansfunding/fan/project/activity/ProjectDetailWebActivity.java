@@ -119,6 +119,8 @@ public class ProjectDetailWebActivity extends AppCompatActivity {
         web_project_detail.getSettings().setSupportZoom(true);
         //适应屏幕，内容将自动缩放
         web_project_detail.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+
+
     }
 
     //加载数据

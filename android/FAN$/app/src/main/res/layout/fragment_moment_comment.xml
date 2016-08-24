@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.social.fragment.MomentCommentFragment">
+
+    <com.fansfunding.PullListView.LoadListView
+        android:id="@+id/lv_moment_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null">
+
+    </com.fansfunding.PullListView.LoadListView>
+
+</FrameLayout>

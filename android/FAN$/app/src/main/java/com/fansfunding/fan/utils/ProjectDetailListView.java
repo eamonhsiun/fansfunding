@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import com.fansfunding.PullListView.LoadListView;
 import com.fansfunding.PullListView.XListView;
 
 /**

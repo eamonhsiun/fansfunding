@@ -74,4 +74,22 @@ public class FANRequestCode {
     //获取是否关注了该发起人失败
     public final static int GET_IS_FOLLOW_PUBLISH_FAILURE=142;
 
+    //发送项目的评论成功
+    public final static int SEND_PROJECT_COMMENT_SUCCESS=143;
+
+    //发送项目的评论失败
+    public final static int SEND_PROJECT_COMMENT_FAILURE=144;
+
+    //发送动态的评论成功
+    public final static int SEND_MOMENT_COMMENT_SUCCESS=143;
+
+    //发送动态的评论失败
+    public final static int SEND_MOMENT_COMMENT_FAILURE=144;
+
+
+    //获取用户动态成功
+    public final static int GET_USER_MOMENT_SUCCESS=145;
+
+    //获取用户动态失败
+    public final static int GET_USER_MOMENT_FAILURE=146;
 }

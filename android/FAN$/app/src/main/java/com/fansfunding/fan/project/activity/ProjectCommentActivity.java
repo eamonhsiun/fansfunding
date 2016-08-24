@@ -11,16 +11,25 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.request.RequestSendComment;
+import com.fansfunding.fan.utils.ErrorHandler;
+import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.FeedbackCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.rockerhieu.emojicon.EmojiconEditText;
+import com.rockerhieu.emojicon.EmojiconGridFragment;
+import com.rockerhieu.emojicon.EmojiconsFragment;
+import com.rockerhieu.emojicon.emoji.Emojicon;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -32,14 +41,25 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ProjectCommentActivity extends AppCompatActivity {
+public class ProjectCommentActivity extends AppCompatActivity implements EmojiconGridFragment.OnEmojiconClickedListener,EmojiconsFragment.OnEmojiconBackspaceClickedListener{
 
+    //发布项目的评论
+    public final static int SEND_PROJECT_COMMENT=1;
 
-    //发送评论成功
-    private final static int SEND_COMMENT_SUCCESS=100;
+    //发布动态的评论
+    public final static int SEND_MOMENT_COMMENT=2;
 
-    //发送评论失败
-    private final static int SEND_COMMENT_FAILURE=101;
+    //用来判断发布什么的评论（比如是发布动态的评论还是项目的评论）
+    private int mode;
+
+    //用户id
+    private int userId;
+
+    //用户token
+    private String token;
+
+    //httpclient
+    private OkHttpClient httpClient;
 
     //项目分类
     private int categoryId;
@@ -47,66 +67,80 @@ public class ProjectCommentActivity extends AppCompatActivity {
     //项目Id
     private int projectId;
 
+    //动态id
+    private int momentId;
     //指向
     private int pointTo;
 
     //指向的昵称
     private String pointToNickname;
 
-    //循环等待框，不能取消
-    private AlertDialog dialog_waitting;
-    private Handler handler=new Handler(){
+    //emoji输入栏
+    private EmojiconEditText et_PJ_comment;
+
+    //emoji的fragment的tag
+    private final String TAG_EMOJICON="EMOJICON";
+
+    //emoji的展示fragment
+    private EmojiconsFragment emojiconsFragment;
+
+    private ErrorHandler handler=new ErrorHandler(this){
         @Override
         public void handleMessage(Message msg) {
-            //去掉循环等待框
-            if(ProjectCommentActivity.this.isFinishing()==false){
-                if(dialog_waitting.isShowing()==true){
-                    dialog_waitting.cancel();
-                }
-            }
             switch(msg.what){
-
-                //获取第一条评论成功
-                case SEND_COMMENT_SUCCESS:
+                //发送项目的评论成功
+                case FANRequestCode.SEND_PROJECT_COMMENT_SUCCESS:
                     if(ProjectCommentActivity.this.isFinishing()==false){
                         setResult(RESULT_OK);
                         ProjectCommentActivity.this.finish();
                     }
                     break;
-                //获取第一条评论失败
-                case SEND_COMMENT_FAILURE:
+                //发送项目的评论失败
+                case FANRequestCode.SEND_PROJECT_COMMENT_FAILURE:
                     if(ProjectCommentActivity.this.isFinishing()==true){
                         break;
                     }
                     Toast.makeText(ProjectCommentActivity.this,"发送评论失败",Toast.LENGTH_LONG).show();
                     break;
-                case ErrorCode.REQUEST_TOO_FRENQUENTLY:
-                    if(ProjectCommentActivity.this.isFinishing()==true){
-                        break;
-                    }
-                    Toast.makeText(ProjectCommentActivity.this,"请求过于频繁",Toast.LENGTH_LONG).show();
-
-                    break;
-                case ErrorCode.PARAMETER_ERROR:
-                    if(ProjectCommentActivity.this.isFinishing()==true){
-                        break;
-                    }
-                    Toast.makeText(ProjectCommentActivity.this,"参数错误",Toast.LENGTH_LONG).show();
-                    break;
+                default:
+                    super.handleMessage(msg);
             }
-            super.handleMessage(msg);
+
 
         }
     };
 
-    private TextInputEditText et_PJ_comment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_comment);
 
+        initValues();
 
+        initViews();
+
+        loadData();
+    }
+
+    private void initValues(){
+        Intent intent=getIntent();
+        categoryId=intent.getIntExtra("categoryId",-1);
+        projectId=intent.getIntExtra("projectId",-1);
+        pointTo=intent.getIntExtra("pointTo",0);
+        mode=intent.getIntExtra("mode",SEND_PROJECT_COMMENT);
+        pointToNickname=intent.getStringExtra("pointToNickname");
+
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+
+        SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
+        userId=share.getInt("id",0);
+        token=share.getString("token"," ");
+
+    }
+
+    private void initViews(){
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_PJ_comment);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -114,24 +148,22 @@ public class ProjectCommentActivity extends AppCompatActivity {
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
         actionBar.setTitle("写评论");
-        //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-
         //评论输入框
-        et_PJ_comment=(TextInputEditText)findViewById(R.id.et_PJ_comment);
-
-        Intent intent=getIntent();
-        categoryId=intent.getIntExtra("categoryId",1);
-        projectId=intent.getIntExtra("projectId",1);
-        pointTo=intent.getIntExtra("pointTo",0);
-        pointToNickname=intent.getStringExtra("pointToNickname");
-
+        et_PJ_comment=(EmojiconEditText)findViewById(R.id.et_PJ_comment);
         if(pointToNickname!=null){
             et_PJ_comment.setHint("回复 : "+pointToNickname);
         }else{
             et_PJ_comment.setHint("评论");
         }
+
+        //emoji的fragment
+        emojiconsFragment=new EmojiconsFragment().newInstance(false);
+        setEmojiconFragment(false);
+    }
+
+    private void loadData(){
+
     }
 
     @Override
@@ -158,112 +190,43 @@ public class ProjectCommentActivity extends AppCompatActivity {
         return true;
     }
 
+    private void setEmojiconFragment(boolean useSystemDefault) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_PJ_comment_emojicon, emojiconsFragment,TAG_EMOJICON)
+                .commit();
+    }
 
+    private void removeEmojiconFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentByTag(TAG_EMOJICON))
+                .commit();
+    }
+
+    //发送项目评论
     private void sendProjectComment(){
-        //循环等待框
-        dialog_waitting=new AlertDialog.Builder(this)
-                .setTitle("数据传输")
-                .setView(R.layout.activity_internal_waiting)
-                .create();
-        dialog_waitting.setCancelable(false);
-        //dialog_waitting.show();
-
-        OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
         String comment=et_PJ_comment.getText().toString();
         //如果评论为空，则不作处理
         if(comment==null||comment.equals("")==true){
-            if(dialog_waitting.isShowing()==true){
-                dialog_waitting.cancel();
-            }
             Toast.makeText(this,"评论不能为空",Toast.LENGTH_LONG).show();
             return;
         }
         if(comment.length()>140){
-            if(dialog_waitting.isShowing()==true){
-                dialog_waitting.cancel();
-            }
             Toast.makeText(this,"评论字数应为140字以内",Toast.LENGTH_LONG).show();
             return;
         }
-        SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
-        int id=share.getInt("id",0);
+        RequestSendComment.sendProjectComment(this,handler,httpClient,userId,token,categoryId,projectId,comment,pointTo);
+    }
 
-        FormBody formBody=new FormBody.Builder()
-                .add("userId",String.valueOf(id))
-                .add("pointTo",String.valueOf(pointTo))
-                .add("content",comment)
-                .build();
-        Request request=new Request.Builder()
-                .post(formBody)
-                .url(getString(R.string.url_project)+categoryId+"/"+projectId+"/comments")
-                .build();
+    @Override
+    public void onEmojiconBackspaceClicked(View v) {
+        EmojiconsFragment.backspace(et_PJ_comment);
+    }
 
-        Call call=httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Message msg=new Message();
-                msg.what=SEND_COMMENT_FAILURE;
-                handler.sendMessage(msg);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                //服务器响应失败
-                if(response==null||response.isSuccessful()==false){
-                    Message msg=new Message();
-                    msg.what=SEND_COMMENT_FAILURE;
-                    handler.sendMessage(msg);
-                    return;
-                }
-                Gson gson=new GsonBuilder().create();
-                String str_response=response.body().string();
-                FeedbackCode sendComment=new FeedbackCode();
-                try {
-
-                    //用Gson进行解析，并判断结果是否为空
-                    if((sendComment = gson.fromJson(str_response, sendComment.getClass()))==null){
-                        Message msg=new Message();
-                        msg.what=SEND_COMMENT_FAILURE;
-                        handler.sendMessage(msg);
-                        return;
-                    }
-
-                    //发送评论失败
-                    if(sendComment.isResult()==false){
-                        Message msg=new Message();
-                        switch (sendComment.getErrCode()){
-                            case ErrorCode.REQUEST_TOO_FRENQUENTLY:
-                                msg.what=ErrorCode.REQUEST_TOO_FRENQUENTLY;
-                                break;
-                            case ErrorCode.PARAMETER_ERROR:
-                                msg.what=ErrorCode.PARAMETER_ERROR;
-                                break;
-                            default:
-                                msg.what=SEND_COMMENT_FAILURE;
-                                break;
-                        }
-                        handler.sendMessage(msg);
-                        return;
-                    }
-
-                    //获取项目信息成功
-                    Message msg=new Message();
-                    msg.what=SEND_COMMENT_SUCCESS;
-                    handler.sendMessage(msg);
-                }catch (IllegalStateException e){
-                    Message msg=new Message();
-                    msg.what=SEND_COMMENT_FAILURE;
-                    handler.sendMessage(msg);
-                    e.printStackTrace();
-                }catch (JsonSyntaxException e){
-                    Message msg=new Message();
-                    msg.what=SEND_COMMENT_FAILURE;
-                    handler.sendMessage(msg);
-                    e.printStackTrace();
-                }
-
-            }
-        });
+    @Override
+    public void onEmojiconClicked(Emojicon emojicon) {
+        EmojiconsFragment.input(et_PJ_comment, emojicon);
+        removeEmojiconFragment();
     }
 }

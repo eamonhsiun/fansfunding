@@ -111,7 +111,6 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                     }
                     endRefresh();
                     Toast.makeText(ProjectDetailCommentActivity.this,"请求过于频繁",Toast.LENGTH_LONG).show();
-
                     break;
                 case ErrorCode.PARAMETER_ERROR:
                     if(ProjectDetailCommentActivity.this.isFinishing()==true){
@@ -183,6 +182,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                     return;
                 }
                 intent.setAction(getString(R.string.activity_project_comment));
+                intent.putExtra("mode",ProjectCommentActivity.SEND_PROJECT_COMMENT);
                 intent.putExtra("categoryId",categoryId);
                 intent.putExtra("projectId",projectId);
                 intent.putExtra("pointTo",comment.getCommenterId());
@@ -217,6 +217,7 @@ public class ProjectDetailCommentActivity extends AppCompatActivity {
                 }
                 //打开评论页
                 intent.setAction(getString(R.string.activity_project_comment));
+                intent.putExtra("mode",ProjectCommentActivity.SEND_PROJECT_COMMENT);
                 intent.putExtra("categoryId",categoryId);
                 intent.putExtra("projectId",projectId);
                 intent.putExtra("pointTo",0);

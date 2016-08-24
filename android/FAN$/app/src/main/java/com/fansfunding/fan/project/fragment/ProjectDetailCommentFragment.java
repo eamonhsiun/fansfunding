@@ -7,12 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.fansfunding.PullListView.LoadListView;
 import com.fansfunding.PullListView.XListView;
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.project.adapter.ProjectDetailCommentAdapter;
@@ -39,7 +41,10 @@ public class ProjectDetailCommentFragment extends Fragment {
     //发表评论请求码
     private static final int REQUEST_CODE_SEND_COMMENT=300;
 
-    //是否已经完成了项目数据获取的请求
+    //是否请求过项目评论
+    private boolean hasbeenRequest=false;
+
+    //是否已经完成了项目评论获取的请求
     private boolean isFinishRequest=true;
 
     //xlistview适配器
@@ -208,7 +213,6 @@ public class ProjectDetailCommentFragment extends Fragment {
     public void onButtonPressed(Uri uri) {
 
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

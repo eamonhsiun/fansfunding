@@ -36,8 +36,9 @@
         android:dividerHeight="5dp"
         android:divider="@color/transparent"
         android:headerDividersEnabled="false"
+        android:listSelector="@color/transparent"
         android:layout_below="@id/toolbar_crowdfundinghead"
-        android:listSelector="@color/transparent">
+        >
     </com.fansfunding.PullListView.XListView>
 
 </RelativeLayout>

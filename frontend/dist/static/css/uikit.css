@@ -85,17 +85,23 @@
     margin-right: 5px;
     margin-bottom: -4px; }
 
-.loader {
+.kit-loader {
   height: 25px;
   width: 50px;
   padding-top: 50px;
   padding-bottom: 50px;
   margin: auto; }
-  .loader.loaded {
+  .kit-loader.loaded {
     display: none; }
-  .loader .loader-inner {
+  .kit-loader .loader-inner {
     width: 100%;
     height: 100%; }
+
+.kit-errormsg {
+  display: none;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px; }
 
 .kit-tabs ul {
   width: 100%;
@@ -111,6 +117,7 @@
     cursor: pointer;
     box-sizing: border-box;
     border-bottom: 0;
+    overflow: hidden;
     transition: all 0.15s ease; }
     .kit-tabs ul .kit-tab:before {
       color: #ee554d;
@@ -143,6 +150,7 @@
   height: 55px;
   width: 100%;
   line-height: 55px;
+  overflow: hidden;
   text-align: center;
   font-size: 1.4rem;
   background-color: #ee554d; }
@@ -154,13 +162,15 @@
     cursor: pointer;
     z-index: 99;
     float: left;
+    display: block;
     transition: all 0.3s ease; }
     .kit-bottombar .kit-bottombar-btn:before {
       font-family: "FontAwesome";
       content: "";
       padding-right: 10px; }
     .kit-bottombar .kit-bottombar-btn:hover {
-      background-color: #ec2c22; }
+      background-color: #ec2c22;
+      color: #ffffff; }
     .kit-bottombar .kit-bottombar-btn.active, .kit-bottombar .kit-bottombar-btn.active:hover {
       color: #ee554d;
       background-color: #ffffff; }
@@ -175,7 +185,8 @@
     text-align: center;
     float: left;
     position: relative;
-    cursor: pointer; }
+    cursor: pointer;
+    overflow: hidden; }
     .kit-progress-tab .kit-tab.FFtab-visited {
       color: #ababab; }
     .kit-progress-tab .kit-tab.FFtab-active {
@@ -551,7 +562,13 @@
     line-height: 50px; }
   .kit-title {
     height: 50px;
-    line-height: 50px; } }
+    line-height: 50px; }
+  .kit-bottombar {
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2rem; }
+    .kit-bottombar .kit-bottombar-btn:before {
+      padding-right: 5px; } }
 
 @media screen and (max-width: 500px) {
   .kit-block, .content-block {
@@ -585,4 +602,10 @@
   .address-list .address-content .address-hint {
     width: 90px; }
   .address-list .address-content .address-inner {
-    margin-left: 90px; } }
+    margin-left: 90px; }
+  .kit-bottombar {
+    height: 45px;
+    line-height: 45px;
+    font-size: 1.1rem; }
+    .kit-bottombar .kit-bottombar-btn:before {
+      padding-right: 3px; } }

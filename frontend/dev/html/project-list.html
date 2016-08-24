@@ -41,12 +41,12 @@
           </ul>
         </template>
         <project-list :projects="projects.list"></project-list>
-        <div class="loader FFloader" id="plate-loader">
+        <div class="kit-loader FFloader" id="plate-loader">
           <div class="loader-inner triangle-skew-spin">
             <div></div>
           </div>
         </div>
-        <div id="plate-errormsg" class="errormsg FFerrormsg">服务器连接失败</div>
+        <div id="plate-errormsg" class="kit-errormsg FFerrormsg">服务器连接失败</div>
         <pagination :pagination="projects.pagination" :callback="getProjects" :offset="3"></pagination>
       </div>
     </div>

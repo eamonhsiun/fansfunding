@@ -4,6 +4,7 @@ var detailLoader = new FFloader($("#project-detail"));
 var commentLoader = new FFloader($("#project-comment"));
 var momentLoader = new FFloader($("#project-moment"));
 var feedbackLoader = new FFloader($("#project-feedback"));
+var supporterLoader = new FFloader($("#project-supporter"));
 var projectTab = new FFtab($('.project-tabs'),$('.project-contents'));
 
 //-------------filter---------------
@@ -112,7 +113,7 @@ var projectVm = new Vue({
       },
       list: []
     },
-    followers: {
+    supporters: {
       status: false,
       connect: false,
       pagination: {
@@ -332,6 +333,7 @@ var projectVm = new Vue({
         this.comments.reply.pointToNickname = nickname;
         this.comments.reply.placeholder = "回复" + nickname + "：";
       }
+      $("#comment-textarea").focus();
     },
     getFollowStatus: function(){
       var _this = this;
@@ -339,8 +341,6 @@ var projectVm = new Vue({
         method: 'post',
         url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/followers",
         data: {
-          categoryId: this.categoryId,
-          projectId: this.projectId,
           userId: localId
         }
       }).then(function (response, xhr) {
@@ -398,7 +398,6 @@ var projectVm = new Vue({
         url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/moment" + (page ? "?page=" + page : ""),
       }).then(function (response, xhr) {
         _this.moments.connect = true;
-        a = response;
         if(!response.result){
           momentLoader.endLoad(false, "获取动态失败");
           _this.moments.status = false;
@@ -413,7 +412,7 @@ var projectVm = new Vue({
           _this.moments.status = true;
         }
       }).catch(function (response, xhr) {
-        commentLoader.endLoad(false, "连接服务器失败");
+        momentLoader.endLoad(false, "连接服务器失败");
       }).always(function (response, xhr) {
         // Do something
       });
@@ -516,6 +515,32 @@ var projectVm = new Vue({
       }
       //以下为js加载部分
       with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+    },
+    getSupporters: function(page){
+      var _this = this;
+      var supportersRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/project/" + this.categoryId + "/" + this.projectId + "/supporters" + (page ? "?page=" + page : ""),
+      }).then(function (response, xhr) {
+        _this.supporters.connect = true;
+        if(!response.result){
+          supporterLoader.endLoad(false, "获取支持者列表失败");
+          _this.supporters.status = false;
+        }else{
+          _this.supporters.list = response.data.list;
+          if(_this.supporters.list.length !== 0){
+            supporterLoader.endLoad();
+          }else{
+            supporterLoader.endLoad(false, "项目还没有支持者");
+          }
+          _this.setPagination(_this.supporters.pagination, response.data);
+          _this.supporters.status = true;
+        }
+      }).catch(function (response, xhr) {
+        supporterLoader.endLoad(false, "连接服务器失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
     }
   },
   ready: function() {

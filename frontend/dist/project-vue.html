@@ -95,10 +95,10 @@
             <div class="intro-status">众筹中</div>
           </div>
         </div>
-        <div class="intro-btns bdsharebuttonbox"  data-tag="share_1">
-          <div class="intro-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject">{{ isFollowed ? "已关注" : "关注项目"}}</div>
-          <div class="intro-btn" id="">收藏</div>
-          <a class="intro-btn" id="intro-btn-share" data-cmd="more">分享</a>
+        <div class="intro-btns bdsharebuttonbox kit-bottombar"  data-tag="share_1">
+          <div class="intro-btn kit-bottombar-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject">{{ isFollowed ? "已关注" : "关注项目"}}</div>
+          <div class="intro-btn kit-bottombar-btn" id="">收藏</div>
+          <a class="intro-btn kit-bottombar-btn" id="intro-btn-share" data-cmd="more">分享</a>
         </div>
       </div>
       <div class="project-initiator content-block">
@@ -112,21 +112,22 @@
         <div class="initiator-follow" :class="{'followed': sponsor.isFollowed}" @click.prevent="followUser">{{ sponsor.isFollowed ? "已关注" : "关注"}}</div>
       </div>
       <div class="project-wrap content-block">
-        <div class="project-tabs tabs">
+        <div class="project-tabs tabs kit-tabs">
           <ul>
-            <li class="project-tab FFtab" id="project-detail-btn">项目详情</li>
-            <li class="project-tab FFtab" id="project-moment-btn" @click.prevent="getMoments(0)">项目动态</li>
-            <li class="project-tab FFtab" id="project-comment-btn" v-on:click.prevent="getComments(0)">项目评论</li>
+            <li class="project-tab FFtab kit-tab" id="project-detail-btn">项目详情</li>
+            <li class="project-tab FFtab kit-tab" id="project-moment-btn" @click.prevent="getMoments(0)">项目动态</li>
+            <li class="project-tab FFtab kit-tab" id="project-comment-btn" v-on:click.prevent="getComments(0)">项目评论</li>
+            <li class="project-tab FFtab kit-tab" id="project-supporter-btn" @click.prevent="getSupporters(0)">支持者</li>
           </ul>
         </div>
         <div class="project-contents">
           <div class="project-content FFtab-content" id="project-detail">
-            <div class="loader FFloader" id="content-loader">
+            <div class="kit-loader FFloader" id="content-loader">
               <div class="loader-inner triangle-skew-spin">
                 <div></div>
               </div>
             </div>
-            <div id="content-errormsg" class="errormsg FFerrormsg">还没有详情</div>
+            <div id="content-errormsg" class="kit-errormsg FFerrormsg">还没有详情</div>
             <div class="content-style" id="project-detail-wrap">{{{project.detail.content}}}</div>
           </div>
           <div class="project-content FFtab-content" id="project-moment">
@@ -146,12 +147,12 @@
                 </div>
               </div>
             </div>
-            <div class="loader FFloader" id="moment-loader">
+            <div class="kit-loader FFloader" id="moment-loader">
               <div class="loader-inner triangle-skew-spin">
                 <div></div>
               </div>
             </div>
-            <div id="moment-errormsg" class="errormsg FFerrormsg">发起人还没有发布动态</div>
+            <div id="moment-errormsg" class="kit-errormsg FFerrormsg">发起人还没有发布动态</div>
             <ul>
               <li class="moment-wrap comment-wrap" v-for="moment in moments.list">
                 <div class="moment-userinfo comment-userinfo">
@@ -199,12 +200,12 @@
                 </div>
               </div>
             </div>
-            <div class="loader FFloader" id="comment-loader">
+            <div class="kit-loader FFloader" id="comment-loader">
               <div class="loader-inner triangle-skew-spin">
                 <div></div>
               </div>
             </div>
-            <div id="comment-errormsg" class="errormsg FFerrormsg">还没有评论，快来评论吧</div>
+            <div id="comment-errormsg" class="kit-errormsg FFerrormsg">还没有评论，快来评论吧</div>
             <ul>
               <li class="comment-wrap" v-for="comment in comments.list" track-by="$index">
                 <div class="comment-userinfo">
@@ -215,7 +216,7 @@
 <!--                   <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
                 </div>
                 <div class="comment-content">
-                  <div class="comment-inner">{{ (comment.pointToNickname ? "回复" + comment.pointToNickname + "：" : "") + comment.content }}</div>
+                  <div class="comment-inner">{{ (comment.pointToNickname ? "回复" + comment.pointToNickname + "：" : "") + comment.content}}</div>
                   <div class="comment-more">
                     <div class="comment-time">{{ comment.commentTime | commentTime }}</div>
                     <div class="comment-btns">
@@ -228,15 +229,38 @@
             </ul>
             <pagination :pagination="comments.pagination" :callback="getComments" :offset="3"></pagination>
           </div>
+          <div class="project-content FFtab-content" id="project-supporter">
+            <div class="kit-loader FFloader" id="supporter-loader">
+              <div class="loader-inner triangle-skew-spin">
+                <div></div>
+              </div>
+            </div>
+            <div id="supporter-errormsg" class="kit-errormsg FFerrormsg">还没有支持者</div>
+            <div v-if="supporters.pagination.total>0">共有{{supporters.pagination.total}}人支持了本项目</div>
+            <ul>
+              <li class="supporter-wrap" v-for="supporter in supporters.list">
+                <a href="space.html?userid={{supporter.id}}">
+                  <div class="supporter-userinfo">
+                    <div class="supporter-avatar">
+                      <img v-bind:src="supporter.head | resource" alt="">
+                    </div>
+                    <div class="supporter-userinfo-name">{{ supporter.nickname }}</div>
+  <!--                   <div class="supporter-unerinfo-intro">{{ supporter.intro }}</div> -->
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <pagination :pagination="supporters.pagination" :callback="getSupporters" :offset="3"></pagination>
+          </div>
         </div>
       </div>
       <div class="project-feedback content-block" id="project-feedback">
-        <div class="loader FFloader" id="feedback-loader">
+        <div class="kit-loader FFloader" id="feedback-loader">
           <div class="loader-inner triangle-skew-spin">
             <div></div>
           </div>
         </div>
-        <div id="feedback-errormsg" class="errormsg FFerrormsg">没有回报信息</div>
+        <div id="feedback-errormsg" class="kit-errormsg FFerrormsg">没有回报信息</div>
         <ul>
           <li class="feedback-list" v-for="feedback in feedbacks.list">
             <div class="feedback-title">{{feedback.title}}</div>
@@ -255,6 +279,13 @@
           </li>
         </ul>
       </div>
+    </div>
+  </div>
+  <div id="FFviewer">
+    <div class="close-btn"></div>
+    <div class="save-btn"></div>
+    <div class="pic-wrap">
+      <img src="static/img/27.jpg" alt="">
     </div>
   </div>
   </div>

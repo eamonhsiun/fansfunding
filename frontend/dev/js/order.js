@@ -65,7 +65,8 @@ var orderVm = new Vue({
             window.location.href = "project-vue.html?categoryId="+ this.categoryId + "&projectId="+this.projectId;
             return;
           case "order":
-
+            window.location.href = "order-detail.html?orderNo="+ this.orderNo;
+            return;
         }
         return;
       }
@@ -216,7 +217,7 @@ var orderVm = new Vue({
         _this.redirect("login");
       }
     });
-    if(this.orderNo){
+    if(this.orderStatus === true || this.orderStatus === false){
       this.finishOrder();
     }else{
       this.getProject();

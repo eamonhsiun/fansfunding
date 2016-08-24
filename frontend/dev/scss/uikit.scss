@@ -56,7 +56,9 @@
     margin-bottom: -4px;
   }
 }
-.loader{
+
+//loader
+.kit-loader{
   height: 25px;
   width: 50px;
   padding-top: 50px;
@@ -69,6 +71,12 @@
     width: 100%;
     height: 100%;
   }
+}
+.kit-errormsg{
+  display: none;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 //tab
 .kit-tabs{
@@ -86,6 +94,7 @@
       cursor: pointer;
       box-sizing: border-box;
       border-bottom: 0;
+      overflow: hidden;
       @include transition_all(0.15s);
       &:before{
         color: $color_red_1;
@@ -127,6 +136,7 @@
   height: 55px;
   width: 100%;
   line-height: 55px;
+  overflow: hidden;
   text-align: center;
   font-size: 1.4rem;
   background-color: $color_red_1;
@@ -138,13 +148,15 @@
     cursor: pointer;
     z-index: 99;
     float: left;
-     @include transition_all();
+    display: block;
+    @include transition_all();
     &:before{
       @include font_icon_content($fa-var-heart);
       padding-right: 10px;
     }
     &:hover {
       background-color: $color_primary;
+      color: $color_text_light;
     }
     &.active,&.active:hover {
       color: $color_red_1;
@@ -165,6 +177,7 @@
     float: left;
     position: relative;
     cursor: pointer;
+    overflow: hidden;
     &.FFtab-visited{
       color: $color_disabled;
     }
@@ -647,6 +660,16 @@
     height: 50px;
     line-height: 50px;
   }
+  .kit-bottombar{
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2rem;
+    .kit-bottombar-btn{
+      &:before{
+        padding-right: 5px;
+      }
+    }
+  }
 }
 @media screen and (max-width: 500px) {
   .kit-block{
@@ -701,6 +724,16 @@
       }
       .address-inner{
         margin-left: 90px;
+      }
+    }
+  }
+  .kit-bottombar{
+    height: 45px;
+    line-height: 45px;
+    font-size: 1.1rem;
+    .kit-bottombar-btn{
+      &:before{
+        padding-right: 3px;
       }
     }
   }

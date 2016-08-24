@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--动态发起人信息-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding">
+        <!--发起人头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_social_publisher_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/pjimagetest"/>
+        <!--发起人昵称-->
+        <TextView
+            android:id="@+id/tv_social_publisher_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_social_publisher_head"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorPublishGrey"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:text="我的名字就是这么的长我的名字就是这么的长"
+            />
+        <!--发起时间-->
+        <TextView
+            android:id="@+id/tv_social_publish_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_social_publisher_head"
+            android:layout_below="@id/iv_social_publisher_head"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:textSize="@dimen/caption_text_size"
+            android:textColor="@color/colorLabelGrey"
+            android:text="1996-07-20"
+            />
+    </RelativeLayout>
+
+    <!--动态内容-->
+    <TextView
+        android:id="@+id/tv_social_publisher_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="不错，很有前途"
+        android:textSize="@dimen/subhead_text_size"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding"
+        />
+
+    <!--动态所指项目-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorDividerGrey"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginTop="10dp">
+        <!--项目封面图片-->
+        <ImageView
+            android:id="@+id/iv_social_project_cover"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/bannertest1"/>
+
+        <!--项目名-->
+        <TextView
+            android:id="@+id/tv_social_project_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subhead_text_size"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:text="武大难友，你的皮划艇已上线 "/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -88,4 +88,47 @@ public class ErrorHandler extends Handler {
                 super.handleMessage(msg);
         }
     }
+
+    public boolean handlerFanErrorMessage(int errCode){
+        switch (errCode){
+            case ErrorCode.PARAMETER_ERROR:
+                this.sendEmptyMessage(ErrorCode.PARAMETER_ERROR);
+                break;
+            case ErrorCode.AUTHORITY_NOT_ENOUGH:
+                this.sendEmptyMessage(ErrorCode.AUTHORITY_NOT_ENOUGH);
+                break;
+            case ErrorCode.PASSWORD_ERROR:
+                this.sendEmptyMessage(ErrorCode.PASSWORD_ERROR);
+                break;
+            case ErrorCode.REQUEST_FAILURE:
+                this.sendEmptyMessage(ErrorCode.REQUEST_FAILURE);
+                break;
+            case ErrorCode.REQUEST_TOO_FRENQUENTLY:
+                this.sendEmptyMessage(ErrorCode.REQUEST_TOO_FRENQUENTLY);
+
+                break;
+            case ErrorCode.USER_NOT_EXIST:
+                this.sendEmptyMessage(ErrorCode.USER_NOT_EXIST);
+
+                break;
+            case ErrorCode.USERNAME_IS_EXIST:
+                this.sendEmptyMessage(ErrorCode.USERNAME_IS_EXIST);
+
+                break;
+            case ErrorCode.REQUEST_SUCCESS:
+                this.sendEmptyMessage(ErrorCode.REQUEST_SUCCESS);
+                break;
+            case ErrorCode.VERIFICATION_CODE_OVERDUE:
+                this.sendEmptyMessage(ErrorCode.VERIFICATION_CODE_OVERDUE);
+
+                break;
+            case ErrorCode.VERIFICATION_CODE_ERROR:
+                this.sendEmptyMessage(ErrorCode.VERIFICATION_CODE_ERROR);
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
 }

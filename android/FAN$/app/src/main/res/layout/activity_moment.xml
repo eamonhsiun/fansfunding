@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fansfunding.fan.social.activity.MomentActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_moment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:theme="@style/toolbar_white_theme"
+        android:background="@color/colorPrimary"
+        android:elevation="2dp">
+    </android.support.v7.widget.Toolbar>
+
+    <com.cpoopc.scrollablelayoutlib.ScrollableLayout
+        android:id="@+id/sl_moment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_moment"
+        android:layout_above="@+id/ll_moment_buttonbar"
+        android:orientation="vertical"
+       >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorWhite">
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:layout_marginBottom="@dimen/layout_padding"
+                layout="@layout/include_moment_project">
+            </include>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorBackgroundGrey"/>
+        </LinearLayout>
+
+        <!--分割线-->
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            layout="@layout/divider"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_moment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorBlack"
+            app:tabIndicatorColor="@color/colorPrimary"
+            ></android.support.design.widget.TabLayout>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            layout="@layout/divider"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_moment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+
+    </com.cpoopc.scrollablelayoutlib.ScrollableLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ll_moment_buttonbar"
+        layout="@layout/divider"/>
+    <!--按钮栏-->
+    <LinearLayout
+        android:id="@+id/ll_moment_buttonbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@color/colorBackgroundGrey">
+
+        <!--评论-->
+        <LinearLayout
+            android:id="@+id/ll_moment_send_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/delete"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="转发"
+                android:textColor="@color/colorPublishGrey" />
+        </LinearLayout>
+
+        <!--分割线-->
+        <include
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            layout="@layout/divider_vertical"/>
+
+        <!--赞-->
+        <LinearLayout
+            android:id="@+id/ll_moment_praise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/delete"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="赞"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/colorPublishGrey" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

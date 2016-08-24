@@ -288,13 +288,23 @@
             </intent-filter>
         </activity>
 
-        <!--项目支持者列表界面-->
+        <!-- 项目支持者列表界面 -->
         <activity android:name=".project.activity.ProjectSupportListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILSUPPORTERLIST" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!-- 用户动态详情界面 -->
+        <activity android:name=".social.activity.MomentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".social.activity.MomentProjectActivity"></activity>
     </application>
 
 </manifest>

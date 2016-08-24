@@ -8,11 +8,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.fansfunding.fan.social.fragment.SocialFragment;
+
 /**
  * Created by 13616 on 2016/5/21.
  * 用来处理主界面viewpaper的适配器
  */
 public class MainPaperAdapter extends FragmentStatePagerAdapter {
+
+    //界面的数量
+    private static final int count=3;
 
     private boolean isLogin=false;
     Context context;
@@ -43,10 +48,9 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
         switch(position){
             case 0:
                 return CrowdFundingFragment.newInstance();
-           /* case 1:
-                return SocialFragment.newInstance();*/
-
             case 1:
+                return SocialFragment.newInstance();
+            case 2:
                 if(isLogin==true)
                     return UserFragment.newInstance();
                 else
@@ -57,7 +61,7 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return count;
     }
 
    /* @Override

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fansfunding.fan.R;
 import com.fansfunding.internal.ProjectDetailComment;
+import com.rockerhieu.emojicon.EmojiconTextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -87,8 +88,7 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
         //评论人昵称
         TextView tv_news_detail_commenter_name=(TextView)rootView.findViewById(R.id.tv_news_detail_commenter_name);
         //评论内容
-        TextView tv_news_detail_comment=(TextView)rootView.findViewById(R.id.tv_news_detail_comment);
-
+        EmojiconTextView tv_news_detail_comment=(EmojiconTextView)rootView.findViewById(R.id.tv_news_detail_comment);
         //评论时间
         TextView tv_news_detail_comment_time=(TextView)rootView.findViewById(R.id.tv_news_detail_comment_time);
 

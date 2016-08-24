@@ -49,27 +49,48 @@
     <string name="activity_user_order_detail">android.intent.action.FANS.USER.ORDER.ACTIVITY.ORDERDETAIL</string>
     <string name="activity_project_web">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILWEB</string>
     <string name="activity_project_supporter_list">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILSUPPORTERLIST</string>
+    <string name="activity_moment">android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENT</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <!--api访问路径-->
     <string name="url_checker">http://api.immortalfans.com:8080/common/newChecker</string><!---->
+
     <string name="url_new_user">http://api.immortalfans.com:8080/userbasic/newUser</string><!---->
+
     <string name="url_login_by_phone">http://api.immortalfans.com:8080/userbasic/login</string><!---->
+
     <string name="url_forget_Pwd">http://api.immortalfans.com:8080/userbasic/forgetPwd</string><!---->
+
     <string name="url_user">http://api.immortalfans.com:8080/user/</string><!---->
+
     <string name="url_resources">http://resources.immortalfans.com:8080/</string>
+
     <string name="url_userbasic">http://api.immortalfans.com:8080/userbasic/</string>
+
     <string name="url_project">http://api.immortalfans.com:8080/project/</string>
+
     <string name="url_add_project">http://api.immortalfans.com:8080/project/1/</string>
+
     <string name="url_add_feedback">http://api.immortalfans.com:8080/project/1/</string>
+
     <string name="url_project_image">http://api.immortalfans.com:8080/project/1/</string>
+
     <string name="url_search_project">http://api.immortalfans.com:8080/search/project</string>
+
     <string name="url_search_user">http://api.immortalfans.com:8080/search/user</string>
+
     <string name="url_sys_feedback">http://api.immortalfans.com:8080/sys/feedback</string>
+
     <string name="url_alipay_mobile">http://api.immortalfans.com:8080/pay/mobile</string>
+
     <string name="url_dynamic_image">http://api.immortalfans.com:8080/project/1/</string>
+
+    <!--api访问路径-replace替换版-->
+
 
     <!--Sharepreference名称-->
 
@@ -81,7 +102,7 @@
     <string name="sharepreference_new_user">new_user</string>
     <!--登陆-->
     <string name="sharepreference_login_by_phone">login_by_phone</string>
-    <!--是否登陆的boolean的值-->
+    <!--是否登陆的boolean的值，目前并入到login_by_phone中-->
     <string name="sharepreference_login_message">login_message</string>
 
     <!--登出-->
@@ -92,13 +113,15 @@
 
     <!--头像上传返回-->
     <string name="sharepreference_upload_head">upload_head</string>
+
+
     <!--api返回值的各个名称-->
 
 
     <!--下拉更新-->
-    <string name="header_hint_refresh_normal">下拉刷新</string>
-    <string name="header_hint_refresh_ready">释放更新</string>
-    <string name="header_hint_refresh_loading">刷新&#8230;</string>
+    <string name="header_hint_refresh_normal">再拉，再拉就刷新给你看</string>
+    <string name="header_hint_refresh_ready">够了啦，我刷新就是了</string>
+    <string name="header_hint_refresh_loading">刷新好累哦&#8230;</string>
     <string name="header_hint_refresh_time">更新时间：</string>
     <string name="footer_hint_load_normal">加载更多</string>
     <string name="footer_hint_load_ready">释放后加载</string>

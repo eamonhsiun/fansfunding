@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.fansfunding.PullListView.LoadListView;
 import com.fansfunding.PullListView.XListView;
 import com.fansfunding.fan.project.activity.ProjectDetailActivity;
 import com.fansfunding.fan.project.adapter.ProjectDetailDynamicAdapter;

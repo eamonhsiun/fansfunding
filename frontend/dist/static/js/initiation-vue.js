@@ -45,12 +45,17 @@ var initiationVm = new Vue({
   },
   methods: {
     redirect: function(target){
-      if(!target){
-        window.location.href = "login.html";
-        return;
-      }else{
-        window.location.href = "project-vue.html?categoryId="+ this.categoryId +"&id=" + this.projectId;
+      if(target){
+        switch (target){
+        case "login":
+          window.location.href = "login.html";
+          return;
+        case "project":
+          window.location.href = "project-vue.html?categoryId="+ this.categoryId +"&projectId=" + this.projectId;
+          return;
+        }
       }
+      window.location.href = "404.html";
     },
     readBlobAsDataURL: function(blob, callback) {
       var a = new FileReader();
@@ -258,7 +263,7 @@ var initiationVm = new Vue({
       if(i >= amount){
         console.log("回馈上传完成");
         alert("项目发起完成");
-        redirect(true);
+        this.redirect("project");
         return false;
       }else{
         this.request.progress += (60 / _this.feedbacks.list.length);
@@ -340,12 +345,11 @@ var initiationVm = new Vue({
         _this.userInfo = localUserInfo;
       }else{
         _this.status = false;
-        _this.redirect();
+        _this.redirect("login");
       }
     });
   }
 })
-
 
 
 var projectTimePicker = rome($("#time-end")[0], {
@@ -394,7 +398,9 @@ var editor = new Simditor({
 editor.on('valuechanged', function(e, src){
   initiationVm.project.content = this.getValue();
 });
+
 var cropper = null;
+
 window.onbeforeunload = function(e){
   if(!confirm("确认要离开吗")){
     return false;

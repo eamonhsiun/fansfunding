@@ -14,7 +14,7 @@ function getUserToken () {
 function getQueryString(arg){
   var reg = new RegExp("(^|&)"+ arg +"=([^&]*)(&|$)");
   var r = window.location.search.substr(1).match(reg);
-  if(r!==null)return unescape(r[2]); return null;
+  if(r!==null)return decodeURI(r[2]); return null;
 }
 function getErrorMsg(errCode){
   switch (errCode) {

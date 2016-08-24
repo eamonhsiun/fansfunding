@@ -91,6 +91,7 @@
       float: right;
       text-align: center;
       width: 100px;
+      height: 40px;
       font-size: 1.2rem;
       line-height: 40px;
       box-sizing: border-box;
@@ -117,6 +118,24 @@
         height: 0;
         border-bottom: 20px solid #ee554d;
         border-left: 20px solid transparent; }
+      .project-intro .intro-content .intro-details .intro-status.successful {
+        background-color: #5aa133; }
+        .project-intro .intro-content .intro-details .intro-status.successful:before {
+          border-top-color: #5aa133; }
+        .project-intro .intro-content .intro-details .intro-status.successful:after {
+          border-bottom-color: #5aa133; }
+      .project-intro .intro-content .intro-details .intro-status.failure {
+        background-color: #ababab; }
+        .project-intro .intro-content .intro-details .intro-status.failure:before {
+          border-top-color: #ababab; }
+        .project-intro .intro-content .intro-details .intro-status.failure:after {
+          border-bottom-color: #ababab; }
+      .project-intro .intro-content .intro-details .intro-status.preparation {
+        background-color: #ee7419; }
+        .project-intro .intro-content .intro-details .intro-status.preparation:before {
+          border-top-color: #ee7419; }
+        .project-intro .intro-content .intro-details .intro-status.preparation:after {
+          border-bottom-color: #ee7419; }
   .project-intro .intro-btns {
     position: absolute;
     bottom: 0;
@@ -124,6 +143,7 @@
     height: 55px;
     width: 100%;
     line-height: 55px;
+    overflow: hidden;
     text-align: center;
     font-size: 1.4rem;
     background-color: #ee554d; }
@@ -134,6 +154,7 @@
       cursor: pointer;
       z-index: 99;
       float: left;
+      position: relative;
       transition: all 0.3s ease; }
       .project-intro .intro-btns .intro-btn:before {
         font-family: "FontAwesome";
@@ -148,9 +169,18 @@
     .project-intro .intro-btns #intro-btn-follow:before {
       font-family: "FontAwesome";
       content: ""; }
-    .project-intro .intro-btns #intro-btn-share:before {
-      font-family: "FontAwesome";
-      content: ""; }
+    .project-intro .intro-btns #intro-btn-share {
+      height: 100% !important;
+      font-size: 1.4rem !important;
+      padding-left: 0 !important;
+      line-height: 55px !important;
+      background-image: none;
+      margin: 0 !important; }
+      .project-intro .intro-btns #intro-btn-share:before {
+        font-family: "FontAwesome";
+        content: ""; }
+      .project-intro .intro-btns #intro-btn-share:hover {
+        opacity: 1; }
 
 .project-initiator {
   position: relative; }
@@ -332,25 +362,8 @@
 .comment-text {
   display: none;
   border-bottom: 1px solid #ababab;
-  padding-bottom: 20px; }
-  .comment-text .comment-userinfo {
-    width: 140px;
-    float: left; }
-    .comment-text .comment-userinfo .comment-avatar {
-      margin: auto;
-      width: 60px;
-      height: 60px; }
-      .comment-text .comment-userinfo .comment-avatar img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%; }
-    .comment-text .comment-userinfo .comment-userinfo-name {
-      text-align: center;
-      font-size: 1.1rem;
-      padding-top: 10px; }
-    .comment-text .comment-userinfo .comment-userinfo-intro {
-      padding-top: 5px;
-      color: #ababab; }
+  padding-bottom: 20px;
+  margin-top: 0 !important; }
   .comment-text .comment-input {
     margin-left: 140px;
     padding: 0 20px;
@@ -395,7 +408,7 @@
   min-height: 100px;
   overflow: hidden;
   margin-top: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   position: relative;
   border-bottom: 1px solid #ababab; }
   .comment-wrap:last-child {
@@ -403,6 +416,10 @@
   .comment-wrap .comment-userinfo {
     width: 140px;
     float: left; }
+    .comment-wrap .comment-userinfo:after {
+      content: "";
+      clear: both;
+      display: block; }
     .comment-wrap .comment-userinfo .comment-avatar {
       margin: auto;
       width: 60px;
@@ -446,6 +463,10 @@
       width: 100%;
       left: 0;
       bottom: 10px; }
+      .comment-wrap .comment-content .comment-more:after {
+        content: "";
+        clear: both;
+        display: block; }
       .comment-wrap .comment-content .comment-more .comment-time {
         width: 80px;
         float: left;
@@ -581,24 +602,6 @@
     .project-wrap .project-tabs ul .project-tab:before {
       font-size: 1.3rem;
       padding-right: 6px; }
-  .comment-text .comment-userinfo {
-    width: 100%;
-    float: none; }
-    .comment-text .comment-userinfo .comment-avatar {
-      margin: 0;
-      margin: 0;
-      padding-left: 10px;
-      width: 50px;
-      height: 50px;
-      float: left;
-      padding-right: 20px; }
-    .comment-text .comment-userinfo .comment-userinfo-name {
-      text-align: left;
-      font-size: 1.1rem;
-      padding-top: 0; }
-    .comment-text .comment-userinfo .comment-userinfo-intro {
-      padding-top: 0;
-      font-size: 1rem; }
   .comment-text .comment-input {
     clear: both;
     margin-left: 0;
@@ -637,7 +640,7 @@
           background-color: #ec2c22; }
   .comment-wrap {
     min-height: 100px;
-    padding-bottom: 20px; }
+    padding-bottom: 10px; }
     .comment-wrap:last-child {
       padding-bottom: 0; }
     .comment-wrap .comment-userinfo {
@@ -653,14 +656,14 @@
       .comment-wrap .comment-userinfo .comment-userinfo-name {
         text-align: left;
         font-size: 1.1rem;
-        padding-top: 0; }
+        padding-top: 10px; }
       .comment-wrap .comment-userinfo .comment-userinfo-intro {
         padding-top: 0;
         font-size: 1rem; }
     .comment-wrap .comment-content {
       margin-left: 0;
       clear: both;
-      padding: 15px 10px 0; }
+      padding: 10px 10px 5px; }
       .comment-wrap .comment-content .comment-more {
         color: #ababab;
         position: static;

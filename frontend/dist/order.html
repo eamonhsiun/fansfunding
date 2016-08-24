@@ -70,7 +70,7 @@
         </ul>
       </div>
       <div class="search">
-        <form action="">
+        <form action="project-list.html">
           <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
           <label for="search-text"></label>
           <input type="submit" class="search-submit">
@@ -110,7 +110,7 @@
           <div class="kit-group" id="order-feedback">
             <div class="kit-block kit-content">
               <div class="feedback-money">支持<span>{{feedback.target.limitation}}</span>元</div>
-              <div class="feedback-num">已支持<span>{{feedback.target.supportTimes}}</span>人</div>
+              <div class="feedback-num">已支持<span>{{feedback.target.supportTimes}}</span>人<span v-if="feedback.target.ceiling>0">，最多<span>{{feedback.target.ceiling}}</span>人</span></div>
               <div class="feedback-detail">
                 <div class="feedback-detail-content">{{feedback.target.description}}</div>
                 <div class="feedback-detail-pics">

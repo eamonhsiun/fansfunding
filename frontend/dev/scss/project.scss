@@ -67,6 +67,7 @@
         float: right;
         text-align: center;
         width: 100px;
+        height: 40px;
         font-size: 1.2rem;
         line-height: 40px;
         box-sizing: border-box;
@@ -95,6 +96,33 @@
           border-bottom: 20px solid $color_red_1;
           border-left: 20px solid transparent;
         }
+        &.successful{
+          background-color: $color_green_1;
+          &:before{
+            border-top-color: $color_green_1;
+          }
+          &:after{
+            border-bottom-color: $color_green_1;
+          }
+        }
+        &.failure{
+          background-color: $color_disabled;
+          &:before{
+            border-top-color: $color_disabled;
+          }
+          &:after{
+            border-bottom-color: $color_disabled;
+          }
+        }
+        &.preparation{
+          background-color: $color_orange_1;
+          &:before{
+            border-top-color: $color_orange_1;
+          }
+          &:after{
+            border-bottom-color: $color_orange_1;
+          }
+        }
       }
     }
   }
@@ -105,6 +133,7 @@
     height: 55px;
     width: 100%;
     line-height: 55px;
+    overflow: hidden;
     text-align: center;
     font-size: 1.4rem;
     background-color: $color_red_1;
@@ -115,7 +144,8 @@
       cursor: pointer;
       z-index: 99;
       float: left;
-       @include transition_all();
+      position: relative;
+      @include transition_all();
       &:before{
         @include font_icon_content($fa-var-heart);
         font-size: 1.4rem;
@@ -135,8 +165,17 @@
       }
     }
     #intro-btn-share{
+      height: 100% !important;
+      font-size: 1.4rem !important;
+      padding-left: 0 !important;
+      line-height: 55px !important;
+      background-image: none;
+      margin: 0 !important;
       &:before{
         @include font_icon_content($fa-var-share-alt);
+      }
+      &:hover{
+        opacity: 1;
       }
     }
   }
@@ -374,29 +413,7 @@
   display: none;
   border-bottom: 1px solid $color_disabled;
   padding-bottom: 20px;
-  .comment-userinfo{
-    width: 140px;
-    float: left;
-    .comment-avatar{
-      margin: auto;
-      width: 60px;
-      height: 60px;
-      img{
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-    .comment-userinfo-name{
-      text-align: center;
-      font-size: 1.1rem;
-      padding-top: 10px;
-    }
-    .comment-userinfo-intro{
-      padding-top: 5px;
-      color: $color_disabled;
-    }
-  }
+  margin-top: 0 !important;
   .comment-input{
     margin-left: 140px;
     padding: 0 20px;
@@ -449,7 +466,7 @@
   min-height: 100px;
   overflow: hidden;
   margin-top: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   position: relative;
   border-bottom: 1px solid $color_disabled;
   &:last-child{
@@ -458,6 +475,11 @@
   .comment-userinfo{
     width: 140px;
     float: left;
+    &:after{
+      content: "";
+      clear: both;
+      display: block;
+    }
     .comment-avatar{
       margin: auto;
       width: 60px;
@@ -511,6 +533,11 @@
       width: 100%;
       left: 0;
       bottom: 10px;
+      &:after{
+        content: "";
+        clear: both;
+        display: block;
+      }
       .comment-time{
         width: 80px;
         float: left;
@@ -723,28 +750,6 @@
     }
   }
   .comment-text{
-    .comment-userinfo{
-      width: 100%;
-      float: none;
-      .comment-avatar{
-        margin: 0;
-        margin: 0;
-        padding-left: 10px;
-        width: 50px;
-        height: 50px;
-        float: left;
-        padding-right: 20px;
-      }
-      .comment-userinfo-name{
-        text-align: left;
-        font-size: 1.1rem;
-        padding-top: 0;
-      }
-      .comment-userinfo-intro{
-        padding-top: 0;
-        font-size: 1rem;
-      }
-    }
     .comment-input{
       clear: both;
       margin-left: 0;
@@ -791,7 +796,7 @@
   }
   .comment-wrap{
     min-height: 100px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     &:last-child{
       padding-bottom: 0;
     }
@@ -809,7 +814,7 @@
       .comment-userinfo-name{
         text-align: left;
         font-size: 1.1rem;
-        padding-top: 0;
+        padding-top: 10px;
       }
       .comment-userinfo-intro{
         padding-top: 0;
@@ -819,7 +824,7 @@
     .comment-content{
       margin-left: 0;
       clear: both;
-      padding: 15px 10px 0;
+      padding: 10px 10px 5px;
       .comment-more{
         color: $color_disabled;
         position: static;

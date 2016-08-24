@@ -35,6 +35,8 @@ var projectListVm = new Vue({
   data: {
     status: false, //登陆状态
     categoryId: getQueryString("categoryId") || 1,
+    searchCondition: getQueryString("search"),
+    title: "热门项目",
     projects: {
       status: false,
       connect: false,
@@ -43,7 +45,7 @@ var projectListVm = new Vue({
         total: 0,
         pageSize: 0,
         pages: 0,
-        pageNum: 0,
+        pageNum: getQueryString("page") || 1,
       },
     }
   },
@@ -61,24 +63,46 @@ var projectListVm = new Vue({
         method: 'get',
         url: apiUrl +"/project/" + _this.categoryId + "?rows=12" + (page ? "&page=" + page : ""),
       }).then(function (response, xhr) {
-        _this.projects.connect = true;
-        if(!response.result){
-          plateLoader.endLoad(false, "没有相关项目");
-        }else{
-          _this.projects.status = true;
-          _this.projects.list = response.data.list;
-          _this.setPagination(_this.projects.pagination, response.data);
-          plateLoader.endLoad();
-          window.scrollTo(0, 0);
-        }
+        _this.addProject(_this.projects, response);
       }).catch(function (response, xhr) {
         plateLoader.endLoad(false, "连接服务器失败");
       }).always(function (response, xhr) {
         // Do something
       });
+    },
+    searchProject: function(page){
+      var _this = this;
+      // plateLoader.init();
+      var projectsRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/search/project" + "?keyword=" + _this.searchCondition + "&rows=12" + (page ? "&page=" + page : ""),
+      }).then(function (response, xhr) {
+        _this.addProject(_this.projects, response);
+      }).catch(function (response, xhr) {
+        plateLoader.endLoad(false, "连接服务器失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
+    addProject: function(wrap, data){
+      wrap.connect = true;
+      if(!data.result || data.data.list.length === 0){
+        plateLoader.endLoad(false, "没有相关项目");
+      }else{
+        wrap.status = true;
+        wrap.list = data.data.list;
+        this.setPagination(wrap.pagination, data.data);
+        plateLoader.endLoad();
+        window.scrollTo(0, 0);
+      }
     }
   },
   ready: function(){
-    this.getProjects();
+    if(this.searchCondition){
+      this.title = "“" + this.searchCondition + "”的搜索结果："
+      this.searchProject(this.projects.pagination.pageNum);
+    }else{
+      this.getProjects(this.projects.pagination.pageNum);
+    }
   }
 });

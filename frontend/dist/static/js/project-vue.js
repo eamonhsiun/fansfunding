@@ -506,6 +506,17 @@ var projectVm = new Vue({
         });
       }
     },
+    addShareBtn: function(){
+      window._bd_share_config = {
+        common : {
+          "bdText": this.project.data.name + " | FAN$",
+          "bdPic":resourceUrl + this.project.data.cover,
+        },
+        "share":{},
+      }
+      //以下为js加载部分
+      with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+    }
   },
   ready: function() {
     var _this = this;
@@ -523,7 +534,11 @@ var projectVm = new Vue({
     });
     this.getProject(function(){
       _this.getUserFollowStatus();
+      _this.addShareBtn();
     });
     this.getFeedbacks();
   }
 });
+// $("#intro-btn-share").onmouseover = function(e){
+//   e.preventDefault();
+// }

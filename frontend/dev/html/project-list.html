@@ -2,7 +2,7 @@
 @@include('include/header.html',{"page": "project_list"})
   <div class="container" id="project-list">
     <div class="plate">
-      <div class="block-title">热门项目</div>
+      <div class="block-title" v-html="title">热门项目</div>
       <div class="plate-content">
         <template id="project-list-template">
           <ul>

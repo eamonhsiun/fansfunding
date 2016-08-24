@@ -70,7 +70,7 @@
         </ul>
       </div>
       <div class="search">
-        <form action="">
+        <form action="project-list.html">
           <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
           <label for="search-text"></label>
           <input type="submit" class="search-submit">
@@ -95,10 +95,10 @@
             <div class="intro-status">众筹中</div>
           </div>
         </div>
-        <div class="intro-btns">
-          <div class="intro-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject">{{ isFollowed ? "已关注" : "关注"}}</div>
+        <div class="intro-btns bdsharebuttonbox"  data-tag="share_1">
+          <div class="intro-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject">{{ isFollowed ? "已关注" : "关注项目"}}</div>
           <div class="intro-btn" id="">收藏</div>
-          <div class="intro-btn" id="intro-btn-share">分享</div>
+          <a class="intro-btn" id="intro-btn-share" data-cmd="more">分享</a>
         </div>
       </div>
       <div class="project-initiator content-block">
@@ -130,7 +130,7 @@
             <div class="content-style" id="project-detail-wrap">{{{project.detail.content}}}</div>
           </div>
           <div class="project-content FFtab-content" id="project-moment">
-            <div class="comment-text" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
+            <div class="comment-text comment-wrap" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
               <div class="comment-userinfo">
                 <div class="comment-avatar" id="moment-user-avatar">
                   <img v-bind:src="userInfo.head | resource" alt="">
@@ -183,7 +183,7 @@
             <div class="comment-login" v-if="!status">
               <a href="login.html">登陆</a>/<a href="login.html#signup">注册</a>后发布评论
             </div>
-            <div class="comment-text" v-if="status" v-bind:class="{ 'show' : status }">
+            <div class="comment-text comment-wrap" v-if="status" v-bind:class="{ 'show' : status }">
               <div class="comment-userinfo">
                 <div class="comment-avatar" id="comment-user-avatar">
                   <img v-bind:src="userInfo.head | resource" alt="">

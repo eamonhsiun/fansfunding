@@ -70,7 +70,7 @@
         </ul>
       </div>
       <div class="search">
-        <form action="">
+        <form action="project-list.html">
           <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
           <label for="search-text"></label>
           <input type="submit" class="search-submit">
@@ -82,7 +82,7 @@
 
   <div class="container" id="project-list">
     <div class="plate">
-      <div class="block-title">热门项目</div>
+      <div class="block-title" v-html="title">热门项目</div>
       <div class="plate-content">
         <template id="project-list-template">
           <ul>

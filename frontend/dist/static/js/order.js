@@ -134,8 +134,13 @@ var orderVm = new Vue({
             for(var i = 0; i < _this.feedback.list.length; i++){
               if(_this.feedback.list[i].id == _this.feedbackId){
                 _this.feedback.target = _this.feedback.list[i];
+                var t = _this.feedback.target;
                 _this.feedback.status = true;
                 _this.order.money = _this.feedback.list[i].limitation;
+                if(t.ceiling > 0 && t.supportTimes >= t.ceiling){
+                  alert("支持人已满");
+                  _this.redirect("project");
+                }
                 return;
               }
             }

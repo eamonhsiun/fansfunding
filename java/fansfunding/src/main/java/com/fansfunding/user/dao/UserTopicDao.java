@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fansfunding.user.entity.UserMomentLike;
 
-public interface UserMomentLikeDao {
+public interface UserTopicDao {
 //    int deleteByPrimaryKey(Integer id);
 //
 //    int insert(UserMomentComment record);

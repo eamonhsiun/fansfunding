@@ -10,23 +10,17 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
     <result column="origin" property="origin" jdbcType="INTEGER" />
     <result column="linkProject" property="linkProject" jdbcType="INTEGER" />
+    <result column="linkCategory" property="linkCategory" jdbcType="INTEGER" />
   </resultMap>
   
-  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-
-  </update>
   
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.UserMoment" >
-	insert into user_moments(user_id,content,origin,linkProject)
-		values(#{userId},#{content},#{origin},#linkProject)
+	insert into user_moments(user_id,content,origin,linkProject,linkCategory)
+		values(#{userId},#{content},#{origin},#{linkProject},#{linkCategory})
   </insert>
   
-  <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.UserMoment" >
-
-  </update>
-  
   <select id="selectFriendsByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-	select umoments.id, umoments.user_id,u.nickname, umoments.create_time, umoments.del_flag, umoments.content,umoments.origin,umoments.linkProject
+	select umoments.id, umoments.user_id,u.nickname, umoments.create_time, umoments.del_flag, umoments.content,umoments.origin,umoments.linkProject,umoments.linkCategory
 		from user_moments umoments,user u
 		where umoments.user_id in (
 			select fuser.user_id 
@@ -41,7 +35,7 @@
   </select>
   
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-		select umoments.id, umoments.user_id,u.nickname, umoments.create_time, umoments.del_flag, umoments.content,umoments.origin,umoments.linkProject
+		select umoments.id, umoments.user_id,u.nickname, umoments.create_time, umoments.del_flag, umoments.content,umoments.origin,umoments.linkProject,umoments.linkCategory
 			from user_moments umoments,user u
 			where umoments.user_id=#{userId,jdbcType=INTEGER}
 			and u.id=umoments.user_id
@@ -51,7 +45,7 @@
   </select>
   
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-		select umoments.id, umoments.user_id,u.nickname, umoments.create_time, umoments.del_flag, umoments.content,umoments.origin,umoments.linkProject
+		select umoments.id, umoments.user_id,u.nickname, umoments.create_time, umoments.del_flag, umoments.content,umoments.origin,umoments.linkProject,umoments.linkCategory
 			from user_moments umoments,user u
 			where umoments.id=#{id,jdbcType=INTEGER}
 			and umoments.user_id=u.id

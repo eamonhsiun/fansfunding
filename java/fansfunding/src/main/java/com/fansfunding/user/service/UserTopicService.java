@@ -23,7 +23,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
-public class UserMomentService {
+public class UserTopicService {
 	@Autowired
 	private UserMomentDao userMomentDao;
 	@Autowired

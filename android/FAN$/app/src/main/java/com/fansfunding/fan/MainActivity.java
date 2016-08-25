@@ -1,15 +1,14 @@
 package com.fansfunding.fan;
 
+import android.Manifest;
 import android.content.Intent;
-import android.nfc.Tag;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.design.widget.*;
-import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.umeng.socialize.PlatformConfig;
 
 /**
  * 主界面
@@ -37,6 +36,17 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PlatformConfig.setWeixin("wx73ef904839977e99", "3c62344c9b516cafa30f31a4b2bff001");
+
+        PlatformConfig.setSinaWeibo("1040021508","79315d14bec51895cad22aedc0cd3125");
+        //新浪微博 appkey appsecret
+        PlatformConfig.setQQZone("1105527311", "vZgb9lqVgZyIv98a");
+        // QQ和Qzone appid appkey
+
+
+        String[] mPermissionList = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS};
+        ActivityCompat.requestPermissions(MainActivity.this,mPermissionList, 100);
 
         paperAdapter=new MainPaperAdapter(getSupportFragmentManager(),this);
 

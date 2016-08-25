@@ -60,7 +60,6 @@ dependencies {
     compile 'com.lzy.widget:view-core:0.2.1'
     compile 'com.github.cpoopc:scrollablelayoutlib:1.0.0'
     compile 'io.github.rockerhieu:emojicon:1.3.4'
-    compile project(':social_sdk_library_project')
     compile files('src/main/libs/mta-sdk-1.6.2.jar')
     compile files('src/main/libs/open_sdk_r5756.jar')
     compile files('src/main/libs/SocialSDK_QQZone_3.jar')

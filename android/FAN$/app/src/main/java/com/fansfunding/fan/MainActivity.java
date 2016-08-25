@@ -36,15 +36,16 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         PlatformConfig.setWeixin("wx73ef904839977e99", "3c62344c9b516cafa30f31a4b2bff001");
+
         PlatformConfig.setSinaWeibo("1040021508","79315d14bec51895cad22aedc0cd3125");
         //新浪微博 appkey appsecret
         PlatformConfig.setQQZone("1105527311", "vZgb9lqVgZyIv98a");
         // QQ和Qzone appid appkey
 
 
-        //可以将一下代码加到你的MainActivity中，或者在任意一个需要调用分享功能的activity当中
-        String[] mPermissionList = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS};
+        String[] mPermissionList = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS};
         ActivityCompat.requestPermissions(MainActivity.this,mPermissionList, 100);
 
         paperAdapter=new MainPaperAdapter(getSupportFragmentManager(),this);

@@ -333,8 +333,13 @@
         </meta-data>
 
         <!--微博平台-->
-        <service android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false"></service>
+
+
+
+        <service
+            android:name="com.sina.weibo.sdk.net.DownloadService"
+            android:exported="false">
+        </service>
 
         <!--微信平台-->
         <activity

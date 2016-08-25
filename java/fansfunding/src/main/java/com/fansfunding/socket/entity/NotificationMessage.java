@@ -1,5 +1,6 @@
 package com.fansfunding.socket.entity;
 
+import java.util.Date;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -13,4 +14,5 @@ public class NotificationMessage {
 	private Map<String,Object> causer;
 	private int type;
 	private Map<String,Object> reference;
+	private Date time;
 }

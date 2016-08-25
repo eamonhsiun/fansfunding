@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.pay.entity.Order;
 import com.fansfunding.project.dao.ProjectDao;
+import com.fansfunding.project.service.ProjectService;
+import com.fansfunding.socket.util.PushService;
 import com.fansfunding.pay.dao.OrderDao;
 
 @Service
@@ -18,7 +20,10 @@ public class PayResultService {
 	private OrderDao orderDao;
 	@Autowired
 	private ProjectDao projectDao;
-
+	@Autowired
+	private ProjectService projectService;
+	@Autowired
+	private PushService push;
 	/**
 	 * 分析请求，获取参数
 	 * @param request
@@ -116,6 +121,10 @@ public class PayResultService {
 		Order order=orderDao.selectByOrderNo(callbackParams.get("out_trade_no"));
 		if(order.getNotifyTime()==null){
 			orderDao.updateNotifyTime(order);
+			//通知
+			Map<String,Object> reference=projectService.getByProjectId(order.getProjectId());
+			push.pushSupport(projectDao.selectByProjectId(order.getProjectId()).getSponsor(),
+					order.getUserId(), reference);
 		}
 	}
 	public Map<String,String> getResult(Map<String,String> callbackParams){

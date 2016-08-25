@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fansfunding.socket.util.PushService;
 import com.fansfunding.user.dao.FollowUserDao;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.FollowUser;
@@ -25,6 +26,8 @@ public class UserFollowService {
 	private UserDao userDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PushService push;
 	/**
 	 * 关注
 	 * @param userId
@@ -44,6 +47,8 @@ public class UserFollowService {
 		else{
 			followUserDao.insert(follow);
 		}
+		//通知
+		push.pushUserFollow(followerId,userId, null);
 		return true;
 	}
 	/**

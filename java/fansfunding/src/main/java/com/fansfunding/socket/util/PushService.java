@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fansfunding.socket.dao.NotificationDao;
 import com.fansfunding.socket.entity.CommentMessage;
 import com.fansfunding.socket.entity.Notification;
+import com.fansfunding.socket.entity.NotificationMessage;
 import com.fansfunding.socket.entity.SocketResponse;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.response.StatusCode;
@@ -53,7 +54,7 @@ public class PushService {
 				.comment(content)
 				.pointTo(pointTo)
 				.commenter(userService.getUserBasicMap(commenter))
-				.type(1)
+				.type(type)
 				.time(new Date())
 				.build();
 		Notification notification=Notification.builder()
@@ -63,6 +64,90 @@ public class PushService {
 				.type(3)
 				.build();
 		if(Dispatcher.comment(receiver, msg)){
+			notification.setIsRead("1");
+		}
+		else{
+			notification.setIsRead("0");
+		}
+		notificationDao.insert(notification);
+	}
+	
+	/**
+	 * 推送点赞消息
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	public void pushLike(int receiver,int causer,Map<String,Object> reference){
+		this.pushNotification(1, receiver, causer, reference);
+	}
+	/**
+	 * 推送支持消息
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	public void pushSupport(int receiver,int causer,Map<String,Object> reference){
+		this.pushNotification(2, receiver, causer, reference);
+	}
+	/**
+	 * 推送转发消息
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	public void pushRepost(int receiver,int causer,Map<String,Object> reference){
+		this.pushNotification(3, receiver, causer, reference);
+	}
+	/**
+	 * 推送项目关注消息
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	public void pushProjectFollow(int receiver,int causer,Map<String,Object> reference){
+		this.pushNotification(4, receiver, causer, reference);
+	}
+	/**
+	 * 推送项目关注消息
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	public void pushUserFollow(int receiver,int causer,Map<String,Object> reference){
+		this.pushNotification(5, receiver, causer, reference);
+	}
+	/**
+	 * 推送项目动态消息
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	public void pushProjetcMoment(int receiver,int causer,Map<String,Object> reference){
+		this.pushNotification(6, receiver, causer, reference);
+	}
+	
+	/**
+	 * 推送系统通知
+	 * @param type
+	 * @param receiver
+	 * @param causer
+	 * @param reference
+	 */
+	private void pushNotification(int type,int receiver,int causer,Map<String,Object> reference){
+		NotificationMessage msg=NotificationMessage.builder()
+				.reference(reference)
+				.causer(userService.getUserBasicMap(causer))
+				.type(type)
+				.time(new Date())
+				.build();
+		Notification notification=Notification.builder()
+				.content(MessageConverter.objectToJson(new SocketResponse(true,3,StatusCode.SUCCESS,msg)))
+				.createBy(String.valueOf(causer))
+				.receiver(receiver)
+				.type(3)
+				.build();
+		if(Dispatcher.notice(receiver, msg)){
 			notification.setIsRead("1");
 		}
 		else{

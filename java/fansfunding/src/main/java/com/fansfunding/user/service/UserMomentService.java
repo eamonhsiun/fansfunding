@@ -172,7 +172,9 @@ public class UserMomentService {
 		UserMomentLike userMomentLike = new UserMomentLike();
 		userMomentLike.setMomentId(momentId);
 		userMomentLike.setUserId(userId);
-		return false;
+		//推送点赞通知
+		push.pushLike(userMomentDao.selectById(momentId).getUserId(), userId, this.getMomentById(momentId));
+		return true;
 	}
 
 

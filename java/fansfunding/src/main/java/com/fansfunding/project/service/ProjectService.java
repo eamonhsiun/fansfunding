@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import com.fansfunding.project.entity.Project;
 import com.fansfunding.project.entity.ProjectDetail;
 import com.fansfunding.project.entity.ProjectMoment;
 import com.fansfunding.project.entity.Resource;
+import com.fansfunding.socket.util.PushService;
 import com.fansfunding.user.dao.UserDao;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
@@ -48,6 +51,8 @@ public class ProjectService {
 	private FollowProjectDao followProjectDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PushService push;
 	/**
 	 * 添加项目
 	 * @param name 
@@ -251,6 +256,13 @@ public class ProjectService {
 			resource.setPath(s);
 			resourceDao.updateByPath(resource);
 		}
+		//推送通知，项目的关注者和支持者
+		Map<String,Object> reference=this.getByProjectId(projectId);
+		Stream.of(userDao.selectProjectSupporters(projectId).stream(),
+				userDao.selectProjectFollowers(projectId).stream())
+			.flatMap(Function.identity())
+			.mapToInt(user->user.getId())
+			.forEach(receiver->push.pushProjetcMoment(receiver, sponsorId, reference));
 		return true;
 	}
 	/**
@@ -384,6 +396,9 @@ public class ProjectService {
 		else{
 			followProjectDao.insert(follow);
 		}
+		//通知
+		Map<String,Object> reference=this.getByProjectId(projectId);
+		push.pushProjectFollow(projectDao.selectByProjectId(projectId).getSponsor(),userId, reference);
 		return true;
 	}
 	/**

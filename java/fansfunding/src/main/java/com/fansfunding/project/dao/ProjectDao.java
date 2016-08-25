@@ -66,4 +66,9 @@ public interface ProjectDao {
      * @return
      */
     List<Project> selectSupport(int userId);
+    /**
+     * 获取所有正在进行的项目（用于更新状态）
+     * @return
+     */
+    List<Project> selectProcessing();
 }

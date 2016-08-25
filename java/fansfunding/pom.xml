@@ -263,6 +263,13 @@
 			<version>1.8.9</version>
 		</dependency>
 		<!-- end of aspectj -->
+		<!-- timer -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<!-- end of timer -->
 	</dependencies>
 	<build>
 		<finalName>fansfunding</finalName>

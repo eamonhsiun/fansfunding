@@ -53,6 +53,33 @@ public class ProjectService {
 	private UserService userService;
 	@Autowired
 	private PushService push;
+	
+	public int updateStatus(){
+		int sum=0;
+		Date now=new Date();
+		for(Project project:projectDao.selectProcessing()){
+			Date deadline=project.getTargetDeadline();
+			double money=(double) this.support(project.getId()).get("sum");
+			if(now.after(deadline)){
+				if(money>=project.getTargetMoney()){
+					project.setStatus("0");
+					sum+=1;
+				}
+				else{
+					project.setStatus("1");
+					sum+=1;
+				}
+			}
+			else{
+				if(money>=project.getTargetMoney()){
+					project.setStatus("0");
+					sum+=1;
+				}
+			}
+			projectDao.updateByPrimaryKey(project);
+		}
+		return sum;
+	}
 	/**
 	 * 添加项目
 	 * @param name 

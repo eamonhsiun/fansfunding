@@ -1,108 +1,140 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fansfunding.project.dao.ProjectDao" >
-  <resultMap id="BaseResultMap" type="com.fansfunding.project.entity.Project" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
-    <result column="sponsor" property="sponsor" jdbcType="INTEGER" />
-    <result column="detail_id" property="detailId" jdbcType="INTEGER" />
-    <result column="target_money" property="targetMoney" jdbcType="DECIMAL" />
-    <result column="target_deadline" property="targetDeadline" jdbcType="TIMESTAMP" />
-    <result column="cover" property="cover" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="CHAR" />
-    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="description" property="description" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    update project
-    set del_flag='1'
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.project.entity.Project" >
-    insert into project (category_id, sponsor, 
-      detail_id, target_money, target_deadline, 
-      cover, status, create_by, 
-      create_time, update_time, 
-      name, description,update_by
-      )
-    values (#{categoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER}, 
-      #{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL},
-      #{targetDeadline,jdbcType=TIMESTAMP}, 
-      #{cover,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
-      NOW(),NOW(), 
-      #{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR},#{updateBy,jdbcType=VARCHAR}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Project" >
-    update project
-    set category_id = #{categoryId,jdbcType=INTEGER},
-      sponsor = #{sponsor,jdbcType=INTEGER},
-      detail_id = #{detailId,jdbcType=INTEGER},
-      target_money = #{targetMoney,jdbcType=DECIMAL},
-      target_deadline = #{targetDeadline,jdbcType=TIMESTAMP},
-      cover = #{cover,jdbcType=VARCHAR},
-      status = #{status,jdbcType=CHAR},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      update_time = NOW(),
-      name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
-    status, create_by, create_time, update_by, update_time, del_flag, name, description
-    from project
-    where id = #{projectId,jdbcType=INTEGER}
-    and del_flag='0'
-  </select>
-  <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
-    status, create_by, create_time, update_by, update_time, del_flag, name, description
-    from project
-    where category_id=#{categoryId,jdbcType=INTEGER}
-    and del_flag='0'
-    order by create_time desc
-  </select>
-  <select id="selectByKeyword" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
-    status, create_by, create_time, update_by, update_time, del_flag, name, description
-    from project
-    where (CONCAT(name,description) like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%' ))
-    and del_flag='0'
-    order by create_time desc
-  </select>
-  <select id="selectFollow" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select p.id, p.category_id, p.sponsor, p.detail_id, p.target_money, p.target_deadline, p.cover, 
-    p.status, p.create_by, p.create_time, p.update_by, p.update_time, p.del_flag, p.name, p.description
-    from project p,follow_project f
-    where f.user_id=#{userId,jdbcType=INTEGER}
-    and p.id=f.project_id
-    and p.del_flag='0'
-    and f.del_flag='0'
-    order by p.create_time desc
-  </select>
-  <select id="selectSponsor" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select id, category_id, sponsor, detail_id, target_money, target_deadline, cover, 
-    status, create_by, create_time, update_by, update_time, del_flag, name, description
-    from project
-    where sponsor=#{userId,jdbcType=INTEGER}
-    and del_flag='0'
-    order by create_time desc
-  </select>
-  <select id="selectSupport" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select prj.id, prj.category_id, prj.sponsor, prj.detail_id, prj.target_money, prj.target_deadline, prj.cover, 
-    prj.status, prj.create_by, prj.create_time, prj.update_by, prj.update_time, prj.del_flag, prj.name, prj.description
-    from project prj,pay_order po
-    where prj.id=po.project_id
-    and po.user_id=#{userId,jdbcType=INTEGER}
-    and (po.trade_status in ('TRADE_FINISHED','TRADE_SUCCESS'))
-    and prj.del_flag='0'
-    and po.del_flag='0'
-    order by create_time desc
-  </select>
+<mapper namespace="com.fansfunding.project.dao.ProjectDao">
+	<resultMap id="BaseResultMap" type="com.fansfunding.project.entity.Project">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="category_id" property="categoryId" jdbcType="INTEGER" />
+		<result column="sponsor" property="sponsor" jdbcType="INTEGER" />
+		<result column="detail_id" property="detailId" jdbcType="INTEGER" />
+		<result column="target_money" property="targetMoney" jdbcType="DECIMAL" />
+		<result column="target_deadline" property="targetDeadline"
+			jdbcType="TIMESTAMP" />
+		<result column="cover" property="cover" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		update project
+		set del_flag='1'
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.fansfunding.project.entity.Project">
+		insert into project (category_id, sponsor,
+		detail_id, target_money, target_deadline,
+		cover, status, create_by,
+		create_time, update_time,
+		name, description,update_by
+		)
+		values (#{categoryId,jdbcType=INTEGER}, #{sponsor,jdbcType=INTEGER},
+		#{detailId,jdbcType=INTEGER}, #{targetMoney,jdbcType=DECIMAL},
+		#{targetDeadline,jdbcType=TIMESTAMP},
+		#{cover,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR},
+		NOW(),NOW(),
+		#{name,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR},#{updateBy,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Project">
+		update project
+		set category_id = #{categoryId,jdbcType=INTEGER},
+		sponsor = #{sponsor,jdbcType=INTEGER},
+		detail_id = #{detailId,jdbcType=INTEGER},
+		target_money = #{targetMoney,jdbcType=DECIMAL},
+		target_deadline = #{targetDeadline,jdbcType=TIMESTAMP},
+		cover = #{cover,jdbcType=VARCHAR},
+		status = #{status,jdbcType=CHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_time = NOW(),
+		name = #{name,jdbcType=VARCHAR},
+		description = #{description,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByProjectId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, category_id, sponsor, detail_id, target_money, target_deadline,
+		cover,
+		status, create_by, create_time, update_by, update_time, del_flag, name,
+		description
+		from project
+		where id = #{projectId,jdbcType=INTEGER}
+		and del_flag='0'
+	</select>
+	<select id="selectByCategoryId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, category_id, sponsor, detail_id, target_money, target_deadline,
+		cover,
+		status, create_by, create_time, update_by, update_time, del_flag, name,
+		description
+		from project
+		where category_id=#{categoryId,jdbcType=INTEGER}
+		and del_flag='0'
+		and status='2'
+		order by create_time desc
+	</select>
+	<select id="selectByKeyword" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select id, category_id, sponsor, detail_id, target_money, target_deadline,
+		cover,
+		status, create_by, create_time, update_by, update_time, del_flag, name,
+		description
+		from project
+		where (CONCAT(name,description) like
+		CONCAT('%',#{keyword,jdbcType=VARCHAR},'%' ))
+		and del_flag='0'
+		and status='2'
+		order by create_time desc
+	</select>
+	<select id="selectFollow" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select p.id, p.category_id, p.sponsor, p.detail_id, p.target_money,
+		p.target_deadline, p.cover,
+		p.status, p.create_by, p.create_time, p.update_by, p.update_time, p.del_flag,
+		p.name, p.description
+		from project p,follow_project f
+		where f.user_id=#{userId,jdbcType=INTEGER}
+		and p.id=f.project_id
+		and p.del_flag='0'
+		and f.del_flag='0'
+		order by p.create_time desc
+	</select>
+	<select id="selectSponsor" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, category_id, sponsor, detail_id, target_money, target_deadline,
+		cover,
+		status, create_by, create_time, update_by, update_time, del_flag, name,
+		description
+		from project
+		where sponsor=#{userId,jdbcType=INTEGER}
+		and del_flag='0'
+		order by create_time desc
+	</select>
+	<select id="selectSupport" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select prj.id, prj.category_id, prj.sponsor, prj.detail_id,
+		prj.target_money, prj.target_deadline, prj.cover,
+		prj.status, prj.create_by, prj.create_time, prj.update_by, prj.update_time,
+		prj.del_flag, prj.name, prj.description
+		from project prj,pay_order po
+		where prj.id=po.project_id
+		and po.user_id=#{userId,jdbcType=INTEGER}
+		and (po.trade_status in ('TRADE_FINISHED','TRADE_SUCCESS'))
+		and prj.del_flag='0'
+		and po.del_flag='0'
+		order by create_time desc
+	</select>
+	<select id="selectProcessing" resultMap="BaseResultMap">
+		select id, category_id, sponsor, detail_id, target_money, target_deadline,
+		cover,
+		status, create_by, create_time, update_by, update_time, del_flag, name,
+		description
+		from project
+		where del_flag='0'
+		and status='2'
+	</select>
 </mapper>

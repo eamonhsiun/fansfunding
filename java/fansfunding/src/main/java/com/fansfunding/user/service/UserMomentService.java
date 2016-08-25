@@ -11,12 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.project.dao.ResourceDao;
 import com.fansfunding.project.entity.Resource;
-import com.fansfunding.socket.dao.NotificationDao;
-import com.fansfunding.socket.entity.CommentMessage;
-import com.fansfunding.socket.entity.Notification;
-import com.fansfunding.socket.entity.SocketResponse;
-import com.fansfunding.socket.util.Dispatcher;
-import com.fansfunding.socket.util.MessageConverter;
+import com.fansfunding.socket.util.PushService;
 import com.fansfunding.user.dao.UserMomentCommentDao;
 import com.fansfunding.user.dao.UserMomentDao;
 import com.fansfunding.user.dao.UserMomentLikeDao;
@@ -25,7 +20,6 @@ import com.fansfunding.user.entity.UserMomentComment;
 import com.fansfunding.user.entity.UserMomentLike;
 import com.fansfunding.utils.pagination.Page;
 import com.fansfunding.utils.pagination.PageAdapter;
-import com.fansfunding.utils.response.StatusCode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -40,9 +34,7 @@ public class UserMomentService {
 	@Autowired
 	private UserMomentLikeDao userMomentLikeDao;
 	@Autowired
-	private UserService userService;
-	@Autowired
-	private NotificationDao notificationDao;
+	private PushService push;
 
 	public Map<String,Object> getMomentById(int momentId) {
 		Map<String,Object> moment = new HashMap<>();
@@ -153,28 +145,9 @@ public class UserMomentService {
 		userMomentComment.setContent(content);		
 		userMomentCommentDao.insert(userMomentComment);
 		//通知
-		Map<String,Object> commenter=userService.getUserBasicMap(userService.getUserById(userMomentComment.getUserId()));
 		Map<String,Object> pointTo=this.getMomentById(momentId);
 		int receiver=userMomentDao.selectById(momentId).getUserId();
-		CommentMessage msg=CommentMessage.builder()
-				.comment(content)
-				.pointTo(pointTo)
-				.commenter(commenter)
-				.type(2)
-				.build();
-		Notification notification=Notification.builder()
-				.content(MessageConverter.objectToJson(new SocketResponse(true,3,StatusCode.SUCCESS,msg)))
-				.createBy(String.valueOf(userId))
-				.receiver(receiver)
-				.type(3)
-				.build();
-		if(Dispatcher.comment(receiver, msg)){
-			notification.setIsRead("1");
-		}
-		else{
-			notification.setIsRead("0");
-		}
-		notificationDao.insert(notification);
+		push.pushMommentComment(receiver, userMomentComment.getUserId(), pointTo, content);
 		return true;
 	}
 

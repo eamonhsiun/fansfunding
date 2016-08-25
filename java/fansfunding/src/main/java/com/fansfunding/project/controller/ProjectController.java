@@ -151,7 +151,7 @@ public class ProjectController {
 		if(!projectService.inCategory(categoryId, projectId)){
 			return new Status(false,StatusCode.FAILED,"该项目不在该分类下",null);
 		}
-		if(CheckUtils.isNullOrEmpty(content)){
+		if(!CheckUtils.isNullOrEmpty(content)){
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}

@@ -61,7 +61,7 @@ public class PushService {
 				.content(MessageConverter.objectToJson(new SocketResponse(true,3,StatusCode.SUCCESS,msg)))
 				.createBy(String.valueOf(commenter))
 				.receiver(receiver)
-				.type(3)
+				.type(2)
 				.build();
 		if(Dispatcher.comment(receiver, msg)){
 			notification.setIsRead("1");
@@ -109,7 +109,7 @@ public class PushService {
 		this.pushNotification(4, receiver, causer, reference);
 	}
 	/**
-	 * 推送项目关注消息
+	 * 推送用户关注消息
 	 * @param receiver
 	 * @param causer
 	 * @param reference

@@ -242,8 +242,10 @@ public class UserService {
 		userbasic.put("nickname", user.getNickname());
 		userbasic.put("head", user.getHead());
 		userbasic.put("intro", user.getIntro());
-
 		return userbasic;
+	}
+	public Map<String,Object> getUserBasicMap(int userId){
+		return this.getUserBasicMap(userDao.selectById(userId));
 	}
 	/**
 	 * 搜索用户

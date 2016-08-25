@@ -19,8 +19,8 @@
   <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.socket.entity.Notification">
     insert into notification (type, receiver, content,is_read,
       create_by, create_time)
-    values (#{type,jdbcType=INTEGER}, #{receiver,jdbcType=INTEGER},#{isRead,jdbcType=CHAR},
-    #{content,jdbcType=LONGVARCHAR}, #{createBy,jdbcType=VARCHAR},NOW())
+    values (#{type,jdbcType=INTEGER}, #{receiver,jdbcType=INTEGER},#{content,jdbcType=LONGVARCHAR},
+    #{isRead,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR},NOW())
   </insert>
   <update id="read" parameterType="java.lang.Integer">
     update notification

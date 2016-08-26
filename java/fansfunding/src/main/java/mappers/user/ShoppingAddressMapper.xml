@@ -58,7 +58,6 @@
     update_time, del_flag,phone,name,post_code,is_default
     from shopping_address
     where id = #{id,jdbcType=INTEGER}
-    and del_flag='0'
   </select>
   
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

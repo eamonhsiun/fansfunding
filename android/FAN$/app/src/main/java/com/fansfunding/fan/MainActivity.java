@@ -1,16 +1,20 @@
 package com.fansfunding.fan;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
+import com.fansfunding.fan.message.service.PushService;
 import com.umeng.socialize.PlatformConfig;
 
 /**
@@ -29,12 +33,25 @@ public class MainActivity extends AppCompatActivity{
 
 
     //启动设置界面的activity的请求码
-
     private ViewPager vp_Main;
     private MainPaperAdapter paperAdapter;
     private TabLayout tabLayout;
     private NetWorkStatusReceiver netWorkStatusReceiver = new NetWorkStatusReceiver();
 
+    private PushService.WebSocketBinder webSocketBinder;
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            webSocketBinder = (PushService.WebSocketBinder) service;
+            webSocketBinder.startConnection();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +109,11 @@ public class MainActivity extends AppCompatActivity{
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(netWorkStatusReceiver, intentFilter);
+
+        //开启后台服务连接WebSocket
+        Intent intent = new Intent(this, PushService.class);
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+//        startService(intent);
     }
 
     @Override
@@ -147,6 +169,10 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(netWorkStatusReceiver);
+        //停止服务
+//        Intent intent = new Intent(this, PushService.class);
+//        stopService(intent);
+        //解绑服务
+        unbindService(serviceConnection);
     }
 }

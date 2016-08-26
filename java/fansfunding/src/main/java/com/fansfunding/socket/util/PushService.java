@@ -58,7 +58,7 @@ public class PushService {
 				.time(new Date())
 				.build();
 		Notification notification=Notification.builder()
-				.content(MessageConverter.objectToJson(new SocketResponse(true,3,StatusCode.SUCCESS,msg)))
+				.content(MessageConverter.objectToJson(new SocketResponse(true,2,StatusCode.SUCCESS,msg)))
 				.createBy(String.valueOf(commenter))
 				.receiver(receiver)
 				.type(2)

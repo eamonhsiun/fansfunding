@@ -86,17 +86,17 @@
       <div class="project-intro content-block">
         <div class="intro-content">
           <div class="intro-left intro-show">
-            <img v-bind:src="project.data.cover | resource" alt="">
+            <img class="zoom" v-bind:src="project.data.cover | resource" @click.prevent="viewPic" alt="">
           </div>
           <div class="intro-right intro-details">
-            <div class="intro-detail" id="target-money">目标金额<p><span v-cloak>{{project.data.targetMoney | currency '￥' 0}}</span>元</p></div>
-            <div class="intro-detail" id="parcent">已筹百分比<p><span v-cloak>{{project.data.sum/project.data.targetMoney | currency '' 2}}</span>%</p></div>
-            <div class="intro-detail" id="lefttime">剩余时间<p><span v-cloak>{{ getLeftTime(new Date(), project.data.targetDeadline) }}</span></p></div>
+            <div class="intro-detail" id="target-money">目标金额<p><span v-text="project.data.targetMoney | currency '￥' 0"></span>元</p></div>
+            <div class="intro-detail" id="parcent">已筹百分比<p><span v-text="project.data.sum/project.data.targetMoney | currency '' 2"></span>%</p></div>
+            <div class="intro-detail" id="lefttime">剩余时间<p><span v-text="getLeftTime(new Date(), project.data.targetDeadline)"></span></p></div>
             <div class="intro-status">众筹中</div>
           </div>
         </div>
         <div class="intro-btns bdsharebuttonbox kit-bottombar"  data-tag="share_1">
-          <div class="intro-btn kit-bottombar-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject">{{ isFollowed ? "已关注" : "关注项目"}}</div>
+          <div class="intro-btn kit-bottombar-btn" id="intro-btn-follow" v-bind:class="{'followed': isFollowed}" v-on:click.prevent="followProject" v-text="isFollowed ? '已关注' : '关注项目'"></div>
           <div class="intro-btn kit-bottombar-btn" id="">收藏</div>
           <a class="intro-btn kit-bottombar-btn" id="intro-btn-share" data-cmd="more">分享</a>
         </div>
@@ -105,11 +105,11 @@
         <div class="initiator-header">
           <div class="initiator-avatar"><img v-bind:src="project.data.sponsorHead | resource" alt=""></div>
           <div class="initiator-info">
-            <div class="initiator-name">发起人：<a href="space.html?userid={{project.data.sponsor}}" v-cloak>{{project.data.sponsorNickname}}</a></div>
-<!--             <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div> -->
+            <div class="initiator-name">发起人：<a href="space.html?userid={{project.data.sponsor}}" v-text="project.data.sponsorNickname"></a></div>
+            <!-- <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div> -->
           </div>
         </div>
-        <div class="initiator-follow" :class="{'followed': sponsor.isFollowed}" @click.prevent="followUser">{{ sponsor.isFollowed ? "已关注" : "关注"}}</div>
+        <div class="initiator-follow" :class="{'followed': sponsor.isFollowed}" @click.prevent="followUser" v-text='sponsor.isFollowed ? "已关注" : "关注"'></div>
       </div>
       <div class="project-wrap content-block">
         <div class="project-tabs tabs kit-tabs">
@@ -128,7 +128,7 @@
               </div>
             </div>
             <div id="content-errormsg" class="kit-errormsg FFerrormsg">还没有详情</div>
-            <div class="content-style" id="project-detail-wrap">{{{project.detail.content}}}</div>
+            <div class="content-style" id="project-detail-wrap" v-html="project.detail.content"></div>
           </div>
           <div class="project-content FFtab-content" id="project-moment">
             <div class="comment-text comment-wrap" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
@@ -137,7 +137,7 @@
                   <img v-bind:src="userInfo.head | resource" alt="">
                 </div>
                 <div class="comment-userinfo-name" id="moment-user-nickname">{{ userInfo.nickname }}</div>
-<!--                 <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
+                <!-- <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
               </div>
               <div class="comment-input">
                 <textarea name="" id="moment-textarea" cols="30" rows="10" v-model="moments.content"></textarea >
@@ -154,25 +154,25 @@
             </div>
             <div id="moment-errormsg" class="kit-errormsg FFerrormsg">发起人还没有发布动态</div>
             <ul>
-              <li class="moment-wrap comment-wrap" v-for="moment in moments.list">
+              <li class="moment-wrap comment-wrap" v-for="moment in moments.list" track-by="$index">
                 <div class="moment-userinfo comment-userinfo">
                   <div class="moment-avatar comment-avatar">
                     <img v-bind:src="moment.sponsorHead | resource" alt="">
                   </div>
                   <a href="space.html?userid={{moment.sponsor}}"><div class="moment-userinfo-name comment-userinfo-name">{{ moment.sponsorNickname }}</div></a>
-<!--                   <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
+                  <!-- <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
                 </div>
                 <div class="moment-content comment-content">
                   <div class="moment-inner comment-inner">{{ moment.content }}</div>
                   <div class="moment-images comment-images">
-                    <div class="comment-image" v-for="image in moment.images">
-                      <img v-bind:src="image | resource" alt="">
+                    <div class="comment-image" v-for="image in moment.images" track-by="$index">
+                      <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
                     </div>
                   </div>
                   <div class="moment-more comment-more">
                     <div class="moment-time comment-time">{{ moment.updateTime | commentTime }}</div>
                     <div class="moment-btns comment-btns">
-                      <div class="moment-btn moment-like comment-btn comment-like">12</div>
+                      <!-- <div class="moment-btn moment-like comment-btn comment-like">12</div> -->
                     </div>
                   </div>
                 </div>
@@ -190,7 +190,7 @@
                   <img v-bind:src="userInfo.head | resource" alt="">
                 </div>
                 <div class="comment-userinfo-name" id="comment-user-nickname">{{ userInfo.nickname }}</div>
-<!--                 <div class="comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
+                <!-- <div class="comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
               </div>
               <div class="comment-input">
                 <textarea name="" id="comment-textarea" cols="30" rows="10" v-model="comments.content" placeholder="{{comments.reply.placeholder}}"></textarea >
@@ -213,14 +213,14 @@
                     <img v-bind:src="comment.commenterHead | resource" alt="">
                   </div>
                   <a href="space.html?userid={{comment.commenterId}}"><div class="comment-userinfo-name">{{ comment.commenterNickname }}</div></a>
-<!--                   <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
+                  <!-- <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
                 </div>
                 <div class="comment-content">
                   <div class="comment-inner">{{ (comment.pointToNickname ? "回复" + comment.pointToNickname + "：" : "") + comment.content}}</div>
                   <div class="comment-more">
                     <div class="comment-time">{{ comment.commentTime | commentTime }}</div>
                     <div class="comment-btns">
-                      <div class="comment-btn comment-like">12</div>
+                      <!-- <div class="comment-btn comment-like">12</div> -->
                       <div class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">回复</div>
                     </div>
                   </div>
@@ -245,7 +245,6 @@
                       <img v-bind:src="supporter.head | resource" alt="">
                     </div>
                     <div class="supporter-userinfo-name">{{ supporter.nickname }}</div>
-  <!--                   <div class="supporter-unerinfo-intro">{{ supporter.intro }}</div> -->
                   </div>
                 </a>
               </li>
@@ -269,8 +268,8 @@
             <div class="feedback-detail">
               <div class="feedback-detail-content">{{feedback.description}}</div>
               <div class="feedback-detail-pics">
-                <div class="feedback-detail-pic" v-for="image in feedback.images">
-                  <img v-bind:src="image | resource" alt="">
+                <div class="feedback-detail-pic" v-for="image in feedback.images" track-by="$index">
+                  <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
                 </div>
               </div>
             </div>
@@ -279,13 +278,7 @@
           </li>
         </ul>
       </div>
-    </div>
-  </div>
-  <div id="FFviewer">
-    <div class="close-btn"></div>
-    <div class="save-btn"></div>
-    <div class="pic-wrap">
-      <img src="static/img/27.jpg" alt="">
+      <ffviewer :status.sync="picViewer.status" :imgsrc="picViewer.src"></ffviewer>
     </div>
   </div>
   </div>
@@ -325,7 +318,10 @@
   
 
   
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
     <script src="static/js/module/pagination.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
     <script src="static/js/project-vue.js"></script>
   
 

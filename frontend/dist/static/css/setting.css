@@ -322,7 +322,8 @@
   text-align: center;
   color: #ec2c22;
   font-size: 1.2rem;
-  margin-top: 20px; }
+  margin-top: 20px;
+  display: none; }
 
 .setting-submit {
   clear: both;
@@ -361,6 +362,58 @@
   width: 200px;
   text-align: center; }
 
+#setting-avatar {
+  position: relative; }
+  #setting-avatar .avatar-preview-wrap:after {
+    content: "";
+    clear: both;
+    display: block; }
+  #setting-avatar .avatar-preview-wrap > div {
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin-right: 30px; }
+    #setting-avatar .avatar-preview-wrap > div:last-child {
+      margin-right: 0; }
+    #setting-avatar .avatar-preview-wrap > div img {
+      width: 100%;
+      height: 100%; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-large {
+    width: 180px;
+    height: 180px; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-middle {
+    width: 100px;
+    height: 100px; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-small {
+    width: 60px;
+    height: 60px; }
+  #setting-avatar .cropper-wrap {
+    width: 500px;
+    height: 300px;
+    display: none;
+    margin-top: 20px; }
+    #setting-avatar .cropper-wrap img {
+      display: block;
+      width: 200px;
+      height: 200px; }
+  #setting-avatar input[type="file"] {
+    display: none; }
+  #setting-avatar #upload-avatar-btn {
+    margin-top: 20px; }
+
+#upload-avatar-submit:before {
+  font-family: "FontAwesome";
+  content: "";
+  padding-right: 10px; }
+
+@media screen and (max-width: 800px) {
+  #setting-avatar .cropper-wrap {
+    width: 100%;
+    height: 300px; }
+    #setting-avatar .cropper-wrap img {
+      width: 10px;
+      height: 10px; } }
+
 @media screen and (max-width: 700px) {
   .setting-content {
     padding: 20px 15px; }
@@ -374,7 +427,18 @@
     .setting-list .setting-inner .setting-input-hint {
       color: #ababab; }
   #setting-profile #setting-sex label {
-    width: 50%; } }
+    width: 50%; }
+  #setting-avatar .avatar-preview-wrap > div {
+    margin-right: 0;
+    float: none; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-large {
+    width: 180px;
+    height: 180px; }
+  #setting-avatar .avatar-preview-wrap #avatar-preview-middle, #setting-avatar .avatar-preview-wrap #avatar-preview-small {
+    display: none; }
+  #setting-avatar .cropper-wrap {
+    margin-left: -100px;
+    width: 120%; } }
 
 @media screen and (max-width: 500px) {
   .kit-tabs ul .kit-tab {
@@ -387,7 +451,10 @@
   .setting-list .setting-inner {
     margin-left: 95px; }
     .setting-list .setting-inner .kit-input {
-      font-size: 1.2rem; } }
+      font-size: 1.2rem; }
+  #setting-avatar .cropper-wrap {
+    margin-left: -85px;
+    width: 125%; } }
 
 @media screen and (max-width: 400px) {
   #setting-profile #setting-avatar > div {
@@ -403,4 +470,7 @@
   #setting-profile #setting-avatar a {
     float: none;
     margin: auto;
-    margin-top: 20px; } }
+    margin-top: 20px; }
+  #setting-avatar .cropper-wrap {
+    width: 135%;
+    height: 270px; } }

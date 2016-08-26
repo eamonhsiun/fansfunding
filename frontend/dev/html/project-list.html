@@ -7,24 +7,22 @@
         <template id="project-list-template">
           <ul>
             <li class="plate-content-list" v-for="project in projects">
-              <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}" target="_blank" class="project-card kit-block">
+              <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
                 <div class="project-card-pic">
                   <img :src="project.cover | resource"alt="">
                 </div>
                 <div class="project-card-detail">
-                  <div class="project-card-detail-name">{{project.name}}</div>
-                  <div class="project-card-detail-hint">
-                    {{project.description}}
-                  </div>
+                  <div class="project-card-detail-name" v-text="project.name"></div>
+                  <div class="project-card-detail-hint" v-text="project.description"></div>
                   <div class="project-card-detail-other">
                     <div class="project-card-detail-info project-card-lefttime">
-                      剩余时间：<span>{{getLeftTime(new Date(), project.targetDeadline)}}</span>
+                      剩余时间：<span v-text="getLeftTime(new Date(), project.targetDeadline)"></span>
                     </div>
                     <div class="project-card-detail-info project-card-target">
-                      目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
+                      目标金额：<span v-text="project.targetMoney | currency '￥' 0"></span>
                     </div>
                     <div class="project-card-detail-info project-card-progress">
-                      已达成：<span>{{project.sum/project.targetMoney | currency '' 2}}</span>%
+                      已达成：<span v-text="project.sum/project.targetMoney | currency '' 2"></span>%
                     </div>
                   </div>
                 </div>
@@ -32,7 +30,7 @@
                 <div class="project-card-initiator">
                   <div class="initiator-avatar"><img :src="project.sponsorHead | resource" alt=""></div>
                   <div class="initiator-info">
-                    <div class="initiator-name">发起人：<span>{{project.sponsorNickname}}</span></div>
+                    <div class="initiator-name">发起人：<span v-text="project.sponsorNickname"></span></div>
                     <div class="initiator-intro">发起头衔是什发起头衔是什么好口怕发起头衔是什么好口发起头衔是什么好口怕发起头怕发起头衔是什么好口怕么好口怕</div>
                   </div>
                 </div>

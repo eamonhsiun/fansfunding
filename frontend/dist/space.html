@@ -89,12 +89,12 @@
             <div class="user-header">
               <div class="user-avatar"><img v-bind:src="spaceUserInfo.head | resource"  alt=""></div>
               <div class="user-info">
-                <div class="user-name"><span v-cloak>{{ spaceUserInfo.nickname }}</span></div>
+                <div class="user-name"><span v-text="spaceUserInfo.nickname"></span></div>
                 <div class="user-intro">{{ spaceUserInfo.intro }}</div>
               </div>
             </div>
             <div class="kit-bottombar" v-if="!isSelf">
-              <div class="kit-bottombar-btn" :class="{'active': isFollowed}" @click.prevent="followUser">{{ isFollowed ? "已关注" : "关注"}}</div>
+              <div class="kit-bottombar-btn" :class="{'active': isFollowed}" @click.prevent="followUser" v-text='isFollowed ? "已关注" : "关注"'></div>
             </div>
           </div>
           <div class="kit-block" id="user-data">
@@ -105,13 +105,13 @@
                    <div class="user-data-fans">粉丝<span></span></div>
                  </li>
                  <li class="user-data-list">
-                   支持的项目<span>{{projects.support.count}}</span>
+                   支持的项目<span v-text="projects.support.count"></span>
                  </li>
                  <li class="user-data-list">
                    发布的动态<span></span>
                  </li>
                  <li class="user-data-list">
-                   发起的项目<span>{{projects.sponsor.count}}</span>
+                   发起的项目<span v-text="projects.sponsor.count"></span>
                  </li>
                </ul>
             </div>

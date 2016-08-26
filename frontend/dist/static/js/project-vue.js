@@ -123,6 +123,10 @@ var projectVm = new Vue({
         pageNum: 0,
       },
       list: []
+    },
+    picViewer: {
+      status: false,
+      src: ""
     }
   },
   watch: {
@@ -510,6 +514,7 @@ var projectVm = new Vue({
         common : {
           "bdText": this.project.data.name + " | FAN$",
           "bdPic":resourceUrl + this.project.data.cover,
+          "bdMiniList": ["evernotecn","qzone","tsina","tieba","sqq","youdao","mail","weixin"]
         },
         "share":{},
       }
@@ -541,6 +546,10 @@ var projectVm = new Vue({
       }).always(function (response, xhr) {
         // Do something
       });
+    },
+    viewPic: function(event){
+      this.picViewer.src = event.target.src;
+      this.picViewer.status = true;
     }
   },
   ready: function() {

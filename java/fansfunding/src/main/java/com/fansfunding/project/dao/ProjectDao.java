@@ -71,4 +71,9 @@ public interface ProjectDao {
      * @return
      */
     List<Project> selectProcessing();
+    /**
+     * 获取所有项目
+     * @return
+     */
+    List<Project> selectAll();
 }

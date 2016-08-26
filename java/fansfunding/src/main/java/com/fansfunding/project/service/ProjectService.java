@@ -148,9 +148,14 @@ public class ProjectService {
 		List<Map<String,Object>> projects=new ArrayList<Map<String,Object>>();
 
 		PageHelper.startPage(page, rows);
-		List<Project> list=projectDao.selectByCategoryId(categoryId);
+		List<Project> list=null;
+		if(categoryId==1){
+			list=projectDao.selectAll();
+		}
+		else{
+			list=projectDao.selectByCategoryId(categoryId);
+		}
 		PageInfo<Project> info=new PageInfo<>(list);
-
 		list.forEach((e)->{
 			projects.add(this.buildMap(e));
 		});

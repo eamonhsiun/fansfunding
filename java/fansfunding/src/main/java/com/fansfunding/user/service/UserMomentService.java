@@ -46,7 +46,7 @@ public class UserMomentService {
 		moment.put("content", u.getContent());
 		moment.put("postTime", u.getCreateTime());
 
-		List<Resource> images=resourceDao.selectProjectImages(u.getId());
+		List<Resource> images=resourceDao.selectMomentImages(u.getId());
 		String[] paths=new String[images.size()];
 		for(int i=0;i<images.size();i++){
 			paths[i]=images.get(i).getPath();

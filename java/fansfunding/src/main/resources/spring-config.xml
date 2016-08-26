@@ -140,7 +140,7 @@
 			<value>
 				/userbasic/**=anon
 				/user/head=anon
-				/user/**=statelessAuthc
+<!-- 				/user/**=statelessAuthc -->
 			</value>
 		</property>
 	</bean>

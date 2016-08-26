@@ -59,7 +59,7 @@
     select id, type, path, mapping_id, create_time, del_flag
     from resource
     where mapping_id = #{momentId,jdbcType=INTEGER}
-    and type like 'moment_image'
+    and type like 'user_moments'
     and del_flag='0'
   </select>
 </mapper>

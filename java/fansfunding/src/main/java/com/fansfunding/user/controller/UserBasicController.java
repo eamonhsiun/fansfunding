@@ -213,7 +213,7 @@ public class UserBasicController {
 			return new Status(false, StatusCode.FAILED, "文件不可为空", null);
 		}
 		for (CommonsMultipartFile file : files) {
-			if (!file.isEmpty()) {
+			if (file.isEmpty()) {
 				return new Status(false,StatusCode.FAILED,"文件不可为空",null);
 			}
 			if(file.getSize()>FileUpload.FILE_MAX_SIZE){

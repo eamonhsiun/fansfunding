@@ -2,12 +2,15 @@ package com.fansfunding.fan;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
 import com.umeng.socialize.PlatformConfig;
 
 /**
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity{
     private ViewPager vp_Main;
     private MainPaperAdapter paperAdapter;
     private TabLayout tabLayout;
+    private NetWorkStatusReceiver netWorkStatusReceiver = new NetWorkStatusReceiver();
 
 
     @Override
@@ -83,6 +87,11 @@ public class MainActivity extends AppCompatActivity{
         });
         //将pviewpaper的缓存页设为4页
         vp_Main.setOffscreenPageLimit(4);
+
+        //注册监听网络状态的广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStatusReceiver, intentFilter);
     }
 
     @Override
@@ -133,5 +142,11 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(netWorkStatusReceiver);
     }
 }

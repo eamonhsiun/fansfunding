@@ -373,6 +373,16 @@
             android:name="com.google.android.maps"
             android:required="false" />
         <uses-library android:name="android.test.runner" />
+
+
+        <receiver android:name=".message.BroadcastReceiver.NetWorkStatusReceiver"
+            android:label="NetWorkStatus">
+            <intent-filter
+                >
+                <action android:name="android.intent.action.CONFIGURATION_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

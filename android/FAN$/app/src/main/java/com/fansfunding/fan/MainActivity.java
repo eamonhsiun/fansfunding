@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity{
 
 
     //tablayout的tab没有被选中时的图标
-    private final int[] tab_unselect={R.drawable.dollar,R.drawable.pjimagetest,R.drawable.more};
+    private final int[] tab_unselect={R.drawable.dollar,R.drawable.pjimagetest,R.drawable.pjimagetest,R.drawable.more};
 
     //tablayout的tab被选中时的图标
-    private final int[] tab_selected={R.drawable.dollar_pressed,R.drawable.pjimagetest,R.drawable.more_pressed};
+    private final int[] tab_selected={R.drawable.dollar_pressed,R.drawable.pjimagetest,R.drawable.pjimagetest,R.drawable.more_pressed};
 
 
     //启动设置界面的activity的请求码
@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         PlatformConfig.setWeixin("wx73ef904839977e99", "3c62344c9b516cafa30f31a4b2bff001");
-
-        PlatformConfig.setSinaWeibo("1040021508","79315d14bec51895cad22aedc0cd3125");
         //新浪微博 appkey appsecret
-        PlatformConfig.setQQZone("1105527311", "vZgb9lqVgZyIv98a");
+        PlatformConfig.setSinaWeibo("1040021508","79315d14bec51895cad22aedc0cd3125");
         // QQ和Qzone appid appkey
+        PlatformConfig.setQQZone("1105527311", "vZgb9lqVgZyIv98a");
+
 
 
         String[] mPermissionList = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS};
@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
-        //将pviewpaper的缓存页设为3页
-        vp_Main.setOffscreenPageLimit(3);
+        //将pviewpaper的缓存页设为4页
+        vp_Main.setOffscreenPageLimit(4);
     }
 
     @Override

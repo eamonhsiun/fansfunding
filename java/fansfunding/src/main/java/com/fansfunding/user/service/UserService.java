@@ -22,6 +22,7 @@ import com.fansfunding.project.entity.Resource;
 import com.fansfunding.user.dao.RealInfoDao;
 import com.fansfunding.user.dao.ShoppingAddressDao;
 import com.fansfunding.user.dao.UserDao;
+import com.fansfunding.user.dao.UserMomentDao;
 import com.fansfunding.user.entity.RealInfo;
 import com.fansfunding.user.entity.ShoppingAddress;
 import com.fansfunding.user.entity.User;
@@ -48,6 +49,8 @@ public class UserService {
 	private ResourceDao resourceDao;
 	@Autowired
 	private ShoppingAddressDao addressDao;
+	@Autowired
+	private UserMomentDao userMomentDao;
 	/**
 	 * 根据用户名或者id获得用户
 	 * @param id
@@ -229,6 +232,9 @@ public class UserService {
 		userbasic.put("email", user.getEmail());
 		userbasic.put("intro", user.getIntro());
 		userbasic.put("realInfo", info);
+		userbasic.put("followerNum", userDao.selectFollowers(user.getId()).size());
+		userbasic.put("followingNum", userDao.selectFollowing(user.getId()).size());
+		userbasic.put("momentNum", userMomentDao.selectByUserId(user.getId()).size());
 		return userbasic;
 	}
 	/**

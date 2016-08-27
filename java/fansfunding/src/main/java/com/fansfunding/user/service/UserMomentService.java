@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fansfunding.project.dao.ResourceDao;
 import com.fansfunding.project.entity.Resource;
+import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.socket.util.PushService;
 import com.fansfunding.user.dao.UserMomentCommentDao;
 import com.fansfunding.user.dao.UserMomentDao;
@@ -35,14 +36,18 @@ public class UserMomentService {
 	private UserMomentLikeDao userMomentLikeDao;
 	@Autowired
 	private PushService push;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ProjectService projectService;
 
 	public Map<String,Object> getMomentById(int momentId) {
 		Map<String,Object> moment = new HashMap<>();
 		UserMoment u = userMomentDao.selectById(momentId);
 
 		moment.put("momentId", u.getId());
-		moment.put("userId", u.getUserId());
-		moment.put("nickname", u.getNickname());
+		moment.put("user", userService.getUserBasicMap(u.getUserId()));
+		moment.put("project", projectService.getByProjectId(u.getLinkProject()));
 		moment.put("content", u.getContent());
 		moment.put("postTime", u.getCreateTime());
 
@@ -60,8 +65,6 @@ public class UserMomentService {
 		moment.put("commentNum", comments.size());
 		moment.put("forwardNum", 0);
 		moment.put("origin", u.getOrigin());
-		moment.put("linkProject", u.getLinkProject());
-		moment.put("linkCategory", u.getLinkCategory());
 
 		return moment;
 	}
@@ -74,8 +77,7 @@ public class UserMomentService {
 			Map<String,Object> comment=new HashMap<>();
 			comment.put("commentId", u.getId());
 			comment.put("content", u.getContent());
-			comment.put("userId", u.getUserId());
-			comment.put("nickname", u.getNickname());
+			comment.put("user", userService.getUserBasicMap(u.getUserId()));
 			comment.put("postTime", u.getCreateTime());
 			commentMap.add(comment);
 		}
@@ -187,12 +189,12 @@ public class UserMomentService {
 		for(UserMoment u:userMoments){
 			Map<String,Object> moment=new HashMap<>();
 			moment.put("momentId", u.getId());
-			moment.put("userId", u.getUserId());
-			moment.put("nickname", u.getNickname());
+			moment.put("user", userService.getUserBasicMap(u.getUserId()));
+			moment.put("project", projectService.getByProjectId(u.getLinkProject()));
 			moment.put("content", u.getContent());
 			moment.put("postTime", u.getCreateTime());
 
-			List<Resource> images=resourceDao.selectProjectImages(u.getId());
+			List<Resource> images=resourceDao.selectMomentImages(u.getId());
 			String[] paths=new String[images.size()];
 			for(int i=0;i<images.size();i++){
 				paths[i]=images.get(i).getPath();
@@ -206,8 +208,6 @@ public class UserMomentService {
 			moment.put("commentNum", comments.size());
 			moment.put("forwardNum", 0);
 			moment.put("origin", u.getOrigin());
-			moment.put("linkProject", u.getLinkProject());
-			moment.put("linkCategory", u.getLinkCategory());
 			momentMap.add(moment);
 		}
 	}

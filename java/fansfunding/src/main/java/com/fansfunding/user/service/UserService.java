@@ -237,6 +237,7 @@ public class UserService {
 	 * @return
 	 */
 	public Map<String,Object> getUserBasicMap(User user){
+		if(user==null)return null;
 		Map<String,Object> userbasic = new HashMap<>();
 		userbasic.put("id", user.getId());
 		userbasic.put("nickname", user.getNickname());

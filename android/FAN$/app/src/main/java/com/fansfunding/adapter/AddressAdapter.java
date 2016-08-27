@@ -5,40 +5,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fansfunding.fan.AddressActivity;
 import com.fansfunding.fan.AddressManagmentAty;
 import com.fansfunding.fan.R;
-import com.fansfunding.internal.Address;
 import com.fansfunding.internal.SingleAddress;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import okhttp3.Call;
@@ -139,27 +125,6 @@ public class AddressAdapter extends ArrayAdapter<SingleAddress> {
             viewHolder.checkBox.setChecked(false);
         }
 
-//        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-////
-////                for(Address.DataDetial data : AddressActivity.dataDetialList) {
-////                    if(data != dataDetial) {
-////                        data.setIs_default(false);
-////
-////                    }
-////
-////                }
-//
-//
-//                if(isChecked) {
-//
-//                } else {
-//                    viewHolder.checkBox.setChecked(false);
-//                    dataDetial.setIs_default(false);
-//                }
-//            }
-//        });
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

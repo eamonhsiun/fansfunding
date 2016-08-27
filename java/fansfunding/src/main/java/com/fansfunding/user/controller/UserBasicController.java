@@ -49,9 +49,9 @@ public class UserBasicController {
 	@ResponseBody
 	public Status newUser(@RequestParam int checker, @RequestParam String password, @RequestParam String token)
 			throws Exception {
-		if (password.length() < 6 || password.length() > 16) {
-			return new Status(false, StatusCode.PASSWORD_LENGTH_ERROR, "密码长度错误", null);
-		}
+//		if (password.length() < 6 || password.length() > 16) {
+//			return new Status(false, StatusCode.PASSWORD_LENGTH_ERROR, "密码长度错误", null);
+//		}
 		int cid;
 		Checker c;
 		User user;

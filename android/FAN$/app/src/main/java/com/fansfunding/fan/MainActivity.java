@@ -12,10 +12,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
 import com.fansfunding.fan.message.service.PushService;
 import com.umeng.socialize.PlatformConfig;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 主界面
@@ -174,5 +179,43 @@ public class MainActivity extends AppCompatActivity{
 //        stopService(intent);
         //解绑服务
         unbindService(serviceConnection);
+    }
+    
+    /**
+      *
+      *@author RJzz
+      *create at 2016/8/27 10:35
+      */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click(MainActivity.this);      //调用双击退出函数
+        }
+        return false;  //不会执行退出事件
+    }
+
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+
+    public static void exitBy2Click(MainActivity activity) {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            Toast.makeText(activity, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            activity.finish();
+            System.exit(0);
+        }
     }
 }

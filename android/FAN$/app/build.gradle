@@ -69,4 +69,5 @@ dependencies {
     compile files('src/main/libs/umeng_social_sdk.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile files('src/main/libs/java_websocket.jar')
+    compile files('src/main/libs/badgeview.jar')
 }

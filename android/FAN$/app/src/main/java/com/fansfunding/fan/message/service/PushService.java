@@ -58,7 +58,12 @@ public class PushService extends Service {
 
 
     public class WebSocketBinder extends Binder {
-        //开始第一次连接
+
+      /**
+        *开始第一次连接
+        *@author RJzz
+        *create at 2016/8/27 11:04
+        */
         public void startConnection() {
             Log.d("PushService", "PushService onStartCommand");
             if(client == null) {
@@ -96,7 +101,15 @@ public class PushService extends Service {
         }
 
 
-        //断线时候进行重连
+
+        /**
+          *断线
+          *@author RJzz
+          *create at 2016/8/27 10:59
+         * @param
+          */
+
+
         public void reConnection() {
             try {
                 WebSocketClient clientReconnection = new WebSocketClient(new URI("ws://api.immortalfans.com:8080/websocket?userId=" + id  + "&token=" + token), new Draft_17()) {

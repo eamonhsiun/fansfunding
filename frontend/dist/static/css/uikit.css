@@ -100,8 +100,8 @@
 .kit-errormsg {
   display: none;
   text-align: center;
-  padding-top: 30px;
-  padding-bottom: 30px; }
+  padding-top: 50px;
+  padding-bottom: 50px; }
 
 .kit-tabs ul {
   width: 100%;
@@ -186,7 +186,8 @@
     float: left;
     position: relative;
     cursor: pointer;
-    overflow: hidden; }
+    white-space: nowrap;
+    text-overflow: ellipsis; }
     .kit-progress-tab .kit-tab.FFtab-visited {
       color: #ababab; }
     .kit-progress-tab .kit-tab.FFtab-active {

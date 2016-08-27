@@ -1,0 +1,255 @@
+@charset "UTF-8";
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.comment-login {
+  font-size: 1.1rem;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #ababab; }
+
+.comment-text {
+  display: none;
+  border-bottom: 1px solid #ababab;
+  padding-bottom: 20px;
+  margin-top: 0 !important; }
+  .comment-text .comment-input {
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box; }
+    .comment-text .comment-input textarea {
+      width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none;
+      border: 1px solid #ababab; }
+    .comment-text .comment-input .comment-input-more {
+      color: #ababab;
+      margin-top: 10px;
+      width: 100%; }
+      .comment-text .comment-input .comment-input-more:after {
+        display: block;
+        content: "";
+        clear: both; }
+      .comment-text .comment-input .comment-input-more .comment-hint {
+        width: 100px;
+        line-height: 30px;
+        float: left; }
+        .comment-text .comment-input .comment-input-more .comment-hint.overflow {
+          color: #ee554d; }
+      .comment-text .comment-input .comment-input-more .comment-submit {
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #ee554d;
+        text-align: center;
+        line-height: 30px;
+        transition: all 0.3s ease; }
+        .comment-text .comment-input .comment-input-more .comment-submit:hover {
+          background-color: #ec2c22; }
+
+.comment-wrap {
+  clear: both;
+  width: 100%;
+  min-height: 100px;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-bottom: 25px;
+  position: relative;
+  border-bottom: 1px solid #ababab; }
+  .comment-wrap:last-child {
+    border-bottom: 0; }
+  .comment-wrap .comment-userinfo {
+    width: 140px;
+    float: left; }
+    .comment-wrap .comment-userinfo:after {
+      content: "";
+      clear: both;
+      display: block; }
+    .comment-wrap .comment-userinfo .comment-avatar {
+      margin: auto;
+      width: 60px;
+      height: 60px; }
+      .comment-wrap .comment-userinfo .comment-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; }
+    .comment-wrap .comment-userinfo .comment-userinfo-name {
+      text-align: center;
+      font-size: 1.1rem;
+      padding-top: 10px; }
+    .comment-wrap .comment-userinfo .comment-userinfo-intro {
+      padding-top: 5px;
+      color: #ababab; }
+  .comment-wrap .comment-content {
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box; }
+    .comment-wrap .comment-content .comment-inner {
+      font-size: 1.1rem; }
+    .comment-wrap .comment-content .comment-images {
+      padding-bottom: 10px; }
+      .comment-wrap .comment-content .comment-images:after {
+        content: "";
+        display: block;
+        clear: both; }
+      .comment-wrap .comment-content .comment-images .comment-image {
+        width: 120px;
+        height: 120px;
+        float: left;
+        padding-top: 20px;
+        padding-right: 20px;
+        overflow: hidden; }
+        .comment-wrap .comment-content .comment-images .comment-image img {
+          width: 100%;
+          min-height: 100%; }
+    .comment-wrap .comment-content .comment-more {
+      color: #ababab;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 5px; }
+      .comment-wrap .comment-content .comment-more:after {
+        content: "";
+        clear: both;
+        display: block; }
+      .comment-wrap .comment-content .comment-more .comment-time {
+        width: 80px;
+        float: left;
+        margin-left: 160px; }
+      .comment-wrap .comment-content .comment-more .comment-btns {
+        float: right;
+        margin-right: 30px; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-reply {
+          cursor: pointer;
+          color: #d65152;
+          float: right;
+          margin-right: 20px; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-like {
+          cursor: pointer;
+          float: right; }
+          .comment-wrap .comment-content .comment-more .comment-btns .comment-like:before {
+            font-size: 1.1rem;
+            padding-right: 2px;
+            font-family: "FontAwesome";
+            content: ""; }
+
+@media screen and (max-width: 900px) {
+  .comment-text .comment-userinfo {
+    width: 100px; }
+  .comment-text .comment-input {
+    margin-left: 100px; }
+  .comment-wrap .comment-userinfo {
+    width: 100px; }
+  .comment-wrap .comment-content {
+    margin-left: 100px; }
+    .comment-wrap .comment-content .comment-more .comment-time {
+      margin-left: 120px; } }
+
+@media screen and (max-width: 500px) {
+  .comment-text .comment-input {
+    clear: both;
+    margin-left: 0;
+    margin-top: 15px;
+    padding: 0 10px;
+    box-sizing: border-box; }
+    .comment-text .comment-input textarea {
+      width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none; }
+    .comment-text .comment-input .comment-input-more {
+      color: #ababab;
+      margin-top: 10px;
+      width: 100%; }
+      .comment-text .comment-input .comment-input-more:after {
+        display: block;
+        content: "";
+        clear: both; }
+      .comment-text .comment-input .comment-input-more .comment-hint {
+        width: 100px;
+        line-height: 30px;
+        float: left; }
+      .comment-text .comment-input .comment-input-more .comment-submit {
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #ee554d;
+        text-align: center;
+        line-height: 30px;
+        transition: all 0.3s ease; }
+        .comment-text .comment-input .comment-input-more .comment-submit:hover {
+          background-color: #ec2c22; }
+  .comment-wrap {
+    min-height: 100px;
+    padding-bottom: 10px; }
+    .comment-wrap:last-child {
+      padding-bottom: 0; }
+    .comment-wrap .comment-userinfo {
+      width: 100%;
+      float: none; }
+      .comment-wrap .comment-userinfo .comment-avatar {
+        margin: 0;
+        padding-left: 10px;
+        width: 50px;
+        height: 50px;
+        float: left;
+        padding-right: 20px; }
+      .comment-wrap .comment-userinfo .comment-userinfo-name {
+        text-align: left;
+        font-size: 1.1rem;
+        padding-top: 10px; }
+      .comment-wrap .comment-userinfo .comment-userinfo-intro {
+        padding-top: 0;
+        font-size: 1rem; }
+    .comment-wrap .comment-content {
+      margin-left: 0;
+      clear: both;
+      padding: 10px 10px 5px; }
+      .comment-wrap .comment-content .comment-more {
+        color: #ababab;
+        position: static;
+        padding-top: 10px;
+        width: 100%; }
+        .comment-wrap .comment-content .comment-more .comment-time {
+          margin-left: 0; }
+        .comment-wrap .comment-content .comment-more .comment-btns {
+          margin-right: 10px; } }

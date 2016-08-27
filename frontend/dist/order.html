@@ -31,6 +31,7 @@
   
     <link rel="stylesheet" type="text/css" href="static/css/order.css">
   
+  
 </head>
 <body>
 
@@ -47,7 +48,7 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="space.html"><li>我的项目</li></a>
+              <a href="space.html"><li>我的空间</li></a>
               <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
@@ -115,7 +116,7 @@
                 <div class="feedback-detail-content">{{feedback.target.description}}</div>
                 <div class="feedback-detail-pics">
                   <div class="feedback-detail-pic" v-for="image in feedback.target.images">
-                    <img v-bind:src="image | resource" alt="">
+                    <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
                   </div>
                 </div>
               </div>
@@ -230,6 +231,7 @@
       <div class="order-success order-step-two FFbtn" v-if="step == 2" @click.prevent="redirect('project')">支付成功</div>
       <div class="order-failure order-step-two FFbtn" v-if="step == 2" @click.prevent="cancelOrder()">支付失败</div>
     </div>
+    <ffviewer :status.sync="picViewer.status" :imgsrc="picViewer.src"></ffviewer>
   </div>
 
 
@@ -262,6 +264,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   
 
@@ -282,8 +285,12 @@
 
   
   
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
     <script src="static/js/module/address.js"></script>
     <script src="static/js/order.js"></script>
+  
   
   
   </body>

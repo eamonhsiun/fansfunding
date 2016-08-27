@@ -359,7 +359,7 @@ a {
             background-color: #eeeeee; }
       #header .profile .profile-dropdown:hover .profile-dropdown-arrow:before {
         color: #ffffff;
-        background-color: #d65152; }
+        background-color: #ec2c22; }
       #header .profile .profile-dropdown:hover ul {
         display: block;
         animation-name: fadeInDown; }
@@ -521,7 +521,7 @@ a {
         padding-right: 15px; }
       #header .search .search-text:focus ~ label[for="search-text"]:before {
         color: #ffffff;
-        background-color: #d65152; }
+        background-color: #ec2c22; }
   #back-to-top {
     right: 50px;
     margin-right: 0; } }
@@ -573,7 +573,7 @@ a {
       animation-fill-mode: both; }
     #header .nav:hover .nav-dropdown-arrow:before {
       color: #ffffff;
-      background-color: #d65152; }
+      background-color: #ec2c22; }
     #header .nav:hover ul {
       display: block;
       position: absolute;

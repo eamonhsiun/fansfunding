@@ -23,6 +23,8 @@
   
   
     <link rel="stylesheet" type="text/css" href="static/css/project.css">
+    <link rel="stylesheet" href="static/css/comment.css">
+  
   
   
   
@@ -47,7 +49,7 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="space.html"><li>我的项目</li></a>
+              <a href="space.html"><li>我的空间</li></a>
               <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
@@ -90,7 +92,7 @@
           </div>
           <div class="intro-right intro-details">
             <div class="intro-detail" id="target-money">目标金额<p><span v-text="project.data.targetMoney | currency '￥' 0"></span>元</p></div>
-            <div class="intro-detail" id="parcent">已筹百分比<p><span v-text="project.data.sum/project.data.targetMoney | currency '' 2"></span>%</p></div>
+            <div class="intro-detail" id="parcent">已筹百分比<p><span v-text="project.data.sum/project.data.targetMoney*100 | currency '' 2"></span>%</p></div>
             <div class="intro-detail" id="lefttime">剩余时间<p><span v-text="getLeftTime(new Date(), project.data.targetDeadline)"></span></p></div>
             <div class="intro-status">众筹中</div>
           </div>
@@ -200,12 +202,12 @@
                 </div>
               </div>
             </div>
-            <div class="kit-loader FFloader" id="comment-loader">
+            <div class="kit-loader FFloader">
               <div class="loader-inner triangle-skew-spin">
                 <div></div>
               </div>
             </div>
-            <div id="comment-errormsg" class="kit-errormsg FFerrormsg">还没有评论，快来评论吧</div>
+            <div class="kit-errormsg FFerrormsg">还没有评论，快来评论吧</div>
             <ul>
               <li class="comment-wrap" v-for="comment in comments.list" track-by="$index">
                 <div class="comment-userinfo">
@@ -310,6 +312,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   
 
@@ -334,6 +337,7 @@
 
   
 
+  
   
   
   

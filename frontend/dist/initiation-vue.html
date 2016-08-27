@@ -31,6 +31,7 @@
   
   
   
+  
 </head>
 <body>
 
@@ -47,7 +48,7 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="space.html"><li>我的项目</li></a>
+              <a href="space.html"><li>我的空间</li></a>
               <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
@@ -105,6 +106,12 @@
             <div class="progress-info-hint">筹款金额</div>
             <div class="progress-info-wrap">
               <input id="support-money" type="number" class="progress-info-input" v-model="project.money">
+            </div>
+          </div>
+          <div class="progress-money progress-info">
+            <div class="progress-info-hint">项目分类</div>
+            <div class="progress-info-wrap">
+              <input id="project-category" type="number" class="progress-info-input" v-model="categoryId">
             </div>
           </div>
           <div class="progress-info" id="progress-description">
@@ -216,6 +223,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   
 
@@ -243,6 +251,7 @@
 
   
 
+  
   
   
   

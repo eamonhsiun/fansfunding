@@ -1,0 +1,285 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "theme/variables.scss";
+@import "import/font-awesome.scss";
+
+.comment-login{
+  font-size: 1.1rem;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid $color_disabled;
+}
+.comment-text{
+  display: none;
+  border-bottom: 1px solid $color_disabled;
+  padding-bottom: 20px;
+  margin-top: 0 !important;
+  .comment-input{
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    textarea{
+      width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none;
+      border: 1px solid $color_disabled;
+    }
+    .comment-input-more{
+      color: $color_disabled;
+      margin-top: 10px;
+      width: 100%;
+      &:after{
+        display: block;
+        content: "";
+        clear: both;
+      }
+      .comment-hint{
+        width: 100px;
+        line-height: 30px;
+        float: left;
+        &.overflow{
+          color: $color_red_1;
+        }
+      }
+      .comment-submit{
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: $color_text_light;
+        background-color: $color_red_1;
+        text-align: center;
+        line-height: 30px;
+        @include transition_all();
+        &:hover{
+          background-color: $color_primary;
+        }
+      }
+    }
+  }
+}
+.comment-wrap{
+  clear: both;
+  width: 100%;
+  min-height: 100px;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-bottom: 25px;
+  position: relative;
+  border-bottom: 1px solid $color_disabled;
+  &:last-child{
+    border-bottom: 0;
+  }
+  .comment-userinfo{
+    width: 140px;
+    float: left;
+    &:after{
+      content: "";
+      clear: both;
+      display: block;
+    }
+    .comment-avatar{
+      margin: auto;
+      width: 60px;
+      height: 60px;
+      img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .comment-userinfo-name{
+      text-align: center;
+      font-size: 1.1rem;
+      padding-top: 10px;
+    }
+    .comment-userinfo-intro{
+      padding-top: 5px;
+      color: $color_disabled;
+    }
+  }
+  .comment-content{
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    .comment-inner{
+      font-size: 1.1rem;
+    }
+    .comment-images{
+      padding-bottom: 10px;
+      &:after{
+        content: "";
+        display: block;
+        clear: both;
+      }
+      .comment-image{
+        width: 120px;
+        height: 120px;
+        float: left;
+        padding-top: 20px;
+        padding-right: 20px;
+        overflow: hidden;
+        img{
+          width: 100%;
+          min-height: 100%;
+        }
+      }
+    }
+    .comment-more{
+      color: $color_disabled;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 5px;
+      &:after{
+        content: "";
+        clear: both;
+        display: block;
+      }
+      .comment-time{
+        width: 80px;
+        float: left;
+        margin-left: 160px;
+      }
+      .comment-btns{
+        float: right;
+        margin-right: 30px;
+        .comment-btn{
+        }
+        .comment-reply{
+          cursor: pointer;
+          color: $color_red_2;
+          float: right;
+          margin-right: 20px;
+        }
+        .comment-like{
+          cursor: pointer;
+          float: right;
+          &:before{
+            font-size: 1.1rem;
+            padding-right: 2px;
+            @include font_icon_content($fa-var-thumbs-up);
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .comment-text{
+    .comment-userinfo{
+      width: 100px;
+    }
+    .comment-input{
+      margin-left: 100px;
+    }
+  }
+  .comment-wrap{
+    .comment-userinfo{
+      width: 100px;
+    }
+    .comment-content{
+      margin-left: 100px;
+      .comment-more{
+        .comment-time{
+          margin-left: 120px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .comment-text{
+    .comment-input{
+      clear: both;
+      margin-left: 0;
+      margin-top: 15px;
+      padding: 0 10px;
+      box-sizing: border-box;
+      textarea{
+        width: 100%;
+        height: 120px;
+        box-sizing: border-box;
+        padding: 10px;
+        resize: none;
+      }
+      .comment-input-more{
+        color: $color_disabled;
+        margin-top: 10px;
+        width: 100%;
+        &:after{
+          display: block;
+          content: "";
+          clear: both;
+        }
+        .comment-hint{
+          width: 100px;
+          line-height: 30px;
+          float: left;
+        }
+        .comment-submit{
+          float: right;
+          width: 100px;
+          height: 30px;
+          cursor: pointer;
+          color: $color_text_light;
+          background-color: $color_red_1;
+          text-align: center;
+          line-height: 30px;
+          @include transition_all();
+          &:hover{
+            background-color: $color_primary;
+          }
+        }
+      }
+    }
+  }
+  .comment-wrap{
+    min-height: 100px;
+    padding-bottom: 10px;
+    &:last-child{
+      padding-bottom: 0;
+    }
+    .comment-userinfo{
+      width: 100%;
+      float: none;
+      .comment-avatar{
+        margin: 0;
+        padding-left: 10px;
+        width: 50px;
+        height: 50px;
+        float: left;
+        padding-right: 20px;
+      }
+      .comment-userinfo-name{
+        text-align: left;
+        font-size: 1.1rem;
+        padding-top: 10px;
+      }
+      .comment-userinfo-intro{
+        padding-top: 0;
+        font-size: 1rem;
+      }
+    }
+    .comment-content{
+      margin-left: 0;
+      clear: both;
+      padding: 10px 10px 5px;
+      .comment-more{
+        color: $color_disabled;
+        position: static;
+        padding-top: 10px;
+        width: 100%;
+        .comment-time{
+          margin-left: 0;
+        }
+        .comment-btns{
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

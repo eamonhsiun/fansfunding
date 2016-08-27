@@ -1,13 +1,6 @@
 var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 
-Vue.filter("resource" ,function(value) {
-  if(!value){
-    return "";
-  }
-  return resourceUrl + value;
-});
-
 var settingVm = new Vue({
   el: "#setting",
   data: {

@@ -39,11 +39,11 @@
                     目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
                   </div>
                   <div class="project-card-detail-info project-card-progress">
-                    已达成：<span>{{project.sum/project.targetMoney | currency '' 2}}</span>%
+                    已达成：<span>{{project.sum/project.targetMoney*100 | currency '' 2}}</span>%
                   </div>
                 </div>
               </div>
-              <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney + '%'}"></span></div>
+              <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney*100 + '%'}"></span></div>
               <div class="project-card-initiator">
                 <div class="initiator-avatar"><img :src="project.sponsorHead | resource" alt=""></div>
                 <div class="initiator-info">

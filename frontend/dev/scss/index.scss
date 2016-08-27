@@ -33,6 +33,27 @@
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
+  .plate-class{
+    margin-top: 15px;
+    li{
+      font-size: 1.2rem;
+      line-height: 40px;
+      display: inline-block;
+      padding: 0 20px;
+      border: 1px solid $color_red_1;
+      border-radius: 20px;
+      margin-right: 10px;
+      cursor: pointer;
+      @include transition_all();
+      &:hover{
+        background-color: $color_plate_background_hover;
+      }
+      &.active{
+        background-color: $color_red_1;
+        color: $color_text_light;
+      }
+    }
+  }
   .plate-content{
     .loader{
       padding-top: 100px;

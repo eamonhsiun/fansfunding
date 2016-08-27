@@ -31,6 +31,7 @@
   
   
   
+  
 </head>
 <body>
 
@@ -47,7 +48,7 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="space.html"><li>我的项目</li></a>
+              <a href="space.html"><li>我的空间</li></a>
               <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
@@ -82,7 +83,12 @@
 
   <div class="container" id="project-list">
     <div class="plate">
-      <div class="block-title" v-html="title">热门项目</div>
+      <div class="block-title" v-html="title">项目分类</div>
+      <div class="plate-class">
+        <ul>
+          <li v-for="category in categorys.list" v-text="category.name" :class="{'active': category.id == categoryId}" @click.prevent="changeCategory(category.id)"></li>
+        </ul>
+      </div>
       <div class="plate-content">
         <template id="project-list-template">
           <ul>
@@ -102,11 +108,11 @@
                       目标金额：<span v-text="project.targetMoney | currency '￥' 0"></span>
                     </div>
                     <div class="project-card-detail-info project-card-progress">
-                      已达成：<span v-text="project.sum/project.targetMoney | currency '' 2"></span>%
+                      已达成：<span v-text="project.sum/project.targetMoney*100 | currency '' 2"></span>%
                     </div>
                   </div>
                 </div>
-                <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney + '%'}"></span></div>
+                <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney*100 + '%'}"></span></div>
                 <div class="project-card-initiator">
                   <div class="initiator-avatar"><img :src="project.sponsorHead | resource" alt=""></div>
                   <div class="initiator-info">
@@ -158,6 +164,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   
 
@@ -176,6 +183,7 @@
 
   
 
+  
   
   
   

@@ -4,13 +4,6 @@ var orderTab = new FFtab($('.kit-progress-tab'),$('.order-progress'),{
   click: false
 });
 
-Vue.filter("resource" ,function(value) {
-  if(!value){
-    return "";
-  }
-  return resourceUrl + value;
-});
-
 var orderVm = new Vue({
   el: "#order",
   data: {
@@ -45,6 +38,10 @@ var orderVm = new Vue({
       status: false,
       connect: false,
       page: "",
+    },
+    picViewer: {
+      status: false,
+      src: ""
     }
   },
   watch: {
@@ -198,6 +195,10 @@ var orderVm = new Vue({
     finishOrder: function(){
       orderTab.goto(2);
       this.step = 3;
+    },
+    viewPic: function(event){
+      this.picViewer.src = event.target.src;
+      this.picViewer.status = true;
     }
   },
   ready: function(){

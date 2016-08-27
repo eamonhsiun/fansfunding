@@ -40,13 +40,13 @@ $color_header_link: $color_text;
 $color_header_link_active: $color_primary;
 
 $color_profile_dropdown_arrow: $color_primary;
-$color_profile_dropdown_arrow_background: $color_red_2;
+$color_profile_dropdown_arrow_background: $color_primary;
 
 $color_search_icon: $color_primary;
-$color_search_icon_background: $color_red_2;
+$color_search_icon_background: $color_primary;
 
 $color_nav_icon: $color_primary;
-$color_nav_icon_background: $color_red_2;
+$color_nav_icon_background: $color_primary;
 
 
 
@@ -72,7 +72,7 @@ $color_profile_dropdown_background_hover: #eeeeee;
 $color_profile_link: #ffffff;
 
 $color_plate_border: #aaaaaa;
-$color_plate_background_hover: rgba(0,0,0,0.1);
+$color_plate_background_hover: rgba(100,100,100,0.1);
 
 
 $color_footer_background: $color_red_1;

@@ -4,6 +4,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   @@if( jstype === 'index'){
     <script src="static/js/lib/swiper/swiper.min.js"></script>
@@ -66,11 +67,24 @@
   }
 
   @@if( jstype === 'space'){
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
+    <script src="static/js/module/pagination.js"></script>
     <script src="static/js/space.js"></script>
   }
   @@if( jstype === 'order'){
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
     <script src="static/js/module/address.js"></script>
     <script src="static/js/order.js"></script>
+  }
+  @@if( jstype === 'order_detail'){
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
+    <script src="static/js/order-detail.js"></script>
   }
   @@if( jstype === 'project_list'){
     <script src="static/js/module/pagination.js"></script>

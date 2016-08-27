@@ -1,0 +1,99 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "theme/variables.scss";
+@import "import/font-awesome.scss";
+
+.order-detail-title{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: $color_green_3;
+  &:before{
+    padding-right: 10px;
+  }
+}
+.order-detail-list{
+  clear: both;
+  width: 100%;
+  font-size: 1.1rem;
+  line-height: 30px;
+  &:after{
+    clear: both;
+    display: block;
+    content: "";
+  }
+  .order-detail-hint{
+    float: left;
+    text-align: right;
+    width: 100px;
+    padding-right: 10px;
+  }
+}
+.feedback-detail{
+  .order-detail-title{
+    &:before{
+      @include font_icon_content($fa-var-tag);
+    }
+  }
+  .feedback-wrap{
+    padding: 0 25px 10px;
+  }
+  .project-title{
+    font-size: 1.8rem;
+  }
+  .feedback-title{
+    margin-top: 5px;
+    font-size: 1.3rem;
+  }
+  .feedback-description{
+    color: $color_text;
+    margin-top: 10px;
+  }
+  .feedback-money{
+    font-size: 1.2rem;
+    span{
+      font-size: 2rem;
+      color: $color_red_1;
+    }
+  }
+  .feedback-images{
+    .feedback-image{
+      float: left;
+      margin-top: 10px;
+      margin-right: 20px;
+      width: 130px;
+      height: 130px;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &:after{
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+}
+#order-status{
+  font-size: 1.2rem;
+}
+.order-info{
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid $color_disabled;
+}
+.order-detail{
+  .order-detail-title{
+    &:before{
+      @include font_icon_content($fa-var-file-text);
+    }
+  }
+}
+.address-detail{
+  .order-detail-title{
+    &:before{
+      @include font_icon_content($fa-var-map-marker);
+    }
+  }
+}

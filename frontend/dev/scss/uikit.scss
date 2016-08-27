@@ -75,8 +75,8 @@
 .kit-errormsg{
   display: none;
   text-align: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 //tab
 .kit-tabs{
@@ -177,7 +177,8 @@
     float: left;
     position: relative;
     cursor: pointer;
-    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     &.FFtab-visited{
       color: $color_disabled;
     }

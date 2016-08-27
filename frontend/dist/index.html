@@ -31,6 +31,7 @@
   
   
   
+  
 </head>
 <body>
 
@@ -47,7 +48,7 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="space.html"><li>我的项目</li></a>
+              <a href="space.html"><li>我的空间</li></a>
               <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
@@ -119,11 +120,11 @@
                     目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
                   </div>
                   <div class="project-card-detail-info project-card-progress">
-                    已达成：<span>{{project.sum/project.targetMoney | currency '' 2}}</span>%
+                    已达成：<span>{{project.sum/project.targetMoney*100 | currency '' 2}}</span>%
                   </div>
                 </div>
               </div>
-              <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney + '%'}"></span></div>
+              <div class="project-card-progressbar"><span :style="{width: project.sum/project.targetMoney*100 + '%'}"></span></div>
               <div class="project-card-initiator">
                 <div class="initiator-avatar"><img :src="project.sponsorHead | resource" alt=""></div>
                 <div class="initiator-info">
@@ -173,6 +174,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   
     <script src="static/js/lib/swiper/swiper.min.js"></script>
@@ -194,6 +196,7 @@
 
   
 
+  
   
   
   

@@ -29,6 +29,8 @@
   
   
     <link rel="stylesheet" type="text/css" href="static/css/space.css">
+    <link rel="stylesheet" href="static/css/comment.css">
+  
   
   
 </head>
@@ -47,7 +49,7 @@
           <div class="profile-dropdown">
             <div class="profile-dropdown-arrow"></div>
             <ul>
-              <a href="space.html"><li>我的项目</li></a>
+              <a href="space.html"><li>我的空间</li></a>
               <!-- <a href="###"><li>我的钱包</li></a> -->
               <a href="setting.html"><li>个人设置</li></a>
               <a href="" id="logoutbtn"><li>退出登录</li></a>
@@ -105,13 +107,13 @@
                    <div class="user-data-fans">粉丝<span></span></div>
                  </li>
                  <li class="user-data-list">
-                   支持的项目<span v-text="projects.support.count"></span>
+                   支持的项目<span v-text="projects.support.pagination.total"></span>
                  </li>
                  <li class="user-data-list">
-                   发布的动态<span></span>
+                   发布的动态<span v-text="moments.pagination.total"></span>
                  </li>
                  <li class="user-data-list">
-                   发起的项目<span v-text="projects.sponsor.count"></span>
+                   发起的项目<span v-text="projects.sponsor.pagination.total"></span>
                  </li>
                </ul>
             </div>
@@ -122,8 +124,8 @@
             <div class="kit-tabs FFtabs">
               <ul>
                 <li class="kit-tab FFtab">最近项目</li>
-                <li class="kit-tab FFtab">最近动态</li>
-                <li class="kit-tab FFtab" v-show="isSelf">我的订单</li>
+                <li class="kit-tab FFtab" @click.prevent="getRecentMoment(0)">最近动态</li>
+                <li class="kit-tab FFtab" v-show="isSelf" @click.prevent="getRecentOrder(0)">我的订单</li>
               </ul>
             </div>
           </div>
@@ -154,7 +156,7 @@
                                 目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
                               </div>
                               <div class="project-detail-info project-progress">
-                                已达成：<span>{{project.sum/project.targetMoney | currency '' 2}}</span>%
+                                已达成：<span>{{project.sum/project.targetMoney*100 | currency '' 2}}</span>%
                               </div>
                             </div>
                           </div>
@@ -193,8 +195,57 @@
                   <span class="kit-title-left">动态</span>
                   <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
-                <div class="kit-content">
-
+                <div class="kit-content" id="moment">
+                  <div class="comment-text comment-wrap" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
+                    <div class="comment-userinfo">
+                      <div class="comment-avatar">
+                        <img v-bind:src="userInfo.head | resource" alt="">
+                      </div>
+                      <div class="comment-userinfo-name">{{ userInfo.nickname }}</div>
+                      <!-- <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
+                    </div>
+                    <div class="comment-input">
+                      <textarea name="" id="moment-textarea" cols="30" rows="10" v-model="moments.content"></textarea >
+                      <div class="comment-input-more">
+                        <div class="comment-hint" id="moment-hint" v-text="moments.hint" v-bind:class="{'overflow':moments.overflow}"></div>
+                        <div class="comment-submit" id="comment-submit" v-on:click="sendMoment">发表动态</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="kit-loader FFloader" id="moment-loader">
+                    <div class="loader-inner triangle-skew-spin">
+                      <div></div>
+                    </div>
+                  </div>
+                  <div id="moment-errormsg" class="kit-errormsg FFerrormsg">发起人还没有发布动态</div>
+                  <ul>
+                    <li class="moment-wrap comment-wrap" v-for="moment in moments.list" track-by="$index">
+                      <div class="moment-userinfo comment-userinfo">
+                        <div class="moment-avatar comment-avatar">
+                          <img v-bind:src="moment.sponsorHead | resource" alt="">
+                        </div>
+                        <a href="space.html?userid={{moment.userId}}"><div class="moment-userinfo-name comment-userinfo-name">{{ moment.nickname }}</div></a>
+                        <!-- <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
+                      </div>
+                      <div class="moment-content comment-content">
+                        <div class="moment-inner comment-inner">{{ moment.content }}</div>
+                        <div class="moment-images comment-images">
+                          <div class="comment-image" v-for="image in moment.images" track-by="$index">
+                            <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
+                          </div>
+                        </div>
+                        <div class="moment-more comment-more">
+                          <div class="moment-time comment-time">{{ moment.postTime | commentTime }}</div>
+                          <div class="moment-btns comment-btns">
+                            <div class="moment-btn moment-like comment-btn comment-like" v-text="moment.likeNum"></div>
+                            <div class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">评论</div>
+                            <div class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">转发</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <pagination :pagination="moments.pagination" :callback="getRecentMoment" :offset="3"></pagination>
                 </div>
               </div>
             </div>
@@ -217,15 +268,17 @@
                             <div class="order-title">{{order.projectName}}</div>
                             <div class="order-feedback-title">{{order.feedbackTitle}}</div>
                             <div class="order-detail">
+                              <div class="order-detail-money">{{order.totalFee}}</div>
                               <div class="order-detail-no">{{order.tradeNo}}</div>
-                              <div class="order-detail-time">{{getTime(order.paidTime)}}</div>
+                              <div class="order-detail-time">{{order.paidTime | time}}</div>
                             </div>
                           </div>
                         </a>
                       </li>
                     </ul>
+                    <pagination :pagination="pagination" :callback="callback" :offset="3"></pagination>
                   </template>
-                  <space-order-list :orders="orders.list.slice(0,3)"></space-order-list>
+                  <space-order-list :orders="orders.list" :pagination="orders.pagination" :callback="getRecentOrder"></space-order-list>
                 </div>
               </div>
             </div>
@@ -263,6 +316,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/filter.js"></script>
 
   
 
@@ -282,7 +336,12 @@
   
 
   
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
+    <script src="static/js/module/pagination.js"></script>
     <script src="static/js/space.js"></script>
+  
   
   
   

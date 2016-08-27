@@ -257,6 +257,7 @@ button.swiper-pagination-bullet {
 
 .swiper-container-cube .swiper-slide, .swiper-container-flip .swiper-slide {
   pointer-events: none;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   z-index: 1; }
 
@@ -268,6 +269,7 @@ button.swiper-pagination-bullet {
 
 .swiper-container-cube .swiper-slide-shadow-bottom, .swiper-container-cube .swiper-slide-shadow-left, .swiper-container-cube .swiper-slide-shadow-right, .swiper-container-cube .swiper-slide-shadow-top, .swiper-container-flip .swiper-slide-shadow-bottom, .swiper-container-flip .swiper-slide-shadow-left, .swiper-container-flip .swiper-slide-shadow-right, .swiper-container-flip .swiper-slide-shadow-top {
   z-index: 0;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden; }
 
 .swiper-container-cube .swiper-slide {
@@ -442,6 +444,23 @@ button.swiper-pagination-bullet {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px; }
+  .plate .plate-class {
+    margin-top: 15px; }
+    .plate .plate-class li {
+      font-size: 1.2rem;
+      line-height: 40px;
+      display: inline-block;
+      padding: 0 20px;
+      border: 1px solid #ee554d;
+      border-radius: 20px;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease; }
+      .plate .plate-class li:hover {
+        background-color: rgba(100, 100, 100, 0.1); }
+      .plate .plate-class li.active {
+        background-color: #ee554d;
+        color: #ffffff; }
   .plate .plate-content .loader {
     padding-top: 100px;
     padding-bottom: 100px; }

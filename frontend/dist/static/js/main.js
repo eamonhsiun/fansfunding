@@ -12,13 +12,6 @@ var defaultProjectCategory = 1;
 
 var plateLoader = new FFloader(document.getElementsByClassName("plate-content")[0]);
 
-Vue.filter("resource" ,function(value) {
-  if(!value){
-    return "";
-  }
-  return resourceUrl + value;
-});
-
 var indexVm = new Vue({
   el: "#index",
   data: {

@@ -1,12 +1,5 @@
 var plateLoader = new FFloader(document.getElementsByClassName("plate-content")[0]);
 
-Vue.filter("resource" ,function(value) {
-  if(!value){
-    return "";
-  }
-  return resourceUrl + value;
-});
-
 Vue.component('project-list', {
   template: '#project-list-template',
   props: ["projects"],
@@ -36,7 +29,7 @@ var projectListVm = new Vue({
     status: false, //登陆状态
     categoryId: getQueryString("categoryId") || 1,
     searchCondition: getQueryString("search"),
-    title: "热门项目",
+    title: "浏览项目",
     categorys: {
       status: false,
       connect: false,
@@ -55,13 +48,22 @@ var projectListVm = new Vue({
     },
   },
   methods: {
+    redirect: function(target){
+      if(target){
+        switch(target){
+
+        }
+        return;
+      }
+      window.location.href = "404.html";
+    },
     setPagination: function(pagination, data){
       pagination.total = data.total;
       pagination.pageNum = data.pageNum;
       pagination.pages = data.pages;
       pagination.pageSize = data. pageSize;
     },
-    getCategorys: function(page){
+    getCategorys: function(){
       var _this = this;
       var categorysRequest = ajax({
         method: 'get',
@@ -69,11 +71,12 @@ var projectListVm = new Vue({
       }).then(function (response, xhr) {
         var data = response;
         _this.categorys.connect = true;
-        if(!data.result || data.data.list.length === 0){
+        if(!data.result || data.data.length === 0){
           // plateLoader.endLoad(false, "没有相关项目");
         }else{
           _this.categorys.status = true;
-          _this.categorys.list = data.data.list;
+          _this.categorys.list = data.data;
+
         }
       }).catch(function (response, xhr) {
         console.log("获取项目分类失败")
@@ -113,6 +116,8 @@ var projectListVm = new Vue({
       wrap.connect = true;
       if(!data.result || data.data.list.length === 0){
         plateLoader.endLoad(false, "没有相关项目");
+        wrap.list = [];
+        this.setPagination(wrap.pagination, data.data);
       }else{
         wrap.status = true;
         wrap.list = data.data.list;
@@ -120,6 +125,10 @@ var projectListVm = new Vue({
         plateLoader.endLoad();
         window.scrollTo(0, 0);
       }
+    },
+    changeCategory: function(id){
+      this.categoryId = id;
+      this.getProjects();
     }
   },
   ready: function(){
@@ -127,7 +136,7 @@ var projectListVm = new Vue({
       this.title = "“" + this.searchCondition + "”的搜索结果："
       this.searchProject(this.projects.pagination.pageNum);
     }else{
-      // this.getCategorys();
+      this.getCategorys();
       this.getProjects(this.projects.pagination.pageNum);
     }
   }

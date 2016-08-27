@@ -160,7 +160,7 @@ var initiationVm = new Vue({
       }
       var _this = this;
       this.request.progress = 10;
-      cropper.getCroppedCanvas({width:700, height: 450}).toBlob(function (blob){
+      cropper.getCroppedCanvas({width:1400, height: 900}).toBlob(function (blob){
         var imageForm = new FormData();
         imageForm.append("files", blob);
         var imageRequest = ajax({

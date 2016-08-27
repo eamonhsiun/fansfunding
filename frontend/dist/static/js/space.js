@@ -2,10 +2,11 @@ var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 
 var spaceTab = new FFtab($('.FFtabs'),$('.FFtab-contents'));
+var momentLoader = new FFloader($("#moment"));
 
 Vue.component('space-project-list', {
   template: '#space-project-list-template',
-  props: ["projects"],
+  props: ["projects","pagination"],
   methods: {
     getLeftTime: function(startTime, endTime){
       var d1;
@@ -28,25 +29,7 @@ Vue.component('space-project-list', {
 
 Vue.component('space-order-list', {
   template: '#space-order-list-template',
-  props: ["orders"],
-  methods: {
-    getTime: function(value){
-      var date;
-      if(value instanceof Date){
-        date = value;
-      }else{
-        date = new Date(value);
-      }
-      return date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日 " + date.getHours() + ":" + date.getMinutes();
-    },
-  }
-});
-
-Vue.filter("resource" ,function(value) {
-  if(!value){
-    return "";
-  }
-  return resourceUrl + value;
+  props: ["orders","pagination", "callback"],
 });
 
 var spaceVm = new Vue({
@@ -63,40 +46,76 @@ var spaceVm = new Vue({
         status: false,
         connect: false,
         list: [],
-        count: 0,
-        page: 0,
-        totalPages: 0
+        pagination: {
+          total: 0,
+          pageSize: 0,
+          pages: 0,
+          pageNum: 0,
+        },
       },
       follow: {
         status: false,
         connect: false,
         list: [],
-        count: 0,
-        page: 0,
-        totalPages: 0
+        pagination: {
+          total: 0,
+          pageSize: 0,
+          pages: 0,
+          pageNum: 0,
+        },
       },
       support: {
         status: false,
         connect: false,
         list: [],
-        count: 0,
-        page: 0,
-        totalPages: 0
+        pagination: {
+          total: 0,
+          pageSize: 0,
+          pages: 0,
+          pageNum: 0,
+        },
       }
     },
     orders: {
       status: false,
       connect: false,
       list: [],
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
+    },
+    moments: {
+      status: false,
+      connect: false,
       count: 0,
-      page: 0,
-      totalPages: 0
+      MAX_COUNT: 128,
+      hint: "剩余128个字",
+      overflow: false,
+      content: "",
+      images: [],
+      list: [],
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
     }
-
   },
   watch: {
-    "isSelf": function(){
-
+    'moments.content': function(val){
+      this.moments.count = val.length;
+      var num = this.moments.MAX_COUNT - this.moments.count;
+      if(num >= 0){
+        this.moments.overflow = false;
+        this.moments.hint = "剩余" + num + "个字";
+      }else{
+        this.moments.overflow = true;
+        this.moments.hint = "超出" + -num + "个字";
+      }
     }
   },
   methods:{
@@ -109,6 +128,16 @@ var spaceVm = new Vue({
         }
       }
       window.location.href = "404.html";
+    },
+    setPagination: function(pagination, data){
+      pagination.total = data.total;
+      pagination.pageNum = data.pageNum;
+      pagination.pages = data.pages;
+      pagination.pageSize = data. pageSize;
+    },
+    viewPic: function(event){
+      this.picViewer.src = event.target.src;
+      this.picViewer.status = true;
     },
     getSpaceUserInfo: function(callback){
       var _this = this;
@@ -148,9 +177,7 @@ var spaceVm = new Vue({
           _this.projects[type].status = false;
         }else{
           _this.projects[type].list = response.data.list;
-          _this.projects[type].count = response.data.total;
-          _this.projects[type].page = response.data.pageNum;
-          _this.projects[type].totalPages = response.data.pages;
+          _this.setPagination(_this.projects[type].pagination, response.data);
           _this.projects[type].status = true;
         }
       }).catch(function (response, xhr) {
@@ -216,20 +243,45 @@ var spaceVm = new Vue({
         });
       }
     },
+    getRecentMoment: function(page){
+      var _this = this;
+      var momentRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/user/" + _this.spaceId + "/moment?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
+      }).then(function (response, xhr) {
+        _this.moments.connect = true;
+        if(!response.result){
+          momentLoader.endLoad(false, "获取动态失败");
+          _this.moments.status = false;
+        }else{
+          _this.moments.list = response.data.list;
+          if(_this.moments.list.length !== 0){
+            momentLoader.endLoad();
+          }else{
+            momentLoader.endLoad(false, "没有相关动态");
+          }
+          _this.setPagination(_this.moments.pagination, response.data);
+          _this.moments.status = true;
+        }
+      }).catch(function (response, xhr) {
+        _this.moments.connect = false;
+        momentLoader.endLoad(false, "连接服务器失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
     getRecentOrder: function(page){
       var _this = this;
       var projectRequest = ajax({
         method: 'get',
-        url: apiUrl +"/user/" + _this.spaceId + "/orders?token=" + localToken,
+        url: apiUrl +"/user/" + _this.spaceId + "/orders?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
       }).then(function (response, xhr) {
         _this.orders.connect = true;
         if(!response.result){
           _this.orders.status = false;
         }else{
           _this.orders.list = response.data.list;
-          _this.orders.count = response.data.total;
-          _this.orders.page = response.data.pageNum;
-          _this.orders.totalPages = response.data.pages;
+          _this.setPagination(_this.orders.pagination, response.data);
           _this.orders.status = true;
         }
       }).catch(function (response, xhr) {
@@ -237,7 +289,36 @@ var spaceVm = new Vue({
       }).always(function (response, xhr) {
         // Do something
       });
-    }
+    },
+    sendMoment: function(){
+      var _this = this;
+      if(this.moments.overflow || !this.moments.content){
+        return;
+      }
+      var content = this.moments.content;
+      momentLoader.init();
+      var momentRequest = ajax({
+        method: 'post',
+        url: apiUrl +"/user/" + localId + "/moment",
+        data: {
+          token: localToken,
+          content: _this.moments.content,
+          images: "",
+        }
+      }).then(function (response, xhr) {
+        if(!response.result){
+          momentLoader.endLoad(false, "发布动态失败");
+        }else{
+          _this.getRecentMoment(0);
+          _this.moments.content = "";
+          momentLoader.endLoad();
+        }
+      }).catch(function (response, xhr) {
+        momentLoader.endLoad(false, "评论失败");
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
   },
   ready: function(){
     var _this = this;
@@ -258,7 +339,7 @@ var spaceVm = new Vue({
       _this.getRecentProject("follow");
       _this.getRecentProject("support");
       _this.getUserFollowStatus();
-      _this.getRecentOrder();
+      _this.getRecentMoment();
     });
 
   }

@@ -7,15 +7,17 @@
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
   </resultMap>
   
-  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-
+  <update id="deleteByPrimaryKey" parameterType="com.fansfunding.user.entity.UserMomentLike" >
+	delete from user_moment_like
+		where moment_id=#{momentId} 
+			and user_id=#{userId}
   </update>
   
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.UserMomentComment" >
+  <insert id="insert" parameterType="com.fansfunding.user.entity.UserMomentLike" >
 	insert into user_moment_like(moment_id,user_id) values(#{momentId},#{userId})
   </insert>
   
-  <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.UserMoment" >
+  <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.UserMomentLike" >
 
   </update>
   
@@ -25,6 +27,13 @@
 			from user_moment_like uml,user u
 			where uml.moment_id=#{momentId,jdbcType=INTEGER}
 			and uml.user_id=u.id
+  </select>
+  
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.fansfunding.user.entity.UserMomentLike" >
+		select user_id,moment_id 
+			from user_moment_like
+			where user_id=#{userId} 
+				and moment_id=#{momentId}
   </select>
   
   

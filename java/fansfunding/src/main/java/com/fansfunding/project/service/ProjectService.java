@@ -172,6 +172,7 @@ public class ProjectService {
 		return this.buildMap(projectDao.selectByProjectId(projectId));
 	}
 	private Map<String,Object> buildMap(Project prj){
+		if(prj==null)return null;
 		Map<String,Object> project=new HashMap<>();
 		project.put("id", prj.getId());
 		project.put("categoryId", prj.getCategoryId());

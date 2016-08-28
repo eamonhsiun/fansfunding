@@ -85,7 +85,7 @@
 		select
 		u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
 		from user u,follow_user fu
-		where fu.user_id = #{userId,jdbcType=INTEGER}
+		where fu.follower_id = #{userId,jdbcType=INTEGER}
 		and u.id=fu.follower_id
 		and fu.del_flag='0'
 		and u.del_flag='0'
@@ -95,7 +95,7 @@
 		select
 		u.id,u.name,u.phone,u.nickname,u.email,u.token,u.password,u.head,u.intro
 		from user u,follow_user fu
-		where fu.follower_id = #{followerId,jdbcType=INTEGER}
+		where fu.user_id = #{userId,jdbcType=INTEGER}
 		and u.id=fu.user_id
 		and fu.del_flag='0'
 		and u.del_flag='0'

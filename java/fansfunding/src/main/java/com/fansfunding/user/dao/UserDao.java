@@ -45,5 +45,5 @@ public interface UserDao {
 	 * @param followerId
 	 * @return
 	 */
-	List<User> selectFollowing(int followerId);
+	List<User> selectFollowing(int userId);
 }

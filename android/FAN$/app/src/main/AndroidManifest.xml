@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
     <application
+        android:name="com.fansfunding.app.App"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
@@ -384,7 +385,18 @@
         </receiver>
 
         <!--WebSocket连接服务-->
-        <service android:name=".message.service.PushService"/>
+        <service android:name=".message.service.PushService"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!--数据库名和版本号-->
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="Push.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
 
     </application>
 

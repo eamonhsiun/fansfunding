@@ -179,7 +179,7 @@ public class UserMomentController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="moment/{momentId}/like",method=RequestMethod.GET)
+	@RequestMapping(path="moment/{momentId}/like",method=RequestMethod.POST)
 	@ResponseBody
 	public Status getMomentLike(
 			@PathVariable int momentId
@@ -200,7 +200,7 @@ public class UserMomentController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="{userId}/moment/{momentId}/like",method=RequestMethod.GET)
+	@RequestMapping(path="{userId}/moment/{momentId}/like",method=RequestMethod.POST)
 	@ResponseBody
 	public Status postMomentLike(
 			@PathVariable int userId,
@@ -225,7 +225,7 @@ public class UserMomentController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="{userId}/moment/{momentId}/unlike",method=RequestMethod.GET)
+	@RequestMapping(path="{userId}/moment/{momentId}/unlike",method=RequestMethod.POST)
 	@ResponseBody
 	public Status postMomentDisLike(
 			@PathVariable int userId,

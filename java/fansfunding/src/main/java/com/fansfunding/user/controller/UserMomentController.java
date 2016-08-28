@@ -198,7 +198,7 @@ public class UserMomentController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="{userId}/moment/{momentId}/like",method=RequestMethod.POST)
+	@RequestMapping(path="{userId}/moment/{momentId}/like",method=RequestMethod.GET)
 	@ResponseBody
 	public Status postMomentLike(
 			@PathVariable int userId,
@@ -223,7 +223,7 @@ public class UserMomentController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="{userId}/moment/{momentId}/unlike",method=RequestMethod.POST)
+	@RequestMapping(path="{userId}/moment/{momentId}/unlike",method=RequestMethod.GET)
 	@ResponseBody
 	public Status postMomentDisLike(
 			@PathVariable int userId,
@@ -238,7 +238,7 @@ public class UserMomentController {
 		if(userMomentService.postDisLike(userId,momentId)){
 			return new Status(true, StatusCode.SUCCESS, "发布成功", 0);
 		}		
-		return new Status(false,StatusCode.FAILED,"参数错误",null);
+		return new Status(false,StatusCode.FAILED,"发布失败",null);
 	}
 	
 

@@ -343,6 +343,12 @@ var initiationVm = new Vue({
       if(status === true){
         _this.status = true;
         _this.userInfo = localUserInfo;
+        window.onbeforeunload = function(e){
+          if(!confirm("确认要离开吗")){
+            return false;
+          }
+          return true;
+        }
       }else{
         _this.status = false;
         _this.redirect("login");
@@ -401,9 +407,3 @@ editor.on('valuechanged', function(e, src){
 
 var cropper = null;
 
-window.onbeforeunload = function(e){
-  if(!confirm("确认要离开吗")){
-    return false;
-  }
-  return true;
-}

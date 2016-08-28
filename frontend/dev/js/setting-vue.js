@@ -49,7 +49,7 @@ var settingVm = new Vue({
         this.activeAlert("profile", "昵称不能为空");
         return;
       }
-      if(!this.userInfo.email.match(emailPattern)){
+      if(this.userInfo.email && !this.userInfo.email.match(emailPattern)){
         this.activeAlert("profile", "邮箱格式错误");
         return;
       }

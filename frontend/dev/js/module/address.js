@@ -1,11 +1,80 @@
 Vue.component('address-selector', {
-  template: '#address-selector-template',
+  template:
+  `<div class="address-selector" :class="{'editor': editor}">
+    <div class="address-list" :class="{'selected': index == selected}" v-for="(index, addr) in list" @click.prevent="selectUserAddress(index)">
+      <div class="kit-block kit-content address-block">
+        <div>
+          <div class="address-content">
+            <span class="address-hint">姓名：</span>
+            <span class="address-inner">{{addr.name}}</span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">省市区：</span>
+            <span class="address-inner">{{addr.province}} {{addr.city}} {{addr.district}}</span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">详细地址：</span>
+            <span class="address-inner">{{addr.address}}</span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">邮编：</span>
+            <span class="address-inner">{{addr.postCode}}</span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">电话：</span>
+            <span class="address-inner">{{addr.phone}}</span>
+          </div>
+        </div>
+        <div class="address-editor address-default" :class="{'default': addr.isDefault}" @click.prevent="setDefaultUserAddress(index)">{{ addr.isDefault ? "默认地址" : "设为默认地址" }}</div>
+        <div class="address-editor address-alter" @click.prevent="alterUserAddress(index)" v-if="editor">修改</div>
+        <div class="address-editor address-delete" @click.prevent="deleteUserAddress(index)" v-if="editor">删除</div>
+      </div>
+    </div>
+    <div class="address-list" id="address-add" v-if="editor">
+      <div class="kit-block kit-content address-block">
+        <div class="address-add-mask" :class="{'active': maskHide}" @click.stop="removeAddressMask">
+          <span>添加收货地址</span>
+        </div>
+        <div class="address-add-content">
+          <div class="address-content">
+            <span class="address-hint">姓名：</span>
+            <span class="address-inner"><input type="text" v-model="newAddress.name"></span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">省市区：</span>
+            <span class="address-inner">
+              <region-picker :province.sync="newAddress.province" :city.sync="newAddress.city" :district.sync="newAddress.district"  @onchange="changeArea"></region-picker>
+            </span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">详细地址：</span>
+            <span class="address-inner"><input type="text" v-model="newAddress.address"></span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">电话：</span>
+            <span class="address-inner"><input type="text" v-model="newAddress.phone"></span>
+          </div>
+          <div class="address-content">
+            <span class="address-hint">邮编：</span>
+            <span class="address-inner"><input type="text" v-model="newAddress.postCode"></span>
+          </div>
+          <div class="address-alert" v-if="newAddress.alert.show">{{newAddress.alert.text}}</div>
+          <div class="address-add-btn FFbtn" @click.prevent="addUserAddress" v-if="!newAddress.alter.status">添加</div>
+          <div class="address-add-btn FFbtn" @click.prevent="submitAlterUserAddress" v-if="newAddress.alter.status">修改</div>
+          <div class="address-cancel-btn cancel FFbtn" @click.prevent="cancelAddUserAddress">取消</div>
+        </div>
+      </div>
+    </div>
+  </div>`,
   /**
    * [props description]
    * type: "selector","editor"
    * selectedId: sync 选择的序号
    */
   props: ["type", "selectedid"],
+  components: {
+    'region-picker' :regionPicker
+  },
   data: function(){
     return {
       status: false,
@@ -16,7 +85,7 @@ Vue.component('address-selector', {
       editor: false,
       newAddress: {
         name: "",
-        province: "",
+        province: null,
         city: "",
         district: "",
         address: "",
@@ -32,14 +101,14 @@ Vue.component('address-selector', {
         alert: {
           show: false,
           text: "修改成功"
-        }
-      }
+        },
+      },
     }
   },
   watch: {
     "selected": function(value){
       this.selectedid = this.list[value].addressId;
-    }
+    },
   },
   methods: {
     activeAlert: function(target, text){
@@ -128,7 +197,7 @@ Vue.component('address-selector', {
       this.maskHide = false;
       this.newAddress = {
         name: "",
-        province: "",
+        province: null,
         city: "",
         district: "",
         address: "",
@@ -259,15 +328,30 @@ Vue.component('address-selector', {
         });
       }
     },
+    changeArea: function(data){
+      for(var key in data){
+        this.newAddress[key] = data[key];
+      }
+    },
     validateAddress: function(data){
       var alert = this.newAddress.alert;
-      if(!data.name || !data.province || !data.city || !data.district || !data.address || !data.postCode || !data.phone){
+      if(!data.name || !data.province || !data.city || !data.address || !data.postCode || !data.phone){
         this.activeAlert("newAddress", "信息填写不全")
+        return false;
+      }
+      var telPattern = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+      var postCodePattern = /^[1-9]\d{5}$/;
+      if(!data.phone.match(telPattern)){
+        this.activeAlert("newAddress", "电话格式错误")
+        return false;
+      }
+      if(!data.postCode.match(postCodePattern)){
+        this.activeAlert("newAddress", "邮编格式错误")
         return false;
       }
       this.activeAlert("newAddress");
       return true;
-    }
+    },
   },
   ready: function(){
     if(!this.type){

@@ -480,6 +480,8 @@
       border-bottom-color: #ee554d; }
     #address-add .address-content .address-inner input.valid {
       border-bottom-color: #5aa133; }
+  #address-add .address-content select {
+    font: 14px/1.6 microsoft yahei,Helvetica,arial,sans-serif; }
 
 #address-add .address-alert {
   color: #ee554d;

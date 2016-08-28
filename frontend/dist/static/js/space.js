@@ -103,6 +103,10 @@ var spaceVm = new Vue({
         pages: 0,
         pageNum: 0,
       },
+    },
+    picViewer: {
+      status: false,
+      src: ""
     }
   },
   watch: {
@@ -319,6 +323,10 @@ var spaceVm = new Vue({
         // Do something
       });
     },
+    viewPic: function(event){
+      this.picViewer.src = event.target.src;
+      this.picViewer.status = true;
+    }
   },
   ready: function(){
     var _this = this;

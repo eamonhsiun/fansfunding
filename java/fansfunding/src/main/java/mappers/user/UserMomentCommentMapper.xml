@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="moment_id" property="momentId" jdbcType="INTEGER" />
+    <result column="reply_to" property="replyTo" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="del_flag" property="delFlag" jdbcType="CHAR" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -15,7 +16,7 @@
   </update>
   
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fansfunding.user.entity.UserMomentComment" >
-	insert into user_moment_comment(moment_id,user_id,content) values(#{momentId},#{userId},#{content})
+	insert into user_moment_comment(moment_id,user_id,content,reply_to) values(#{momentId},#{userId},#{content},#{replyTo})
   </insert>
   
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.user.entity.UserMoment" >
@@ -24,7 +25,7 @@
   
   
   <select id="selectByMomentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-		select umc.id, umc.user_id,u.nickname,umc.moment_id,umc.create_time, umc.del_flag, umc.content
+		select umc.id, umc.user_id,u.nickname,umc.moment_id,umc.create_time, umc.del_flag, umc.content,umc.reply_to
 			from user_moment_comment umc,user u
 			where umc.moment_id=#{momentId,jdbcType=INTEGER}
 			and u.id=umc.user_id

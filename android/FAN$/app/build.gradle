@@ -20,6 +20,11 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -70,4 +75,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('src/main/libs/java_websocket.jar')
     compile files('src/main/libs/badgeview.jar')
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 }

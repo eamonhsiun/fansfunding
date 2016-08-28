@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.fansfunding.app.App;
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
 import com.fansfunding.fan.message.service.PushService;
 import com.google.android.gms.appindexing.Action;
@@ -39,6 +40,8 @@ import java.util.TimerTask;
  */
 
 public class MainActivity extends AppCompatActivity {
+    private      App app;
+
 
 
     //选中Message Tab时发送消息
@@ -55,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
     //tablayout的tab被选中时的图标
     private final int[] tab_selected = {R.drawable.dollar_pressed, R.drawable.pjimagetest, R.drawable.pjimagetest, R.drawable.more_pressed};
 
-    //小红点嘿嘿嘿
-    private static BadgeView badgeView;
 
     //启动设置界面的activity的请求码
     private ViewPager vp_Main;
@@ -117,9 +118,10 @@ public class MainActivity extends AppCompatActivity {
         // QQ和Qzone appid appkey
         PlatformConfig.setQQZone("1105527311", "vZgb9lqVgZyIv98a");
 
+        app = (App)getApplication();
         //初始化小圆点
-        badgeView = new BadgeView(this);
-
+        BadgeView b = new BadgeView(this);
+        app.setBadgeView(b);
 
         String[] mPermissionList = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS};
         ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100);
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             handler.sendEmptyMessage(SELECTED_MESSAGE);
                         }
-                        getBadgeView().setBadgeCount(i);
+                        app.getBadgeView().setBadgeCount(i);
                         vp_Main.setCurrentItem(i);
                     }
                 }
@@ -196,11 +198,11 @@ public class MainActivity extends AppCompatActivity {
             View view = LayoutInflater.from(this).inflate(R.layout.tab_title_layout, null);
             imageView = (ImageView) view.findViewById(R.id.iv_message_tab_item);
             tab.setCustomView(view);
-            badgeView = new BadgeView(this);
-            badgeView.setGravity(Gravity.TOP | Gravity.RIGHT);
-            badgeView.setTargetView(imageView);
+//            app.getBadgeView() = new BadgeView(this);
+            app.getBadgeView().setGravity(Gravity.TOP | Gravity.RIGHT);
+            app.getBadgeView().setTargetView(imageView);
             imageView.setImageResource(R.drawable.dollar);
-            badgeView.setBadgeCount(0);
+            app.getBadgeView().setBadgeCount(0);
         }
     }
 
@@ -307,16 +309,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 获取到小圆点的实例，用于更改未读消息的数量
-     *
-     * @author RJzz
-     * create at 2016/8/27 17:04
-     */
 
-    public static BadgeView getBadgeView() {
-        return badgeView;
-    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

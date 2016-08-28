@@ -449,6 +449,4 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
             }
         });
     }
-
-
 }

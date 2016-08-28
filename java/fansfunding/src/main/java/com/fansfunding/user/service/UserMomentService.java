@@ -40,7 +40,7 @@ public class UserMomentService {
 	@Autowired
 	private ProjectService projectService;
 
-	public Map<String, Object> getMomentById(int momentId) {
+	public Map<String, Object> getMomentById(int userId, int momentId) {
 		Map<String, Object> moment = new HashMap<>();
 		UserMoment u = userMomentDao.selectById(momentId);
 
@@ -59,6 +59,7 @@ public class UserMomentService {
 		List<Map<String, Object>> comments = getCommentByMomentId(u.getId());
 		List<Map<String, Object>> likes = getMomentLike(u.getId());
 
+		moment.put("isLike", isLike(userId, momentId));
 		moment.put("comment", comments);
 		moment.put("likeNum", likes.size());
 		moment.put("commentNum", comments.size());
@@ -78,6 +79,7 @@ public class UserMomentService {
 			comment.put("content", u.getContent());
 			comment.put("user", userService.getUserBasicMap(u.getUserId()));
 			comment.put("postTime", u.getCreateTime());
+			comment.put("replyTo", userService.getUserBasicMap(u.getReplyTo()));
 			commentMap.add(comment);
 		}
 		return commentMap;
@@ -138,14 +140,15 @@ public class UserMomentService {
 		return false;
 	}
 
-	public boolean postComment(int userId, int momentId, String content) {
+	public boolean postComment(int userId, int momentId, String content,int replyTo) {
 		UserMomentComment userMomentComment = new UserMomentComment();
 		userMomentComment.setUserId(userId);
 		userMomentComment.setMomentId(momentId);
 		userMomentComment.setContent(content);
+		userMomentComment.setReplyTo(replyTo);
 		userMomentCommentDao.insert(userMomentComment);
 		// 通知
-		Map<String, Object> pointTo = this.getMomentById(momentId);
+		Map<String, Object> pointTo = this.getMomentById(userId,momentId);
 		int receiver = userMomentDao.selectById(momentId).getUserId();
 		push.pushMommentComment(receiver, userMomentComment.getUserId(), pointTo, content);
 		return true;

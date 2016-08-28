@@ -17,6 +17,8 @@ public class UserMomentComment {
     private String nickname;
     
     private Integer momentId;
+    
+    private Integer replyTo;
 
     private Date createTime;
 

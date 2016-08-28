@@ -102,16 +102,17 @@ public class UserMomentController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="moment/{momentId}",method=RequestMethod.GET)
+	@RequestMapping(path="{userId}/moment/{momentId}",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getMomentById(
+			@PathVariable int userId,
 			@PathVariable int momentId
 			) throws Exception{
 		if(!userMomentService.isExist(momentId)){
 			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
 		}
 		
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentById(momentId), 0);
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentById(userId,momentId), 0);
 	}
 	
 	/**
@@ -149,7 +150,8 @@ public class UserMomentController {
 	public Status postMomentComment(
 			@PathVariable int userId,
 			@PathVariable int momentId,
-			@RequestParam String content
+			@RequestParam String content,
+			@RequestParam int replyTo
 			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
@@ -162,7 +164,7 @@ public class UserMomentController {
 			if(content.length()>140){
 				return new Status(false,StatusCode.ERROR_DATA,"数据过长过长",null);
 			}
-			if(userMomentService.postComment(userId,momentId,content)){
+			if(userMomentService.postComment(userId,momentId,content,replyTo)){
 				return new Status(true, StatusCode.SUCCESS, "发布成功", 0);
 			}
 			return new Status(false,StatusCode.PERMISSION_LOW,"权限过低",null);			

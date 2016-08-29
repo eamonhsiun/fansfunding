@@ -47,11 +47,13 @@ public class UserSettingsController {
 	 */
 	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
 	@ResponseBody
-	public Status info(@PathVariable int userId) {
+	public Status info(@PathVariable int userId,
+			@RequestParam int viewId
+			) {
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(userId)), null);
+		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(viewId)), null);
 	}
 
 

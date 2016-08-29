@@ -36,13 +36,14 @@ public class UserMomentController {
 	@ResponseBody
 	public Status getMoment(
 			@PathVariable int userId, 
+			@RequestParam int viewId,
 			@RequestParam(required=false,defaultValue="1") Integer page,
 			@RequestParam(required=false,defaultValue="10") Integer rows
 			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows), 0);
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows,viewId), 0);
 	}
 	
 	/**
@@ -118,19 +119,23 @@ public class UserMomentController {
 	/**
 	 * 获得用户动态评论
 	 * @param momentId
+	 * @param page 
+	 * @param rows 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(path="moment/{momentId}/comment",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getMomentComment(
-			@PathVariable int momentId
+			@PathVariable int momentId,
+			@RequestParam(required=false,defaultValue="1")int page,
+			@RequestParam(required=false,defaultValue="10")int rows
 			) throws Exception{
 		if(!userMomentService.isExist(momentId)){
 			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
 		}
 		
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getCommentByMomentId(momentId), 0);
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getCommentUsePage(momentId, page, rows), 0);
 	}
 	
 	
@@ -176,18 +181,22 @@ public class UserMomentController {
 	 * 获取动态点赞
 	 * @param userId
 	 * @param momentId
+	 * @param page 
+	 * @param rows 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(path="moment/{momentId}/like",method=RequestMethod.POST)
+	@RequestMapping(path="moment/{momentId}/like",method=RequestMethod.GET)
 	@ResponseBody
 	public Status getMomentLike(
-			@PathVariable int momentId
+			@PathVariable int momentId,
+			@RequestParam(required=false,defaultValue="1")int page,
+			@RequestParam(required=false,defaultValue="10")int rows
 			) throws Exception{
 		if(!userMomentService.isExist(momentId)){
 			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
 		}
-		return new Status(true,StatusCode.SUCCESS,userMomentService.getMomentLike(momentId),null);
+		return new Status(true,StatusCode.SUCCESS,userMomentService.getMomentLikeUsePage(momentId, page, rows),null);
 	}
 	
 	

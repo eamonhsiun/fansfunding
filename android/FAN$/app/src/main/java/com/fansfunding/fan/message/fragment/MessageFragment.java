@@ -17,6 +17,10 @@ import com.fansfunding.fan.message.adapter.MessageFragmentAdapter;
  * Created by RJzz on 2016/8/25.
  */
 public class MessageFragment extends Fragment {
+
+    private static final String ARGUMENT = "arguments";
+
+    private String mArgument;
     private View viewContent;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -28,9 +32,10 @@ public class MessageFragment extends Fragment {
 
     }
 
-    public static MessageFragment newInstance() {
+    public static MessageFragment newInstance(String argument) {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
+        args.putString(ARGUMENT, argument);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +43,9 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
         if (getArguments() != null) {
+            mArgument = bundle.getString(ARGUMENT);
         }
     }
 
@@ -50,6 +57,10 @@ public class MessageFragment extends Fragment {
 
         initContentView(viewContent);
         initData();
+
+        if(mArgument == "notificaition") {
+            viewPager.setCurrentItem(2);
+        }
 
         return viewContent;
     }

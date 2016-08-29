@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:layout_marginTop="@dimen/appbar_padding_top"
     android:layout_marginRight="@dimen/layout_padding"
    >
     <de.hdodenhof.circleimageview.CircleImageView
@@ -31,7 +30,6 @@
                 android:id="@+id/tv_message_notification_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="名字"
                 android:textSize="16sp"
                 android:layout_toRightOf="@+id/iv_message_notification_head"/>
 
@@ -40,33 +38,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="通知类型"
                 android:layout_toRightOf="@+id/tv_message_notification_name"
                 android:layout_marginLeft="4dp"/>
+            <TextView
+                android:gravity="end"
+                android:text="07-21 27:19"
+                android:textSize="14sp"
+                android:id="@+id/tv_message_notification_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
         </LinearLayout>
 
-        <TextView
-            android:text="07-21 27:19"
-            android:textSize="10sp"
-            android:id="@+id/tv_message_notification_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
 
         <TextView
-            android:text="djkashdjkashjkdhjkashdjknasjkdhnjkashndjkahnsdjkhasjkdhnjkashdnkjh"
-            android:id="@+id/tv_message_notification_"
+            android:textColor="@color/black"
+            android:layout_marginTop="4dp"
+            android:id="@+id/tv_message_notification_info"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+
         <!--分割线-->
-        <include android:layout_width="match_parent"
+        <View
+            android:layout_marginTop="4dp"
+            android:id="@+id/fuckingline"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/ll_message_notification_father"
-            layout="@layout/divider"
-            android:layout_marginLeft="72dp"
-            />
+            android:background="@color/colorGrey" />
 
     </LinearLayout>
+
+
 
 
 

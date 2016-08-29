@@ -1,17 +1,25 @@
 package com.fansfunding.fan.message.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.fansfunding.app.App;
+import com.fansfunding.fan.MainActivity;
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.message.entity.NotificationProject;
+import com.fansfunding.fan.message.model.Notifications;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -62,6 +70,9 @@ public class PushService extends Service {
     //token
     private String token;
 
+    //判断用户是否登陆
+    private boolean isLogin;
+
     private WebSocketBinder webSocketBinder = new WebSocketBinder();
 
     private Handler handler = new Handler() {
@@ -83,6 +94,7 @@ public class PushService extends Service {
                     Log.d(TAG, "开始处理通知消息");
                     String data = (String) msg.obj;
                     notificationHandling(data);
+                    break;
                 default:
                     break;
             }
@@ -250,14 +262,19 @@ public class PushService extends Service {
     
     /**
       *处理通知消息
+     * type 1 3 动态
+     * type 2 4 5 6 项目
       *@author RJzz
       *create at 2016/8/28 10:42
       */
     public void notificationHandling(String s) {
         try {
-            JSONObject j = new JSONObject(s);
+            JSONObject json = new JSONObject(s);
             //通知消息的类型
-            int type = j.getInt("type");
+            int type = json.getInt("type");
+            long time = json.getLong("time");
+            String causer = json.getString("causer");
+            String reference = json.getString("reference");
 
             Gson gson = new GsonBuilder().create();
             switch (type) {
@@ -274,7 +291,24 @@ public class PushService extends Service {
                             handler.sendEmptyMessage(RESPONSE_ERROR);
                             return;
                         }
-                        Log.d(TAG, nP.getCauser().getHead());
+                        insertToTable(s);
+                        Log.d(TAG, "项目相关通知插入通知表成功");
+                        App app = (App)getApplication();
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.putExtra("page", 2);
+                        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        Notification notification = builder
+                                .setContentTitle(nP.getCauser().getNickname())
+                                .setContentText("关注了你")
+                                .setWhen(System.currentTimeMillis())
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
+                                .setContentIntent(pi)
+                                .build();
+                        notification.flags = Notification.FLAG_AUTO_CANCEL;
+                        manager.notify(1, notification);
                     }catch (IllegalStateException e){
                         handler.sendEmptyMessage(RESPONSE_ERROR);
                         e.printStackTrace();
@@ -291,6 +325,29 @@ public class PushService extends Service {
         }
     }
 
+    public void insertToTable(String s) {
+        JSONObject json = null;
+        try {
+            json = new JSONObject(s);
+            //通知消息的类型
+            int type = json.getInt("type");
+            long time = json.getLong("time");
+            String causer = json.getString("causer");
+            String reference = json.getString("reference");
+            Notifications n = new Notifications();
+            n.setTime(time);
+            n.setCauser(causer);
+            n.setReference(reference);
+            n.setType(type);
+            n.setRead(false);
+            n.setJson(s);
+            n.save();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -304,6 +361,7 @@ public class PushService extends Service {
         SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
         id = share.getInt("id", 0);
         token = share.getString("token","");
+        isLogin = share.getBoolean("isLogin",false);
         Log.d("PushService", "PushService created");
     }
 

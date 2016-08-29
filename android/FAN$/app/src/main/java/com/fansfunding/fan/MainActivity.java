@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,8 +41,9 @@ import java.util.TimerTask;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private      App app;
+    public static int pagePosition;
 
+    private App app;
 
 
     //选中Message Tab时发送消息
@@ -49,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     //没有选中的时候
     private static final int UNSELECTED_MESSAGE = 2;
-
-
 
     //tablayout的tab没有被选中时的图标
     private final int[] tab_unselect = {R.drawable.dollar, R.drawable.pjimagetest, R.drawable.pjimagetest, R.drawable.more};
@@ -182,10 +182,17 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(netWorkStatusReceiver, intentFilter);
 
         //开启后台服务连接WebSocket
-        Intent intent = new Intent(this, PushService.class);
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        if(isLogin) {
+            Intent intent = new Intent(this, PushService.class);
+            bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        }
 
-
+        Intent i = getIntent();
+        int position = i.getIntExtra("page", 0);
+        vp_Main.setCurrentItem(position);
+        pagePosition = position;
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -215,6 +222,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //开启后台服务连接WebSocket
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        if(isLogin) {
+            Intent intent = new Intent(this, PushService.class);
+            bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        }
         //如果登陆状态改变的话
         if (paperAdapter.isNeedChange() == true) {
             paperAdapter.notifyDataSetChanged();
@@ -268,8 +282,8 @@ public class MainActivity extends AppCompatActivity {
         //停止服务
 //        Intent intent = new Intent(this, PushService.class);
 //        stopService(intent);
-        //解绑服务
-        unbindService(serviceConnection);
+        //如果不解绑会怎么样嘿嘿嘿
+//        unbindService(serviceConnection);
     }
 
     /**

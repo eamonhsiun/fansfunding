@@ -36,13 +36,14 @@ public class UserMomentController {
 	@ResponseBody
 	public Status getMoment(
 			@PathVariable int userId, 
+			@RequestParam int viewId,
 			@RequestParam(required=false,defaultValue="1") Integer page,
 			@RequestParam(required=false,defaultValue="10") Integer rows
 			) throws Exception{
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows), 0);
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows,viewId), 0);
 	}
 	
 	/**
@@ -106,14 +107,13 @@ public class UserMomentController {
 	@ResponseBody
 	public Status getMomentById(
 			@PathVariable int userId,
-			@PathVariable int momentId,
-			@RequestParam int viewId
+			@PathVariable int momentId
 			) throws Exception{
 		if(!userMomentService.isExist(momentId)){
 			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
 		}
 		
-		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentById(userId,momentId,viewId), 0);
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentById(userId,momentId), 0);
 	}
 	
 	/**

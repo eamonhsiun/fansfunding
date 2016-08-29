@@ -16,6 +16,8 @@ import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.CheckerService;
 import com.fansfunding.common.service.TokenService;
 import com.fansfunding.user.entity.User;
+import com.fansfunding.user.service.UserFollowService;
+import com.fansfunding.user.service.UserMomentService;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
 import com.fansfunding.utils.encrypt.AESUtils;
@@ -36,6 +38,10 @@ public class UserBasicController {
 	private TokenService tokenService;
 	@Autowired
 	private UserSettingsService settings;
+	@Autowired
+	private UserFollowService userFollowService;
+	@Autowired
+	private UserMomentService userMomentService;
 
 	/**
 	 * @param resp
@@ -229,5 +235,85 @@ public class UserBasicController {
 		}
 		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);
 	}
+	
+	
+	
+	/**
+	 * 获取关注的用户
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/following",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getFollowing(@PathVariable int userId,
+			@RequestParam(required=false,defaultValue="1") int page,
+			@RequestParam(required=false,defaultValue="10") int rows){
+		if(!userService.isExist(userId)){
+			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userFollowService.getFollowing(userId, page, rows),null);
+	}
+	/**
+	 * 获取粉丝
+	 * @param userId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/followers",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getFollowers(@PathVariable int userId,
+			@RequestParam(required=false,defaultValue="1") int page,
+			@RequestParam(required=false,defaultValue="10") int rows){
+		if(!userService.isExist(userId)){
+			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userFollowService.getFollowers(userId, page, rows),null);
+	}
+	
+	
+	/**
+	 * 获取用户动态
+	 * @param userId
+	 * @param page 
+	 * @param rows 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="{userId}/moment",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getMoment(
+			@PathVariable int userId, 
+			@RequestParam int viewId,
+			@RequestParam(required=false,defaultValue="1") Integer page,
+			@RequestParam(required=false,defaultValue="10") Integer rows
+			) throws Exception{
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows,viewId), 0);
+	}
+	
+	/**
+	 * 获取用户信息
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @return
+	 */
+	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
+	@ResponseBody
+	public Status info(@PathVariable int userId,
+			@RequestParam int viewId
+			) {
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(viewId)), null);
+	}
+	
+	
 
 }

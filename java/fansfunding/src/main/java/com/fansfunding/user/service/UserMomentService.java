@@ -40,7 +40,7 @@ public class UserMomentService {
 	@Autowired
 	private ProjectService projectService;
 
-	public Map<String, Object> getMomentById(int userId, int momentId, int viewId) {
+	public Map<String, Object> getMomentById(int userId, int momentId) {
 		Map<String, Object> moment = new HashMap<>();
 		UserMoment u = userMomentDao.selectById(momentId);
 
@@ -108,12 +108,13 @@ public class UserMomentService {
 	 * @param userId
 	 * @param page
 	 * @param rows
+	 * @param viewId 
 	 * @return
 	 */
-	public Page getMomentsById(int userId, int page, int rows) {
+	public Page getMomentsById(int userId, int page, int rows, int viewId) {
 		PageHelper.startPage(page, rows);
 		List<Map<String, Object>> momentMap = new ArrayList<>();
-		List<UserMoment> userMoments = userMomentDao.selectByUserId(userId);
+		List<UserMoment> userMoments = userMomentDao.selectByUserId(viewId);
 		PageInfo<UserMoment> info = new PageInfo<>(userMoments);
 
 		genMomentMap(userId,momentMap, userMoments);
@@ -165,7 +166,7 @@ public class UserMomentService {
 		userMomentComment.setReplyTo(replyTo);
 		userMomentCommentDao.insert(userMomentComment);
 		// 通知
-		Map<String, Object> pointTo = this.getMomentById(userId,momentId,userId);
+		Map<String, Object> pointTo = this.getMomentById(userId,momentId);
 		int receiver = userMomentDao.selectById(momentId).getUserId();
 		push.pushMommentComment(receiver, userMomentComment.getUserId(), pointTo, content);
 		return true;

@@ -31,6 +31,11 @@ import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -86,6 +91,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
     //关注按钮
     private MenuItem menuItem_follow;
     private ImageView iv_project_detail_follow_project;
+    private ImageView iv_project_detail_share_project;
     //是否正在请求关注项目
     private boolean isFinishFollow=true;
 
@@ -346,7 +352,47 @@ public class ProjectDetailActivity extends AppCompatActivity {
             }
         });
 
+        //分享按钮
+        iv_project_detail_share_project = (ImageView) findViewById(R.id.iv_project_detail_share_project);
+        iv_project_detail_share_project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(ProjectDetailActivity.this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.WEIXIN_FAVORITE)
+                        .withTitle(detail.getName())
+                        .withText(detail.getDescription())
+                        .withMedia(new UMImage(ProjectDetailActivity.this, getString(R.string.url_resources) + detail.getCover()))
+                        .withTargetUrl("http://crowdfunding.immortalfans.com:8080/project-vue.html?categoryId=" + categoryId + "&projectId=" + projectId)
+                        .setCallback(umShareListener)
+                        .open();
+            }
+        });
     }
+
+    //友盟分享相关监听
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                Toast.makeText(ProjectDetailActivity.this, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ProjectDetailActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(ProjectDetailActivity.this, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(ProjectDetailActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -421,6 +467,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get( this ).onActivityResult( requestCode, resultCode, data);
     }
 
     private void InitFragment(){

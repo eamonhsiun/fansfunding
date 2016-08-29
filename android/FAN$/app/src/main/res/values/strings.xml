@@ -17,6 +17,8 @@
     <string name="postcode">邮编</string>
     <string name="address_edit">编辑</string>
     <string name="address_delete">删除</string>
+    <string name="network_state">请检查网络连接状态</string>
+    <string name="message">消息</string>
 
 
     <!--各个Activity的action值-->

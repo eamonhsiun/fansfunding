@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.ViewGroup;
 
 import com.fansfunding.fan.social.fragment.SocialFragment;
 
@@ -17,7 +15,7 @@ import com.fansfunding.fan.social.fragment.SocialFragment;
 public class MainPaperAdapter extends FragmentStatePagerAdapter {
 
     //界面的数量
-    private static final int count=3;
+    private static final int count=4;
 
     private boolean isLogin=false;
     Context context;
@@ -52,6 +50,8 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return SocialFragment.newInstance();
             case 2:
+                return com.fansfunding.fan.message.fragment.MessageFragment.newInstance();
+            case 3:
                 if(isLogin==true)
                     return UserFragment.newInstance();
                 else

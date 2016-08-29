@@ -381,7 +381,7 @@ public class MomentActivity extends AppCompatActivity{
         tab_moment.getTabAt(0).setText("评论("+requestSingleMoment.getSingleUserMoment().getData().getCommentNum()+")");
 
         //设置赞数量
-        tab_moment.getTabAt(1).setText("评论("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
+        tab_moment.getTabAt(1).setText("赞("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
 
         //设置是否赞了该动态
         if(requestSingleMoment.getSingleUserMoment().getData().isIsLike()==false){

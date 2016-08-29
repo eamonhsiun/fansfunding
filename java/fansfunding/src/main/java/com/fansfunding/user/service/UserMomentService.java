@@ -196,10 +196,7 @@ public class UserMomentService {
 		List<UserMomentLike> momentLike = userMomentLikeDao.selectByMomentId(momentId);
 		PageInfo<UserMomentLike> info = new PageInfo<>(momentLike);
 		for (UserMomentLike l : momentLike) {
-			Map<String, Object> like = new HashMap<>();
-			like.put("userId", l.getUserId());
-			like.put("nickName", l.getNickname());
-			momentMap.add(like);
+			momentMap.add(userService.getUserBasicMap(l.getUserId()));
 		}
 		return PageAdapter.adapt(info, momentMap);
 	}
@@ -211,7 +208,8 @@ public class UserMomentService {
 			userMomentLike.setUserId(userId);
 			userMomentLikeDao.insert(userMomentLike);
 			// 推送点赞通知
-			//push.pushLike(userMomentDao.selectById(momentId).getUserId(), userId, this.getMomentById(momentId));
+			UserMoment moment=userMomentDao.selectById(momentId);
+			push.pushLike(moment.getUserId(), userId, this.getMomentById(moment.getUserId(),momentId));
 		} catch (Exception e) {
 			return false;
 		}

@@ -15,6 +15,7 @@ import com.fansfunding.common.entity.Checker;
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.CheckerService;
 import com.fansfunding.common.service.TokenService;
+import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.user.service.UserSettingsService;
@@ -36,7 +37,8 @@ public class UserBasicController {
 	private TokenService tokenService;
 	@Autowired
 	private UserSettingsService settings;
-
+	@Autowired
+	private ProjectService projectService;
 	/**
 	 * @param resp
 	 * @param cid
@@ -230,4 +232,54 @@ public class UserBasicController {
 		return new Status(false,StatusCode.FILEUPLOAD_ERROR,"文件上传失败",null);
 	}
 
+	/**
+	 * 获取用户相关项目
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/projects",method=RequestMethod.GET)
+	@ResponseBody
+	public Status userProject(@RequestParam String type,@PathVariable int userId,
+			@RequestParam(required = false, defaultValue = "1") Integer page,
+			@RequestParam(required = false, defaultValue = "10") Integer rows){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if("sponsor".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSponsor(userId,page,rows),null);
+		}
+		if("follow".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getFollow(userId,page,rows),null);
+		}
+		if("support".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupport(userId,page,rows),null);
+		}
+		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
+	}
+	/**
+	 * 获取用户相关项目的数量
+	 * @param keyword
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(path="{userId}/projects/num",method=RequestMethod.GET)
+	@ResponseBody
+	public Status userProjectNum(@RequestParam String type,@PathVariable int userId){
+		if(!userService.isExist(userId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if("sponsor".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSponsorNum(userId),null);
+		}
+		if("follow".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getFollowNum(userId),null);
+		}
+		if("support".equals(type)){
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupportNum(userId),null);
+		}
+		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
+	}
 }

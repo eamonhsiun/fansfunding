@@ -22,12 +22,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.fansfunding.fan.login.LoginActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-=======
 import com.fansfunding.app.App;
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
 import com.fansfunding.fan.message.service.PushService;
@@ -40,7 +38,6 @@ import com.umeng.socialize.PlatformConfig;
 
 import java.util.Timer;
 import java.util.TimerTask;
->>>>>>> 6f03fd45e86b78d1c048331f696c4c703a673539
 
 /**
  * 主界面

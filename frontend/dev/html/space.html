@@ -55,9 +55,9 @@
                 </div>
                 <div class="kit-content">
                   <template id="space-project-list-template">
-                    <div class="space-kit-hint" v-if="projects.length == 0">没有相关项目</div>
+                    <div class="space-kit-hint" v-if="projects.list.length == 0">没有相关项目</div>
                     <ul>
-                      <li class="space-project-list" v-for="project in projects">
+                      <li class="space-project-list" v-for="project in projects.list">
                         <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}">
                           <div class="project-cover">
                             <img :src="project.cover | resource" alt="">
@@ -80,8 +80,9 @@
                         </a>
                       </li>
                     </ul>
+                    <pagination :pagination="projects.pagination" :callback="getProject" :offset="3"></pagination>
                   </template>
-                  <space-project-list :projects="projects.sponsor.list.slice(0,3)">
+                  <space-project-list :projects="projects.sponsor" type="sponsor" @ongetproject="getRecentProject">
                   </space-project-list>
                 </div>
               </div>
@@ -91,7 +92,7 @@
                   <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
                 <div class="kit-content">
-                  <space-project-list :projects="projects.follow.list.slice(0,3)">
+                  <space-project-list :projects="projects.follow" type="follow" @ongetproject="getRecentProject">
                   </space-project-list>
                 </div>
               </div>
@@ -101,7 +102,7 @@
                   <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
                 <div class="kit-content">
-                  <space-project-list :projects="projects.support.list.slice(0,3)">
+                  <space-project-list :projects="projects.support" type="support" @ongetproject="getRecentProject">
                   </space-project-list>
                 </div>
               </div>
@@ -110,16 +111,14 @@
               <div class="kit-block">
                 <div class="kit-title">
                   <span class="kit-title-left">动态</span>
-                  <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
-                <moment v-ref:follower :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" moment-type="follower" show-like show-forward show-comment></moment>
+                <moment v-ref:follower :is-self="isSelf" :show-input="false" :user-info="userInfo" :target-user-info="spaceUserInfo" moment-type="follower" show-like show-forward show-comment></moment>
               </div>
             </div>
             <div class="kit-wrap FFtab-content">
               <div class="kit-block">
                 <div class="kit-title">
                   <span class="kit-title-left">动态</span>
-                  <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
                 <moment v-ref:recent :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" show-like show-forward show-comment></moment>
               </div>

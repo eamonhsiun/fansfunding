@@ -56,3 +56,14 @@ Vue.component("pagination", {
     }
   }
 });
+
+Vue.mixin({
+  methods: {
+    setPagination: function(pagination, data){
+      pagination.total = data.total;
+      pagination.pageNum = data.pageNum;
+      pagination.pages = data.pages;
+      pagination.pageSize = data. pageSize;
+    },
+  }
+})

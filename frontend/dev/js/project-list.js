@@ -50,12 +50,6 @@ var projectListVm = new Vue({
       }
       window.location.href = "404.html";
     },
-    setPagination: function(pagination, data){
-      pagination.total = data.total;
-      pagination.pageNum = data.pageNum;
-      pagination.pages = data.pages;
-      pagination.pageSize = data. pageSize;
-    },
     getCategorys: function(){
       var _this = this;
       var categorysRequest = ajax({

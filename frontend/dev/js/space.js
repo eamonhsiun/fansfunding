@@ -6,7 +6,7 @@ var spaceTab = new FFtab($('.FFtabs'),$('.FFtab-contents'));
 
 Vue.component('space-project-list', {
   template: '#space-project-list-template',
-  props: ["projects","pagination"],
+  props: ["projects","pagination","type"],
   methods: {
     getLeftTime: function(startTime, endTime){
       var d1;
@@ -24,6 +24,9 @@ Vue.component('space-project-list', {
       var hour = Math.floor((d3%(24*3600*1000))/(3600*1000));
       return (day === 0 ? "" : day + "天") + hour + "小时";
     },
+    getProject: function(page){
+      this.$emit("ongetproject", {type: this.type, page: page});
+    }
   }
 });
 
@@ -139,12 +142,6 @@ var spaceVm = new Vue({
       }
       window.location.href = "404.html";
     },
-    setPagination: function(pagination, data){
-      pagination.total = data.total;
-      pagination.pageNum = data.pageNum;
-      pagination.pages = data.pages;
-      pagination.pageSize = data. pageSize;
-    },
     viewPic: function(event){
       this.picViewer.src = event.target.src;
       this.picViewer.status = true;
@@ -173,14 +170,16 @@ var spaceVm = new Vue({
       }).always(function (response, xhr) {
       });
     },
-    getRecentProject: function(type, page){
-      if(!type){
+    getRecentProject: function(data){
+      if(!data && !data.type){
         throw new Error("没有指定项目类型");
       }
+      var type = data.type;
+      var page = data.page;
       var _this = this;
       var projectRequest = ajax({
         method: 'get',
-        url: apiUrl +"/user/" + _this.spaceId + "/projects?token=" + localToken + "&type=" + type,
+        url: apiUrl +"/user/" + _this.spaceId + "/projects?rows=3&token=" + localToken + "&type=" + type + (page ? "&page=" + page : ""),
       }).then(function (response, xhr) {
         _this.projects[type].connect = true;
         if(!response.result){
@@ -295,9 +294,9 @@ var spaceVm = new Vue({
       }
     });
     this.getSpaceUserInfo(function(){
-      _this.getRecentProject("sponsor");
-      _this.getRecentProject("follow");
-      _this.getRecentProject("support");
+      _this.getRecentProject({type: "sponsor"});
+      _this.getRecentProject({type: "follow"});
+      _this.getRecentProject({type: "support"});
       _this.getUserFollowStatus();
     });
 

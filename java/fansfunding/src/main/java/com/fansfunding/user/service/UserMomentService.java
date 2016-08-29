@@ -84,6 +84,23 @@ public class UserMomentService {
 		}
 		return commentMap;
 	}
+	
+	public Page getCommentUsePage(int momentId,int page,int rows){
+		List<Map<String, Object>> commentMap = new ArrayList<>();
+		PageHelper.startPage(page, rows);
+		List<UserMomentComment> userMomentComments = userMomentCommentDao.selectByMomentId(momentId);
+		PageInfo<UserMomentComment> info = new PageInfo<>(userMomentComments);
+		for (UserMomentComment u : userMomentComments) {
+			Map<String, Object> comment = new HashMap<>();
+			comment.put("commentId", u.getId());
+			comment.put("content", u.getContent());
+			comment.put("user", userService.getUserBasicMap(u.getUserId()));
+			comment.put("postTime", u.getCreateTime());
+			comment.put("replyTo", userService.getUserBasicMap(u.getReplyTo()));
+			commentMap.add(comment);
+		}
+		return PageAdapter.adapt(info, commentMap);
+	}
 
 	/**
 	 * 根据用户id获取用户动态
@@ -91,12 +108,13 @@ public class UserMomentService {
 	 * @param userId
 	 * @param page
 	 * @param rows
+	 * @param viewId 
 	 * @return
 	 */
-	public Page getMomentsById(int userId, int page, int rows) {
+	public Page getMomentsById(int userId, int page, int rows, int viewId) {
 		PageHelper.startPage(page, rows);
 		List<Map<String, Object>> momentMap = new ArrayList<>();
-		List<UserMoment> userMoments = userMomentDao.selectByUserId(userId);
+		List<UserMoment> userMoments = userMomentDao.selectByUserId(viewId);
 		PageInfo<UserMoment> info = new PageInfo<>(userMoments);
 
 		genMomentMap(userId,momentMap, userMoments);
@@ -170,6 +188,20 @@ public class UserMomentService {
 			momentMap.add(like);
 		}
 		return momentMap;
+	}
+	
+	public Page getMomentLikeUsePage(int momentId,int page,int rows){
+		PageHelper.startPage(page, rows);
+		List<Map<String, Object>> momentMap = new ArrayList<>();
+		List<UserMomentLike> momentLike = userMomentLikeDao.selectByMomentId(momentId);
+		PageInfo<UserMomentLike> info = new PageInfo<>(momentLike);
+		for (UserMomentLike l : momentLike) {
+			Map<String, Object> like = new HashMap<>();
+			like.put("userId", l.getUserId());
+			like.put("nickName", l.getNickname());
+			momentMap.add(like);
+		}
+		return PageAdapter.adapt(info, momentMap);
 	}
 
 	public boolean postLike(int userId, int momentId) {

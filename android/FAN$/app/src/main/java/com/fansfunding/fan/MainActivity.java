@@ -36,6 +36,8 @@ import com.umeng.socialize.PlatformConfig;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+
 /**
  * 主界面
  */
@@ -148,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             handler.sendEmptyMessage(SELECTED_MESSAGE);
                         }
-                        app.getBadgeView().setBadgeCount(i);
                         vp_Main.setCurrentItem(i);
                     }
                 }
@@ -189,14 +190,16 @@ public class MainActivity extends AppCompatActivity {
             bindService(intent, serviceConnection, BIND_AUTO_CREATE);
         }
 
-        Intent i = getIntent();
-        int position = i.getIntExtra("page", 0);
-        vp_Main.setCurrentItem(position);
-        pagePosition = position;
+
+
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+
 
     private void initMessageTab(int position) {
         TabLayout.Tab tab = tabLayout.getTabAt(position);
@@ -209,14 +212,13 @@ public class MainActivity extends AppCompatActivity {
             app.getBadgeView().setGravity(Gravity.TOP | Gravity.RIGHT);
             app.getBadgeView().setTargetView(imageView);
             imageView.setImageResource(R.drawable.dollar);
-            app.getBadgeView().setBadgeCount(0);
+            app.getBadgeView().setBadgeCount(notificationses.size());
         }
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
     }
 
     @Override
@@ -229,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, PushService.class);
             bindService(intent, serviceConnection, BIND_AUTO_CREATE);
         }
+
         //如果登陆状态改变的话
         if (paperAdapter.isNeedChange() == true) {
             paperAdapter.notifyDataSetChanged();
@@ -242,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
 
             tabLayout.getTabAt(i).setIcon(getResources().getDrawable(tab_unselect[i]));
         }
+        Intent i = getIntent();
+        int page = i.getIntExtra("push", 0);
+        vp_Main.setCurrentItem(page);
 
     }
 

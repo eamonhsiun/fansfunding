@@ -33,6 +33,9 @@ import org.json.JSONObject;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationAdapter;
+import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+
 /**
  * Created by RJzz on 2016/8/25.
  */
@@ -130,14 +133,33 @@ public class PushService extends Service {
                         @Override
                         public void onClose(int i, String s, boolean b) {
                             Log.d(TAG, "连接关闭");
-                            //如果连接关闭则进行重连
-                            reConnection();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(5000);
+                                        handler.sendEmptyMessage(CONNECTION_CLOSE);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
                         }
 
                         @Override
                         public void onError(Exception e) {
                             Log.d(TAG, "连接失败");
-                            reConnection();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(5000);
+                                        handler.sendEmptyMessage(CONNECTION_CLOSE);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
                         }
                     };
                     client.connect();
@@ -276,46 +298,20 @@ public class PushService extends Service {
             String causer = json.getString("causer");
             String reference = json.getString("reference");
 
-            Gson gson = new GsonBuilder().create();
+
             switch (type) {
                 case 1:
                 case 3:
                     break;
                 case 2:
                 case 4:
+                    push(s, "关注了你的项目");
+                    break;
                 case 5:
+                    push(s, "关注了你");
+                    break;
                 case 6:
-                    NotificationProject nP = new NotificationProject();
-                    try {
-                        if((nP = gson.fromJson(s, nP.getClass())) == null) {
-                            handler.sendEmptyMessage(RESPONSE_ERROR);
-                            return;
-                        }
-                        insertToTable(s);
-                        Log.d(TAG, "项目相关通知插入通知表成功");
-                        App app = (App)getApplication();
-                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());
-                        Intent intent = new Intent(this, MainActivity.class);
-                        intent.putExtra("page", 2);
-                        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        Notification notification = builder
-                                .setContentTitle(nP.getCauser().getNickname())
-                                .setContentText("关注了你")
-                                .setWhen(System.currentTimeMillis())
-                                .setSmallIcon(R.mipmap.ic_launcher)
-                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
-                                .setContentIntent(pi)
-                                .build();
-                        notification.flags = Notification.FLAG_AUTO_CANCEL;
-                        manager.notify(1, notification);
-                    }catch (IllegalStateException e){
-                        handler.sendEmptyMessage(RESPONSE_ERROR);
-                        e.printStackTrace();
-                    }catch (JsonSyntaxException e){
-                        handler.sendEmptyMessage(RESPONSE_ERROR);
-                        e.printStackTrace();
-                    }
+                    push(s, "更新了项目动态");
                     break;
                 default:
                     break;
@@ -342,6 +338,14 @@ public class PushService extends Service {
             n.setRead(false);
             n.setJson(s);
             n.save();
+            //更新ui
+            notificationses.add(0, n);
+            if(notificationAdapter != null) {
+                notificationAdapter.notifyDataSetChanged();
+            }
+            //小红点嘿嘿嘿+1
+            App app = (App)getApplication();
+            app.getBadgeView().incrementBadgeCount(1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -369,7 +373,8 @@ public class PushService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Log.d("PushService", "PushService onStartCommand");
-        return super.onStartCommand(intent, flags, startId);
+        return  Service.START_STICKY;
+
     }
 
     @Override
@@ -377,4 +382,43 @@ public class PushService extends Service {
         super.onDestroy();
         Log.d("PushService", "PushService onDestory");
     }
-}
+
+    //通知栏提醒
+    public void push(String s, String info) {
+        Gson gson = new GsonBuilder().create();
+        NotificationProject nP = new NotificationProject();
+        try {
+            if((nP = gson.fromJson(s, nP.getClass())) == null) {
+                handler.sendEmptyMessage(RESPONSE_ERROR);
+                return;
+            }
+            insertToTable(s);
+
+            Log.d(TAG, "项目相关通知插入通知表成功");
+
+        }catch (IllegalStateException e){
+            handler.sendEmptyMessage(RESPONSE_ERROR);
+            e.printStackTrace();
+        }catch (JsonSyntaxException e){
+            handler.sendEmptyMessage(RESPONSE_ERROR);
+            e.printStackTrace();
+        }
+        App app = (App)getApplication();
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("push", 2);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Notification notification = builder
+                .setContentTitle(nP.getCauser().getNickname())
+                .setContentText(info)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.icon)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
+                .setContentIntent(pi)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .build();
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        manager.notify((int) System.currentTimeMillis(), notification);
+    }
+ }

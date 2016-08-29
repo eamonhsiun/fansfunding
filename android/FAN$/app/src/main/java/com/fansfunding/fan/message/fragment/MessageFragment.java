@@ -1,6 +1,7 @@
 package com.fansfunding.fan.message.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -47,6 +48,7 @@ public class MessageFragment extends Fragment {
         if (getArguments() != null) {
             mArgument = bundle.getString(ARGUMENT);
         }
+
     }
 
 
@@ -61,8 +63,17 @@ public class MessageFragment extends Fragment {
         if(mArgument == "notificaition") {
             viewPager.setCurrentItem(2);
         }
+        Intent intent = getActivity().getIntent();
+        int i = intent.getIntExtra("page", 0);
+        viewPager.setCurrentItem(i);
 
         return viewContent;
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
     }
 
     private void initData() {
@@ -116,4 +127,19 @@ public class MessageFragment extends Fragment {
 //            return view == object;
 //        }
 //    };
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1003:
+                Intent intent = getActivity().getIntent();
+                int i = intent.getIntExtra("page", 0);
+                viewPager.setCurrentItem(i);
+                break;
+            default:
+                break;
+        }
+    }
 }

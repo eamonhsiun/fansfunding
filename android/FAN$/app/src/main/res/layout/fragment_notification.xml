@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="16dp">
         <TextView
             android:layout_marginLeft="8dp"
             android:id="@+id/tv_message_notification_not_read"
@@ -13,18 +13,31 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
         <TextView
+            android:layout_toRightOf="@id/tv_message_notification_not_read"
             android:text="@string/not_read_message"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_alignParentEnd="true"
+            android:id="@+id/ib_message_notification"
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/face"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"/>
+
+    </RelativeLayout>
 
     <ListView
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
         android:divider="@null"
+        android:dividerHeight="10dp"
         android:id="@+id/lv_message_notification"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     </ListView>
 
 </LinearLayout>

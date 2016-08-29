@@ -21,5 +21,4 @@
     android:layout_height="match_parent"
     android:scaleType="centerCrop"
     android:src="@drawable/ic_gf_default_photo"
-    android:padding="4dp"
     />

@@ -1,19 +1,26 @@
 package com.fansfunding.fan.social.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.fansfunding.PullListView.LoadListView;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.request.RequestMomentPraiseDetail;
 import com.fansfunding.fan.social.activity.MomentActivity;
+import com.fansfunding.fan.social.adapter.MomentPraiseAdapter;
+import com.fansfunding.fan.utils.ErrorHandler;
+import com.fansfunding.fan.utils.FANRequestCode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +28,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +39,69 @@ import java.util.Map;
  */
 public class MomentPraiseFragment extends Fragment implements ScrollableHelper.ScrollableContainer,MomentActivity.OnLoadListViewReset {
 
+    private final static String MOMENTID="MOMENTID";
 
+    //用户id
+    private int userId;
+
+    //用户token
+    private String token;
+
+    //动态id
+    private int momentId=-1;
+
+    //是否完成请求
+    private boolean isFinishRequest=true;
+
+    //adapter
+    private MomentPraiseAdapter adapter;
+
+    //赞展示列表
     private LoadListView lv_moment_praise;
+
+    //请求赞的详情
+    private RequestMomentPraiseDetail requestMomentPraiseDetail;
+
+    //httpclient
+    private OkHttpClient httpClient;
+
+    private ErrorHandler handler=new ErrorHandler(this.getActivity()){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case FANRequestCode.GET_MOMENT_PRAISE_DETAIL_SUCCESS:
+                    isFinishRequest=true;
+                    endRefresh();
+                    if(requestMomentPraiseDetail.getMomentPraise().getData().getList().size()<requestMomentPraiseDetail.getRows()){
+                        requestMomentPraiseDetail.setPage(1);
+                        lv_moment_praise.setPullLoadEnable(false);
+                        lv_moment_praise.setAutoLoadEnable(false);
+                    }else {
+                        requestMomentPraiseDetail.setPage(requestMomentPraiseDetail.getPage()+1);
+                        lv_moment_praise.setPullLoadEnable(true);
+                        lv_moment_praise.setAutoLoadEnable(true);
+                    }
+                    if(requestMomentPraiseDetail.getMomentPraise()!=null){
+                        for(int i=0;i<requestMomentPraiseDetail.getMomentPraise().getData().getList().size();i++){
+                            adapter.addItem(requestMomentPraiseDetail.getMomentPraise().getData().getList().get(i));
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+
+                    break;
+                case FANRequestCode.GET_MOMENT_PRAISE_DETAIL_FAILURE:
+                    isFinishRequest=true;
+                    endRefresh();
+                    if(MomentPraiseFragment.this.getActivity().isFinishing()==false){
+                        Toast.makeText(MomentPraiseFragment.this.getActivity(),"获取点赞情况失败",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+
+        }
+    };
 
     public MomentPraiseFragment() {
         // Required empty public constructor
@@ -43,9 +114,10 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
      * @return A new instance of fragment MomentPraiseFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MomentPraiseFragment newInstance() {
+    public static MomentPraiseFragment newInstance(int momentId) {
         MomentPraiseFragment fragment = new MomentPraiseFragment();
         Bundle args = new Bundle();
+        args.putInt(MOMENTID,momentId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +126,7 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            momentId=getArguments().getInt(MOMENTID);
         }
     }
 
@@ -61,37 +134,66 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView=inflater.inflate(R.layout.fragment_moment_praise, container, false);
+        initVariables();
+        initViews(rootView);
+        loadData();
+        return rootView;
+    }
+
+    private void initVariables(){
+        SharedPreferences share=getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone),Context.MODE_PRIVATE);
+        userId=share.getInt("id",-1);
+        token=share.getString("token"," ");
+
+        adapter=new MomentPraiseAdapter(this.getActivity());
+        handler.setContext(this.getActivity());
+        httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        requestMomentPraiseDetail=new RequestMomentPraiseDetail();
+    }
+
+    private void initViews(View rootView){
+
         lv_moment_praise=(LoadListView) rootView.findViewById(R.id.lv_moment_praise);
         lv_moment_praise.setPullLoadEnable(false);
         lv_moment_praise.setAutoLoadEnable(false);
         lv_moment_praise.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-        //构建simpleadapter
-        List<Map<String,Object>> listItems=new ArrayList<Map<String, Object>>();
-        for(int i=0;i<10;i++){
-            Map<String,Object> tempMap=new HashMap<String, Object>();
+        lv_moment_praise.setXListViewListener(new LoadListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
 
-            listItems.add(tempMap);
+            }
+
+            @Override
+            public void onLoadMore() {
+                if(isFinishRequest==false){
+                    return;
+                }
+                isFinishRequest=false;
+                requestMomentPraiseDetail.requestMomentPraiseDetail(MomentPraiseFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+            }
+        });
+
+        lv_moment_praise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });
+
+        lv_moment_praise.setAdapter(adapter);
+    }
+
+    private void loadData(){
+        refreshPraiseList();
+    }
+
+    public void refreshPraiseList(){
+        if(isFinishRequest==false){
+            return;
         }
-        SimpleAdapter simpleAdapter=new SimpleAdapter(this.getActivity(),listItems,R.layout.item_moment_praise,
-                new String[]{},
-                new int[]{});
-        lv_moment_praise.setAdapter(simpleAdapter);
-        return rootView;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        isFinishRequest=false;
+        adapter.clear();
+        requestMomentPraiseDetail.setPage(1);
+        requestMomentPraiseDetail.requestMomentPraiseDetail(MomentPraiseFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
     }
 
 
@@ -104,7 +206,14 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
 
     @Override
     public View getScrollableView() {
-
         return lv_moment_praise;
+    }
+
+    //停止更新的动画
+    private void endRefresh(){
+        isFinishRequest=true;
+        lv_moment_praise.stopRefresh();
+        lv_moment_praise.stopLoadMore();
+        lv_moment_praise.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
 }

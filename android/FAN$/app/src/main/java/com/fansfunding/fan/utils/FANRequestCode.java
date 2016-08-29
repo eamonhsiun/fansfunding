@@ -80,16 +80,72 @@ public class FANRequestCode {
     //发送项目的评论失败
     public final static int SEND_PROJECT_COMMENT_FAILURE=144;
 
-    //发送动态的评论成功
-    public final static int SEND_MOMENT_COMMENT_SUCCESS=143;
-
-    //发送动态的评论失败
-    public final static int SEND_MOMENT_COMMENT_FAILURE=144;
-
 
     //获取用户动态成功
     public final static int GET_USER_MOMENT_SUCCESS=145;
 
     //获取用户动态失败
     public final static int GET_USER_MOMENT_FAILURE=146;
+
+    //获取用户关注的用户的动态成功
+    public final static int GET_USER_FOLLOW_USER_MOMENT_SUCCESS=147;
+
+    //获取用户关注的用户的动态失败
+    public final static int GET_USER_FOLLOW_USER_MOMENT_FAILURE=148;
+
+    //发送用户动态的图片成功
+    public  final static int SEND_USER_MOMENT_PICTURE_SUCCESS=149;
+
+    //发送用户动态的图片失败
+    public  final static int SEND_USER_MOMENT_PICTURE_FAILURE=150;
+
+    //发送用户动态成功
+    public  final static int SEND_USER_MOMENT_SUCCESS=151;
+
+    //发送用户动态失败
+    public  final static int SEND_USER_MOMENT_FAILURE=152;
+
+    //搜索项目成功
+    public  final static int SEARCH_PROJECT_SUCCESS=153;
+
+    //搜索项目失败
+    public  final static int SEARCH_PROJECT_FAILURE=154;
+
+    //发送动态的评论成功
+    public final static int SEND_MOMENT_COMMENT_SUCCESS=155;
+
+    //发送动态的评论失败
+    public final static int SEND_MOMENT_COMMENT_FAILURE=156;
+
+    //请求单个动态信息成功
+    public final static int GET_SINGLE_USER_MOMENT_SUCCESS=157;
+
+    //请求单个动态信息失败
+    public final static int GET_SINGLE_USER_MOMENT_FAILURE=158;
+
+    //请求赞某个动态成功
+    public final static int  PRAISE_MOMENT_SUCCESS=159;
+
+    //请求赞某个动态失败
+    public final static int PRAISE_MOMENT_FAILURE=160;
+
+    //请求取消对某个动态的赞成功
+    public final static int CANCEL_PRAISE_MOMENT_SUCCESS=161;
+
+    //请求取消对某个动态的赞失败
+    public final static int CANCEL_PRAISE_MOMENT_FAILURE=162;
+
+    //获取项目的赞的情况成功
+    public final static int GET_MOMENT_PRAISE_DETAIL_SUCCESS=163;
+
+    //获取项目的赞的情况失败
+    public final static int GET_MOMENT_PRAISE_DETAIL_FAILURE=164;
+
+    //获取项目的评论的情况成功
+    public final static int GET_MOMENT_COMMENT_DETAIL_SUCCESS=165;
+
+    //获取项目的评论的情况失败
+    public final static int GET_MOMENT_COMMENT_DETAIL_FAILURE=166;
+
+
 }

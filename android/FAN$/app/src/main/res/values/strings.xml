@@ -22,9 +22,8 @@
     <!--各个Activity的action值-->
     <string name="activity_category">android.intent.action.FANS.CATEGORY</string>
     <string name="activity_login">android.intent.action.FANS.LOGIN.LOGIN</string>
-    <string name="activity_news">android.intent.action.FANS.NEWS</string>
     <string name="activity_project">android.intent.action.FANS.USER.PROJECT.ACTIVITY.PROJECT</string>
-    <string name="activity_homepage">android.intent.action.FANS.HOMEPAGE</string>
+    <string name="activity_homepage">android.intent.action.FANS.USER.ACTIVITY.HOMEPAGE"</string>
     <string name="activity_project_detail">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAIL</string>
     <string name="activity_chat">android.intent.action.FANS.CHAT</string>
     <string name="activity_news_detail">android.intent.action.FANS.NEWSDETAIL</string>
@@ -51,6 +50,8 @@
     <string name="activity_project_supporter_list">android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTDETAILSUPPORTERLIST</string>
     <string name="activity_moment">android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENT</string>
 
+    <string name="activity_send_moment">android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENTSEND</string>
+    <string name="activity_moment_select_project">android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENTSELECTPROJECT</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

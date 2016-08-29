@@ -43,6 +43,7 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
             return false;
         }
     }
+
     @Override
     public Fragment getItem(int position) {
         switch(position){

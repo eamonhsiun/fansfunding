@@ -563,7 +563,7 @@ public class LoginDialog {
                     Gson gson=new GsonBuilder().create();
                     NewUser newUser=new NewUser();
                     String str_response=response.body().string();
-                    System.out.println(str_response);
+                    Log.i("TAG","注册返回："+str_response);
                     try {
                         //用Gson进行解析，并判断结果是否为空
                         if((newUser = gson.fromJson(str_response, newUser.getClass()))==null){
@@ -616,16 +616,9 @@ public class LoginDialog {
                         editor.putString("head",newUser.getData().getHead());
                         editor.putString("nickname",newUser.getData().getNickname());
                         editor.commit();
-                        System.out.println(str_response);
 
-                      /*  //将是否登陆写入sharePreference中
-                        SharedPreferences share_is_login=context.getSharedPreferences(context.getString(R.string.sharepreference_login_message),context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor_is_login=share_is_login.edit();
-                        editor_is_login.putBoolean("isLogin",true);
-                        editor_is_login.commit();*/
 
                         //成功响应事件
-                        //待写
                         Message msg=new Message();
                         msg.what=LOGIN_BY_PHONE_SUCCESS;
                         handler.sendMessage(msg);
@@ -1012,7 +1005,6 @@ public class LoginDialog {
                         //用Gson进行解析，并判断结果是否为空
                         if((login = gson.fromJson(str_response, login.getClass()))==null){
                             Looper.prepare();
-                            System.out.println(str_response.length());
                             Toast.makeText(context,"服务器响应失败，请重新登陆",Toast.LENGTH_LONG).show();
                             InitLoginByPhone();
                             Looper.loop();

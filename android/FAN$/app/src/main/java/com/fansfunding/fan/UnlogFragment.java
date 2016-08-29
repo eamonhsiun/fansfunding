@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.fansfunding.fan.login.LoginActivity;
 import com.fansfunding.internal.Login;
 
 
@@ -23,8 +24,6 @@ import com.fansfunding.internal.Login;
  */
 public class UnlogFragment extends Fragment {
 
-    //启动登陆activity的请求码
-    public static final int REQUEST_CODE_LOGIN=300;
 
     public UnlogFragment() {
         // Required empty public constructor
@@ -59,10 +58,7 @@ public class UnlogFragment extends Fragment {
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent=new Intent();
-                intent.setAction(getResources().getString(R.string.activity_login));
-                getActivity().startActivityForResult(intent,REQUEST_CODE_LOGIN);
+                LoginActivity.login(getActivity());
 
 
             }

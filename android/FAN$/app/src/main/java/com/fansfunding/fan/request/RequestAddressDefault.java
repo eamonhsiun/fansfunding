@@ -68,16 +68,8 @@ public class RequestAddressDefault {
                     }
                     //获取项目详情失败
                     if(address.isResult()==false){
-                        switch (address.getErrCode()){
-                            case ErrorCode.REQUEST_TOO_FRENQUENTLY:
-                                handler.sendEmptyMessage(ErrorCode.REQUEST_TOO_FRENQUENTLY);
-                                break;
-                            case ErrorCode.PARAMETER_ERROR:
-                                handler.sendEmptyMessage(ErrorCode.PARAMETER_ERROR);
-                                break;
-                            default:
-                                handler.sendEmptyMessage(FANRequestCode.GET_USER_DEFAULT_ADDRESS_FAILURE);
-                        }
+                        handler.handlerFanErrorMessage(address.getErrCode());
+                        handler.sendEmptyMessage(FANRequestCode.GET_USER_DEFAULT_ADDRESS_FAILURE);
                         return;
                     }
 

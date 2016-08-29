@@ -83,11 +83,13 @@
   .user-data-list span {
     float: right;
     color: #ee554d; }
-  .user-data-list .user-data-follow, .user-data-list .user-data-fans {
+  .user-data-list .user-data-inner {
     float: left;
-    width: 50%;
-    padding-right: 10px;
-    box-sizing: border-box; }
+    width: 33.33333%;
+    box-sizing: border-box;
+    padding-right: 10px; }
+    .user-data-list .user-data-inner:last-child {
+      padding-right: 0; }
 
 #content-group {
   width: 70%;

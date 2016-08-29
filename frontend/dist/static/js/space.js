@@ -2,7 +2,7 @@ var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 
 var spaceTab = new FFtab($('.FFtabs'),$('.FFtab-contents'));
-var momentLoader = new FFloader($("#moment"));
+// var momentLoader = new FFloader($("#moment"));
 
 Vue.component('space-project-list', {
   template: '#space-project-list-template',
@@ -120,6 +120,12 @@ var spaceVm = new Vue({
         this.moments.overflow = true;
         this.moments.hint = "超出" + -num + "个字";
       }
+    }
+  },
+  events: {
+    'moment-img-show': function(src){
+      this.picViewer.src = src;
+      this.picViewer.status = true;
     }
   },
   methods:{
@@ -248,31 +254,10 @@ var spaceVm = new Vue({
       }
     },
     getRecentMoment: function(page){
-      var _this = this;
-      var momentRequest = ajax({
-        method: 'get',
-        url: apiUrl +"/user/" + _this.spaceId + "/moment?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
-      }).then(function (response, xhr) {
-        _this.moments.connect = true;
-        if(!response.result){
-          momentLoader.endLoad(false, "获取动态失败");
-          _this.moments.status = false;
-        }else{
-          _this.moments.list = response.data.list;
-          if(_this.moments.list.length !== 0){
-            momentLoader.endLoad();
-          }else{
-            momentLoader.endLoad(false, "没有相关动态");
-          }
-          _this.setPagination(_this.moments.pagination, response.data);
-          _this.moments.status = true;
-        }
-      }).catch(function (response, xhr) {
-        _this.moments.connect = false;
-        momentLoader.endLoad(false, "连接服务器失败");
-      }).always(function (response, xhr) {
-        // Do something
-      });
+      this.$refs.recent.momentFilter();
+    },
+    getFollowingMoment: function(){
+      this.$refs.follower.momentFilter();
     },
     getRecentOrder: function(page){
       var _this = this;
@@ -294,39 +279,6 @@ var spaceVm = new Vue({
         // Do something
       });
     },
-    sendMoment: function(){
-      var _this = this;
-      if(this.moments.overflow || !this.moments.content){
-        return;
-      }
-      var content = this.moments.content;
-      momentLoader.init();
-      var momentRequest = ajax({
-        method: 'post',
-        url: apiUrl +"/user/" + localId + "/moment",
-        data: {
-          token: localToken,
-          content: _this.moments.content,
-          images: "",
-        }
-      }).then(function (response, xhr) {
-        if(!response.result){
-          momentLoader.endLoad(false, "发布动态失败");
-        }else{
-          _this.getRecentMoment(0);
-          _this.moments.content = "";
-          momentLoader.endLoad();
-        }
-      }).catch(function (response, xhr) {
-        momentLoader.endLoad(false, "评论失败");
-      }).always(function (response, xhr) {
-        // Do something
-      });
-    },
-    viewPic: function(event){
-      this.picViewer.src = event.target.src;
-      this.picViewer.status = true;
-    }
   },
   ready: function(){
     var _this = this;
@@ -347,7 +299,6 @@ var spaceVm = new Vue({
       _this.getRecentProject("follow");
       _this.getRecentProject("support");
       _this.getUserFollowStatus();
-      _this.getRecentMoment();
     });
 
   }

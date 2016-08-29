@@ -1,28 +1,5 @@
 var plateLoader = new FFloader(document.getElementsByClassName("plate-content")[0]);
 
-Vue.component('project-list', {
-  template: '#project-list-template',
-  props: ["projects"],
-  methods: {
-    getLeftTime: function(startTime, endTime){
-      var d1;
-      if(startTime instanceof Date){
-        d1 = startTime;
-      }else{
-        d1 = new Date(startTime);
-      }
-      var d2 = new Date(endTime);
-      var d3 = d2.getTime() - d1.getTime();
-      if(d3 <= 0 ){
-        return "已结束";
-      }
-      var day = Math.floor(d3/(24*3600*1000));
-      var hour = Math.floor((d3%(24*3600*1000))/(3600*1000));
-      return (day === 0 ? "" : day + "天") + hour + "小时";
-    },
-  }
-});
-
 var projectListVm = new Vue({
   el: "#project-list",
   data: {
@@ -48,6 +25,22 @@ var projectListVm = new Vue({
     },
   },
   methods: {
+    getLeftTime: function(startTime, endTime){
+      var d1;
+      if(startTime instanceof Date){
+        d1 = startTime;
+      }else{
+        d1 = new Date(startTime);
+      }
+      var d2 = new Date(endTime);
+      var d3 = d2.getTime() - d1.getTime();
+      if(d3 <= 0 ){
+        return "已结束";
+      }
+      var day = Math.floor(d3/(24*3600*1000));
+      var hour = Math.floor((d3%(24*3600*1000))/(3600*1000));
+      return (day === 0 ? "" : day + "天") + hour + "小时";
+    },
     redirect: function(target){
       if(target){
         switch(target){

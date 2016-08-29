@@ -66,11 +66,14 @@
     float: right;
     color: $color_red_1;
   }
-  .user-data-follow, .user-data-fans{
+  .user-data-inner{
     float: left;
-    width: 50%;
-    padding-right: 10px;
+    width: 33.33333%;
     box-sizing: border-box;
+    padding-right: 10px;
+    &:last-child{
+      padding-right: 0;
+    }
   }
 }
 #content-group{

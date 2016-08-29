@@ -55,3 +55,54 @@
   };
   window[NAME] = FFloader;
 }());
+
+
+Vue.component('ffloader', {
+  template:`
+  <div class="kit-loader loader FFloader" v-show="!status && !connect">
+    <div class="loader-inner triangle-skew-spin">
+      <div></div>
+    </div>
+  </div>
+  <div class="kit-errormsg errormsg FFerrormsg" v-show="(connect && !status) || (!connect && status)" v-text="msg"></div>
+  `,
+  props: {
+    name: {
+      type: String,
+    }
+  },
+  data: function(){
+    return {
+      status: false,
+      connect: false,
+      msg: ""
+    }
+  },
+  events: {
+    'ffloader-change': function(data){
+      this._change({status: data.status, connect: data.connect, msg: data.msg});
+    },
+    'ffloader-init': function(){
+      this._change({status: false, connect: false, msg: ""});
+    },
+    'ffloader-msg': function(msg){
+      this._change({msg :msg});
+    },
+    'ffloader-success': function(){
+      this._change({status: true, connect: true, msg: ""});
+    },
+    'ffloader-failure' : function(msg){
+      this._change({status: true, connect: false, msg: msg});
+    },
+    'ffloader-error': function(msg){
+      this._change({status: true, connect: false, msg: msg || '服务器连接失败'});
+    }
+  },
+  methods: {
+    _change: function(data){
+      for(var key in data){
+        this[key] = data[key];
+      }
+    }
+  }
+});

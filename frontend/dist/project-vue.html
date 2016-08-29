@@ -165,10 +165,12 @@
                   <!-- <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
                 </div>
                 <div class="moment-content comment-content">
-                  <div class="moment-inner comment-inner">{{ moment.content }}</div>
-                  <div class="moment-images comment-images">
-                    <div class="comment-image" v-for="image in moment.images" track-by="$index">
-                      <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
+                  <div class="moment-inner comment-inner">
+                    <div>{{ moment.content }}</div>
+                    <div class="moment-images comment-images">
+                      <div class="comment-image" v-for="image in moment.images" track-by="$index">
+                        <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
+                      </div>
                     </div>
                   </div>
                   <div class="moment-more comment-more">

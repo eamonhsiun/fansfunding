@@ -42,6 +42,15 @@
     cropper.reset().replace(avatarImg);
   }
 
+  function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+  }
+
   function uploadAvatar (){
     if(!cropper){
       $("#upload-avatar-alert").innerHTML = "请先上传图片";
@@ -49,32 +58,33 @@
       return;
     }
     $("#upload-avatar-alert").style.display = "none";
-    cropper.getCroppedCanvas({width:250, height: 250}).toBlob(function (blob){
-      avatarForm = new FormData();
-      avatarForm.append("file", blob);
-      // avatarForm.append("token", localToken);
-      var uploadAvatarRequest = ajax({
-        method: 'post',
-        url: apiUrl + '/userbasic/' + localId + '/head',
-        headers: {
-          'content-type': null
-        },
-        data: avatarForm,
-      }).then(function (response, xhr) {
-        if(!response.result){
-          $("#upload-avatar-alert").innerHTML = errCode;
-          $("#upload-avatar-alert").style.display = "block";
-          return;
-        }
-        $("#upload-avatar-alert").innerHTML = "图片上传成功";
-        $("#upload-avatar-alert").style.display = "block";
-        window.location.reload();
-      }).catch(function (response, xhr) {
-        $("#upload-avatar-alert").innerHTML = "服务器连接失败";
-        $("#upload-avatar-alert").style.display = "block";
-      }).always(function (response, xhr) {
 
-      });
+    var blob = dataURLtoBlob(cropper.getCroppedCanvas({width:250, height: 250}).toDataURL('image/jpg'));
+
+    avatarForm = new FormData();
+    avatarForm.append("file", blob);
+    // avatarForm.append("token", localToken);
+    var uploadAvatarRequest = ajax({
+      method: 'post',
+      url: apiUrl + '/userbasic/' + localId + '/head',
+      headers: {
+        'content-type': null
+      },
+      data: avatarForm,
+    }).then(function (response, xhr) {
+      if(!response.result){
+        $("#upload-avatar-alert").innerHTML = errCode;
+        $("#upload-avatar-alert").style.display = "block";
+        return;
+      }
+      $("#upload-avatar-alert").innerHTML = "图片上传成功";
+      $("#upload-avatar-alert").style.display = "block";
+      window.location.reload();
+    }).catch(function (response, xhr) {
+      $("#upload-avatar-alert").innerHTML = "服务器连接失败";
+      $("#upload-avatar-alert").style.display = "block";
+    }).always(function (response, xhr) {
+
     });
   }
   addElementEvent();

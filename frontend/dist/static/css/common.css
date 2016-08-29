@@ -82,6 +82,9 @@ a:focus {
   height: 1px;
   zoom: 1; }
 
+template {
+  display: none; }
+
 /* Clear Ends*/
 #header, #header .search .search-text, #header .profile .profile-dropdown ul {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }

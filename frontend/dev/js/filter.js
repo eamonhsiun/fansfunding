@@ -4,6 +4,7 @@ Vue.filter("resource" ,function(value) {
   }
   return resourceUrl + value;
 });
+
 Vue.filter("commentTime" ,function(value){
   var date;
   if(value instanceof Date){
@@ -30,6 +31,7 @@ Vue.filter("commentTime" ,function(value){
     }
   }
 });
+
 Vue.filter("time" ,function(value){
   var date;
   if(value instanceof Date){

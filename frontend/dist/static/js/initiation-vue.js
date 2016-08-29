@@ -160,61 +160,62 @@ var initiationVm = new Vue({
       }
       var _this = this;
       this.request.progress = 10;
-      cropper.getCroppedCanvas({width:1400, height: 900}).toBlob(function (blob){
-        var imageForm = new FormData();
-        imageForm.append("files", blob);
-        var imageRequest = ajax({
-          method: 'post',
-          url: apiUrl +"/project/" + _this.categoryId + "/images",
-          headers: {
-            'content-type': null
-          },
-          data: imageForm
-        }).then(function (response, xhr) {
-          if(!response.result){
-            console.log(getErrorMsg(response.errCode));
-            return;
-          }else{
-            _this.request.progress = 20;
-            var initializeProjectRequest = ajax({
-              method: 'post',
-              url: apiUrl +"/project/" + _this.categoryId,
-              data: {
-                token: localToken,
-                name: _this.project.title,
-                targetDeadline: _this.project.endTime,
-                targetMoney: _this.project.money,
-                description: _this.project.intro,
-                sponsor: localId,
-                cover: response.data[0],
-                content: _this.project.content
-              }
-            }).then(function (response, xhr) {
-              _this.response.connect = true;
-              _this.response.raw = response;
-              if(!response.result){
-                _this.response.result = false;
-                console.log(getErrorMsg(response.errCode));
-                return;
-              }else{
-                _this.request.progress = 40;
-                _this.response.result = true;
-                _this.projectId = response.data;
-                _this.uploadFeedback();
-              }
-            }).catch(function (response, xhr) {
-              _this.response.connect = false;
+
+      var blob = dataURLtoBlob(cropper.getCroppedCanvas({width:1400, height: 900}).toDataURL('image/jpg'));
+
+      var imageForm = new FormData();
+      imageForm.append("files", blob);
+      var imageRequest = ajax({
+        method: 'post',
+        url: apiUrl +"/project/" + _this.categoryId + "/images",
+        headers: {
+          'content-type': null
+        },
+        data: imageForm
+      }).then(function (response, xhr) {
+        if(!response.result){
+          console.log(getErrorMsg(response.errCode));
+          return;
+        }else{
+          _this.request.progress = 20;
+          var initializeProjectRequest = ajax({
+            method: 'post',
+            url: apiUrl +"/project/" + _this.categoryId,
+            data: {
+              token: localToken,
+              name: _this.project.title,
+              targetDeadline: _this.project.endTime,
+              targetMoney: _this.project.money,
+              description: _this.project.intro,
+              sponsor: localId,
+              cover: response.data[0],
+              content: _this.project.content
+            }
+          }).then(function (response, xhr) {
+            _this.response.connect = true;
+            _this.response.raw = response;
+            if(!response.result){
               _this.response.result = false;
-              alert("发起项目连接服务器失败");
-            }).always(function (response, xhr) {
-              // Do something
-            });
-          }
-        }).catch(function (response, xhr) {
-          _this.response.connect = false;
-        }).always(function (response, xhr) {
-          // Do something
-        });
+              console.log(getErrorMsg(response.errCode));
+              return;
+            }else{
+              _this.request.progress = 40;
+              _this.response.result = true;
+              _this.projectId = response.data;
+              _this.uploadFeedback();
+            }
+          }).catch(function (response, xhr) {
+            _this.response.connect = false;
+            _this.response.result = false;
+            alert("发起项目连接服务器失败");
+          }).always(function (response, xhr) {
+            // Do something
+          });
+        }
+      }).catch(function (response, xhr) {
+        _this.response.connect = false;
+      }).always(function (response, xhr) {
+        // Do something
       });
     },
     uploadFeedbackImage: function(index, callback){

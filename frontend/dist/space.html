@@ -102,19 +102,17 @@
           <div class="kit-block" id="user-data">
             <div class="">
                <ul>
-                 <li class="user-data-list">
-                   <div class="user-data-follow">关注<span></span></div>
-                   <div class="user-data-fans">粉丝<span></span></div>
-                 </li>
-                 <li class="user-data-list">
-                   支持的项目<span v-text="projects.support.pagination.total"></span>
-                 </li>
-                 <li class="user-data-list">
-                   发布的动态<span v-text="moments.pagination.total"></span>
-                 </li>
-                 <li class="user-data-list">
-                   发起的项目<span v-text="projects.sponsor.pagination.total"></span>
-                 </li>
+                  <li class="user-data-list">
+                    <div class="user-data-inner user-data-moment">动态<span v-text="spaceUserInfo.momentNum"></span></div>
+                    <div class="user-data-inner user-data-follow">关注<span v-text="spaceUserInfo.followingNum"></span></div>
+                    <div class="user-data-inner user-data-fans">粉丝<span v-text="spaceUserInfo.followerNum"></span></div>
+                  </li>
+                  <li class="user-data-list">
+                    支持的项目<span v-text="projects.support.pagination.total"></span>
+                  </li>
+                  <li class="user-data-list">
+                    发起的项目<span v-text="projects.sponsor.pagination.total"></span>
+                  </li>
                </ul>
             </div>
           </div>
@@ -124,7 +122,8 @@
             <div class="kit-tabs FFtabs">
               <ul>
                 <li class="kit-tab FFtab">最近项目</li>
-                <li class="kit-tab FFtab" @click.prevent="getRecentMoment(0)">最近动态</li>
+                <li class="kit-tab FFtab" v-show="isSelf"  @click.prevent="getFollowingMoment()">我的关注</li>
+                <li class="kit-tab FFtab" @click.prevent="getRecentMoment()">最近动态</li>
                 <li class="kit-tab FFtab" v-show="isSelf" @click.prevent="getRecentOrder(0)">我的订单</li>
               </ul>
             </div>
@@ -195,58 +194,16 @@
                   <span class="kit-title-left">动态</span>
                   <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
-                <div class="kit-content" id="moment">
-                  <div class="comment-text comment-wrap" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
-                    <div class="comment-userinfo">
-                      <div class="comment-avatar">
-                        <img v-bind:src="userInfo.head | resource" alt="">
-                      </div>
-                      <div class="comment-userinfo-name">{{ userInfo.nickname }}</div>
-                      <!-- <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
-                    </div>
-                    <div class="comment-input">
-                      <textarea name="" id="moment-textarea" cols="30" rows="10" v-model="moments.content"></textarea >
-                      <div class="comment-input-more">
-                        <div class="comment-hint" id="moment-hint" v-text="moments.hint" v-bind:class="{'overflow':moments.overflow}"></div>
-                        <div class="comment-submit" id="comment-submit" v-on:click="sendMoment">发表动态</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="kit-loader FFloader" id="moment-loader">
-                    <div class="loader-inner triangle-skew-spin">
-                      <div></div>
-                    </div>
-                  </div>
-                  <div id="moment-errormsg" class="kit-errormsg FFerrormsg">发起人还没有发布动态</div>
-                  <ul>
-                    <li class="moment-wrap comment-wrap" v-for="moment in moments.list" track-by="$index">
-                      <div class="moment-userinfo comment-userinfo">
-                        <div class="moment-avatar comment-avatar">
-                          <img v-bind:src="moment.sponsorHead | resource" alt="">
-                        </div>
-                        <a href="space.html?userid={{moment.userId}}"><div class="moment-userinfo-name comment-userinfo-name">{{ moment.nickname }}</div></a>
-                        <!-- <div class="moment-userinfo-intro comment-userinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
-                      </div>
-                      <div class="moment-content comment-content">
-                        <div class="moment-inner comment-inner">{{ moment.content }}</div>
-                        <div class="moment-images comment-images">
-                          <div class="comment-image" v-for="image in moment.images" track-by="$index">
-                            <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
-                          </div>
-                        </div>
-                        <div class="moment-more comment-more">
-                          <div class="moment-time comment-time">{{ moment.postTime | commentTime }}</div>
-                          <div class="moment-btns comment-btns">
-                            <div class="moment-btn moment-like comment-btn comment-like" v-text="moment.likeNum"></div>
-                            <div class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">评论</div>
-                            <div class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">转发</div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                  <pagination :pagination="moments.pagination" :callback="getRecentMoment" :offset="3"></pagination>
+                <moment v-ref:follower :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" moment-type="follower" show-like show-forward show-comment></moment>
+              </div>
+            </div>
+            <div class="kit-wrap FFtab-content">
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">动态</span>
+                  <span class="kit-title-right"><a href="">更多</a></span>
                 </div>
+                <moment v-ref:recent :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" show-like show-forward show-comment></moment>
               </div>
             </div>
             <div class="kit-wrap FFtab-content">
@@ -341,6 +298,7 @@
     <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
     <script src="static/js/module/FFviewer.js"></script>
     <script src="static/js/module/pagination.js"></script>
+    <script src="static/js/module/moment.js"></script>
     <script src="static/js/space.js"></script>
   
   

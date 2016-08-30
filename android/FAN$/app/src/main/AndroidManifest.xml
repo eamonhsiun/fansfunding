@@ -391,7 +391,7 @@
         <!--指定Model类，加快应用的启动速度-->
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.fansfunding.fan.message.model.Notifications" />
+            android:value="com.fansfunding.fan.message.model.Notifications，com.fansfunding.fan.message.model.Comments" />
 
     </application>
 

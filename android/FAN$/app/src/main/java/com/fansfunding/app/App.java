@@ -6,9 +6,11 @@ import android.content.Context;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.fansfunding.fan.message.model.Comments;
 import com.fansfunding.fan.message.model.Notifications;
 import com.jauker.widget.BadgeView;
 
+import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
 
 /**
@@ -29,9 +31,11 @@ public class App extends Application {
         context = getApplicationContext();
         //初始化,通知开启日志
         ActiveAndroid.initialize(this, true);
-        //每次程序初始化的时候将通知表中已读的通知删除
+        //每次程序初始化的时候将表中已读的内容删除
         new Delete().from(Notifications.class).where("isRead = 1").execute();
-        //初始化通知数据
+        new Delete().from(Comments.class).where("isRead = 1").execute();
+        //初始化推送数据
+        commentses = new Select().from(Comments.class).orderBy("id desc").where("isRead = 0").execute();
         notificationses = new Select().from(Notifications.class).orderBy("id desc").where("isRead = 0").execute();
     }
 

@@ -36,6 +36,7 @@ import com.umeng.socialize.PlatformConfig;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
 
 /**
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
             app.getBadgeView().setGravity(Gravity.TOP | Gravity.RIGHT);
             app.getBadgeView().setTargetView(imageView);
             imageView.setImageResource(R.drawable.dollar);
-            app.getBadgeView().setBadgeCount(notificationses.size());
+            app.getBadgeView().setBadgeCount(notificationses.size() + commentses.size());
         }
     }
 
@@ -245,9 +246,9 @@ public class MainActivity extends AppCompatActivity {
 
             tabLayout.getTabAt(i).setIcon(getResources().getDrawable(tab_unselect[i]));
         }
-        Intent i = getIntent();
-        int page = i.getIntExtra("push", 0);
-        vp_Main.setCurrentItem(page);
+//        Intent i = getIntent();
+//        int page = i.getIntExtra("push", 0);
+//        vp_Main.setCurrentItem(page);
 
     }
 

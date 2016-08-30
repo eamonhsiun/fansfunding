@@ -18,11 +18,12 @@ import android.util.Log;
 import com.fansfunding.app.App;
 import com.fansfunding.fan.MainActivity;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.message.entity.CommentsProject;
 import com.fansfunding.fan.message.entity.NotificationProject;
+import com.fansfunding.fan.message.model.Comments;
 import com.fansfunding.fan.message.model.Notifications;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static com.fansfunding.fan.message.fragment.CommentFragment.commentsAdapter;
+import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationAdapter;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
 
@@ -95,9 +98,15 @@ public class PushService extends Service {
                     break;
                 case TYPE_THREE:
                     Log.d(TAG, "开始处理通知消息");
-                    String data = (String) msg.obj;
-                    notificationHandling(data);
+                    String dataNotificaition = (String) msg.obj;
+                    notificationHandling(dataNotificaition);
                     break;
+                case TYPE_TWO:
+                    Log.d(TAG, "开始处理评论消息");
+                    String dataComment = (String) msg.obj;
+                    commentHandling(dataComment);
+                    break;
+
                 default:
                     break;
             }
@@ -264,6 +273,8 @@ public class PushService extends Service {
                         break;
                     //评论消息
                     case 2:
+                        m.what = TYPE_TWO;
+                        handler.sendMessage(m);
                         break;
                     //通知消息
                     case 3:
@@ -281,7 +292,46 @@ public class PushService extends Service {
             e.printStackTrace();
         }
     }
-    
+    /**
+      *处理评论消息
+     * type 1 项目评论
+     * type 2 动态评论
+      *@author RJzz
+      *create at 2016/8/30 1:14
+      */
+    public void commentHandling(String s) {
+        try {
+            JSONObject json = new JSONObject(s);
+            int type = json.getInt("type");
+            Gson gson = new GsonBuilder().create();
+            CommentsProject c = new CommentsProject();
+            String title = "";
+            String text = "";
+            if(type == 1) {
+                c = gson.fromJson(s, c.getClass());
+            }else {
+                c = gson.fromJson(s, c.getClass());
+            }
+            switch (type) {
+                //项目评论
+                case 1:
+                    title = c.getCommenter().getNickname();
+                    text = "评论了你的项目:" + c.getPointTo().getName();
+                    break;
+                //动态评论
+                case 2:
+                    break;
+                default:
+                    break;
+            }
+            insertToComment(s);
+            push(title, text);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
       *处理通知消息
      * type 1 3 动态
@@ -294,34 +344,89 @@ public class PushService extends Service {
             JSONObject json = new JSONObject(s);
             //通知消息的类型
             int type = json.getInt("type");
-            long time = json.getLong("time");
-            String causer = json.getString("causer");
-            String reference = json.getString("reference");
+            Gson gson = new GsonBuilder().create();
+            NotificationProject n = new NotificationProject();
 
+            if(type == 1 || type == 3) {
 
+            } else {
+                n = gson.fromJson(s, NotificationProject.class);
+            }
+            //通知的标题
+            String title = "";
+            //通知的内容
+            String text = "";
             switch (type) {
                 case 1:
                 case 3:
                     break;
                 case 2:
+                    break;
                 case 4:
-                    push(s, "关注了你的项目");
+                    title = n.getCauser().getNickname();
+                    text = "关注了你的项目" + n.getReference().getName();
                     break;
                 case 5:
-                    push(s, "关注了你");
+                    title = n.getCauser().getNickname();
+                    text = "关注了你";
                     break;
                 case 6:
-                    push(s, "更新了项目动态");
+                    title = n.getCauser().getNickname();
+                    text = "更新了项目" + n.getReference().getName();
                     break;
                 default:
                     break;
             }
+            insertToNotification(s);
+            push(title, text);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void insertToTable(String s) {
+
+
+    public void insertToComment(String s) {
+        JSONObject json = null;
+        try {
+            json = new JSONObject(s);
+            //评论类型的消息
+            int type = json.getInt("type");
+            long time = json.getLong("time");
+            String comment = json.getString("comment");
+            String commenter = json.getString("commenter");
+            String pointTo = json.getString("pointTo");
+            Comments n = new Comments();
+            n.setTime(time);
+            n.setComment(comment);
+            n.setCommenter(commenter);
+            n.setPointTo(pointTo);
+            n.setType(type);
+            n.setRead(false);
+            n.setJson(s);
+            n.save();
+            Log.d(TAG, "插入评论表成功");
+            //更新ui
+            commentses.add(0, n);
+            if(commentsAdapter != null) {
+                commentsAdapter.notifyDataSetChanged();
+            }
+            //小红点嘿嘿嘿+1
+            App app = (App)getApplication();
+            app.getBadgeView().incrementBadgeCount(1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
+      *将接收到的未读通知插入表中
+      *@author RJzz
+      *create at 2016/8/30 1:31
+      */
+    public void insertToNotification(String s) {
         JSONObject json = null;
         try {
             json = new JSONObject(s);
@@ -338,6 +443,7 @@ public class PushService extends Service {
             n.setRead(false);
             n.setJson(s);
             n.save();
+            Log.d(TAG, "插入通知表成功");
             //更新ui
             notificationses.add(0, n);
             if(notificationAdapter != null) {
@@ -384,25 +490,7 @@ public class PushService extends Service {
     }
 
     //通知栏提醒
-    public void push(String s, String info) {
-        Gson gson = new GsonBuilder().create();
-        NotificationProject nP = new NotificationProject();
-        try {
-            if((nP = gson.fromJson(s, nP.getClass())) == null) {
-                handler.sendEmptyMessage(RESPONSE_ERROR);
-                return;
-            }
-            insertToTable(s);
-
-            Log.d(TAG, "项目相关通知插入通知表成功");
-
-        }catch (IllegalStateException e){
-            handler.sendEmptyMessage(RESPONSE_ERROR);
-            e.printStackTrace();
-        }catch (JsonSyntaxException e){
-            handler.sendEmptyMessage(RESPONSE_ERROR);
-            e.printStackTrace();
-        }
+    public void push(String title, String text) {
         App app = (App)getApplication();
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());
@@ -410,8 +498,8 @@ public class PushService extends Service {
         intent.putExtra("push", 2);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = builder
-                .setContentTitle(nP.getCauser().getNickname())
-                .setContentText(info)
+                .setContentTitle(title)
+                .setContentText(text)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.icon)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))

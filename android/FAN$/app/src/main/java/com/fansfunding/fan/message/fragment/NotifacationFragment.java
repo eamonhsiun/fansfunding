@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -56,7 +55,7 @@ public class NotifacationFragment extends Fragment {
     //全部标记为已读
     private ImageButton imageButton;
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -69,7 +68,6 @@ public class NotifacationFragment extends Fragment {
 //                    }
                     unread.setText(notificationses.size() + "");
                     notificationAdapter.notifyDataSetChanged();
-                    app.getBadgeView().setBadgeCount(notificationses.size());
                     Log.d("PushService", "fucking");
                     break;
                 default:
@@ -97,7 +95,7 @@ public class NotifacationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                dialog.setTitle("是否清空通知");
+                dialog.setTitle("是否清空通知消息");
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -109,7 +107,7 @@ public class NotifacationFragment extends Fragment {
                                     ActiveAndroid.beginTransaction();
                                     try {
                                         new Update(Notifications.class).set("isRead = ?", 1).where("id = ?", delete.getId()).execute();
-
+                                        app.getBadgeView().decrementBadgeCount(notificationses.size());
                                     } finally {
                                         ActiveAndroid.endTransaction();
                                     }
@@ -135,8 +133,12 @@ public class NotifacationFragment extends Fragment {
                 Notifications notifications = notificationses.get(position);
                 Gson gson = new GsonBuilder().create();
                 NotificationProject notificationProject = new NotificationProject();
-                notificationProject = gson.fromJson(notifications.getJson(), notificationProject.getClass());
-                switch (notificationProject.getType()) {
+                if(notifications.getType() == 1 || notifications.getType() == 3) {
+
+                } else {
+                    notificationProject = gson.fromJson(notifications.getJson(), notificationProject.getClass());
+                }
+                switch (notifications.getType()) {
                     //动态相关
                     case 1:
                     case 3:
@@ -158,11 +160,16 @@ public class NotifacationFragment extends Fragment {
                         startActivityForResult(intent, 1003);
                         //删除当前这条数据
                         notificationses.remove(position);
+                        //小红点数量减1
+                        app.getBadgeView().decrementBadgeCount(1);
                         break;
                         //用户关注
                     case 5:
 
+                        break;
 
+                    default:
+                        break;
                 }
             }
         });

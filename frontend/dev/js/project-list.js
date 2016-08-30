@@ -110,7 +110,6 @@ var projectListVm = new Vue({
         wrap.list = data.data.list;
         this.setPagination(wrap.pagination, data.data);
         plateLoader.endLoad();
-        window.scrollTo(0, 0);
       }
     },
     changeCategory: function(id){

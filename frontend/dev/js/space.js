@@ -2,37 +2,116 @@ var $ = function (i) { return document.querySelector(i); };
 var $$ = function (i) { return document.querySelectorAll(i); };
 
 var spaceTab = new FFtab($('.FFtabs'),$('.FFtab-contents'));
-// var momentLoader = new FFloader($("#moment"));
 
 Vue.component('space-project-list', {
   template: '#space-project-list-template',
-  props: ["projects","pagination","type"],
-  methods: {
-    getLeftTime: function(startTime, endTime){
-      var d1;
-      if(startTime instanceof Date){
-        d1 = startTime;
-      }else{
-        d1 = new Date(startTime);
-      }
-      var d2 = new Date(endTime);
-      var d3 = d2.getTime() - d1.getTime();
-      if(d3 <= 0 ){
-        return "已结束";
-      }
-      var day = Math.floor(d3/(24*3600*1000));
-      var hour = Math.floor((d3%(24*3600*1000))/(3600*1000));
-      return (day === 0 ? "" : day + "天") + hour + "小时";
-    },
-    getProject: function(page){
-      this.$emit("ongetproject", {type: this.type, page: page});
+  props: ["type", "spaceId", "num"],
+  data: function(){
+    return {
+      list: [],
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
     }
+  },
+  events: {
+    'space-project-get': function(type){
+      if(type == this.type){
+        this.getRecentProject();
+      }
+    },
+    'space-project-get-all': function(){
+      this.getRecentProject();
+      return true;
+    }
+  },
+  methods: {
+    getRecentProject: function(page){
+      var _this = this;
+      var projectRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/user/" + _this.spaceId + "/projects?rows=3&token=" + localToken + "&type=" + _this.type + (page ? "&page=" + page : ""),
+      }).then(function (response, xhr) {
+        if(!response.result){
+          _this.$broadcast('ffloader-failure', "项目获取错误");
+        }else{
+          _this.list = response.data.list;
+          if(_this.list.length === 0){
+            _this.$broadcast('ffloader-failure', "没有相关项目");
+          }else{
+            _this.$broadcast('ffloader-success');
+          }
+          _this.setPagination(_this.pagination, response.data);
+          _this.num = _this.pagination.total;
+        }
+      }).catch(function (response, xhr) {
+        _this.$broadcast('ffloader-error');
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
   }
 });
 
 Vue.component('space-order-list', {
   template: '#space-order-list-template',
-  props: ["orders","pagination", "callback"],
+  // props: ["orders","pagination", "callback"],
+  data: function(){
+    return {
+      list: [],
+      pagination: {
+        total: 0,
+        pageSize: 0,
+        pages: 0,
+        pageNum: 0,
+      },
+    }
+  },
+  events: {
+    'space-order-get': function(){
+      this.getRecentOrder();
+    },
+    'space-order-get-all': function(){
+      this.getRecentOrder();
+      return true;
+    },
+  },
+  methods: {
+    getOrderStatus: function(value){
+      switch (value){
+      case "TRADE_SUCCESS" :
+        return "交易成功";
+      default:
+        return "查询中";
+      }
+    },
+    getRecentOrder: function(page){
+      var _this = this;
+      var orderRequest = ajax({
+        method: 'get',
+        url: apiUrl +"/user/" + localId + "/orders?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
+      }).then(function (response, xhr) {
+        if(!response.result){
+          _this.$broadcast('ffloader-failure', "订单获取错误");
+        }else{
+          _this.list = response.data.list;
+          if(_this.list.length === 0){
+            _this.$broadcast('ffloader-failure', "没有相关订单");
+          }else{
+            _this.$broadcast('ffloader-success');
+          }
+          _this.setPagination(_this.pagination, response.data);
+        }
+      }).catch(function (response, xhr) {
+        _this.$broadcast('ffloader-error');
+      }).always(function (response, xhr) {
+        // Do something
+      });
+    },
+  },
 });
 
 var spaceVm = new Vue({
@@ -43,87 +122,18 @@ var spaceVm = new Vue({
     userInfo: {},
     spaceId: getQueryString("userid"),
     spaceUserInfo: {},
+    projectNum: {
+      sponsor: 0,
+      follow: 0,
+      support: 0,
+    },
     isFollowed: false,
-    projects: {
-      sponsor: {
-        status: false,
-        connect: false,
-        list: [],
-        pagination: {
-          total: 0,
-          pageSize: 0,
-          pages: 0,
-          pageNum: 0,
-        },
-      },
-      follow: {
-        status: false,
-        connect: false,
-        list: [],
-        pagination: {
-          total: 0,
-          pageSize: 0,
-          pages: 0,
-          pageNum: 0,
-        },
-      },
-      support: {
-        status: false,
-        connect: false,
-        list: [],
-        pagination: {
-          total: 0,
-          pageSize: 0,
-          pages: 0,
-          pageNum: 0,
-        },
-      }
-    },
-    orders: {
-      status: false,
-      connect: false,
-      list: [],
-      pagination: {
-        total: 0,
-        pageSize: 0,
-        pages: 0,
-        pageNum: 0,
-      },
-    },
-    moments: {
-      status: false,
-      connect: false,
-      count: 0,
-      MAX_COUNT: 128,
-      hint: "剩余128个字",
-      overflow: false,
-      content: "",
-      images: [],
-      list: [],
-      pagination: {
-        total: 0,
-        pageSize: 0,
-        pages: 0,
-        pageNum: 0,
-      },
-    },
     picViewer: {
       status: false,
       src: ""
     }
   },
   watch: {
-    'moments.content': function(val){
-      this.moments.count = val.length;
-      var num = this.moments.MAX_COUNT - this.moments.count;
-      if(num >= 0){
-        this.moments.overflow = false;
-        this.moments.hint = "剩余" + num + "个字";
-      }else{
-        this.moments.overflow = true;
-        this.moments.hint = "超出" + -num + "个字";
-      }
-    }
   },
   events: {
     'moment-img-show': function(src){
@@ -142,15 +152,11 @@ var spaceVm = new Vue({
       }
       window.location.href = "404.html";
     },
-    viewPic: function(event){
-      this.picViewer.src = event.target.src;
-      this.picViewer.status = true;
-    },
     getSpaceUserInfo: function(callback){
       var _this = this;
       var spaceUserInfoRequest = ajax({
         method: 'get',
-        url: apiUrl + "/user/" + _this.spaceId + "/info?token=" + localToken,
+        url: apiUrl + "/user/" + localId + "/info?viewId=" + _this.spaceId + "&token=" + localToken,
       }).then(function (response, xhr) {
         if(!response.result){
           _this.redirect();
@@ -170,30 +176,8 @@ var spaceVm = new Vue({
       }).always(function (response, xhr) {
       });
     },
-    getRecentProject: function(data){
-      if(!data && !data.type){
-        throw new Error("没有指定项目类型");
-      }
-      var type = data.type;
-      var page = data.page;
-      var _this = this;
-      var projectRequest = ajax({
-        method: 'get',
-        url: apiUrl +"/user/" + _this.spaceId + "/projects?rows=3&token=" + localToken + "&type=" + type + (page ? "&page=" + page : ""),
-      }).then(function (response, xhr) {
-        _this.projects[type].connect = true;
-        if(!response.result){
-          _this.projects[type].status = false;
-        }else{
-          _this.projects[type].list = response.data.list;
-          _this.setPagination(_this.projects[type].pagination, response.data);
-          _this.projects[type].status = true;
-        }
-      }).catch(function (response, xhr) {
-        _this.projects[type].connect = false;
-      }).always(function (response, xhr) {
-        // Do something
-      });
+    getSpaceUserProjectNum: function(){
+
     },
     getUserFollowStatus: function(){
       var _this = this;
@@ -256,28 +240,16 @@ var spaceVm = new Vue({
       this.$refs.recent.momentFilter();
     },
     getFollowingMoment: function(){
-      this.$refs.follower.momentFilter();
+      if(this.isSelf){
+        this.$refs.follower.momentFilter();
+      }
     },
-    getRecentOrder: function(page){
-      var _this = this;
-      var projectRequest = ajax({
-        method: 'get',
-        url: apiUrl +"/user/" + _this.spaceId + "/orders?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
-      }).then(function (response, xhr) {
-        _this.orders.connect = true;
-        if(!response.result){
-          _this.orders.status = false;
-        }else{
-          _this.orders.list = response.data.list;
-          _this.setPagination(_this.orders.pagination, response.data);
-          _this.orders.status = true;
-        }
-      }).catch(function (response, xhr) {
-        _this.orders.connect = false;
-      }).always(function (response, xhr) {
-        // Do something
-      });
+    getAllProjects: function(){
+      this.$broadcast("space-project-get-all");
     },
+    getAllOrders: function(){
+      this.$broadcast("space-order-get-all");
+    }
   },
   ready: function(){
     var _this = this;
@@ -294,9 +266,7 @@ var spaceVm = new Vue({
       }
     });
     this.getSpaceUserInfo(function(){
-      _this.getRecentProject({type: "sponsor"});
-      _this.getRecentProject({type: "follow"});
-      _this.getRecentProject({type: "support"});
+      _this.getAllProjects();
       _this.getUserFollowStatus();
     });
 

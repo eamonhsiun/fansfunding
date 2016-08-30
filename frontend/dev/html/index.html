@@ -22,7 +22,7 @@
       <div class="plate-content">
         <ul>
           <li class="plate-content-list" v-for="project in hotProjects.list">
-            <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
+            <a href="project.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
               <div class="project-card-pic">
                 <img :src="project.cover | resource"alt="">
               </div>

@@ -66,7 +66,7 @@
           <a href="index.html"><li >首页</li>
           </a>
           <a href="project-list.html"><li  class="active">浏览项目</li></a>
-          <a href="initiation-vue.html"><li >发起项目</li></a>
+          <!-- <a href="initiation.html"><li >发起项目</li></a> -->
           <a href="download.html"><li >下载APP</li></a>
         </ul>
       </div>
@@ -92,7 +92,7 @@
       <div class="plate-content">
         <ul>
           <li class="plate-content-list" v-for="project in projects.list">
-            <a href="project-vue.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
+            <a href="project.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
               <div class="project-card-pic">
                 <img :src="project.cover | resource"alt="">
               </div>
@@ -128,7 +128,7 @@
           </div>
         </div>
         <div id="plate-errormsg" class="kit-errormsg FFerrormsg">服务器连接失败</div>
-        <pagination :pagination="projects.pagination" :callback="getProjects" :offset="3"></pagination>
+        <pagination :pagination="projects.pagination" :callback="getProjects" :distance="50"></pagination>
       </div>
     </div>
   </div>
@@ -161,7 +161,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
-  <script src="static/js/filter.js"></script>
+  <script src="static/js/vue-util.js"></script>
 
   
 
@@ -173,9 +173,6 @@
 
   
 
-  
-
-  
   
 
   

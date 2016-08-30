@@ -183,6 +183,19 @@
   padding: 15px 10px 0;
   margin-top: 10px;
   background-color: $color_background_gray;
+  position: relative;
+  &:before{
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10px;
+    right: 78px;
+    border-bottom: 10px solid $color_background_gray;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+  }
   .kit-loader{
     padding-top: 15px;
     padding-bottom: 25px;
@@ -190,6 +203,10 @@
   .kit-errormsg{
     padding-top: 10px;
     padding-bottom: 20px;
+  }
+  .kit-pagination{
+    padding-bottom: 15px;
+    margin-top: 0;
   }
   .comment-wrap{
     min-height: auto;

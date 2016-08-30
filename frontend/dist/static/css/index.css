@@ -444,23 +444,22 @@ button.swiper-pagination-bullet {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px; }
-  .plate .plate-class {
-    margin-top: 15px; }
-    .plate .plate-class li {
-      font-size: 1.2rem;
-      line-height: 40px;
-      display: inline-block;
-      padding: 0 20px;
-      border: 1px solid #ee554d;
-      border-radius: 20px;
-      margin-right: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease; }
-      .plate .plate-class li:hover {
-        background-color: rgba(100, 100, 100, 0.1); }
-      .plate .plate-class li.active {
-        background-color: #ee554d;
-        color: #ffffff; }
+  .plate .plate-class li {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 20px;
+    border: 1px solid #ee554d;
+    border-radius: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease; }
+    .plate .plate-class li:hover {
+      background-color: rgba(100, 100, 100, 0.1); }
+    .plate .plate-class li.active {
+      background-color: #ee554d;
+      color: #ffffff; }
   .plate .plate-content .loader {
     padding-top: 100px;
     padding-bottom: 100px; }

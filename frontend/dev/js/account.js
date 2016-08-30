@@ -80,7 +80,7 @@ function getErrorMsg(errCode){
     var _this = this;
     var userInfoRequest = ajax({
       method: 'get',
-      url: apiUrl + "/user/" + localId + "/info?token=" + localToken,
+      url: apiUrl + "/user/" + localId + "/info?viewId=" + localId + "&token=" + localToken,
     }).then(function (response, xhr) {
       var res = response.data;
       if(!response.result){

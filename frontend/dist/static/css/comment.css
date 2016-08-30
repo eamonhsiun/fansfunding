@@ -181,13 +181,28 @@
   box-sizing: border-box;
   padding: 15px 10px 0;
   margin-top: 10px;
-  background-color: #f5f5f5; }
+  background-color: #f0f0f0;
+  position: relative; }
+  .inner-comment:before {
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10px;
+    right: 78px;
+    border-bottom: 10px solid #f0f0f0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent; }
   .inner-comment .kit-loader {
     padding-top: 15px;
     padding-bottom: 25px; }
   .inner-comment .kit-errormsg {
     padding-top: 10px;
     padding-bottom: 20px; }
+  .inner-comment .kit-pagination {
+    padding-bottom: 15px;
+    margin-top: 0; }
   .inner-comment .comment-wrap {
     min-height: auto;
     padding-bottom: 10px;

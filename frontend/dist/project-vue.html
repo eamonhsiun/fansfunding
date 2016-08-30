@@ -67,7 +67,7 @@
           <a href="index.html"><li >首页</li>
           </a>
           <a href="project-list.html"><li  >浏览项目</li></a>
-          <a href="initiation-vue.html"><li >发起项目</li></a>
+          <!-- <a href="initiation-vue.html"><li >发起项目</li></a> -->
           <a href="download.html"><li >下载APP</li></a>
         </ul>
       </div>
@@ -231,7 +231,7 @@
                 </div>
               </li>
             </ul>
-            <pagination :pagination="comments.pagination" :callback="getComments" :offset="3"></pagination>
+            <pagination :pagination="comments.pagination" :callback="getComments" :distance="120"></pagination>
           </div>
           <div class="project-content FFtab-content" id="project-supporter">
             <div class="kit-loader FFloader" id="supporter-loader">
@@ -253,7 +253,7 @@
                 </a>
               </li>
             </ul>
-            <pagination :pagination="supporters.pagination" :callback="getSupporters" :offset="3"></pagination>
+            <pagination :pagination="supporters.pagination" :callback="getSupporters" :distance="110"></pagination>
           </div>
         </div>
       </div>
@@ -314,9 +314,7 @@
   <script src="static/js/account.js"></script>
   <script src="static/js/module/FFloader.js"></script>
   <script src="static/js/module/FFtab.js"></script>
-  <script src="static/js/filter.js"></script>
-
-  
+  <script src="static/js/vue-util.js"></script>
 
   
 
@@ -334,7 +332,6 @@
 
   
 
-  
   
 
   

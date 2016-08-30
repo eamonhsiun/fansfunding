@@ -132,12 +132,12 @@
   background-color: #ee554d;
   color: #ffffff;
   box-sizing: border-box;
-  padding: 0 30px; }
+  padding: 0 25px; }
   .kit-title .kit-title-left {
     font-size: 1.4rem; }
     .kit-title .kit-title-left:before {
       font-family: "FontAwesome";
-      content: "";
+      content: "";
       padding-right: 10px; }
   .kit-title .kit-title-right {
     float: right;
@@ -499,8 +499,7 @@
 
 .kit-pagination {
   width: 100%;
-  text-align: center;
-  margin-top: 10px; }
+  text-align: center; }
   .kit-pagination li {
     display: inline-block;
     width: 30px;
@@ -509,6 +508,7 @@
     box-sizing: border-box;
     border: 1px solid #ababab;
     margin-right: 10px;
+    margin-top: 10px;
     transition: all 0.3s ease; }
     .kit-pagination li:last-child {
       margin-right: 0; }

@@ -59,7 +59,7 @@ var orderVm = new Vue({
               window.location.href = "index.html";
               return;
             }
-            window.location.href = "project-vue.html?categoryId="+ this.categoryId + "&projectId="+this.projectId;
+            window.location.href = "project.html?categoryId="+ this.categoryId + "&projectId="+this.projectId;
             return;
           case "order":
             window.location.href = "order-detail.html?orderNo="+ this.orderNo;

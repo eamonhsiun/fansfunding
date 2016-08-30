@@ -12,6 +12,10 @@ Vue.component("pagination", {
     offset: {
       type: Number,
       default: 3
+    },
+    distance: {
+      type: Number,
+      default: 70,
     }
   },
   computed: {
@@ -52,7 +56,24 @@ Vue.component("pagination", {
         return;
       }
       this.$set('pagination.pageNum', page);
+      this.scrollToTop()
       this.callback(page);
+    },
+    getElementTop: function(element){
+      var actualTop = element.offsetTop;
+          var current = element.offsetParent;
+          while (current !== null){
+            actualTop += current.offsetTop;
+            current = current.offsetParent;
+          }
+      return actualTop;
+    },
+    scrollToTop: function(){
+      var result = this.getElementTop(this.$el.parentElement) - this.distance;
+      if(window.scrollY < result || result < 0){
+        return;
+      }
+      window.scrollTo(0, result);
     }
   }
 });
@@ -66,4 +87,4 @@ Vue.mixin({
       pagination.pageSize = data. pageSize;
     },
   }
-})
+});

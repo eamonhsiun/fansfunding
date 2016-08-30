@@ -114,11 +114,11 @@
   background-color: $color_red_1;
   color: $color_text_light;
   box-sizing: border-box;
-  padding: 0 30px;
+  padding: 0 25px;
   .kit-title-left{
     font-size: 1.4rem;
     &:before{
-       @include font_icon_content($fa-var-caret-down);
+       @include font_icon_content($fa-var-list-ul);
        padding-right: 10px;
     }
   }
@@ -569,7 +569,6 @@
 .kit-pagination{
   width: 100%;
   text-align: center;
-  margin-top: 10px;
   li{
     display: inline-block;
     width: 30px;
@@ -578,6 +577,7 @@
     box-sizing: border-box;
     border: 1px solid $color_disabled;
     margin-right: 10px;
+    margin-top: 10px;
     @include transition_all();
     &:last-child{
       margin-right: 0;

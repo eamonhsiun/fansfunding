@@ -137,3 +137,11 @@ Vue.component("ffviewer", {
   }
 });
 
+Vue.mixin({
+  methods: {
+    viewPic: function(event){
+      this.picViewer.src = event.target.src;
+      this.picViewer.status = true;
+    },
+  }
+})

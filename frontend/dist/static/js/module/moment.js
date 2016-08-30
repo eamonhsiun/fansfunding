@@ -29,11 +29,11 @@ Vue.component('moment', {
               <div v-if="showForward" class="comment-btn comment-reply" v-on:click.prevent="replyComment(comment.commenterId, comment.commenterNickname)">转发(<span v-text="moment.forwardNum"></span>)</div>
             </div>
           </div>
-          <inner-comment :moment="moment" :user-info="userInfo"></inner-comment>
+          <inner-comment :moment="moment" :user-info="userInfo" v-if="showComment"></inner-comment>
         </div>
       </li>
     </ul>
-    <pagination :pagination="pagination" :callback="momentFilter" :offset="3"></pagination>
+    <pagination :pagination="pagination" :callback="momentFilter" :distance="110"></pagination>
   </div>
   `,
   props: {
@@ -99,10 +99,10 @@ Vue.component('moment', {
       var url = null;
       switch (this.momentType){
         case 'user':
-          url = apiUrl +"/user/" + this.momentUserInfo.id + "/moment";
+          url = apiUrl +"/user/" + localId + "/moment";
           break;
         case 'follower':
-          url = apiUrl +"/user/" + this.userInfo.id + "/moment/follow";
+          url = apiUrl +"/user/" + localId + "/moment/follow";
           break;
       }
       this.getMoments(url, page);
@@ -115,7 +115,7 @@ Vue.component('moment', {
       var _this = this;
       var momentsRequest = ajax({
         method: 'get',
-        url: url + "?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
+        url: url + "?viewId=" + _this.momentUserInfo.id + "&token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
       }).then(function (response, xhr) {
         if(!response.result){
           _this.$broadcast('ffloader-failure', "获取动态失败");
@@ -161,9 +161,9 @@ Vue.component('moment', {
       var _this = this;
       var url = "";
       if(moment.isLike){
-        url = apiUrl +"/user/" + moment.user.id + "/moment/" + moment.momentId + "/unlike";
+        url = apiUrl +"/user/" + localId + "/moment/" + moment.momentId + "/unlike";
       }else{
-        url = apiUrl +"/user/" + moment.user.id + "/moment/" + moment.momentId + "/like";
+        url = apiUrl +"/user/" + localId + "/moment/" + moment.momentId + "/like";
       }
       ajax({
         method: 'post',
@@ -205,7 +205,7 @@ Vue.component('comment-textarea', {
       <!-- <div class="comment-unerinfo-intro">口发起头衔是什么好口怕发怕么好口怕</div> -->
     </div>
     <div class="comment-input">
-      <textarea v-el:textarea v-model="content" :placeholder="placeholder"></textarea >
+      <textarea v-model="content" :placeholder="placeholder"></textarea >
       <div class="comment-input-more">
         <div class="comment-hint" v-text="hint" v-bind:class="{'overflow':overflow}"></div>
         <div class="comment-submit" v-on:click="submit" v-text="btnText"></div>
@@ -341,19 +341,19 @@ Vue.component("inner-comment", {
       var _this = this;
       var commentsRequest = ajax({
         method: 'get',
-        url: apiUrl +"/user/moment/" + _this.moment.momentId + "/comment?token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
+        url: apiUrl +"/user/moment/" + _this.moment.momentId + "/comment?token=" + localToken + (page ? "&page=" + page : ""),
       }).then(function (response, xhr) {
         if(!response.result){
           _this.$broadcast('ffloader-failure', "获取评论失败");
         }else{
-          _this.list = response.data;
+          _this.list = response.data.list;
           if(_this.list.length === 0){
             _this.$broadcast('ffloader-failure', "没有相关评论");
           }else{
             _this.$broadcast('ffloader-success');
           }
-          _this.moment.commentNum = _this.list.length;
-          // _this.setPagination(_this.pagination, response.data);
+          _this.moment.commentNum = response.data.total;
+          _this.setPagination(_this.pagination, response.data);
         }
       }).catch(function (response, xhr) {
         _this.$broadcast('ffloader-error');
@@ -370,7 +370,7 @@ Vue.component("inner-comment", {
         data: {
           token: localToken,
           content: data.content,
-          replyTo: data.replyTo !== null ? data.replyTo : 0,
+          replyTo: data.replyTo ? data.replyTo : 0,
         }
       }).then(function (response, xhr) {
         if(!response.result){

@@ -58,14 +58,7 @@
 
 
 Vue.component('ffloader', {
-  template:`
-  <div class="kit-loader loader FFloader" v-show="!status && !connect">
-    <div class="loader-inner triangle-skew-spin">
-      <div></div>
-    </div>
-  </div>
-  <div class="kit-errormsg errormsg FFerrormsg" v-show="(connect && !status) || (!connect && status)" v-text="msg"></div>
-  `,
+  template:"<div class=\"kit-loader loader FFloader\" v-show=\"!status && !connect\">\n    <div class=\"loader-inner triangle-skew-spin\">\n      <div></div>\n    </div>\n  </div>\n  <div class=\"kit-errormsg errormsg FFerrormsg\" v-show=\"(connect && !status) || (!connect && status)\" v-text=\"msg\"></div>",
   props: {
     name: {
       type: String,

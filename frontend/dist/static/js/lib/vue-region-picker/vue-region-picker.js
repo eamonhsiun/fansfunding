@@ -4003,30 +4003,7 @@ var CHINA_REGION = {
 };
 
 var regionPicker = Vue.extend({
-  template: `
-    <div class="region-picker">
-      <label class="province">
-        <slot name="province"></slot>
-        <select class="province-select" :value="provinceSelected" @change="change('provinceSelected', $event.target.value)" :required="required" :disabled="disabled">
-          <option value="" v-text="placeholder.province"></option>
-          <option v-for="item in provinces" :value="item" v-text="item[1]"></option>
-        </select>
-      </label>
-      <label class="city" v-show="!auto || cities.length">
-        <slot name="city"></slot>
-        <select class="city-select" :value="citySelected" @change="change('citySelected', $event.target.value)" :required="required && cities.length > 0" :disabled="disabled">
-          <option value="" v-text="placeholder.city"></option>
-          <option v-for="item in cities" :value="item" v-text="item[1]"></option>
-        </select>
-      </label>
-      <label class="district" v-if="!twoSelect" v-show="!auto || districts.length">
-        <slot name="district"></slot>
-        <select class="district-select" :value="districtSelected" @change="change('districtSelected', $event.target.value)" :required="required && districts.length > 0" :disabled="disabled">
-          <option value="" v-text="placeholder.district"></option>
-          <option v-for="item in districts" :value="item" v-text="item[1]"></option>
-        </select>
-      </label>
-    </div>`,
+  template: "<div class=\"region-picker\">\n      <label class=\"province\">\n        <slot name=\"province\"></slot>\n        <select class=\"province-select\" :value=\"provinceSelected\" @change=\"change('provinceSelected', $event.target.value)\" :required=\"required\" :disabled=\"disabled\">\n          <option value=\"\" v-text=\"placeholder.province\"></option>\n          <option v-for=\"item in provinces\" :value=\"item\" v-text=\"item[1]\"></option>\n        </select>\n      </label>\n      <label class=\"city\" v-show=\"!auto || cities.length\">\n        <slot name=\"city\"></slot>\n        <select class=\"city-select\" :value=\"citySelected\" @change=\"change('citySelected', $event.target.value)\" :required=\"required && cities.length > 0\" :disabled=\"disabled\">\n          <option value=\"\" v-text=\"placeholder.city\"></option>\n          <option v-for=\"item in cities\" :value=\"item\" v-text=\"item[1]\"></option>\n        </select>\n      </label>\n      <label class=\"district\" v-if=\"!twoSelect\" v-show=\"!auto || districts.length\">\n        <slot name=\"district\"></slot>\n        <select class=\"district-select\" :value=\"districtSelected\" @change=\"change('districtSelected', $event.target.value)\" :required=\"required && districts.length > 0\" :disabled=\"disabled\">\n          <option value=\"\" v-text=\"placeholder.district\"></option>\n          <option v-for=\"item in districts\" :value=\"item\" v-text=\"item[1]\"></option>\n        </select>\n      </label>\n    </div>",
   props: {
     province: {},
     city: {},

@@ -33,7 +33,7 @@
         android:layout_below="@id/tv_search_people_name"
         android:maxLines="2"
         android:ellipsize="end"
-        android:text="这是一段个性签名"/>
+        android:text=""/>
 
 
 </RelativeLayout>

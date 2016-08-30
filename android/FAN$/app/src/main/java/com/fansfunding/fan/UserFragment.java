@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,7 @@ public class UserFragment extends Fragment {
             switch(msg.what){
                 case GET_USER_INFO_FAILURE:
                     if(UserFragment.this.getActivity()!=null)
-                        Toast.makeText(UserFragment.this.getActivity(),"获取用户信息失败，请重新登录",Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserFragment.this.getActivity(),"获取用户信息失败",Toast.LENGTH_LONG).show();
                     break;
                 case GET_USER_INFO_SUCCESS:
                     changeUserInfo();
@@ -113,7 +114,7 @@ public class UserFragment extends Fragment {
                 case ErrorCode.AUTHORITY_NOT_ENOUGH:
                     if(UserFragment.this.isVisible()==true)
                         break;
-                    Toast.makeText(UserFragment.this.getActivity(),"权限不足",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserFragment.this.getActivity(),"权限不足，请重新登陆",Toast.LENGTH_LONG).show();
                     break;
                 default:
                     super.handleMessage(msg);
@@ -265,12 +266,11 @@ public class UserFragment extends Fragment {
         int userId=share.getInt("id",0);
         String token=share.getString("token","token");
         Request request=new Request.Builder()
-                .url(getString(R.string.url_user)+userId+"/info"+"?token="+token)
-                //.addHeader("token",token)
+                .url(getString(R.string.url_user)+userId+"/info"+"?token="+token+"&viewId="+userId)
                 .get()
                 .build();
-        System.out.println(userId);
-        System.out.println(token);
+        Log.i("TAG","LoginId in UserFragment.java :"+userId);
+        Log.i("TAG","LoginToken in UserFragment.java :"+token);
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -278,7 +278,6 @@ public class UserFragment extends Fragment {
                 Message msg=new Message();
                 msg.what=GET_USER_INFO_FAILURE;
                 handler.sendMessage(msg);
-                System.out.println("error1");
             }
 
             @Override
@@ -288,7 +287,6 @@ public class UserFragment extends Fragment {
                     Message msg=new Message();
                     msg.what=GET_USER_INFO_FAILURE;
                     handler.sendMessage(msg);
-                    System.out.println("error2");
                     return;
                 }
 
@@ -301,7 +299,6 @@ public class UserFragment extends Fragment {
                         Message msg = new Message();
                         msg.what = GET_USER_INFO_FAILURE;
                         handler.sendMessage(msg);
-                        System.out.println("error3");
                         return;
                     }
                     //处理获取个人信息失败

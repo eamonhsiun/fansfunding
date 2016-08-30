@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="22dp"
+    android:orientation="horizontal"
+    android:background="@color/colorDividerGrey"
+    tools:context="com.fansfunding.fan.social.fragment.MomentProjectNotShowFragment">
+
+    <!--项目封面图片-->
+    <ImageView
+        android:id="@+id/iv_social_project_cover"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:src="@drawable/icon"/>
+
+    <!--项目名-->
+    <TextView
+        android:id="@+id/tv_social_project_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/subhead_text_size"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/colorForbiddenGrey"
+        android:text="给动态配上梦想"/>
+
+</LinearLayout>

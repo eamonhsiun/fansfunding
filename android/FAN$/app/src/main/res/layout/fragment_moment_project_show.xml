@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/colorDividerGrey"
+    android:orientation="horizontal"
+    tools:context="com.fansfunding.fan.social.fragment.MomentProjectShowFragment">
+    <!--项目封面图片-->
+    <ImageView
+        android:id="@+id/iv_social_project_cover"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/bannertest1"/>
+
+    <!--项目名-->
+    <TextView
+        android:id="@+id/tv_social_project_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/subhead_text_size"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/colorPublishGrey"
+        android:text="武大难友，你的皮划艇已上线 "/>
+
+</LinearLayout>

@@ -51,8 +51,6 @@ public class SearchProjectFragment extends Fragment {
     //获取项目失败
     private final static int SEARCH_PROJECT_FAILURE=101;
 
-
-
     //httpclient
     //private OkHttpClient httpClient;
 
@@ -81,6 +79,8 @@ public class SearchProjectFragment extends Fragment {
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
+
+            isFinishRequest=true;
             switch (msg.what){
                 case SEARCH_PROJECT_SUCCESS:
                     //如果搜索的结果为空
@@ -113,6 +113,7 @@ public class SearchProjectFragment extends Fragment {
 
                     break;
                 case ErrorCode.PARAMETER_ERROR:
+
                     if(SearchProjectFragment.this.getActivity()==null){
                         break;
                     }
@@ -171,9 +172,6 @@ public class SearchProjectFragment extends Fragment {
         lv_search.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                if(isFinishRequest==true){
-                    SearchProject(keyword,page,rows);
-                }
             }
 
             @Override

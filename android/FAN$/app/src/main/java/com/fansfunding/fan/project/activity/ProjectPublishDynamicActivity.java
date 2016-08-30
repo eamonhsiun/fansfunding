@@ -228,13 +228,14 @@ public class ProjectPublishDynamicActivity extends AppCompatActivity{
             dynamicPhotos+=s;
             dynamicPhotos+=",";
         }
-        Log.e("TEST",etDynamicContent.getText().toString());
-        Log.e("TEST",dynamicPhotos);
+        Log.e("TEST","content:"+etDynamicContent.getText().toString());
+        Log.e("TEST","images"+dynamicPhotos);
         Log.e("TEST",share.getInt("id",0)+"");
         FormBody formBody=new FormBody.Builder()
                 .add("content",etDynamicContent.getText().toString())
                 .add("images",dynamicPhotos)
                 .add("sponsorId",share.getInt("id",0)+"")
+                .add("token",share.getString("token"," "))
                 .build();
 
         Request request = new Request.Builder()

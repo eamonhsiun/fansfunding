@@ -75,6 +75,15 @@ public class PersonalInfo {
         //个人介绍
         private String intro;
 
+        //动态数量
+        private int momentNum;
+
+        //粉丝数量
+        private int  followerNum;
+
+        //关注数量
+        private int followingNum;
+
         private RealInfo realInfo;
 
         public String getName() {
@@ -139,6 +148,30 @@ public class PersonalInfo {
 
         public void setIntro(String intro) {
             this.intro = intro;
+        }
+
+        public int getMomentNum() {
+            return momentNum;
+        }
+
+        public void setMomentNum(int momentNum) {
+            this.momentNum = momentNum;
+        }
+
+        public int getFollowerNum() {
+            return followerNum;
+        }
+
+        public void setFollowerNum(int followerNum) {
+            this.followerNum = followerNum;
+        }
+
+        public int getFollowingNum() {
+            return followingNum;
+        }
+
+        public void setFollowingNum(int followingNum) {
+            this.followingNum = followingNum;
         }
 
 

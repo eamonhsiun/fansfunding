@@ -3,6 +3,7 @@ package com.fansfunding.fan.request;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fansfunding.fan.R;
@@ -83,7 +84,7 @@ public class RequestSendComment {
                         return;
                     }
 
-                    //获取项目信息成功
+                    //发送评论成功
                     handler.sendEmptyMessage(FANRequestCode.SEND_PROJECT_COMMENT_SUCCESS);
                 }catch (IllegalStateException e){
                     handler.sendEmptyMessage(FANRequestCode.SEND_PROJECT_COMMENT_FAILURE);

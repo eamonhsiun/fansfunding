@@ -13,6 +13,7 @@
     <dimen name="item_threeline_height">88dp</dimen>
     <dimen name="item_twoline_height">72dp</dimen>
     <dimen name="btn_height">48dp</dimen>
+    <dimen name="frame_emoji_height">200dp</dimen>
 
     <!--字体大小-->
     <dimen name="headline_text_size">24sp</dimen>
@@ -50,6 +51,7 @@
 
 
     <!--动态图片展示宽度-->
+    <dimen name="moment_photos_height">108dp</dimen>
 
     <!--一张图片时-->
     <dimen name="dynamic_photo_one_width">272dp</dimen>

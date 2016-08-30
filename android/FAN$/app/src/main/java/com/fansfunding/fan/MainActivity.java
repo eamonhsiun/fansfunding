@@ -23,6 +23,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.fansfunding.fan.login.LoginActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.fansfunding.app.App;
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
 import com.fansfunding.fan.message.service.PushService;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     //没有选中的时候
     private static final int UNSELECTED_MESSAGE = 2;
 
-    //tablayout的tab没有被选中时的图标
+
     private final int[] tab_unselect = {R.drawable.dollar, R.drawable.pjimagetest, R.drawable.pjimagetest, R.drawable.more};
 
     //tablayout的tab被选中时的图标
@@ -152,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                             handler.sendEmptyMessage(SELECTED_MESSAGE);
                         }
                         vp_Main.setCurrentItem(i);
+
                     }
                 }
             }
@@ -268,8 +273,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             //登录页返回
-            case UnlogFragment.REQUEST_CODE_LOGIN:
-                if (resultCode == RESULT_OK) {
+            case LoginActivity.REQUEST_LOGIN_BY_PHONE:
+                if(resultCode==RESULT_OK){
                     paperAdapter.notifyDataSetChanged();
                 }
                 break;

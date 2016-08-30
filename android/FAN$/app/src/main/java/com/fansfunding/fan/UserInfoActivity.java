@@ -59,6 +59,13 @@ import okhttp3.Response;
 public class UserInfoActivity extends AppCompatActivity {
 
 
+
+    //用户id
+    private int userId;
+
+    //用户token
+    private String token;
+
     private static final int PHOTO_REQUEST_CAMERA = 1001;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 1002;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 1003;// 结果
@@ -158,7 +165,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 case SEND_USER_HEAD_FAILURE:
                     if(UserInfoActivity.this.isFinishing()==true)
                         break;
-                    Toast.makeText(UserInfoActivity.this,"上传头像失败",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserInfoActivity.this,"修改头像失败",Toast.LENGTH_LONG).show();
                     if(dialog_waitting.isShowing()==true){
                         dialog_waitting.cancel();
                     }
@@ -167,7 +174,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 case SEND_USER_HEAD_SUCCESS:
                     if(UserInfoActivity.this.isFinishing()==true)
                         break;
-                    Toast.makeText(UserInfoActivity.this,"上传头像成功",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserInfoActivity.this,"修改头像成功",Toast.LENGTH_LONG).show();
 
                     //已经更改了头像
                     isChange=true;
@@ -177,7 +184,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 case SEND_USER_INFO_FAILURE:
                     if(UserInfoActivity.this.isFinishing()==true)
                         break;
-                    Toast.makeText(UserInfoActivity.this,"上传用户信息失败",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserInfoActivity.this,"修改用户信息失败",Toast.LENGTH_LONG).show();
                     if(dialog_waitting.isShowing()==true){
                         dialog_waitting.cancel();
                     }
@@ -186,11 +193,15 @@ public class UserInfoActivity extends AppCompatActivity {
                 case SEND_USER_INFO_SUCCESS:
                     if(UserInfoActivity.this.isFinishing()==true)
                         break;
-                    Toast.makeText(UserInfoActivity.this,"上传用户信息成功",Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserInfoActivity.this,"修改用户信息成功",Toast.LENGTH_LONG).show();
                     if(dialog_waitting.isShowing()==true){
                         dialog_waitting.cancel();
                     }
                     isChange=true;
+                    setResult(RESULT_OK);
+                    if(UserInfoActivity.this.isFinishing()==false){
+                        finish();
+                    }
                     break;
                 case ErrorCode.REQUEST_TOO_FRENQUENTLY:
                     if(UserInfoActivity.this.isFinishing()==true)
@@ -231,7 +242,6 @@ public class UserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_info);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar_user_info);
         setSupportActionBar(toolbar);
-        Intent intent=getIntent();
 
         toolbar.setTitleTextColor(Color.WHITE);
         //设置返回键
@@ -355,9 +365,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 }
                 bitmap = data.getParcelableExtra("data");
 
-                /*Uri uri=data.getData();
-                bitmap = decodeUriAsBitmap(uri);
-                Log.i("TAG","uri"+uri.toString());*/
                 if (photoFile.exists()) {
                     photoFile.delete();
                 }
@@ -454,9 +461,9 @@ public class UserInfoActivity extends AppCompatActivity {
                 &&sex==old_sex
                 &&new_email.equals(old_email)
                 &new_intro.equals(old_intro)){
-            Message msg=new Message();
+            /*Message msg=new Message();
             msg.what=SEND_USER_INFO_SUCCESS;
-            handler.sendMessage(msg);
+            handler.sendMessage(msg);*/
             return;
         }
 
@@ -479,10 +486,6 @@ public class UserInfoActivity extends AppCompatActivity {
         SharedPreferences share_token=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
         String token=share_token.getString("token"," ");
         int userId=share_token.getInt("id",0);
-
-        Log.i("TAG","userID："+userId);
-        Log.i("TAG","token："+token);
-
 
         FormBody.Builder builder=new FormBody.Builder()
                 .add("token",token)
@@ -750,12 +753,10 @@ public class UserInfoActivity extends AppCompatActivity {
         int userId=share.getInt("id",0);
         String token=share.getString("token","token");
         Request request=new Request.Builder()
-                .url(getString(R.string.url_user)+userId+"/info"+"?token="+token)
+                .url(getString(R.string.url_user)+userId+"/info"+"?token="+token+"&viewId="+userId)
                 //.addHeader("token",token)
                 .get()
                 .build();
-        System.out.println(userId);
-        System.out.println(token);
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override

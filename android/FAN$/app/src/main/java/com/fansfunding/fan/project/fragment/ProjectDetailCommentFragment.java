@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.fansfunding.PullListView.LoadListView;
 import com.fansfunding.PullListView.XListView;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.project.activity.ProjectCommentActivity;
 import com.fansfunding.fan.project.adapter.ProjectDetailCommentAdapter;
 import com.fansfunding.fan.request.RequestProjectDetailComment;
 import com.fansfunding.fan.utils.ErrorHandler;
@@ -179,6 +180,7 @@ public class ProjectDetailCommentFragment extends Fragment {
                 intent.putExtra("projectId",projectId);
                 intent.putExtra("pointTo",comment.getCommenterId());
                 intent.putExtra("pointToNickname",comment.getCommenterNickname());
+                intent.putExtra("mode", ProjectCommentActivity.SEND_PROJECT_COMMENT);
                 startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
             }
         });
@@ -236,6 +238,8 @@ public class ProjectDetailCommentFragment extends Fragment {
             case REQUEST_CODE_SEND_COMMENT:
                 if(resultCode==getActivity().RESULT_OK){
                     isFinishRequest=false;
+                    requestProjectDetailComment.setPage(1);
+                    adapter.Clear();
                     requestProjectDetailComment.getProjectDetailComment(this.getActivity(),handler,httpClient,categoryId,projectId);
                 }
         }

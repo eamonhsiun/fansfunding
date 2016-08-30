@@ -82,14 +82,14 @@ public class RequestUserMoment {
                         handler.sendEmptyMessage(FANRequestCode.GET_USER_MOMENT_FAILURE);
                         return;
                     }
-                    //发送评论失败
+                    //获取用户动态失败
                     if(userMoment.isResult()==false){
                         if(handler.handlerFanErrorMessage(userMoment.getErrCode())==false){
                             handler.sendEmptyMessage(FANRequestCode.GET_USER_MOMENT_FAILURE);
                         }
                         return;
                     }
-                    //获取项目信息成功
+                    //获取用户动态成功
                     handler.sendEmptyMessage(FANRequestCode.GET_USER_MOMENT_SUCCESS);
                 }catch (IllegalStateException e){
                     handler.sendEmptyMessage(FANRequestCode.GET_USER_MOMENT_FAILURE);

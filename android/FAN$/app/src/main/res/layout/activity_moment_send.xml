@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.fansfunding.fan.social.activity.MomentSendActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/divider_PJ_comment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_moment_send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:titleTextColor="@color/colorWhite"
+                app:theme="@style/toolbar_white_theme">
+            </android.support.v7.widget.Toolbar>
+
+            <RelativeLayout
+                android:id="@+id/rl_moment_send_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar_moment_send"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/layout_padding">
+                <!--动态内容-->
+                <sj.keyboard.widget.EmoticonsEditText
+                    android:id="@+id/et_moment_send_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subhead_text_size"
+                    android:minHeight="130dp"
+                    android:hint="说说你感兴趣的项目吧"/>
+
+                <!--项目内容展示-->
+                <FrameLayout
+                    android:id="@+id/frame_moment_send_project_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_below="@id/et_moment_send_content">
+                </FrameLayout>
+
+            </RelativeLayout>
+
+            <!--添加图片展示栏-->
+            <FrameLayout
+                android:id="@+id/frame_moment_send_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_moment_send_main"
+                android:background="@color/colorWhite"
+                android:layout_marginTop="@dimen/layout_padding">
+                <com.fansfunding.fan.utils.MyGridView
+                    android:id="@+id/gv_moment_send_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/layout_padding"
+                    android:horizontalSpacing="4dp"
+                    android:verticalSpacing="4dp"
+                    android:background="@color/transparent"
+                    android:listSelector="@color/transparent">
+
+                </com.fansfunding.fan.utils.MyGridView>
+            </FrameLayout>
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+    <!--分割线-->
+    <include
+        android:id="@+id/divider_PJ_comment"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/divider"
+        android:layout_above="@+id/ll_moment_send_buttonbar"/>
+    <LinearLayout
+        android:id="@+id/ll_moment_send_buttonbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_moment_send_add_photo"
+            android:layout_width="72dp"
+            android:layout_height="56dp"
+            android:paddingLeft="@dimen/layout_padding"
+            android:paddingRight="@dimen/layout_padding"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:src="@drawable/pjimagetest"/>
+        <ImageView
+            android:id="@+id/iv_moment_send_add_emoji"
+            android:layout_width="72dp"
+            android:layout_height="56dp"
+            android:paddingLeft="@dimen/layout_padding"
+            android:paddingRight="@dimen/layout_padding"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:src="@drawable/pjimagetest"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -34,6 +34,18 @@ public class Notifications extends Model{
     @Column(name = "json")
     private String json;
 
+    //将要被删除
+    @Column(name = "willDelete")
+    private boolean willDelete;
+
+    public void setWillDelete(boolean willDelete) {
+        this.willDelete = willDelete;
+    }
+
+    public boolean getWillDelete() {
+        return this.willDelete;
+    }
+
     public String getJson() {
         return json;
     }

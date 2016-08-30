@@ -18,7 +18,9 @@ import android.util.Log;
 import com.fansfunding.app.App;
 import com.fansfunding.fan.MainActivity;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.message.entity.CommentDynamic;
 import com.fansfunding.fan.message.entity.CommentsProject;
+import com.fansfunding.fan.message.entity.NotificationDynamic;
 import com.fansfunding.fan.message.entity.NotificationProject;
 import com.fansfunding.fan.message.model.Comments;
 import com.fansfunding.fan.message.model.Notifications;
@@ -305,12 +307,13 @@ public class PushService extends Service {
             int type = json.getInt("type");
             Gson gson = new GsonBuilder().create();
             CommentsProject c = new CommentsProject();
+            CommentDynamic commentDynamic = new CommentDynamic();
             String title = "";
             String text = "";
             if(type == 1) {
                 c = gson.fromJson(s, c.getClass());
             }else {
-                c = gson.fromJson(s, c.getClass());
+                commentDynamic = gson.fromJson(s, commentDynamic.getClass());
             }
             switch (type) {
                 //项目评论
@@ -320,12 +323,14 @@ public class PushService extends Service {
                     break;
                 //动态评论
                 case 2:
+                    title = commentDynamic.getCommenter().getNickname();
+                    text = "评论了你的动态" + commentDynamic.getPointTo().getContent();
                     break;
                 default:
                     break;
             }
             insertToComment(s);
-            push(title, text);
+            push(title, text, 2, type);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -346,9 +351,9 @@ public class PushService extends Service {
             int type = json.getInt("type");
             Gson gson = new GsonBuilder().create();
             NotificationProject n = new NotificationProject();
-
+            NotificationDynamic notificationDynamic = new NotificationDynamic();
             if(type == 1 || type == 3) {
-
+                notificationDynamic = gson.fromJson(s, notificationDynamic.getClass());
             } else {
                 n = gson.fromJson(s, NotificationProject.class);
             }
@@ -358,6 +363,9 @@ public class PushService extends Service {
             String text = "";
             switch (type) {
                 case 1:
+                    title = notificationDynamic.getCauser().getNickname();
+                    text = "赞了你的动态";
+                    break;
                 case 3:
                     break;
                 case 2:
@@ -378,7 +386,7 @@ public class PushService extends Service {
                     break;
             }
             insertToNotification(s);
-            push(title, text);
+            push(title, text, 3, type);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -404,6 +412,7 @@ public class PushService extends Service {
             n.setType(type);
             n.setRead(false);
             n.setJson(s);
+            n.setWillDelete(false);
             n.save();
             Log.d(TAG, "插入评论表成功");
             //更新ui
@@ -442,6 +451,7 @@ public class PushService extends Service {
             n.setType(type);
             n.setRead(false);
             n.setJson(s);
+            n.setWillDelete(false);
             n.save();
             Log.d(TAG, "插入通知表成功");
             //更新ui
@@ -490,7 +500,7 @@ public class PushService extends Service {
     }
 
     //通知栏提醒
-    public void push(String title, String text) {
+    public void push(String title, String text, int typeFather, int typeSon) {
         App app = (App)getApplication();
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());

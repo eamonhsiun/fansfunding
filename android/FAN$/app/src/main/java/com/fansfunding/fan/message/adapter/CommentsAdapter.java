@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.message.entity.CommentDynamic;
 import com.fansfunding.fan.message.entity.CommentsProject;
 import com.fansfunding.fan.message.model.Comments;
 import com.google.gson.Gson;
@@ -50,6 +51,9 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
         final View view;
         if(convertView == null) {
             view = LayoutInflater.from(context).inflate(resourceID, null);
+            if(comments.isRead()) {
+                view.setBackgroundResource(R.color.colorDividerGrey);
+            }
             viewHolder = new ViewHolder();
             viewHolder.circleImageView = (CircleImageView) view.findViewById(R.id.iv_message_comment_head);
             viewHolder.name = (TextView) view.findViewById(R.id.tv_message_comment_name);
@@ -58,37 +62,51 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
             viewHolder.time = (TextView) view.findViewById(R.id.tv_message_comment_time);
             view.setTag(viewHolder);
         } else {
+            if(comments.isRead()) {
+                convertView.setBackgroundResource(R.color.colorDividerGrey);
+            }
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
 
         Gson gson = new GsonBuilder().create();
         CommentsProject commentsProject = new CommentsProject();
+        CommentDynamic commentDynamic = new CommentDynamic();
         switch (comments.getType()) {
             case 1:
                 commentsProject = gson.fromJson(comments.getJson(), commentsProject.getClass());
+                //头像
+                Picasso.with(context).load(context.getString(R.string.url_resources)+commentsProject.getCommenter().getHead()).into(viewHolder.circleImageView);
+                //昵称
+                viewHolder.name.setText(commentsProject.getCommenter().getNickname());
+                //时间
+                viewHolder.time.setText(new SimpleDateFormat("MM-dd hh:mm").format(new Date(commentsProject.getTime())));
                 break;
             case 2:
+
+                commentDynamic = gson.fromJson(comments.getJson(), commentDynamic.getClass());
+                //头像
+                Picasso.with(context).load(context.getString(R.string.url_resources)+commentDynamic.getCommenter().getHead()).into(viewHolder.circleImageView);
+                //昵称
+                viewHolder.name.setText(commentDynamic.getCommenter().getNickname());
+                //时间
+                viewHolder.time.setText(new SimpleDateFormat("MM-dd hh:mm").format(new Date(commentDynamic.getTime())));
                 break;
             default:
                 break;
         }
-        //头像
-        Picasso.with(context).load(context.getString(R.string.url_resources)+commentsProject.getCommenter().getHead()).into(viewHolder.circleImageView);
-        //昵称
-        viewHolder.name.setText(commentsProject.getCommenter().getNickname());
-        //时间
-        viewHolder.time.setText(new SimpleDateFormat("MM-dd hh:mm").format(new Date(commentsProject.getTime())));
-        //设置通知的类型
+
+        //设置评论的类型
         switch (comments.getType()) {
             //项目相关评论
             case 1:
                 viewHolder.info.setText(comments.getComment());
-                viewHolder.mine.setText("我发起的项目:" + commentsProject.getPointTo().getName());
+                viewHolder.mine.setText("我发起的项目: " + commentsProject.getPointTo().getName());
                 break;
             //动态相关评论
             case 2:
                 viewHolder.info.setText("回复我: " + comments.getComment());
+                viewHolder.mine.setText("我的动态: " + commentDynamic.getPointTo().getContent());
                 break;
         }
         return view;

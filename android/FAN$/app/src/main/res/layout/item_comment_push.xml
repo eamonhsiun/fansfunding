@@ -5,7 +5,11 @@
     android:layout_marginRight="@dimen/layout_padding"
     android:background="@color/white"
     android:baselineAligned="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:elevation="2dp"
+
+    >
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -48,7 +52,6 @@
     </RelativeLayout>
 
     <TextView
-        android:padding="8dp"
         android:textColor="@color/black"
         android:id="@+id/tv_message_comment_info"
         android:textSize="16sp"
@@ -62,20 +65,21 @@
     <TextView
         android:padding="8dp"
         android:textColor="@color/black"
-        android:background="#BFBFBF"
+        android:background="@color/colorDividerGrey"
         android:id="@+id/tv_message_comment_mine"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginBottom="@dimen/layout_padding"
         />
 
-    <!--分割线-->
-    <View
-        android:layout_marginTop="4dp"
-        android:id="@+id/fuckingline"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorGrey" />
+    <!--&lt;!&ndash;分割线&ndash;&gt;-->
+    <!--<View-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:id="@+id/fuckingline"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/colorGrey" />-->
 </LinearLayout>

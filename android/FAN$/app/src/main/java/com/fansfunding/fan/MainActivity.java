@@ -23,12 +23,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.fansfunding.fan.login.LoginActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.activeandroid.query.Select;
 import com.fansfunding.app.App;
+import com.fansfunding.fan.login.LoginActivity;
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
+import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.message.model.Notifications;
 import com.fansfunding.fan.message.service.PushService;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -39,9 +39,6 @@ import com.umeng.socialize.PlatformConfig;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
-import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
 
 /**
  * 主界面
@@ -218,7 +215,9 @@ public class MainActivity extends AppCompatActivity {
             app.getBadgeView().setGravity(Gravity.TOP | Gravity.RIGHT);
             app.getBadgeView().setTargetView(imageView);
             imageView.setImageResource(R.drawable.dollar);
-            app.getBadgeView().setBadgeCount(notificationses.size() + commentses.size());
+            int count = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+            count += new Select().from(Comments.class).where("isRead = ?", 0).count();
+            app.getBadgeView().setBadgeCount(count);
         }
     }
 

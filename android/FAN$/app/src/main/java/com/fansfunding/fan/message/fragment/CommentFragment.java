@@ -1,6 +1,7 @@
 package com.fansfunding.fan.message.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,16 +11,23 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Update;
+import com.activeandroid.query.Select;
 import com.fansfunding.app.App;
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.message.adapter.CommentsAdapter;
+import com.fansfunding.fan.message.entity.CommentDynamic;
+import com.fansfunding.fan.message.entity.CommentsProject;
 import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.social.activity.MomentActivity;
+import com.fansfunding.internal.ProjectInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -48,7 +56,8 @@ public class CommentFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_UI:
-                    notRead.setText(commentses.size() + "");
+                    int i = new Select().from(Comments.class).where("isRead = 0").count();
+                    notRead.setText(i + "");
                     commentsAdapter.notifyDataSetChanged();
                     break;
                 default:
@@ -66,7 +75,8 @@ public class CommentFragment extends Fragment {
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_comment);
         listView = (ListView) rootView.findViewById(R.id.lv_message_comment);
         commentsAdapter = new CommentsAdapter(getContext(), R.layout.item_comment_push, commentses);
-        notRead.setText(commentses.size() + "");
+        int i = new Select().from(Comments.class).where("isRead = 0").count();
+        notRead.setText(i + "");
         listView.setAdapter(commentsAdapter);
         app = (App)getActivity().getApplication();
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -77,22 +87,24 @@ public class CommentFragment extends Fragment {
                 alertDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ActiveAndroid.beginTransaction();
-                                try {
-                                    for(Comments comments : commentses) {
-                                        new Update(Comments.class).set("isRead = ?", 1).where("id = ?", comments.getId()).execute();
-                                        app.getBadgeView().decrementBadgeCount(commentses.size());
-                                    }
-                                }finally {
-                                    ActiveAndroid.endTransaction();
-                                }
+                        int d = 0;
+                        ActiveAndroid.beginTransaction();
+                        try {
+                            d = new Select().from(Comments.class).where("isRead = 0").count();
+                            for(int i = 0; i < commentses.size(); ++i) {
+                                //更新数据库
+                                Comments c = Comments.load(Comments.class, commentses.get(i).getId());
+                                c.setRead(true);
+                                c.setWillDelete(true);
+                                c.save();
                             }
-                        }).start();
-                        commentses.clear();
-                        handler.sendEmptyMessage(UPDATE_UI);
+                            ActiveAndroid.setTransactionSuccessful();
+                        } finally {
+                            app.getBadgeView().decrementBadgeCount(d);
+                            commentses.clear();
+                            handler.sendEmptyMessage(UPDATE_UI);
+                            ActiveAndroid.endTransaction();
+                        }
                     }
                 });
                 alertDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -104,6 +116,110 @@ public class CommentFragment extends Fragment {
                 alertDialog.show();
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                final Comments comments = commentses.get(position);
+                CommentsProject commentsProject = new CommentsProject();
+                CommentDynamic commentDynamic = new CommentDynamic();
+                Gson gson = new GsonBuilder().create();
+                switch (comments.getType()) {
+                    case 1:
+                        commentsProject = gson.fromJson(comments.getJson(), commentsProject.getClass());
+                        break;
+                    case 2:
+                        commentDynamic = gson.fromJson(comments.getJson(), commentDynamic.getClass());
+                        break;
+                    default:
+                        break;
+                }
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                final CommentsProject finalCommentsProject = commentsProject;
+                final CommentDynamic finalCommentDynamic = commentDynamic;
+                dialog.setItems(new String[]{"回复评论", "查看动态"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+
+
+                                break;
+                            case 1:
+
+                                switch (comments.getType()) {
+                                    //跳转到相关的项目
+                                    case 1:
+                                        //跳转到相关的项目详情页
+                                        Intent intent = new Intent();
+                                        ProjectInfo detail = finalCommentsProject.getPointTo();
+                                        intent.setAction(getString(R.string.activity_project_detail));
+                                        intent.putExtra("detail",detail);
+                                        intent.putExtra("page", 1);
+                                        startActivityForResult(intent, 1002);
+//                                        //删除当前这条数据
+//                                        commentses.remove(position);
+                                        //没有读过,小红点数量减一
+                                        if(!comments.isRead()) {
+                                            comments.setRead(true);
+                                            app.getBadgeView().decrementBadgeCount(1);
+                                            //将此通知标记为已读
+                                            //更新数据库
+                                            Comments c = Comments.load(Comments.class, comments.getId());
+                                            c.setRead(true);
+                                            c.save();
+                                            view.setBackgroundResource(R.color.colorDividerGrey);
+                                            handler.sendEmptyMessage(UPDATE_UI);
+                                        }
+                                        break;
+                                    case 2:
+                                        Intent intentD = new Intent();
+                                        intentD.putExtra(MomentActivity.MOMENTID, finalCommentDynamic.getPointTo().getMomentId());
+                                        intentD.setAction(app.getApplicationContext().getString(R.string.activity_moment));
+                                        startActivityForResult(intentD, 1002);
+//                                        //删除当前这条数据
+//                                        commentses.remove(position);
+
+                                        //没有读过,小红点数量减一
+                                        if(!comments.isRead()) {
+                                            comments.setRead(true);
+                                            app.getBadgeView().decrementBadgeCount(1);
+                                            //将此通知标记为已读
+                                            //更新数据库
+                                            Comments c = Comments.load(Comments.class, comments.getId());
+                                            c.setRead(true);
+                                            c.save();
+                                            view.setBackgroundResource(R.color.colorDividerGrey);
+                                            handler.sendEmptyMessage(UPDATE_UI);
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                dialog.show();
+
+            }
+        });
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.sendEmptyMessage(UPDATE_UI);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1002) {
+            handler.sendEmptyMessage(UPDATE_UI);
+        }
     }
 }

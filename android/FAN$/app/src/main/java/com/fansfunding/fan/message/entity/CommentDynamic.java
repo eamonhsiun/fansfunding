@@ -3,10 +3,10 @@ package com.fansfunding.fan.message.entity;
 import java.util.List;
 
 /**
- * Created by RJzz on 2016/8/28.
+ * Created by RJzz on 2016/8/30.
  */
 
-public class NotificationDynamic {
+public class CommentDynamic  {
 
     /**
      * head : user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg
@@ -15,39 +15,57 @@ public class NotificationDynamic {
      * id : 10000051
      */
 
-    private CauserBean causer;
+    private CommenterBean commenter;
     /**
-     * causer : {"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051}
-     * type : 1
-     * reference : {"commentNum":1,"postTime":1472534362000,"images":[],"isLike":true,"forwardNum":0,"origin":0,"project":null,"comment":[{"postTime":1472534370000,"replyTo":null,"commentId":47,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"😃😃😃😃😃"}],"momentId":51,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"ggggg","likeNum":1}
-     * time : 1472535135765
-     */
-
-    private int type;
-    /**
-     * commentNum : 1
+     * commentNum : 8
      * postTime : 1472534362000
      * images : []
      * isLike : true
      * forwardNum : 0
      * origin : 0
      * project : null
-     * comment : [{"postTime":1472534370000,"replyTo":null,"commentId":47,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"😃😃😃😃😃"}]
+     * comment : [{"postTime":1472537260000,"replyTo":null,"commentId":54,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"ccc"},{"postTime":1472537225000,"replyTo":null,"commentId":53,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"CCC"},{"postTime":1472537215000,"replyTo":null,"commentId":52,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"hhh "},{"postTime":1472537181000,"replyTo":null,"commentId":51,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"ugh GGG"},{"postTime":1472537121000,"replyTo":null,"commentId":50,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"BBC"},{"postTime":1472537064000,"replyTo":null,"commentId":49,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"GGG"},{"postTime":1472536563000,"replyTo":null,"commentId":48,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"😝😝😝😝😝😝😝😝"},{"postTime":1472534370000,"replyTo":null,"commentId":47,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"😃😃😃😃😃"}]
      * momentId : 51
      * user : {"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051}
      * content : ggggg
      * likeNum : 1
      */
 
-    private ReferenceBean reference;
+    private PointToBean pointTo;
+    /**
+     * commenter : {"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051}
+     * pointTo : {"commentNum":8,"postTime":1472534362000,"images":[],"isLike":true,"forwardNum":0,"origin":0,"project":null,"comment":[{"postTime":1472537260000,"replyTo":null,"commentId":54,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"ccc"},{"postTime":1472537225000,"replyTo":null,"commentId":53,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"CCC"},{"postTime":1472537215000,"replyTo":null,"commentId":52,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"hhh "},{"postTime":1472537181000,"replyTo":null,"commentId":51,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"ugh GGG"},{"postTime":1472537121000,"replyTo":null,"commentId":50,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"BBC"},{"postTime":1472537064000,"replyTo":null,"commentId":49,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"GGG"},{"postTime":1472536563000,"replyTo":null,"commentId":48,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"😝😝😝😝😝😝😝😝"},{"postTime":1472534370000,"replyTo":null,"commentId":47,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"😃😃😃😃😃"}],"momentId":51,"user":{"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051},"content":"ggggg","likeNum":1}
+     * comment : ccc
+     * type : 2
+     * time : 1472537260937
+     */
+
+    private String comment;
+    private int type;
     private long time;
 
-    public CauserBean getCauser() {
-        return causer;
+    public CommenterBean getCommenter() {
+        return commenter;
     }
 
-    public void setCauser(CauserBean causer) {
-        this.causer = causer;
+    public void setCommenter(CommenterBean commenter) {
+        this.commenter = commenter;
+    }
+
+    public PointToBean getPointTo() {
+        return pointTo;
+    }
+
+    public void setPointTo(PointToBean pointTo) {
+        this.pointTo = pointTo;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public int getType() {
@@ -58,14 +76,6 @@ public class NotificationDynamic {
         this.type = type;
     }
 
-    public ReferenceBean getReference() {
-        return reference;
-    }
-
-    public void setReference(ReferenceBean reference) {
-        this.reference = reference;
-    }
-
     public long getTime() {
         return time;
     }
@@ -74,7 +84,7 @@ public class NotificationDynamic {
         this.time = time;
     }
 
-    public static class CauserBean {
+    public static class CommenterBean {
         private String head;
         private String intro;
         private String nickname;
@@ -113,7 +123,7 @@ public class NotificationDynamic {
         }
     }
 
-    public static class ReferenceBean {
+    public static class PointToBean {
         private int commentNum;
         private long postTime;
         private boolean isLike;
@@ -133,11 +143,11 @@ public class NotificationDynamic {
         private int likeNum;
         private List<?> images;
         /**
-         * postTime : 1472534370000
+         * postTime : 1472537260000
          * replyTo : null
-         * commentId : 47
+         * commentId : 54
          * user : {"head":"user/head/10000051/F4BD79BE6646D46F4DA5AA77175229411469204633930.jpeg","intro":"hhhh","nickname":"RJzz","id":10000051}
-         * content : 😃😃😃😃😃
+         * content : ccc
          */
 
         private List<CommentBean> comment;

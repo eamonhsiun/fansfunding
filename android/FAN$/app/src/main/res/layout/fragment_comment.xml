@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/default_background"
+    >
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="16dp">
+        android:layout_height="32dp">
         <TextView
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
             android:id="@+id/tv_message_comment_not_read"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
         <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_toRightOf="@id/tv_message_comment_not_read"
             android:text="@string/not_read_message"
             android:textSize="12sp"
@@ -32,13 +38,15 @@
     </RelativeLayout>
 
     <ListView
+
+        android:dividerHeight="8dp"
+        android:divider="@color/default_background"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
-        android:divider="@null"
-        android:dividerHeight="10dp"
         android:id="@+id/lv_message_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+    >
     </ListView>
 
 </LinearLayout>

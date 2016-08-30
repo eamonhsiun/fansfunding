@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.message.entity.NotificationDynamic;
 import com.fansfunding.fan.message.entity.NotificationProject;
 import com.fansfunding.fan.message.model.Notifications;
 import com.google.gson.Gson;
@@ -28,7 +29,7 @@ import static com.fansfunding.fan.R.id.iv_message_notification_head;
 
 public class NotificationAdapter extends ArrayAdapter<Notifications> {
     private Context context;
-    List<Notifications> notificationsList;
+    private List<Notifications> notificationsList;
     private int resourceId;
 
     public NotificationAdapter(Context context, int resource, List<Notifications> objects) {
@@ -51,8 +52,12 @@ public class NotificationAdapter extends ArrayAdapter<Notifications> {
         final Notifications notifications = getItem(position);
         final ViewHolder viewHolder;
         final View view;
+
         if(convertView == null) {
             view = LayoutInflater.from(context).inflate(resourceId, null);
+            if(notifications.getRead()) {
+                view.setBackgroundResource(R.color.colorDividerGrey);
+            }
             viewHolder = new ViewHolder();
             viewHolder.circleImageView = (CircleImageView) view.findViewById(iv_message_notification_head);
             viewHolder.name = (TextView) view.findViewById(R.id.tv_message_notification_name);
@@ -61,24 +66,41 @@ public class NotificationAdapter extends ArrayAdapter<Notifications> {
             viewHolder.info = (TextView) view.findViewById(R.id.tv_message_notification_info);
             view.setTag(viewHolder);
         } else {
+            if(notifications.getRead()) {
+                convertView.setBackgroundResource(R.color.colorDividerGrey);
+            }
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
 
         Gson gson = new GsonBuilder().create();
         NotificationProject notificationProject = new NotificationProject();
-        notificationProject = gson.fromJson(notifications.getJson(), notificationProject.getClass());
-        //头像
-        Picasso.with(context).load(context.getString(R.string.url_resources)+notificationProject.getCauser().getHead()).into(viewHolder.circleImageView);
-        //昵称
-        viewHolder.name.setText(notificationProject.getCauser().getNickname());
-        //时间
-        viewHolder.time.setText(new SimpleDateFormat("MM-dd").format(new Date(notificationProject.getTime())));
+        NotificationDynamic notificationDynamic = new NotificationDynamic();
+        if (notifications.getType() == 1 || notifications.getType() == 3) {
+            notificationDynamic = gson.fromJson(notifications.getJson(), notificationDynamic.getClass());
+            //头像
+            Picasso.with(context).load(context.getString(R.string.url_resources)+notificationDynamic.getCauser().getHead()).into(viewHolder.circleImageView);
+            //昵称
+            viewHolder.name.setText(notificationDynamic.getCauser().getNickname());
+            //时间
+            viewHolder.time.setText(new SimpleDateFormat("MM-dd").format(new Date(notificationDynamic.getTime())));
+        } else {
+            notificationProject = gson.fromJson(notifications.getJson(), notificationProject.getClass());
+            //头像
+            Picasso.with(context).load(context.getString(R.string.url_resources)+notificationProject.getCauser().getHead()).into(viewHolder.circleImageView);
+            //昵称
+            viewHolder.name.setText(notificationProject.getCauser().getNickname());
+            //时间
+            viewHolder.time.setText(new SimpleDateFormat("MM-dd").format(new Date(notificationProject.getTime())));
+        }
+
+
         //设置通知的类型
-        switch (notificationProject.getType()) {
-            //用户动态关注通知
+        switch (notifications.getType()) {
+            //用户动态点赞通知
             case 1:
-                viewHolder.type.setText("");
+                viewHolder.type.setText("赞了你的动态");
+                viewHolder.info.setText(notificationDynamic.getReference().getContent());
                 break;
             //项目支持支付通知
             case 2:

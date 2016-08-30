@@ -18,12 +18,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 import com.fansfunding.app.App;
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.message.adapter.NotificationAdapter;
+import com.fansfunding.fan.message.entity.NotificationDynamic;
 import com.fansfunding.fan.message.entity.NotificationProject;
 import com.fansfunding.fan.message.model.Notifications;
+import com.fansfunding.fan.social.activity.MomentActivity;
 import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -66,7 +69,8 @@ public class NotifacationFragment extends Fragment {
 //                    }finally {
 //                        ActiveAndroid.endTransaction();
 //                    }
-                    unread.setText(notificationses.size() + "");
+                    int i  = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+                    unread.setText(i + "");
                     notificationAdapter.notifyDataSetChanged();
                     Log.d("PushService", "fucking");
                     break;
@@ -86,9 +90,10 @@ public class NotifacationFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.lv_message_notification);
         notificationAdapter = new NotificationAdapter(getContext(), R.layout.item_notification, notificationses);
         listView.setAdapter(notificationAdapter);
-        unread.setText(notificationses.size() + "");
-        //设置未读push的数量
         app = (App)getActivity().getApplication();
+        //设置未读push的数量
+        int i  = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+        unread.setText(i + "");
         notificationAdapter.notifyDataSetChanged();
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_notification);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -99,23 +104,27 @@ public class NotifacationFragment extends Fragment {
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //全部标记为已读
-                                for(Notifications delete : notificationses) {
-                                    ActiveAndroid.beginTransaction();
-                                    try {
-                                        new Update(Notifications.class).set("isRead = ?", 1).where("id = ?", delete.getId()).execute();
-                                        app.getBadgeView().decrementBadgeCount(notificationses.size());
-                                    } finally {
-                                        ActiveAndroid.endTransaction();
-                                    }
-                                }
+                        int d = 0;
+                        ActiveAndroid.beginTransaction();
+                        try {
+                            d  = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+                            for(int i = 0; i < notificationses.size(); ++i) {
+
+                                //更新数据库
+                                Notifications nb = Notifications.load(Notifications.class, notificationses.get(i).getId());
+                                nb.setRead(true);
+                                nb.setWillDelete(true);
+                                nb.save();
                             }
-                        }).start();
-                        notificationses.clear();
-                        handler.sendEmptyMessage(UPDATE_UI);
+
+                            ActiveAndroid.setTransactionSuccessful();
+                        } finally {
+
+                            app.getBadgeView().decrementBadgeCount(d);
+                            notificationses.clear();
+                            handler.sendEmptyMessage(UPDATE_UI);
+                            ActiveAndroid.endTransaction();
+                        }
                     }
                 });
                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -133,14 +142,33 @@ public class NotifacationFragment extends Fragment {
                 Notifications notifications = notificationses.get(position);
                 Gson gson = new GsonBuilder().create();
                 NotificationProject notificationProject = new NotificationProject();
+                NotificationDynamic notificationDynamic = new NotificationDynamic();
                 if(notifications.getType() == 1 || notifications.getType() == 3) {
-
+                    notificationDynamic = gson.fromJson(notifications.getJson(), notificationDynamic.getClass());
                 } else {
                     notificationProject = gson.fromJson(notifications.getJson(), notificationProject.getClass());
                 }
                 switch (notifications.getType()) {
                     //动态相关
+                    //1 用户动态点赞
                     case 1:
+                        Intent intentD = new Intent();
+                        intentD.putExtra(MomentActivity.MOMENTID, notificationDynamic.getReference().getMomentId());
+                        intentD.setAction(app.getApplicationContext().getString(R.string.activity_moment));
+                        startActivityForResult(intentD, 1003);
+                        //删除当前这条数据
+//                        notificationses.remove(position);
+                        //如果没有读过小红点数量减1
+                        if(!notifications.getRead()) {
+                            app.getBadgeView().decrementBadgeCount(1);
+                            view.setBackgroundResource(R.color.colorDividerGrey);
+                            //更新数据库
+                            Notifications nb = Notifications.load(Notifications.class, notifications.getId());
+                            nb.setRead(true);
+                            nb.save();
+                            handler.sendEmptyMessage(UPDATE_UI);
+                        }
+                        break;
                     case 3:
                         break;
                     //跳转到
@@ -149,8 +177,7 @@ public class NotifacationFragment extends Fragment {
                     //项目关注和项目动态更新
                     case 4:
                     case 6:
-                        //将此通知标记为已读
-                        new Update(Notifications.class).set("isRead = ?", 1).where("id =  ? ", notifications.getId()).execute();
+
                         //跳转到相关的项目详情页
                         Intent intent = new Intent();
                         ProjectInfo detail = notificationProject.getReference();
@@ -158,12 +185,23 @@ public class NotifacationFragment extends Fragment {
                         intent.putExtra("detail",detail);
                         intent.putExtra("page", 2);
                         startActivityForResult(intent, 1003);
-                        //删除当前这条数据
-                        notificationses.remove(position);
-                        //小红点数量减1
-                        app.getBadgeView().decrementBadgeCount(1);
+//                        //删除当前这条数据
+//                        notificationses.remove(position);
+
+                        //如果没有读过小红点数量减1
+                        if(!notifications.getRead()) {
+                            app.getBadgeView().decrementBadgeCount(1);
+                            view.setBackgroundResource(R.color.colorDividerGrey);
+                            //更新数据库
+                            Notifications nb = Notifications.load(Notifications.class, notifications.getId());
+                            nb.setRead(true);
+                            nb.save();
+                            handler.sendEmptyMessage(UPDATE_UI);
+                        }
+
+
                         break;
-                        //用户关注
+                        //用户关注.跳转个人主页
                     case 5:
 
                         break;
@@ -171,6 +209,13 @@ public class NotifacationFragment extends Fragment {
                     default:
                         break;
                 }
+                //将此通知标记为已读
+//                Notifications comments = (Notifications) new Select().from(Notifications.class).where("id = ?", notifications.getId()).execute();
+//                comments.setRead(true);
+//                comments.save();
+
+//                new Update(Notifications.class).set("isRead = 1").where("id = ?", notifications.getId()).execute();
+
             }
         });
         return rootView;
@@ -194,5 +239,19 @@ public class NotifacationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    public void updateDb() {
+        ActiveAndroid.beginTransaction();
+        try {
+            for(Notifications delete : notificationses) {
+                new Update(Notifications.class).set("willDelete = ? and isRead = ?", 1, 1).where("id = ?", delete.getId()).execute();
+            }
+        } finally {
+            app.getBadgeView().decrementBadgeCount(notificationses.size());
+            notificationses.clear();
+            handler.sendEmptyMessage(UPDATE_UI);
+            ActiveAndroid.endTransaction();
+        }
     }
 }

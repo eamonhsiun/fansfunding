@@ -38,6 +38,21 @@ public class Comments  extends Model{
     private String json;
 
 
+    //将要被删除
+    @Column(name = "willDelete")
+    private boolean willDelete;
+
+
+
+
+    public void setWillDelete(boolean willDelete) {
+        this.willDelete = willDelete;
+    }
+
+    public boolean getWillDelete() {
+        return this.willDelete;
+    }
+
     public String getPointTo() {
         return pointTo;
     }
@@ -64,11 +79,11 @@ public class Comments  extends Model{
     }
 
     public boolean isRead() {
-        return isRead;
+        return this.isRead;
     }
 
     public void setRead(boolean read) {
-        isRead = read;
+        this.isRead = read;
     }
 
     public String getJson() {
@@ -94,7 +109,5 @@ public class Comments  extends Model{
     public void setTime(long time) {
         this.time = time;
     }
-
-
 
 }

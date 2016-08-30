@@ -75,23 +75,6 @@
             </intent-filter>
         </activity>
 
-        <!-- 我的动态界面 -->
-        <activity android:name=".NewsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.FANS.NEWS" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <!-- 个人主页 -->
-        <activity android:name=".HomepageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.FANS.HOMEPAGE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <!-- 项目详情 -->
         <activity android:name=".project.activity.ProjectDetailActivity">
             <intent-filter>
@@ -111,7 +94,9 @@
         </activity>
 
         <!-- 发表评论 -->
-        <activity android:name=".project.activity.ProjectCommentActivity">
+        <activity
+            android:name=".project.activity.ProjectCommentActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.PROJECT.ACTIVITY.PROJECTCOMMENT" />
 
@@ -129,22 +114,10 @@
         </activity>
 
         <!-- 聊天界面 -->
-        <activity android:name=".ChatActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.FANS.CHAT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
 
         <!-- 动态详情 -->
-        <activity android:name=".NewsDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.FANS.NEWSDETAIL" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
 
         <!-- 搜索界面 -->
         <activity android:name=".search.activity.SearchActivity">
@@ -312,6 +285,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <!-- 用户动态详情界面 -->
         <activity android:name=".social.activity.MomentActivity">
             <intent-filter>
@@ -320,6 +294,33 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- 发送用户动态界面 -->
+        <activity android:name=".social.activity.MomentSendActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENTSEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 用来选择用户动态所要展示的项目 -->
+        <activity android:name=".social.activity.MomentSelectProjectActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENTSELECTPROJECT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--个人主页界面-->
+        <activity android:name=".user.info.activity.HomepageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.USER.ACTIVITY.HOMEPAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".social.activity.MomentProjectActivity"></activity>
         <!--友盟分享-->
         <activity

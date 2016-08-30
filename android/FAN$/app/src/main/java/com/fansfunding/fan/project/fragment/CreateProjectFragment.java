@@ -189,19 +189,25 @@ public class CreateProjectFragment extends Fragment {
     private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-            switch(reqeustCode){
-                case REQUEST_CODE_CAMERA:
-                    Log.e("TEST","REQUEST_CODE_CAMERA "+resultList.size());
-
-                    break;
-                case REQUEST_CODE_GALLERY:
-                    Log.e("TEST","REQUEST_CODE_GALLERY "+resultList.size());
-                    break;
-            }
-            for (PhotoInfo p:resultList){
-                Log.e("TEST",p.getPhotoPath());
-            }
             if (resultList != null) {
+
+                if(mPhotoList.size()==0){
+                    mPhotoList.addAll(resultList);
+                }else{
+                    for(PhotoInfo result:resultList){
+                        for(int i=0;i<mPhotoList.size();i++){
+                            if(result.getPhotoPath().equals(mPhotoList.get(i).getPhotoPath())){
+                                break;
+                            }
+                            if(i==mPhotoList.size()-1){
+                                mPhotoList.add(result);
+                            }
+                        }
+                    }
+                }
+                if(resultList.size()==0){
+                    mPhotoList.clear();
+                }
                 mPhotoList.addAll(resultList);
                 mChoosePhotoListAdapter.notifyDataSetChanged();
             }

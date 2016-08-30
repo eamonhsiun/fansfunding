@@ -175,7 +175,7 @@ public class ProjectSupportAdapter extends BaseAdapter{
                         select.set(position,true);
                     }
                 }
-                ProjectSupportAdapter.this.notifyDataSetChanged();
+                //ProjectSupportAdapter.this.notifyDataSetChanged();
             }
         });
         //使得checkbox只有一个有效
@@ -196,7 +196,7 @@ public class ProjectSupportAdapter extends BaseAdapter{
                         select.set(position,true);
                     }
                 }
-                ProjectSupportAdapter.this.notifyDataSetChanged();
+                //ProjectSupportAdapter.this.notifyDataSetChanged();
             }
         });
         return rootView;

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fansfunding.fan.social.fragment.MomentPraiseFragment">
+    tools:context="com.fansfunding.fan.social.fragment.MomentPraiseFragment"
+    android:background="@color/colorWhite">
 
     <com.fansfunding.PullListView.LoadListView
         android:id="@+id/lv_moment_praise"

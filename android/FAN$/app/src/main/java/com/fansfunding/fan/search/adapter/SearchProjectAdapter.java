@@ -66,6 +66,10 @@ public class SearchProjectAdapter extends BaseAdapter {
 
     }
 
+    public void cleanItem(){
+        list=new LinkedList<ProjectInfo>();
+    }
+
     @Override
     public int getCount() {
         return list.size();

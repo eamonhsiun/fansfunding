@@ -1,5 +1,6 @@
 package com.fansfunding.fan.utils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class BigPictureActivity extends AppCompatActivity {
 
+    public static final String URL="url";
+
     private PhotoViewAttacher attacher;
 
     @Override
@@ -29,13 +32,20 @@ public class BigPictureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_big_picture);
 
         Intent intent=getIntent();
-        String url=intent.getStringExtra("url");
+        String url=intent.getStringExtra(URL);
         PhotoView pv_big_picture=(PhotoView)findViewById(R.id.pv_big_picture);
 
         if(url!=null&&url.equals("")==false){
             Picasso.with(this).load(url).memoryPolicy(MemoryPolicy.NO_CACHE).into(pv_big_picture);
         }
 
+    }
+
+    public static void startThisActivity(Activity activity,String url){
+        Intent intent=new Intent();
+        intent.putExtra(URL,url);
+        intent.setAction(activity.getString(R.string.activity_big_picture));
+        activity.startActivity(intent);
     }
 
 }

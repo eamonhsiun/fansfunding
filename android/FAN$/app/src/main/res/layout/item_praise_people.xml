@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="@dimen/layout_padding"
+    android:paddingLeft="@dimen/layout_padding"
+    android:paddingTop="8dp"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_people_head"
+            android:layout_width="@dimen/icon_size_message"
+            android:layout_height="40dp"
+            android:paddingRight="@dimen/layout_padding"
+            android:src="@drawable/pjimagetest"/>
+
+        <!--昵称-->
+        <TextView
+            android:id="@+id/tv_people_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="冰冻vita"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/subhead_text_size"/>
+    </LinearLayout>
+
+    <!--分割线-->
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="56dp"
+        layout="@layout/divider"/>
+
+</LinearLayout>

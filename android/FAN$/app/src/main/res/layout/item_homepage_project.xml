@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/layout_padding"
+    android:paddingLeft="@dimen/layout_padding"
+    android:paddingRight="@dimen/layout_padding"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--项目封面-->
+        <ImageView
+            android:id="@+id/iv_homepage_project_cover"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+        <!--项目名-->
+        <TextView
+            android:id="@+id/tv_homepage_project_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_homepage_project_cover"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:textSize="@dimen/subhead_text_size"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"/>
+
+        <!--项目发起人-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_homepage_project_cover"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_below="@id/tv_homepage_project_name"
+            android:layout_marginTop="@dimen/layout_padding"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorLabelGrey"
+                android:text="发起人:"/>
+            <TextView
+                android:id="@+id/tv_homepage_project_publisher_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textColor="@color/colorLabelGrey" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="66dp"
+        android:layout_marginTop="8dp"
+        layout="@layout/divider"/>
+
+
+</LinearLayout>

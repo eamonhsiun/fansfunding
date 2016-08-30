@@ -14,7 +14,8 @@ public class StartHomepage implements View.OnClickListener {
 
     private int target_userId;
 
-    public StartHomepage(int target_userId, Activity activity){
+    public StartHomepage(Activity activity,int target_userId){
+        this.activity=activity;
         this.target_userId=target_userId;
     }
 

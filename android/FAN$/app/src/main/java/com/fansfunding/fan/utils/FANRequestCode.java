@@ -147,5 +147,27 @@ public class FANRequestCode {
     //获取项目的评论的情况失败
     public final static int GET_MOMENT_COMMENT_DETAIL_FAILURE=166;
 
+    //获取用户个人信息成功
+    public final static int GET_PERSONAL_INFO_SUCCESS=167;
 
+    //获取用户个人信息失败
+    public final static int GET_PERSONAL_INFO_FAILURE=168;
+
+    //获取用户发起的项目成功
+    public final static int GER_USER_SPONSOR_PROJECT_SUCCESS =169;
+
+    //获取用户发起的项目失败
+    public final static int GET_USER_SPONSOR_PROJECT_FAILURE =170;
+
+    //获取用户关注的项目成功
+    public final static int GET_USER_FOLLOW_PROJECT_SUCCESS =171;
+
+    //获取用户关注的项目失败
+    public final static int GET_USER_FOLLOW_PROJECT_FAILURE =172;
+
+    //获取用户支持的项目成功
+    public final static int GET_USER_SUPPORT_PROJECT_SUCCESS =173;
+
+    //获取用户支持的项目失败
+    public final static int GET_USER_SUPPORT_PROJECT_FAILURE =174;
 }

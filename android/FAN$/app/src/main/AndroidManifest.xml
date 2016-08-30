@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -313,50 +312,46 @@
             </intent-filter>
         </activity>
 
-        <!--个人主页界面-->
+        <!-- 个人主页界面 -->
         <activity android:name=".user.info.activity.HomepageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.USER.ACTIVITY.HOMEPAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".social.activity.MomentProjectActivity"></activity>
-        <!--友盟分享-->
+        <activity android:name=".social.activity.MomentProjectActivity" />
+        <!-- 友盟分享 -->
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:theme="@style/Theme.UMDefault"
-            android:excludeFromRecents="true"/>
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault" />
 
-        <!--设置友盟appid-->
+        <!-- 设置友盟appid -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57ac3ee767e58eaea10016a8" >
-        </meta-data>
+            android:value="57ac3ee767e58eaea10016a8" />
 
-        <!--微博平台-->
-
-
+        <!-- 微博平台 -->
 
         <service
             android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false">
-        </service>
+            android:exported="false" />
 
-        <!--微信平台-->
+        <!-- 微信平台 -->
         <activity
-            android:name="com.fansfunding.fan.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!--腾讯平台-->
+        <!-- 腾讯平台 -->
         <!-- tencent -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -368,30 +363,34 @@
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <uses-library
             android:name="com.google.android.maps"
             android:required="false" />
         <uses-library android:name="android.test.runner" />
 
-        <!--监听网络状态改变的广播接收器-->
-        <receiver android:name=".message.BroadcastReceiver.NetWorkStatusReceiver"
+        <!-- 监听网络状态改变的广播接收器 -->
+        <receiver
+            android:name=".message.BroadcastReceiver.NetWorkStatusReceiver"
             android:label="NetWorkStatus">
-            <intent-filter
-                >
-                <action android:name="android.intent.action.CONFIGURATION_CHANGED"/>
+            <intent-filter>
+                <action android:name="android.intent.action.CONFIGURATION_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <!--WebSocket连接服务-->
-        <service android:name=".message.service.PushService"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!-- WebSocket连接服务 -->
+        <service android:name=".message.service.PushService" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <!--数据库名和版本号-->
+        <!-- 数据库名和版本号 -->
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Push.db" />
@@ -399,6 +398,22 @@
             android:name="AA_DB_VERSION"
             android:value="1" />
 
+        <!-- 个人动态展示界面 -->
+        <activity android:name=".user.info.activity.UserMomentListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.USER.INFO.ACTIVITY.USERMOMENTLIST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!--个人关注展示界面-->
+        <activity android:name=".user.info.activity.UserFollowingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.USER.INFO.ACTIVITY.USERFOLLOWING" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

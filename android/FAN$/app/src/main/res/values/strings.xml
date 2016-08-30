@@ -55,6 +55,9 @@
     <string name="activity_send_moment">android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENTSEND</string>
     <string name="activity_moment_select_project">android.intent.action.FANS.SOCIAL.ACTIVITY.MOMENTSELECTPROJECT</string>
 
+
+    <string name="activity_homepage_user_moment_list">android.intent.action.FANS.USER.INFO.ACTIVITY.USERMOMENTLIST</string>
+    <string name="activity_homepage_user_following">android.intent.action.FANS.USER.INFO.ACTIVITY.USERFOLLOWING</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

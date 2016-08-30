@@ -5,25 +5,24 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.fansfunding.fan.user.info.activity.HomepageActivity">
+    tools:context="com.fansfunding.fan.user.info.activity.UserFollowingActivity">
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_homepage"
+        android:id="@+id/toolbar_homepage_user_following"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:titleTextColor="@color/colorWhite"
         app:theme="@style/toolbar_white_theme"
         android:elevation="2dp">
+
     </android.support.v7.widget.Toolbar>
 
-
-
-
-    <ExpandableListView
-        android:id="@+id/elv_homepage_project"
+    <com.fansfunding.PullListView.LoadListView
+        android:id="@+id/lv_homepage_user_following"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"></ExpandableListView>
+        >
 
+    </com.fansfunding.PullListView.LoadListView>
 
 </LinearLayout>

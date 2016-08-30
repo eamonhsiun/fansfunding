@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -86,10 +87,21 @@ public class LoginActivity extends AppCompatActivity {
         activity.startActivityForResult(intent,LoginActivity.REQUEST_LOGIN_BY_PHONE);
     }
 
+    public static void login(Fragment fragment){
+        Intent intent=new Intent();
+        intent.setAction(fragment.getString(R.string.activity_login));
+        fragment.startActivityForResult(intent,LoginActivity.REQUEST_LOGIN_BY_PHONE);
+    }
     public static void loginForResult(Activity activity,int requestCode){
         Intent intent=new Intent();
         intent.setAction(activity.getString(R.string.activity_login));
         activity.startActivityForResult(intent,requestCode);
+    }
+
+    public static void loginForResult(Fragment fragment,int requestCode){
+        Intent intent=new Intent();
+        intent.setAction(fragment.getString(R.string.activity_login));
+        fragment.startActivityForResult(intent,requestCode);
     }
 }
 

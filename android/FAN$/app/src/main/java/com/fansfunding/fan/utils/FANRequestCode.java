@@ -170,4 +170,17 @@ public class FANRequestCode {
 
     //获取用户支持的项目失败
     public final static int GET_USER_SUPPORT_PROJECT_FAILURE =174;
+
+    //获取用户关注的用户成功
+    public final static int GET_USER_FOLLOWING_SUCCESS=175;
+
+    //获取用户关注的用户失败
+    public final static int GET_USER_FOLLOWING_FAILURE=176;
+
+    //获取用户的粉丝成功
+    public final static int GET_USER_FOLLOWER_SUCCESS=177;
+
+    //获取用户的粉丝失败
+    public final static int GET_USER_FOLLOWER_FAILURE=178;
+
 }

@@ -406,10 +406,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!--个人关注展示界面-->
+        <!-- 个人关注展示界面 -->
         <activity android:name=".user.info.activity.UserFollowingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FANS.USER.INFO.ACTIVITY.USERFOLLOWING" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--个人粉丝展示界面-->
+        <activity android:name=".user.info.activity.UserFollowerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FANS.USER.INFO.ACTIVITY.USERFOLLOWER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

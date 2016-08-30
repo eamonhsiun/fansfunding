@@ -322,7 +322,10 @@ public class HomepageActivity extends AppCompatActivity {
         ll_homepage_user_follower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent();
+                intent.setAction(getString(R.string.activity_homepage_user_follower));
+                intent.putExtra(UserFollowingActivity.TARGET_USERID,target_userId);
+                startActivity(intent);
             }
         });
 

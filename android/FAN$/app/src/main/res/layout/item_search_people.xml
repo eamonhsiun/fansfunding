@@ -10,8 +10,7 @@
         android:id="@+id/iv_search_people_head"
         android:layout_width="@dimen/icon_size_message"
         android:layout_height="40dp"
-        android:paddingRight="@dimen/layout_padding"
-        android:src="@drawable/pjimagetest"/>
+        android:paddingRight="@dimen/layout_padding"/>
 
     <!--搜索结果的人物昵称-->
     <TextView
@@ -21,7 +20,7 @@
         android:layout_toRightOf="@id/iv_search_people_head"
         android:singleLine="true"
         android:ellipsize="end"
-        android:text="冰冻vita"
+        android:text=""
         android:textSize="@dimen/subhead_text_size"/>
 
     <!--搜索结果的人物个性签名-->

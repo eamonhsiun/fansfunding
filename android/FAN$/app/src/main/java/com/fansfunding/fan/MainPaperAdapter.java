@@ -50,7 +50,22 @@ public class MainPaperAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return SocialFragment.newInstance();
             case 2:
-                return com.fansfunding.fan.message.fragment.MessageFragment.newInstance();
+                String messagePage = "";
+                switch (MainActivity.pagePosition) {
+                    case 0:
+                        messagePage = "privateletter";
+                        break;
+                    case 1:
+                        messagePage = "comment";
+                        break;
+                    case 2:
+                        messagePage = "notification";
+                        break;
+                    default:
+                        break;
+                }
+                return com.fansfunding.fan.message.fragment.MessageFragment.newInstance(messagePage);
+
             case 3:
                 if(isLogin==true)
                     return UserFragment.newInstance();

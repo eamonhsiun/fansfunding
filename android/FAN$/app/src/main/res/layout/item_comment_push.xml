@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/layout_padding"
+    android:background="@color/white"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:elevation="2dp"
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_message_comment_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/layout_padding"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_message_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignTop="@+id/iv_message_comment_head"
+            android:layout_toRightOf="@+id/iv_message_comment_head"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/tv_message_comment_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                />
+
+                <TextView
+                    android:id="@+id/tv_message_comment_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"
+                   />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tv_message_comment_info"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        />
+
+
+    <TextView
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:background="@color/colorDividerGrey"
+        android:id="@+id/tv_message_comment_mine"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_padding"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:layout_marginBottom="@dimen/layout_padding"
+        />
+
+    <!--&lt;!&ndash;分割线&ndash;&gt;-->
+    <!--<View-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:id="@+id/fuckingline"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/colorGrey" />-->
+</LinearLayout>

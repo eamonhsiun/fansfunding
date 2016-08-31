@@ -59,7 +59,7 @@ public class MessageFragment extends Fragment {
 
         initContentView(viewContent);
         initData();
-
+        viewPager.setOffscreenPageLimit(3);
         if(mArgument == "notificaition") {
             viewPager.setCurrentItem(2);
         }
@@ -74,10 +74,11 @@ public class MessageFragment extends Fragment {
     public void onResume() {
 
         super.onResume();
+
     }
 
     private void initData() {
-        MessageFragmentAdapter adapter = new MessageFragmentAdapter(getFragmentManager());
+        MessageFragmentAdapter adapter = new MessageFragmentAdapter(getChildFragmentManager());
         this.viewPager.setAdapter(adapter);
         this.tabLayout.setupWithViewPager(this.viewPager);
     }

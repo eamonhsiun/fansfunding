@@ -1,8 +1,10 @@
 package com.fansfunding.fan.message.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +33,7 @@ import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +41,12 @@ import java.util.List;
  */
 
 public class NotifacationFragment extends Fragment {
-    private App app;
 
+
+    //userId
+    private int userId;
+
+    private App app;
 
     //更新ui
     public static final int UPDATE_UI = 100;
@@ -50,7 +57,7 @@ public class NotifacationFragment extends Fragment {
     public static NotificationAdapter notificationAdapter;
 
     //通知数据
-    public static List<Notifications> notificationses;
+    public static List<Notifications> notificationses = new ArrayList<>();
 
     //当前未读的通知
     public static TextView unread;
@@ -69,7 +76,7 @@ public class NotifacationFragment extends Fragment {
 //                    }finally {
 //                        ActiveAndroid.endTransaction();
 //                    }
-                    int i  = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+                    int i  = new Select().from(Notifications.class).where("isRead = ? and userId  = ?", 0, userId).count();
                     unread.setText(i + "");
                     notificationAdapter.notifyDataSetChanged();
                     Log.d("PushService", "fucking");
@@ -92,7 +99,7 @@ public class NotifacationFragment extends Fragment {
         listView.setAdapter(notificationAdapter);
         app = (App)getActivity().getApplication();
         //设置未读push的数量
-        int i  = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+        int i  = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, userId).count();
         unread.setText(i + "");
         notificationAdapter.notifyDataSetChanged();
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_notification);
@@ -107,7 +114,7 @@ public class NotifacationFragment extends Fragment {
                         int d = 0;
                         ActiveAndroid.beginTransaction();
                         try {
-                            d  = new Select().from(Notifications.class).where("isRead = ?", 0).count();
+                            d  = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, userId).count();
                             for(int i = 0; i < notificationses.size(); ++i) {
 
                                 //更新数据库
@@ -239,6 +246,8 @@ public class NotifacationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences s = getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        userId = s.getInt("id", 0);
     }
 
     public void updateDb() {

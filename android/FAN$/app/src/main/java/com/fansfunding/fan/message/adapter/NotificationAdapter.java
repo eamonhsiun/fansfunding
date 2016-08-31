@@ -1,6 +1,7 @@
 package com.fansfunding.fan.message.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,29 +51,34 @@ public class NotificationAdapter extends ArrayAdapter<Notifications> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Notifications notifications = getItem(position);
-        final ViewHolder viewHolder;
-        final View view;
+        ViewHolder viewHolder;
 
+        Log.d("通知", position + "");
         if(convertView == null) {
-            view = LayoutInflater.from(context).inflate(resourceId, null);
-            if(notifications.getRead()) {
-                view.setBackgroundResource(R.color.colorDividerGrey);
-            }
+            convertView = LayoutInflater.from(context).inflate(resourceId, null);
+//            if(notifications.getRead()) {
+//                view.setBackgroundResource(R.color.colorDividerGrey);
+//            }
             viewHolder = new ViewHolder();
-            viewHolder.circleImageView = (CircleImageView) view.findViewById(iv_message_notification_head);
-            viewHolder.name = (TextView) view.findViewById(R.id.tv_message_notification_name);
-            viewHolder.time = (TextView) view.findViewById(R.id.tv_message_notification_time);
-            viewHolder.type = (TextView) view.findViewById(R.id.tv_message_notification_type);
-            viewHolder.info = (TextView) view.findViewById(R.id.tv_message_notification_info);
-            view.setTag(viewHolder);
+            viewHolder.circleImageView = (CircleImageView) convertView.findViewById(iv_message_notification_head);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.tv_message_notification_name);
+            viewHolder.time = (TextView) convertView.findViewById(R.id.tv_message_notification_time);
+            viewHolder.type = (TextView) convertView.findViewById(R.id.tv_message_notification_type);
+            viewHolder.info = (TextView) convertView.findViewById(R.id.tv_message_notification_info);
+            convertView.setTag(viewHolder);
         } else {
-            if(notifications.getRead()) {
-                convertView.setBackgroundResource(R.color.colorDividerGrey);
-            }
-            view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
+//            if(notifications.getRead()) {
+//                convertView.setBackgroundResource(R.color.colorDividerGrey);
+//            }
+
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        if(notifications.getRead()) {
+            convertView.setBackgroundResource(R.color.colorDividerGrey);
+        }else {
+            convertView.setBackgroundResource(R.color.white);
+        }
         Gson gson = new GsonBuilder().create();
         NotificationProject notificationProject = new NotificationProject();
         NotificationDynamic notificationDynamic = new NotificationDynamic();
@@ -126,7 +132,7 @@ public class NotificationAdapter extends ArrayAdapter<Notifications> {
                 viewHolder.info.setText(notificationProject.getReference().getName());
                 break;
         }
-        return view;
+        return convertView;
     }
 
 

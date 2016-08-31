@@ -404,6 +404,9 @@ public class PushService extends Service {
             String comment = json.getString("comment");
             String commenter = json.getString("commenter");
             String pointTo = json.getString("pointTo");
+            //重新获取id
+            SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+            id = share.getInt("id", 0);
             Comments n = new Comments();
             n.setTime(time);
             n.setComment(comment);
@@ -413,6 +416,7 @@ public class PushService extends Service {
             n.setRead(false);
             n.setJson(s);
             n.setWillDelete(false);
+            n.setUserId(id);
             n.save();
             Log.d(TAG, "插入评论表成功");
             //更新ui
@@ -445,6 +449,9 @@ public class PushService extends Service {
             String causer = json.getString("causer");
             String reference = json.getString("reference");
             Notifications n = new Notifications();
+            //重新获取id
+            SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+            id = share.getInt("id", 0);
             n.setTime(time);
             n.setCauser(causer);
             n.setReference(reference);
@@ -452,6 +459,7 @@ public class PushService extends Service {
             n.setRead(false);
             n.setJson(s);
             n.setWillDelete(false);
+            n.setUserId(id);
             n.save();
             Log.d(TAG, "插入通知表成功");
             //更新ui

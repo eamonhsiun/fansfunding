@@ -1,7 +1,9 @@
 package com.fansfunding.fan.message.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +31,7 @@ import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,13 +39,16 @@ import java.util.List;
  */
 
 public class CommentFragment extends Fragment {
+    //userId
+    private int userId;
+
     private App app;
 
     private ListView listView;
 
     private TextView notRead;
 
-    public static List<Comments> commentses;
+    public static List<Comments> commentses = new ArrayList<>();
 
     public static CommentsAdapter commentsAdapter;
 
@@ -56,7 +62,7 @@ public class CommentFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_UI:
-                    int i = new Select().from(Comments.class).where("isRead = 0").count();
+                    int i = new Select().from(Comments.class).where("isRead = 0 and userId = ?", 1).count();
                     notRead.setText(i + "");
                     commentsAdapter.notifyDataSetChanged();
                     break;
@@ -75,7 +81,7 @@ public class CommentFragment extends Fragment {
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_comment);
         listView = (ListView) rootView.findViewById(R.id.lv_message_comment);
         commentsAdapter = new CommentsAdapter(getContext(), R.layout.item_comment_push, commentses);
-        int i = new Select().from(Comments.class).where("isRead = 0").count();
+        int i = new Select().from(Comments.class).where("isRead = 0 and userId = ?", userId).count();
         notRead.setText(i + "");
         listView.setAdapter(commentsAdapter);
         app = (App)getActivity().getApplication();
@@ -137,11 +143,30 @@ public class CommentFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 final CommentsProject finalCommentsProject = commentsProject;
                 final CommentDynamic finalCommentDynamic = commentDynamic;
-                dialog.setItems(new String[]{"回复评论", "查看动态"}, new DialogInterface.OnClickListener() {
+                final CommentsProject finalCommentsProject1 = commentsProject;
+                dialog.setItems(new String[]{"       回复评论", "       查看动态"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
+                                switch (comments.getType()) {
+                                    //项目评论
+                                    case 1:
+//                                        Intent intent=new Intent();
+//                                        //打开评论页
+//                                        intent.setAction(getString(R.string.activity_project_comment));
+//                                        intent.putExtra("categoryId", finalCommentsProject1.getPointTo().getCategoryId());
+//                                        intent.putExtra("projectId",commentsProject.getPointTo().ge);
+//                                        intent.putExtra("pointTo",comment.getCommenterId());
+//                                        intent.putExtra("pointToNickname",comment.getCommenterNickname());
+//                                        intent.putExtra("mode", ProjectCommentActivity.SEND_PROJECT_COMMENT);
+//                                        startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
+                                        break;
+                                    case 2:
+                                        break;
+                                     default:
+                                         break;
+                                }
 
 
                                 break;
@@ -221,5 +246,12 @@ public class CommentFragment extends Fragment {
         if (requestCode == 1002) {
             handler.sendEmptyMessage(UPDATE_UI);
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("id", 0);
     }
 }

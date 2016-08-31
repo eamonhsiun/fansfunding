@@ -10,6 +10,11 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Notifications")
 public class Notifications extends Model{
+    //    //用户的id,保证每个用户获取到自己相关的数据
+    @Column(name = "userId")
+    private int userId;
+
+
     //通知的类型
     @Column(name = "type")
     private int type;
@@ -37,6 +42,15 @@ public class Notifications extends Model{
     //将要被删除
     @Column(name = "willDelete")
     private boolean willDelete;
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public void setWillDelete(boolean willDelete) {
         this.willDelete = willDelete;

@@ -1,7 +1,9 @@
 package com.fansfunding.fan.message.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,11 +26,13 @@ import com.fansfunding.fan.message.adapter.CommentsAdapter;
 import com.fansfunding.fan.message.entity.CommentDynamic;
 import com.fansfunding.fan.message.entity.CommentsProject;
 import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.project.activity.ProjectCommentActivity;
 import com.fansfunding.fan.social.activity.MomentActivity;
 import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,13 +40,16 @@ import java.util.List;
  */
 
 public class CommentFragment extends Fragment {
+    //userId
+    private int userId;
+
     private App app;
 
     private ListView listView;
 
     private TextView notRead;
 
-    public static List<Comments> commentses;
+    public static List<Comments> commentses = new ArrayList<>();
 
     public static CommentsAdapter commentsAdapter;
 
@@ -56,7 +63,7 @@ public class CommentFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_UI:
-                    int i = new Select().from(Comments.class).where("isRead = 0").count();
+                    int i  = new Select().from(Comments.class).where("isRead = ? and userId  = ?", 0, userId).count();
                     notRead.setText(i + "");
                     commentsAdapter.notifyDataSetChanged();
                     break;
@@ -75,7 +82,7 @@ public class CommentFragment extends Fragment {
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_comment);
         listView = (ListView) rootView.findViewById(R.id.lv_message_comment);
         commentsAdapter = new CommentsAdapter(getContext(), R.layout.item_comment_push, commentses);
-        int i = new Select().from(Comments.class).where("isRead = 0").count();
+        int i = new Select().from(Comments.class).where("isRead = 0 and userId = ?", userId).count();
         notRead.setText(i + "");
         listView.setAdapter(commentsAdapter);
         app = (App)getActivity().getApplication();
@@ -137,11 +144,61 @@ public class CommentFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 final CommentsProject finalCommentsProject = commentsProject;
                 final CommentDynamic finalCommentDynamic = commentDynamic;
-                dialog.setItems(new String[]{"回复评论", "查看动态"}, new DialogInterface.OnClickListener() {
+                dialog.setItems(new String[]{"       回复评论", "       查看动态"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
+                                switch (comments.getType()) {
+                                    //项目评论
+                                    case 1:
+                                        Intent intent=new Intent();
+                                        //打开评论页
+                                        intent.setAction(getString(R.string.activity_project_comment));
+                                        intent.putExtra("categoryId", finalCommentsProject.getPointTo().getCategoryId());
+                                        intent.putExtra("projectId",finalCommentsProject.getPointTo().getId());
+                                        intent.putExtra("pointTo",finalCommentsProject.getCommenter().getId());
+                                        intent.putExtra("pointToNickname",finalCommentsProject.getCommenter().getNickname());
+                                        intent.putExtra("mode", ProjectCommentActivity.SEND_PROJECT_COMMENT);
+                                        startActivityForResult(intent, 300);
+                                        //没有读过,小红点数量减一
+                                        if(!comments.isRead()) {
+                                            comments.setRead(true);
+                                            app.getBadgeView().decrementBadgeCount(1);
+                                            //将此通知标记为已读
+                                            //更新数据库
+                                            Comments c = Comments.load(Comments.class, comments.getId());
+                                            c.setRead(true);
+                                            c.save();
+                                            view.setBackgroundResource(R.color.colorDividerGrey);
+                                            handler.sendEmptyMessage(UPDATE_UI);
+                                        }
+                                        break;
+                                    //动态评论
+                                    case 2:
+                                        Intent intent1=new Intent();
+                                        intent1.setAction(getString(R.string.activity_project_comment));
+                                        intent1.putExtra("momentId",finalCommentDynamic.getPointTo().getMomentId());
+                                        intent1.putExtra("pointTo",finalCommentDynamic.getCommenter().getId());
+                                        intent1.putExtra("pointToNickname",finalCommentDynamic.getCommenter().getNickname());
+                                        intent1.putExtra("mode", ProjectCommentActivity.SEND_MOMENT_COMMENT);
+                                        startActivityForResult(intent1 ,ProjectCommentActivity.REQUESR_CODE_SEND_COMMENT_ACTIVITY);
+                                        //没有读过,小红点数量减一
+                                        if(!comments.isRead()) {
+                                            comments.setRead(true);
+                                            app.getBadgeView().decrementBadgeCount(1);
+                                            //将此通知标记为已读
+                                            //更新数据库
+                                            Comments c = Comments.load(Comments.class, comments.getId());
+                                            c.setRead(true);
+                                            c.save();
+                                            view.setBackgroundResource(R.color.colorDividerGrey);
+                                            handler.sendEmptyMessage(UPDATE_UI);
+                                        }
+                                        break;
+                                     default:
+                                         break;
+                                }
 
 
                                 break;
@@ -212,6 +269,8 @@ public class CommentFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("id", 0);
         handler.sendEmptyMessage(UPDATE_UI);
     }
 
@@ -221,5 +280,12 @@ public class CommentFragment extends Fragment {
         if (requestCode == 1002) {
             handler.sendEmptyMessage(UPDATE_UI);
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("id", 0);
     }
 }

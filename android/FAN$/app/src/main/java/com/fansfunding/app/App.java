@@ -2,10 +2,12 @@ package com.fansfunding.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.fansfunding.fan.R;
 import com.fansfunding.fan.message.model.Comments;
 import com.fansfunding.fan.message.model.Notifications;
 import com.jauker.widget.BadgeView;
@@ -31,12 +33,25 @@ public class App extends Application {
         context = getApplicationContext();
         //初始化,通知开启日志
         ActiveAndroid.initialize(this);
-        //每次程序初始化的时候将表中已读的内容删除
-        new Delete().from(Notifications.class).where("willDelete = 1").execute();
-        new Delete().from(Comments.class).where("willDelete = 1").execute();
-        //初始化推送数据
-        commentses = new Select().from(Comments.class).orderBy("id desc").execute();
-        notificationses = new Select().from(Notifications.class).orderBy("id desc").execute();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+        int id = sharedPreferences.getInt("id", 0);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        //登陆则去加载数据
+        if(isLogin) {
+            //每次程序初始化的时候将表中已读的内容删除\
+            ActiveAndroid.beginTransaction();
+            try {
+                new Delete().from(Notifications.class).where("willDelete = ? and userId = ?", 1, id).execute();
+                new Delete().from(Comments.class).where("willDelete = ? and userId = ?", 1, id).execute();
+                //初始化推送数据
+                commentses = new Select().from(Comments.class).orderBy("id desc").where("userId = ?", id).execute();
+                notificationses = new Select().from(Notifications.class).orderBy("id desc").where("userId = ?", id).execute();
+                ActiveAndroid.setTransactionSuccessful();
+            }finally {
+                ActiveAndroid.endTransaction();
+            }
+        }
     }
 
     @Override

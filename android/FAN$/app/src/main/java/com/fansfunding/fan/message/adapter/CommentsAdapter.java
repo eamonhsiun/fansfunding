@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentsAdapter extends ArrayAdapter<Comments> {
     private int resourceID;
     private Context context;
-    private List<Comments> commentsList;
+    private List<Comments> commentsList = new ArrayList<>();
 
 
     public CommentsAdapter(Context context, int resource, List<Comments> objects) {
@@ -47,28 +48,32 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Comments comments = getItem(position);
-        final ViewHolder viewHolder;
-        final View view;
+        ViewHolder viewHolder;
         if(convertView == null) {
-            view = LayoutInflater.from(context).inflate(resourceID, null);
-            if(comments.isRead()) {
-                view.setBackgroundResource(R.color.colorDividerGrey);
-            }
+            convertView = LayoutInflater.from(context).inflate(resourceID, null);
+//            if(comments.isRead()) {
+//                view.setBackgroundResource(R.color.colorDividerGrey);
+//            }
             viewHolder = new ViewHolder();
-            viewHolder.circleImageView = (CircleImageView) view.findViewById(R.id.iv_message_comment_head);
-            viewHolder.name = (TextView) view.findViewById(R.id.tv_message_comment_name);
-            viewHolder.mine = (TextView) view.findViewById(R.id.tv_message_comment_mine);
-            viewHolder.info = (TextView) view.findViewById(R.id.tv_message_comment_info);
-            viewHolder.time = (TextView) view.findViewById(R.id.tv_message_comment_time);
-            view.setTag(viewHolder);
+            viewHolder.circleImageView = (CircleImageView) convertView.findViewById(R.id.iv_message_comment_head);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.tv_message_comment_name);
+            viewHolder.mine = (TextView) convertView.findViewById(R.id.tv_message_comment_mine);
+            viewHolder.info = (TextView) convertView.findViewById(R.id.tv_message_comment_info);
+            viewHolder.time = (TextView) convertView.findViewById(R.id.tv_message_comment_time);
+            convertView.setTag(viewHolder);
         } else {
-            if(comments.isRead()) {
-                convertView.setBackgroundResource(R.color.colorDividerGrey);
-            }
-            view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
+//            if(comments.isRead()) {
+//                convertView.setBackgroundResource(R.color.colorDividerGrey);
+//            }
+
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        if(comments.isRead()) {
+            convertView.setBackgroundResource(R.color.colorDividerGrey);
+        }else {
+            convertView.setBackgroundResource(R.color.white);
+        }
         Gson gson = new GsonBuilder().create();
         CommentsProject commentsProject = new CommentsProject();
         CommentDynamic commentDynamic = new CommentDynamic();
@@ -96,6 +101,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
                 break;
         }
 
+
         //设置评论的类型
         switch (comments.getType()) {
             //项目相关评论
@@ -109,7 +115,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
                 viewHolder.mine.setText("我的动态: " + commentDynamic.getPointTo().getContent());
                 break;
         }
-        return view;
+        return convertView;
     }
 
     class ViewHolder {

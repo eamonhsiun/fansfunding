@@ -26,6 +26,7 @@ import com.fansfunding.fan.message.adapter.CommentsAdapter;
 import com.fansfunding.fan.message.entity.CommentDynamic;
 import com.fansfunding.fan.message.entity.CommentsProject;
 import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.project.activity.ProjectCommentActivity;
 import com.fansfunding.fan.social.activity.MomentActivity;
 import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
@@ -62,7 +63,7 @@ public class CommentFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_UI:
-                    int i = new Select().from(Comments.class).where("isRead = 0 and userId = ?", 1).count();
+                    int i  = new Select().from(Comments.class).where("isRead = ? and userId  = ?", 0, userId).count();
                     notRead.setText(i + "");
                     commentsAdapter.notifyDataSetChanged();
                     break;
@@ -143,7 +144,6 @@ public class CommentFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 final CommentsProject finalCommentsProject = commentsProject;
                 final CommentDynamic finalCommentDynamic = commentDynamic;
-                final CommentsProject finalCommentsProject1 = commentsProject;
                 dialog.setItems(new String[]{"       回复评论", "       查看动态"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -152,17 +152,49 @@ public class CommentFragment extends Fragment {
                                 switch (comments.getType()) {
                                     //项目评论
                                     case 1:
-//                                        Intent intent=new Intent();
-//                                        //打开评论页
-//                                        intent.setAction(getString(R.string.activity_project_comment));
-//                                        intent.putExtra("categoryId", finalCommentsProject1.getPointTo().getCategoryId());
-//                                        intent.putExtra("projectId",commentsProject.getPointTo().ge);
-//                                        intent.putExtra("pointTo",comment.getCommenterId());
-//                                        intent.putExtra("pointToNickname",comment.getCommenterNickname());
-//                                        intent.putExtra("mode", ProjectCommentActivity.SEND_PROJECT_COMMENT);
-//                                        startActivityForResult(intent,REQUEST_CODE_SEND_COMMENT);
+                                        Intent intent=new Intent();
+                                        //打开评论页
+                                        intent.setAction(getString(R.string.activity_project_comment));
+                                        intent.putExtra("categoryId", finalCommentsProject.getPointTo().getCategoryId());
+                                        intent.putExtra("projectId",finalCommentsProject.getPointTo().getId());
+                                        intent.putExtra("pointTo",finalCommentsProject.getCommenter().getId());
+                                        intent.putExtra("pointToNickname",finalCommentsProject.getCommenter().getNickname());
+                                        intent.putExtra("mode", ProjectCommentActivity.SEND_PROJECT_COMMENT);
+                                        startActivityForResult(intent, 300);
+                                        //没有读过,小红点数量减一
+                                        if(!comments.isRead()) {
+                                            comments.setRead(true);
+                                            app.getBadgeView().decrementBadgeCount(1);
+                                            //将此通知标记为已读
+                                            //更新数据库
+                                            Comments c = Comments.load(Comments.class, comments.getId());
+                                            c.setRead(true);
+                                            c.save();
+                                            view.setBackgroundResource(R.color.colorDividerGrey);
+                                            handler.sendEmptyMessage(UPDATE_UI);
+                                        }
                                         break;
+                                    //动态评论
                                     case 2:
+                                        Intent intent1=new Intent();
+                                        intent1.setAction(getString(R.string.activity_project_comment));
+                                        intent1.putExtra("momentId",finalCommentDynamic.getPointTo().getMomentId());
+                                        intent1.putExtra("pointTo",finalCommentDynamic.getCommenter().getId());
+                                        intent1.putExtra("pointToNickname",finalCommentDynamic.getCommenter().getNickname());
+                                        intent1.putExtra("mode", ProjectCommentActivity.SEND_MOMENT_COMMENT);
+                                        startActivityForResult(intent1 ,ProjectCommentActivity.REQUESR_CODE_SEND_COMMENT_ACTIVITY);
+                                        //没有读过,小红点数量减一
+                                        if(!comments.isRead()) {
+                                            comments.setRead(true);
+                                            app.getBadgeView().decrementBadgeCount(1);
+                                            //将此通知标记为已读
+                                            //更新数据库
+                                            Comments c = Comments.load(Comments.class, comments.getId());
+                                            c.setRead(true);
+                                            c.save();
+                                            view.setBackgroundResource(R.color.colorDividerGrey);
+                                            handler.sendEmptyMessage(UPDATE_UI);
+                                        }
                                         break;
                                      default:
                                          break;
@@ -237,6 +269,8 @@ public class CommentFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("id", 0);
         handler.sendEmptyMessage(UPDATE_UI);
     }
 

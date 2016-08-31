@@ -248,15 +248,16 @@ public class UserBasicController {
 	 * @param rows
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/following",method=RequestMethod.GET)
+	@RequestMapping(path="following",method=RequestMethod.GET)
 	@ResponseBody
-	public Status getFollowing(@PathVariable int userId,
+	public Status getFollowing(
+			@RequestParam int viewId,
 			@RequestParam(required=false,defaultValue="1") int page,
 			@RequestParam(required=false,defaultValue="10") int rows){
-		if(!userService.isExist(userId)){
-			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+		if(!userService.isExist(viewId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true,StatusCode.SUCCESS,userFollowService.getFollowing(userId, page, rows),null);
+		return new Status(true,StatusCode.SUCCESS,userFollowService.getFollowing(viewId, page, rows),null);
 	}
 	/**
 	 * 获取粉丝
@@ -265,15 +266,17 @@ public class UserBasicController {
 	 * @param rows
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/followers",method=RequestMethod.GET)
+	@RequestMapping(path="followers",method=RequestMethod.GET)
 	@ResponseBody
-	public Status getFollowers(@PathVariable int userId,
+	public Status getFollowers(
+			@RequestParam int viewId,
 			@RequestParam(required=false,defaultValue="1") int page,
 			@RequestParam(required=false,defaultValue="10") int rows){
-		if(!userService.isExist(userId)){
-			return new Status(false,StatusCode.USER_NULL,"用户不存在",null);
+
+		if(!userService.isExist(viewId)){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
-		return new Status(true,StatusCode.SUCCESS,userFollowService.getFollowers(userId, page, rows),null);
+		return new Status(true,StatusCode.SUCCESS,userFollowService.getFollowers(viewId, page, rows),null);
 	}
 	
 	
@@ -293,7 +296,10 @@ public class UserBasicController {
 			@RequestParam(required=false,defaultValue="1") Integer page,
 			@RequestParam(required=false,defaultValue="10") Integer rows
 			) throws Exception{
-		if(!userService.isExist(userId)){
+		if(!(userId==10000000||userService.isExist(userId))){
+			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(!userService.isExist(viewId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
 		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentsById(userId, page, rows,viewId), 0);
@@ -306,12 +312,12 @@ public class UserBasicController {
 	 *            用户ID
 	 * @return
 	 */
-	@RequestMapping(path = "{userId}/info", method = RequestMethod.GET)
+	@RequestMapping(path = "info", method = RequestMethod.GET)
 	@ResponseBody
-	public Status info(@PathVariable int userId,
+	public Status info(
 			@RequestParam int viewId
 			) {
-		if(!userService.isExist(userId)){
+		if(!userService.isExist(viewId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
 		return new Status(true, StatusCode.SUCCESS, userService.getUserMap(userService.getUserById(viewId)), null);
@@ -326,22 +332,24 @@ public class UserBasicController {
 	 * @param rows
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/projects",method=RequestMethod.GET)
+	@RequestMapping(path="projects",method=RequestMethod.GET)
 	@ResponseBody
-	public Status userProject(@RequestParam String type,@PathVariable int userId,
+	public Status userProject(@RequestParam String type,
+			@RequestParam int viewId,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
-		if(!userService.isExist(userId)){
+
+		if(!userService.isExist(viewId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
 		if("sponsor".equals(type)){
-			return new Status(true,StatusCode.SUCCESS,projectService.getSponsor(userId,page,rows),null);
+			return new Status(true,StatusCode.SUCCESS,projectService.getSponsor(viewId,page,rows),null);
 		}
 		if("follow".equals(type)){
-			return new Status(true,StatusCode.SUCCESS,projectService.getFollow(userId,page,rows),null);
+			return new Status(true,StatusCode.SUCCESS,projectService.getFollow(viewId,page,rows),null);
 		}
 		if("support".equals(type)){
-			return new Status(true,StatusCode.SUCCESS,projectService.getSupport(userId,page,rows),null);
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupport(viewId,page,rows),null);
 		}
 		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
 	}
@@ -352,21 +360,90 @@ public class UserBasicController {
 	 * @param rows
 	 * @return
 	 */
-	@RequestMapping(path="{userId}/projects/num",method=RequestMethod.GET)
+	@RequestMapping(path="projects/num",method=RequestMethod.GET)
 	@ResponseBody
-	public Status userProjectNum(@RequestParam String type,@PathVariable int userId){
-		if(!userService.isExist(userId)){
+	public Status userProjectNum(@RequestParam String type,@RequestParam int viewId){
+
+		if(!userService.isExist(viewId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
 		}
 		if("sponsor".equals(type)){
-			return new Status(true,StatusCode.SUCCESS,projectService.getSponsorNum(userId),null);
+			return new Status(true,StatusCode.SUCCESS,projectService.getSponsorNum(viewId),null);
 		}
 		if("follow".equals(type)){
-			return new Status(true,StatusCode.SUCCESS,projectService.getFollowNum(userId),null);
+			return new Status(true,StatusCode.SUCCESS,projectService.getFollowNum(viewId),null);
 		}
 		if("support".equals(type)){
-			return new Status(true,StatusCode.SUCCESS,projectService.getSupportNum(userId),null);
+			return new Status(true,StatusCode.SUCCESS,projectService.getSupportNum(viewId),null);
 		}
 		return new Status(false,StatusCode.FAILED,"不存在的分类",null);
 	}
+	
+	/**
+	 * 获得用户动态
+	 * @param momentId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="{userId}/moment/{momentId}",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getMomentById(
+			@PathVariable int userId,
+			@RequestParam int viewId,
+			@PathVariable int momentId
+			) throws Exception{
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getMomentById(userId,momentId), 0);
+	}
+	
+	/**
+	 * 获得用户动态评论
+	 * @param momentId
+	 * @param page 
+	 * @param rows 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="moment/{momentId}/comment",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getMomentComment(
+			@PathVariable int momentId,
+			@RequestParam(required=false,defaultValue="1")int page,
+			@RequestParam(required=false,defaultValue="10")int rows
+			) throws Exception{
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		
+		return new Status(true, StatusCode.SUCCESS, userMomentService.getCommentUsePage(momentId, page, rows), 0);
+	}
+	
+	/**
+	 * 获取动态点赞
+	 * @param userId
+	 * @param momentId
+	 * @param page 
+	 * @param rows 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="moment/{momentId}/like",method=RequestMethod.GET)
+	@ResponseBody
+	public Status getMomentLike(
+			@PathVariable int momentId,
+			@RequestParam(required=false,defaultValue="1")int page,
+			@RequestParam(required=false,defaultValue="10")int rows
+			) throws Exception{
+		if(!userMomentService.isExist(momentId)){
+			return new Status(false, StatusCode.MOMENT_NULL, "动态不存在", null);
+		}
+		return new Status(true,StatusCode.SUCCESS,userMomentService.getMomentLikeUsePage(momentId, page, rows),null);
+	}
+	
+	
+	
+	
 }

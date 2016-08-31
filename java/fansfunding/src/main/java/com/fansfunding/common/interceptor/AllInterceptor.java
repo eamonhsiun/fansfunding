@@ -20,6 +20,7 @@ public class AllInterceptor implements HandlerInterceptor {
 		resp.addHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
 		return true;
 	}
+	
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,

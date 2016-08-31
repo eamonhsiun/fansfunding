@@ -90,7 +90,7 @@
 	</select>
 	<select id="selectFollow" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select p.id, p.category_id, p.sponsor, p.detail_id, p.target_money,
+		select distinct p.id, p.category_id, p.sponsor, p.detail_id, p.target_money,
 		p.target_deadline, p.cover,
 		p.status, p.create_by, p.create_time, p.update_by, p.update_time, p.del_flag,
 		p.name, p.description
@@ -103,7 +103,7 @@
 	</select>
 	<select id="selectSponsor" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select id, category_id, sponsor, detail_id, target_money, target_deadline,
+		select distinct id, category_id, sponsor, detail_id, target_money, target_deadline,
 		cover,
 		status, create_by, create_time, update_by, update_time, del_flag, name,
 		description
@@ -114,7 +114,7 @@
 	</select>
 	<select id="selectSupport" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select prj.id, prj.category_id, prj.sponsor, prj.detail_id,
+		select distinct prj.id, prj.category_id, prj.sponsor, prj.detail_id,
 		prj.target_money, prj.target_deadline, prj.cover,
 		prj.status, prj.create_by, prj.create_time, prj.update_by, prj.update_time,
 		prj.del_flag, prj.name, prj.description

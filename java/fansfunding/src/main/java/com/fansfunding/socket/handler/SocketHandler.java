@@ -123,13 +123,13 @@ public class SocketHandler implements WebSocketHandler {
 	//出现错误时
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable e) throws Exception {
-		if(session.isOpen()){
-			session.close();
-		}
-		Dispatcher.send(session,new SocketResponse(false,0,StatusCode.FAILED,"出现错误，连接关闭"));
-		Dispatcher.remove(session);
 		log.error("连接出现错误:"+session.getAttributes(), e);
 		e.printStackTrace();
+		if(session.isOpen()){
+			Dispatcher.send(session,new SocketResponse(false,0,StatusCode.FAILED,"出现错误，连接关闭"));
+			Dispatcher.remove(session);
+			session.close();
+		}
 	}
 	//连接关闭时
 	@Override

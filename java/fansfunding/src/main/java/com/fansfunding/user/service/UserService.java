@@ -305,7 +305,7 @@ public class UserService {
 
 			order.put("paidTime", payOrder.getNotifyTime());
 			order.put("totalFee",payOrder.getTotalFee());
-			order.put("orderStatus",payOrder.getTradeStatus());
+			order.put("orderStatus",orderStatus(payOrder.getTradeStatus()));
 			order.put("orderNo",payOrder.getOrderNo());
 			order.put("tradeNo",payOrder.getTradeNo());
 			orders.add(order);
@@ -339,7 +339,7 @@ public class UserService {
 
 		orderInfo.put("paidTime", order.getNotifyTime());
 		orderInfo.put("totalFee",order.getTotalFee());
-		orderInfo.put("orderStatus",order.getTradeStatus());
+		orderInfo.put("orderStatus",orderStatus(order.getTradeStatus()));
 		orderInfo.put("orderNo",order.getOrderNo());
 		orderInfo.put("tradeNo",order.getTradeNo());
 		
@@ -355,5 +355,19 @@ public class UserService {
 		orderInfo.put("address", shoppingAddress);
 		
 		return orderInfo;
+	}
+	/**
+	 * 转换支付状态字符描述
+	 * @param rawStatus
+	 * @return
+	 */
+	private String orderStatus(String rawStatus){
+		if("TRADE_SUCCESS".equals(rawStatus)){
+			return "支付成功";
+		}
+		if("TRADE_FINISHED".equals(rawStatus)){
+			return "支付完成";
+		}
+		return "支付失败";
 	}
 }

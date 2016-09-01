@@ -14,8 +14,10 @@ public interface ResourceDao {
     
     List<Resource> selectFeedbackImages(int feedbackId);
     
-    List<Resource> selectMomentImages(int momentId);
+    List<Resource> selectUserMomentImages(int momentId);
 
+    List<Resource> selectProjectMomentImages(int momentId);
+    
     int updateByPrimaryKey(Resource record);
     
     int updateByPath(Resource record);

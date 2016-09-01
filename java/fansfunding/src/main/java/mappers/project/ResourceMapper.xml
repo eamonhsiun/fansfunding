@@ -55,11 +55,18 @@
     and type like 'feedback_image'
     and del_flag='0'
   </select>
-  <select id="selectMomentImages" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectUserMomentImages" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, type, path, mapping_id, create_time, del_flag
     from resource
     where mapping_id = #{momentId,jdbcType=INTEGER}
     and type like 'user_moments'
+    and del_flag='0'
+  </select>
+  <select id="selectProjectMomentImages" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, type, path, mapping_id, create_time, del_flag
+    from resource
+    where mapping_id = #{momentId,jdbcType=INTEGER}
+    and type like 'moment_image'
     and del_flag='0'
   </select>
 </mapper>

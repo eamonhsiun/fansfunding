@@ -169,6 +169,9 @@ public class UserMomentService {
 		Map<String, Object> pointTo = this.getMomentById(userId,momentId);
 		int receiver = userMomentDao.selectById(momentId).getUserId();
 		push.pushMommentComment(receiver, userMomentComment.getUserId(), pointTo, content);
+		if(replyTo!=0){
+			push.pushMommentComment(replyTo, userMomentComment.getUserId(), pointTo, content);
+		}
 		return true;
 	}
 

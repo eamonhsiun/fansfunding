@@ -345,7 +345,7 @@ Vue.component('address-selector', {
         this.activeAlert("newAddress", "电话格式错误")
         return false;
       }
-      if(!data.postCode.match(postCodePattern)){
+      if(!String(data.postCode).match(postCodePattern)){
         this.activeAlert("newAddress", "邮编格式错误")
         return false;
       }

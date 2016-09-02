@@ -99,23 +99,23 @@ Vue.component('moment', {
       var url = null;
       switch (this.momentType){
         case 'user':
-          url = apiUrl +"/user/" + localId + "/moment";
+          url = apiUrl +"/user/" + localId + "/moment" + "?viewId=" + this.momentUserInfo.id  + "&token=" + localToken + '&rows=12' + (page ? "&page=" + page : "");
           break;
         case 'follower':
-          url = apiUrl +"/user/" + localId + "/moment/follow";
+          url = apiUrl +"/user/" + localId + "/moment/follow" + "?viewId=" + this.momentUserInfo.id  + "&token=" + localToken + '&rows=12' + (page ? "&page=" + page : "");
           break;
       }
-      this.getMoments(url, page);
+      this.getMoments(url);
       this.$broadcast('inner-comment-close');
     },
-    getMoments: function(url, page){
+    getMoments: function(url){
       if(!url){
         return;
       }
       var _this = this;
       var momentsRequest = ajax({
         method: 'get',
-        url: url + "?viewId=" + _this.momentUserInfo.id + "&token=" + localToken + '&rows=12' + (page ? "&page=" + page : ""),
+        url: url,
       }).then(function (response, xhr) {
         if(!response.result){
           _this.$broadcast('ffloader-failure', "获取动态失败");

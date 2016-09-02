@@ -101,8 +101,8 @@
                     <img :src="project.data.cover | resource" alt="">
                   </div>
                   <div class="project-content">
-                    <div class="project-title">{{project.data.name}}</div>
-                    <div class="project-description">{{project.data.description}}</div>
+                    <div class="project-title" v-text="project.data.name"></div>
+                    <div class="project-description" v-text="project.data.description"></div>
                   </div>
                 </div>
               </div>
@@ -110,10 +110,11 @@
           </div>
           <div class="kit-group" id="order-feedback">
             <div class="kit-block kit-content">
-              <div class="feedback-money">支持<span>{{feedback.target.limitation}}</span>元</div>
-              <div class="feedback-num">已支持<span>{{feedback.target.supportTimes}}</span>人<span v-if="feedback.target.ceiling>0">，最多<span>{{feedback.target.ceiling}}</span>人</span></div>
+              <div class="feedback-title" v-text="feedback.target.title"></div>
+              <div class="feedback-money">支持<span v-text="feedback.target.limitation"></span>元</div>
+              <div class="feedback-num">已支持<span v-text="feedback.target.supportTimes"></span>人<span v-if="feedback.target.ceiling>0">，最多<span v-text="feedback.target.ceiling"></span>人</span></div>
               <div class="feedback-detail">
-                <div class="feedback-detail-content">{{feedback.target.description}}</div>
+                <div class="feedback-detail-content" v-text="feedback.target.description"></div>
                 <div class="feedback-detail-pics">
                   <div class="feedback-detail-pic" v-for="image in feedback.target.images">
                     <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
@@ -124,7 +125,7 @@
           </div>
           <div class="kit-group" id="order-money">
             <div class="kit-block kit-content">
-              实际支付金额：<span>{{order.money}}</span>元
+              实际支付金额：<span v-text="order.money"></span>元
             </div>
           </div>
         </div>
@@ -144,7 +145,7 @@
           <div class="pay-result">
             <div class="pay-icon" :class="{'failure': !orderStatus}"></div>
             <div class="pay-content">
-              <div class="pay-msg">支付{{ orderStatus ? "成功" : "失败" }}</div>
+              <div class="pay-msg">支付<span v-text="orderStatus ? '成功' : '失败'"></span></div>
               <div>
                 <div class="FFbtn pay-btn" @click.prevent="redirect('project')">返回项目</div>
                 <div class="FFbtn pay-btn" v-if="orderStatus" @click.prevent="redirect('order')">查看订单</div>

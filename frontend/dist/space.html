@@ -196,7 +196,7 @@
                 <div class="kit-title">
                   <span class="kit-title-left">动态</span>
                 </div>
-                <moment v-ref:follower :is-self="isSelf" :show-input="false" :user-info="userInfo" :target-user-info="spaceUserInfo" moment-type="follower" show-like show-forward show-comment></moment>
+                <moment v-ref:follower :is-self="isSelf" :show-input="false" :user-info="userInfo" :target-user-info="spaceUserInfo" moment-type="follower" show-like show-comment></moment>
               </div>
             </div>
             <div class="kit-wrap FFtab-content">
@@ -204,7 +204,7 @@
                 <div class="kit-title">
                   <span class="kit-title-left">动态</span>
                 </div>
-                <moment v-ref:recent :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" show-like show-forward show-comment></moment>
+                <moment v-ref:recent :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" show-like show-comment></moment>
               </div>
             </div>
             <div class="kit-wrap FFtab-content">
@@ -225,7 +225,7 @@
                             <div class="order-title">{{order.projectName}}</div>
                             <div class="order-feedback-title">{{order.feedbackTitle}}</div>
                             <div class="order-detail">
-                              <div class="order-detail-status">订单状态：<span>{{getOrderStatus(order.orderStatus)}}</span></div>
+                              <div class="order-detail-status">订单状态：<span>{{order.orderStatus}}</span></div>
                               <div class="order-detail-money">金额：<span>{{order.totalFee}}</span></div>
                               <div class="order-detail-time">{{order.paidTime | time}}</div>
                             </div>

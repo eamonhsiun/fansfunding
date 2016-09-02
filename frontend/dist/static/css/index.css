@@ -498,7 +498,7 @@ button.swiper-pagination-bullet {
     overflow: hidden; }
     .project-card .project-card-pic img {
       min-width: 100%;
-      max-width: 120%;
+      max-width: 105%;
       min-height: 100%; }
   .project-card .project-card-detail {
     color: black;

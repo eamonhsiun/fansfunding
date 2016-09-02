@@ -90,6 +90,12 @@
         </ul>
       </div>
       <div class="plate-content">
+        <div class="kit-loader FFloader" id="plate-loader">
+          <div class="loader-inner triangle-skew-spin">
+            <div></div>
+          </div>
+        </div>
+        <div id="plate-errormsg" class="kit-errormsg FFerrormsg">服务器连接失败</div>
         <ul>
           <li class="plate-content-list" v-for="project in projects.list">
             <a href="project.html?categoryId={{project.categoryId}}&projectId={{project.id}}" class="project-card kit-block">
@@ -122,12 +128,6 @@
             </a>
           </li>
         </ul>
-        <div class="kit-loader FFloader" id="plate-loader">
-          <div class="loader-inner triangle-skew-spin">
-            <div></div>
-          </div>
-        </div>
-        <div id="plate-errormsg" class="kit-errormsg FFerrormsg">服务器连接失败</div>
         <pagination :pagination="projects.pagination" :callback="getProjects" :distance="50"></pagination>
       </div>
     </div>

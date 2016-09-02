@@ -78,14 +78,6 @@ var orderDetailVm = new Vue({
       }).always(function (response, xhr) {
       });
     },
-    getOrderStatus: function(value){
-      switch (value){
-      case "TRADE_SUCCESS" :
-        return "交易成功";
-      default:
-        return "查询中";
-      }
-    },
     viewPic: function(event){
       this.picViewer.src = event.target.src;
       this.picViewer.status = true;
@@ -93,7 +85,7 @@ var orderDetailVm = new Vue({
   },
   ready: function(){
     var _this = this;
-    if(!this.orderNo){
+    if(!this.orderNo || this.orderNo === "null"){
       this.redirect();
     }
     FFaccount.getAccountStatus(function(status){

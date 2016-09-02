@@ -208,7 +208,7 @@
 
     var getIcodeRequest = ajax({
       method: 'post',
-      url: apiUrl + '/common/newCheckerT',
+      url: apiUrl + '/common/newChecker',
       data: {
         phone: tel
       }

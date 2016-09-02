@@ -376,7 +376,9 @@
       margin-right: 0;
       padding-left: 10px;
       padding-right: 10px;
-      box-sizing: border-box; } }
+      box-sizing: border-box; }
+  .kit-tabs ul .kit-tab {
+    width: 25%; } }
 
 @media screen and (max-width: 500px) {
   .space-project-list {
@@ -396,9 +398,7 @@
         .space-project-list .project-content .project-detail .project-lefttime {
           width: 100%; }
         .space-project-list .project-content .project-detail .project-target, .space-project-list .project-content .project-detail .project-progress {
-          width: 50%; }
-  .kit-tabs ul .kit-tab {
-    width: 33.3333%; } }
+          width: 50%; } }
 
 @media screen and (max-width: 450px) {
   .space-project-list .project-cover {

@@ -2,7 +2,7 @@
 @@include('include/header.html',{"page": "null"})
   <div class="container">
     <div class="project" id="project">
-      <h1 class="project-title content-block" v-cloak>{{project.data.name}}</h1>
+      <h1 class="project-title content-block" v-text="project.data.name"></h1>
       <div class="project-intro content-block">
         <div class="intro-content">
           <div class="intro-left intro-show">
@@ -35,7 +35,7 @@
         <div class="project-tabs tabs kit-tabs">
           <ul>
             <li class="project-tab FFtab kit-tab" id="project-detail-btn">项目详情</li>
-            <li class="project-tab FFtab kit-tab" id="project-moment-btn" @click.prevent="getMoments(0)">项目动态</li>
+            <li class="project-tab FFtab kit-tab" id="project-moment-btn" @click.prevent="getMoments(0)">项目更新</li>
             <li class="project-tab FFtab kit-tab" id="project-comment-btn" v-on:click.prevent="getComments(0)">项目评论</li>
             <li class="project-tab FFtab kit-tab" id="project-supporter-btn" @click.prevent="getSupporters(0)">支持者</li>
           </ul>
@@ -51,7 +51,7 @@
             <div class="content-style" id="project-detail-wrap" v-html="project.detail.content"></div>
           </div>
           <div class="project-content FFtab-content" id="project-moment">
-            <div class="comment-text comment-wrap" v-if="isSelf" v-bind:class="{ 'show' : isSelf }">
+            <div class="comment-text comment-wrap" v-if="isSelf && status" v-bind:class="{ 'show' : isSelf }">
               <div class="comment-userinfo">
                 <div class="comment-avatar" id="moment-user-avatar">
                   <img v-bind:src="userInfo.head | resource" alt="">
@@ -63,7 +63,7 @@
                 <textarea name="" id="moment-textarea" cols="30" rows="10" v-model="moments.content"></textarea >
                 <div class="comment-input-more">
                   <div class="comment-hint" id="moment-hint" v-text="moments.hint" v-bind:class="{'overflow':moments.overflow}"></div>
-                  <div class="comment-submit" id="comment-submit" v-on:click="sendMoment">发表动态</div>
+                  <div class="comment-submit" id="comment-submit" v-on:click="sendMoment">发表更新</div>
                 </div>
               </div>
             </div>
@@ -72,7 +72,7 @@
                 <div></div>
               </div>
             </div>
-            <div id="moment-errormsg" class="kit-errormsg FFerrormsg">发起人还没有发布动态</div>
+            <div id="moment-errormsg" class="kit-errormsg FFerrormsg">发起人还没有发布更新</div>
             <ul>
               <li class="moment-wrap comment-wrap" v-for="moment in moments.list" track-by="$index">
                 <div class="moment-userinfo comment-userinfo">

@@ -451,6 +451,13 @@
       box-sizing: border-box;
     }
   }
+  .kit-tabs{
+    ul{
+      .kit-tab{
+        width: 25%;
+      }
+    }
+  }
 }
 @media screen and (max-width: 500px) {
   .space-project-list{
@@ -475,13 +482,6 @@
         .project-target, .project-progress {
           width: 50%;
         }
-      }
-    }
-  }
-  .kit-tabs{
-    ul{
-      .kit-tab{
-        width: 33.3333%;
       }
     }
   }

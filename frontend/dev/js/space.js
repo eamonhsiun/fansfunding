@@ -80,14 +80,6 @@ Vue.component('space-order-list', {
     },
   },
   methods: {
-    getOrderStatus: function(value){
-      switch (value){
-      case "TRADE_SUCCESS" :
-        return "交易成功";
-      default:
-        return "查询中";
-      }
-    },
     getRecentOrder: function(page){
       var _this = this;
       var orderRequest = ajax({
@@ -236,7 +228,7 @@ var spaceVm = new Vue({
         });
       }
     },
-    getRecentMoment: function(page){
+    getRecentMoment: function(){
       this.$refs.recent.momentFilter();
     },
     getFollowingMoment: function(){

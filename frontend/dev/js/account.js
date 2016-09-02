@@ -1,7 +1,8 @@
 
 var apiUrl = "http://api.immortalfans.com:8080";
 var resourceUrl = "http://resources.immortalfans.com:8080/";
-// apiUrl = "http://192.168.204.203:8080/fansfunding";
+var websocketUrl = "ws://api.immortalfans.com:8080/sockjs"
+
 var localId = null;
 var localToken = null;
 var localUserInfo = null;
@@ -90,6 +91,7 @@ function getErrorMsg(errCode){
       _this.changeLoginDom(true, res);
     }).catch(function (response, xhr) {
       _this.changeLoginDom(true);
+      console.log(xhr)
     }).always(function (response, xhr) {
     });
   }

@@ -120,22 +120,6 @@ var projectVm = new Vue({
     }
   },
   methods: {
-    getLeftTime: function(startTime, endTime){
-      var d1;
-      if(startTime instanceof Date){
-        d1 = startTime;
-      }else{
-        d1 = new Date(startTime);
-      }
-      var d2 = new Date(endTime);
-      var d3 = d2.getTime() - d1.getTime();
-      if(d3 <= 0 ){
-        return "已结束";
-      }
-      var day = Math.floor(d3/(24*3600*1000));
-      var hour = Math.floor((d3%(24*3600*1000))/(3600*1000));
-      return (day === 0 ? "" : day + "天") + hour + "小时";
-    },
     checkLogin: function(){
       if(!this.status){
         this.redirect("login");
@@ -363,14 +347,14 @@ var projectVm = new Vue({
       }).then(function (response, xhr) {
         _this.moments.connect = true;
         if(!response.result){
-          momentLoader.endLoad(false, "获取动态失败");
+          momentLoader.endLoad(false, "获取项目更新失败");
           _this.moments.status = false;
         }else{
           _this.moments.list = response.data.list;
           if(_this.moments.list.length !== 0){
             momentLoader.endLoad();
           }else{
-            momentLoader.endLoad(false, "发起人还没有发布动态");
+            momentLoader.endLoad(false, "发起人还没有发布更新");
           }
           _this.setPagination(_this.moments.pagination, response.data);
           _this.moments.status = true;
@@ -400,14 +384,14 @@ var projectVm = new Vue({
         }
       }).then(function (response, xhr) {
         if(!response.result){
-          momentLoader.endLoad(false, "发布动态失败");
+          momentLoader.endLoad(false, "发布更新失败");
         }else{
           _this.getMoments(0);
           _this.moments.content = "";
           momentLoader.endLoad();
         }
       }).catch(function (response, xhr) {
-        momentLoader.endLoad(false, "评论失败");
+        momentLoader.endLoad(false, "发布更新失败");
       }).always(function (response, xhr) {
         // Do something
       });

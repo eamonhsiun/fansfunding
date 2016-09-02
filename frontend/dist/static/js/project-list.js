@@ -73,7 +73,7 @@ var projectListVm = new Vue({
     },
     getProjects: function(page){
       var _this = this;
-      // plateLoader.init();
+      plateLoader.init();
       var projectsRequest = ajax({
         method: 'get',
         url: apiUrl +"/project/" + _this.categoryId + "?rows=12" + (page ? "&page=" + page : ""),

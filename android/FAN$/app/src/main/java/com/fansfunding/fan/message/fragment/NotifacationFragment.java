@@ -168,11 +168,13 @@ public class NotifacationFragment extends Fragment {
                         //如果没有读过小红点数量减1
                         if(!notifications.getRead()) {
                             app.getBadgeView().decrementBadgeCount(1);
+                            notifications.setRead(true);
                             view.setBackgroundResource(R.color.colorDividerGrey);
                             //更新数据库
                             Notifications nb = Notifications.load(Notifications.class, notifications.getId());
                             nb.setRead(true);
                             nb.save();
+//                            notificationses.get(position).setRead(true);
                             handler.sendEmptyMessage(UPDATE_UI);
                         }
                         break;
@@ -197,12 +199,14 @@ public class NotifacationFragment extends Fragment {
 
                         //如果没有读过小红点数量减1
                         if(!notifications.getRead()) {
+                            notifications.setRead(true);
                             app.getBadgeView().decrementBadgeCount(1);
                             view.setBackgroundResource(R.color.colorDividerGrey);
                             //更新数据库
                             Notifications nb = Notifications.load(Notifications.class, notifications.getId());
                             nb.setRead(true);
                             nb.save();
+//                            notificationses.get(position).setRead(true);
                             handler.sendEmptyMessage(UPDATE_UI);
                         }
 

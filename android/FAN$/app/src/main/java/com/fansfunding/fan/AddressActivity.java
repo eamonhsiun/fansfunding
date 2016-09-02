@@ -86,6 +86,9 @@ public class AddressActivity extends AppCompatActivity {
     public static final int MSG_ADD = 101;
 
 
+    public static final int MSG_CANCEL = 102;
+
+
     public static AddressAdapter adapter;
 
     public static List<SingleAddress> dataDetialList = new ArrayList<>();
@@ -142,7 +145,7 @@ public class AddressActivity extends AppCompatActivity {
 
         //设置返回键
         ActionBar actionBar=this.getSupportActionBar();
-        actionBar.setTitle("管理收获地址");
+        actionBar.setTitle("管理收货地址");
         actionBar.setDisplayHomeAsUpEnabled(true);
         //actionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
 
@@ -254,6 +257,8 @@ public class AddressActivity extends AppCompatActivity {
                 dataDetialList.add(index, mDataDetial);
                 adapter.notifyDataSetChanged();
                 edit();
+                break;
+            case MSG_CANCEL:
                 break;
             default:
                 break;

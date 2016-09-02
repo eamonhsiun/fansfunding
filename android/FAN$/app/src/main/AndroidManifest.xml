@@ -104,6 +104,15 @@
         </activity>
 
         <!-- 聊天界面 -->
+        <activity
+            android:name=".message.activity.ChatActivity"
+            android:windowSoftInputMode="adjustResize"
+            >
+          <intent-filter>
+              <action android:name="android.intent.action.FANS.CHAT"/>
+              <category android:name="android.intent.category.DEFAULT" />
+          </intent-filter>
+        </activity>
 
 
         <!-- 动态详情 -->
@@ -311,6 +320,7 @@
             </intent-filter>
         </activity>
 
+
         <activity android:name=".social.activity.MomentProjectActivity"></activity>
         <!--友盟分享-->
         <activity
@@ -392,7 +402,8 @@
         <!--指定Model类，加快应用的启动速度-->
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.fansfunding.fan.message.model.Notifications，com.fansfunding.fan.message.model.Comments" />
+            android:value="com.fansfunding.fan.message.model.Notifications,com.fansfunding.fan.message.model.Message,com.fansfunding.fan.message.model.Comments,com.fansfunding.fan.message.model.Content"
+            />
 
     </application>
 

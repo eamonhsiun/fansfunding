@@ -9,11 +9,17 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.message.model.Content;
+import com.fansfunding.fan.message.model.Message;
 import com.fansfunding.fan.message.model.Notifications;
 import com.jauker.widget.BadgeView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.messages;
 
 /**
  * 全局资源
@@ -44,7 +50,28 @@ public class App extends Application {
             try {
                 new Delete().from(Notifications.class).where("willDelete = ? and userId = ?", 1, id).execute();
                 new Delete().from(Comments.class).where("willDelete = ? and userId = ?", 1, id).execute();
+
                 //初始化推送数据
+                List<Message> messageList = new Select().from(Message.class).orderBy("time desc").where("userId = ? and willDelete = ?", id, 1).execute();
+                List<Content> contentList = new ArrayList<>();
+                if(messageList != null) {
+                    for(int i = 0; i < messageList.size(); ++i) {
+                        contentList = messageList.get(i).contents();
+                        if(contentList != null) {
+                            for(int j = 0; j < contentList.size(); ++j) {
+                                contentList.get(j).delete();
+
+                            }
+                        }
+                    }
+
+                }
+
+//                new Delete().from(Message.class).where("willDelete = ? and userId = ?", 1, id).execute();
+                //首先要把关联的外键给删了，这个才可以删除，。嘿嘿嘿
+                new Delete().from(Message.class).where("willDelete = ? and userId = ?", 1, id).execute();
+
+                messages = new Select().from(Message.class).where("userId = ? and willDelete = ?", id, 0).execute();
                 commentses = new Select().from(Comments.class).orderBy("id desc").where("userId = ?", id).execute();
                 notificationses = new Select().from(Notifications.class).orderBy("id desc").where("userId = ?", id).execute();
                 ActiveAndroid.setTransactionSuccessful();

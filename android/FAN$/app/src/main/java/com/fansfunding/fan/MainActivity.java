@@ -47,6 +47,7 @@ import static com.fansfunding.fan.message.fragment.CommentFragment.commentsAdapt
 import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationAdapter;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.messages;
 
 /**
  * 主界面
@@ -196,13 +197,14 @@ public class MainActivity extends AppCompatActivity {
         //开启后台服务连接WebSocket
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
         boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        int id = sharedPreferences.getInt("id", 0);
         if(isLogin) {
             Intent intent = new Intent(this, PushService.class);
             bindService(intent, serviceConnection, BIND_AUTO_CREATE);
         }
 
 
-
+        Log.d("嘿嘿嘿", id + "");
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -227,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
             int id = sharedPreferences.getInt("id", 0);
             int count = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, id).count();
             count += new Select().from(Comments.class).where("isRead = ? and userId = ?", 0, id).count();
+            count += new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId = ?", 0, id).count();
             app.getBadgeView().setBadgeCount(count);
         }
     }
@@ -247,7 +250,8 @@ public class MainActivity extends AppCompatActivity {
         //如果登陆状态改变的话
         if (paperAdapter.isNeedChange() == true) {
             //接触绑定的service
-            unbindService(serviceConnection);
+
+
             int id = sharedPreferences.getInt("id", 0);
             //登陆则去加载数据
             Log.d("LOGIN_SUCCESS", "fucking");
@@ -256,10 +260,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 new Delete().from(Notifications.class).where("willDelete = ? and userId = ?", 1, id).execute();
                 new Delete().from(Comments.class).where("willDelete = ? and userId = ?", 1, id).execute();
+//                new Delete().from(com.fansfunding.fan.message.model.Message.class).where("willDelete = ? and userId = ?", 1, id).execute();
                 //初始化推送数据
+                messages = new Select().from(com.fansfunding.fan.message.model.Message.class).orderBy("time desc").where("userId = ?", id).execute();
                 commentses = new Select().from(Comments.class).orderBy("id desc").where("userId = ?", id).execute();
                 notificationses = new Select().from(Notifications.class).orderBy("id desc").where("userId = ?", id).execute();
                 int count = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, id).count();
+                count += new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId = ?", 0, id).count();
                 count += new Select().from(Comments.class).where("isRead = ? and userId = ?", 0, id).count();
                 app.getBadgeView().setBadgeCount(count);
                 if(notificationAdapter != null) {
@@ -272,9 +279,12 @@ public class MainActivity extends AppCompatActivity {
             }finally {
                 ActiveAndroid.endTransaction();
             }
-            //重新绑定service
-            Intent intent = new Intent(this, PushService.class);
-            bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+            if(!isLogin) {
+                unbindService(serviceConnection);
+            }else{
+                Intent intent = new Intent(this, PushService.class);
+                bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+            }
             paperAdapter.notifyDataSetChanged();
             initMessageTab(2);
 

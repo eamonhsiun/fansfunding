@@ -144,7 +144,7 @@ public class CommentFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 final CommentsProject finalCommentsProject = commentsProject;
                 final CommentDynamic finalCommentDynamic = commentDynamic;
-                dialog.setItems(new String[]{"       回复评论", "       查看动态"}, new DialogInterface.OnClickListener() {
+                dialog.setItems(new String[]{"                         回复评论", "                         查看动态"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:layout_marginTop="@dimen/appbar_padding_top"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginRight="@dimen/layout_padding"
+    android:elevation="2dp"
+    android:background="@color/white"
    >
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_message_notification_head"
@@ -15,60 +16,64 @@
 
     <LinearLayout
         android:id="@+id/ll_message_notification_father"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/iv_message_notification_head"
-        android:layout_marginTop="@dimen/layout_padding"
-        android:layout_marginRight="@dimen/layout_padding">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:id="@+id/ll_message_notification_son"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+      >
             <TextView
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
                 android:id="@+id/tv_message_notification_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="名字"
                 android:textSize="16sp"
-                android:layout_toRightOf="@+id/iv_message_notification_head"/>
+                android:maxLines="1"
+                android:ellipsize="end"
+            />
 
             <TextView
                 android:id="@+id/tv_message_notification_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="通知类型"
                 android:layout_toRightOf="@+id/tv_message_notification_name"
-                android:layout_marginLeft="4dp"/>
-        </LinearLayout>
+                />
 
         <TextView
-            android:text="07-21 27:19"
-            android:textSize="10sp"
-            android:id="@+id/tv_message_notification_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:text="djkashdjkashjkdhjkashdjknasjkdhnjkashndjkahnsdjkhasjkdhnjkashdnkjh"
-            android:id="@+id/tv_message_notification_"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:id="@+id/tv_message_notification_info"
+            android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+
+        </LinearLayout>
+
+
+
+
+
         <!--分割线-->
-        <include android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/ll_message_notification_father"
-            layout="@layout/divider"
-            android:layout_marginLeft="72dp"
-            />
-
-    </LinearLayout>
+        <!--<View-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:id="@+id/fuckingline"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/colorGrey" />-->
 
 
 
 
-</RelativeLayout>
+    <TextView
+        android:layout_margin="@dimen/layout_padding"
+        android:textSize="14sp"
+        android:id="@+id/tv_message_notification_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+</LinearLayout>

@@ -55,6 +55,7 @@ public class AddressAdapter extends ArrayAdapter<SingleAddress> {
 
     private int resourceId;
     Context mContext;
+
     public AddressAdapter(Context context, int resource, List<SingleAddress> objects) {
         super(context, resource, objects);
         mContext = context;

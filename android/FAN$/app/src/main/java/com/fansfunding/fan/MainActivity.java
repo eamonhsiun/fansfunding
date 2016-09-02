@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,12 +24,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.fansfunding.fan.login.LoginActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.fansfunding.app.App;
+import com.fansfunding.fan.login.LoginActivity;
 import com.fansfunding.fan.message.BroadcastReceiver.NetWorkStatusReceiver;
+import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.message.model.Notifications;
 import com.fansfunding.fan.message.service.PushService;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -39,13 +43,20 @@ import com.umeng.socialize.PlatformConfig;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.fansfunding.fan.message.fragment.CommentFragment.commentsAdapter;
+import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
+import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationAdapter;
+import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.messages;
+
 /**
  * 主界面
  */
 
 public class MainActivity extends AppCompatActivity {
-    private      App app;
+    public static int pagePosition;
 
+    private App app;
 
 
     //选中Message Tab时发送消息
@@ -154,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             handler.sendEmptyMessage(SELECTED_MESSAGE);
                         }
-                        app.getBadgeView().setBadgeCount(i);
                         vp_Main.setCurrentItem(i);
 
                     }
@@ -189,14 +199,24 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(netWorkStatusReceiver, intentFilter);
 
         //开启后台服务连接WebSocket
-        Intent intent = new Intent(this, PushService.class);
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        int id = sharedPreferences.getInt("id", 0);
+        if(isLogin) {
+            Intent intent = new Intent(this, PushService.class);
+            bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        }
+
+
+        Log.d("嘿嘿嘿", id + "");
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+
 
     private void initMessageTab(int position) {
         TabLayout.Tab tab = tabLayout.getTabAt(position);
@@ -208,23 +228,71 @@ public class MainActivity extends AppCompatActivity {
 //            app.getBadgeView() = new BadgeView(this);
             app.getBadgeView().setGravity(Gravity.TOP | Gravity.RIGHT);
             app.getBadgeView().setTargetView(imageView);
+
             imageView.setImageResource(R.drawable.main_message);
-            app.getBadgeView().setBadgeCount(0);
+            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+            int id = sharedPreferences.getInt("id", 0);
+            int count = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, id).count();
+            count += new Select().from(Comments.class).where("isRead = ? and userId = ?", 0, id).count();
+            count += new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId = ?", 0, id).count();
+            app.getBadgeView().setBadgeCount(count);
         }
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //开启后台服务连接WebSocket
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+
+
         //如果登陆状态改变的话
         if (paperAdapter.isNeedChange() == true) {
+            //接触绑定的service
+
+
+            int id = sharedPreferences.getInt("id", 0);
+            //登陆则去加载数据
+            Log.d("LOGIN_SUCCESS", "fucking");
+            //每次程序初始化的时候将表中已读的内容删除\
+            ActiveAndroid.beginTransaction();
+            try {
+                new Delete().from(Notifications.class).where("willDelete = ? and userId = ?", 1, id).execute();
+                new Delete().from(Comments.class).where("willDelete = ? and userId = ?", 1, id).execute();
+//                new Delete().from(com.fansfunding.fan.message.model.Message.class).where("willDelete = ? and userId = ?", 1, id).execute();
+                //初始化推送数据
+                messages = new Select().from(com.fansfunding.fan.message.model.Message.class).orderBy("time desc").where("userId = ?", id).execute();
+                commentses = new Select().from(Comments.class).orderBy("id desc").where("userId = ?", id).execute();
+                notificationses = new Select().from(Notifications.class).orderBy("id desc").where("userId = ?", id).execute();
+                int count = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, id).count();
+                count += new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId = ?", 0, id).count();
+                count += new Select().from(Comments.class).where("isRead = ? and userId = ?", 0, id).count();
+                app.getBadgeView().setBadgeCount(count);
+                if(notificationAdapter != null) {
+                    notificationAdapter.notifyDataSetChanged();
+                }
+                if(commentsAdapter != null) {
+                    commentsAdapter.notifyDataSetChanged();
+                }
+                ActiveAndroid.setTransactionSuccessful();
+            }finally {
+                ActiveAndroid.endTransaction();
+            }
+            if(!isLogin) {
+                unbindService(serviceConnection);
+            }else{
+                Intent intent = new Intent(this, PushService.class);
+                bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+            }
             paperAdapter.notifyDataSetChanged();
+            initMessageTab(2);
+
         }
         //设置tablayout的tab的图标
         for (int i = 0; i < paperAdapter.getCount(); i++) {
@@ -235,6 +303,10 @@ public class MainActivity extends AppCompatActivity {
 
             tabLayout.getTabAt(i).setIcon(getResources().getDrawable(tab_unselect[i]));
         }
+//        Intent i = getIntent();
+//        int page = i.getIntExtra("push", 0);
+//        vp_Main.setCurrentItem(page);
+//        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
 
     }
 
@@ -275,8 +347,8 @@ public class MainActivity extends AppCompatActivity {
         //停止服务
 //        Intent intent = new Intent(this, PushService.class);
 //        stopService(intent);
-        //解绑服务
-        unbindService(serviceConnection);
+        //如果不解绑会怎么样嘿嘿嘿
+//        unbindService(serviceConnection);
     }
 
     /**

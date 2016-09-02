@@ -8,17 +8,16 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 
+import com.fansfunding.app.App;
 import com.fansfunding.fan.R;
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
 
 /**
  * 用来创建登陆界面
  * */
 
 public class LoginActivity extends AppCompatActivity {
+    private App app;
 
     //启动使用手机登陆的请求码
     public final static int REQUEST_LOGIN_BY_PHONE=1000;
@@ -59,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         //登录框处理对象
         loginDialog=new LoginDialog(this,handler);
 
-
+        app = (App)getApplication();
     }
 
     @Override

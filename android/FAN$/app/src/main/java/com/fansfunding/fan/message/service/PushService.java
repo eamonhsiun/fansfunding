@@ -40,15 +40,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static com.fansfunding.fan.message.activity.ChatActivity.chatReceiverId;
 import static com.fansfunding.fan.message.activity.ChatActivity.contentList;
 import static com.fansfunding.fan.message.activity.ChatActivity.listView;
 import static com.fansfunding.fan.message.activity.ChatActivity.msgAdapter;
 import static com.fansfunding.fan.message.fragment.CommentFragment.commentsAdapter;
 import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
+import static com.fansfunding.fan.message.fragment.CommentFragment.notRead;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationAdapter;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+import static com.fansfunding.fan.message.fragment.NotifacationFragment.unreadNt;
 import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.letterAdapter;
 import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.messages;
+import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.unreadMsg;
 
 /**
  * Created by RJzz on 2016/8/25.
@@ -465,6 +469,8 @@ public class PushService extends Service {
             //更新ui
             commentses.add(0, n);
             if(commentsAdapter != null) {
+                int i  = new Select().from(Comments.class).where("isRead = ? and userId  = ?", 0, id).count();
+                notRead.setText(i + "");
                 commentsAdapter.notifyDataSetChanged();
             }
             //小红点嘿嘿嘿+1
@@ -487,6 +493,7 @@ public class PushService extends Service {
         p = gson.fromJson(s, p.getClass());
        List<com.fansfunding.fan.message.model.Message> messageList =  new Select().from(com.fansfunding.fan.message.model.Message.class).where("userId = ? and senderId = ?", id, p.getSender().getId()).execute();
 
+        //还没有接受过这个人的消息
         if(messageList.size() == 0) {
             com.fansfunding.fan.message.model.Message message = new com.fansfunding.fan.message.model.Message();
             message.setSenderId(p.getSender().getId());
@@ -496,12 +503,12 @@ public class PushService extends Service {
             message.setRead(false);
             message.setWillDelete(false);
             Content content = new Content();
-            content.setMessage(message);
             content.setContent(p.getContent());
             //1为我的消息，2为对方的消息
             content.setType(2);
             content.setTime(p.getSendTime());
             message.save();
+            content.setMessage(message);
             content.save();
             //小红点嘿嘿嘿+1
             App app = (App)getApplication();
@@ -509,24 +516,27 @@ public class PushService extends Service {
             messages.add(message);
             app.getBadgeView().incrementBadgeCount(1);
             if(letterAdapter != null) {
+                int i  = new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId  = ?", 0, id).count();
+                unreadMsg.setText(i + "");
                 letterAdapter.notifyDataSetChanged();
             }
-            if(msgAdapter != null) {
-                contentList.add(content);
-                msgAdapter.notifyDataSetChanged();
-                listView.setSelection(contentList.size());
+            //聊天的界面,需要判断是不是当前对话的user
+            if(chatReceiverId == p.getSender().getId()) {
+                if(msgAdapter != null) {
+                    contentList.add(content);
+                    msgAdapter.notifyDataSetChanged();
+                    listView.setSelection(contentList.size());
+                }
             }
         }else {
+            //已经插入了一条数据
             //小红点嘿嘿嘿+1
             App app = (App)getApplication();
-
-
-            //已经要被设置为被删的可怜的item了，别怕，哥哥来救你
+            //被设置为将要被删除
             if(messageList.get(0).getWillDelete() && messageList.get(0).getRead()) {
                 messageList.get(0).setWillDelete(false);
                 messages.add(0,  messageList.get(0));
                 app.getBadgeView().incrementBadgeCount(1);
-
             } else if(messageList.get(0).getRead()){
                 //如果已经读过了但是没有被设置为删除小红点加一
                 app.getBadgeView().incrementBadgeCount(1);
@@ -539,17 +549,25 @@ public class PushService extends Service {
             content.setTime(p.getSendTime());
             messageList.get(0).setTime(p.getSendTime());
             messageList.get(0).setRead(false);
+            messageList.get(0).setJson(s);
             messageList.get(0).save();
             content.save();
 
+            //通知的界面
             if(letterAdapter != null) {
+                int i  = new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId  = ?", 0, id).count();
+                unreadMsg.setText(i + "");
                 letterAdapter.notifyDataSetChanged();
             }
-            if(msgAdapter != null) {
-                contentList.add(content);
-                msgAdapter.notifyDataSetChanged();
-                listView.setSelection(contentList.size());
+            //聊天的界面,需要判断是不是当前对话的user
+            if(chatReceiverId == p.getSender().getId()) {
+                if(msgAdapter != null) {
+                    contentList.add(content);
+                    msgAdapter.notifyDataSetChanged();
+                    listView.setSelection(contentList.size());
+                }
             }
+
         }
 
 
@@ -585,6 +603,8 @@ public class PushService extends Service {
             notificationses.add(0, n);
             if(notificationAdapter != null) {
                 notificationAdapter.notifyDataSetChanged();
+                int i  = new Select().from(Notifications.class).where("isRead = ? and userId  = ?", 0, id).count();
+                unreadNt.setText(i + "");
             }
             //小红点嘿嘿嘿+1
             App app = (App)getApplication();
@@ -638,7 +658,7 @@ public class PushService extends Service {
                 .setContentTitle(title)
                 .setContentText(text)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(R.drawable.icon_small)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icon))
                 .setContentIntent(pi)
                 .setDefaults(Notification.DEFAULT_ALL)

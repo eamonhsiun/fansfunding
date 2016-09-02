@@ -22,6 +22,7 @@ import com.fansfunding.fan.message.adapter.MsgAdapter;
 import com.fansfunding.fan.message.entity.PrivateLetter;
 import com.fansfunding.fan.message.model.Content;
 import com.fansfunding.fan.message.model.Message;
+import com.fansfunding.internal.PersonalInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,11 +38,12 @@ import static com.fansfunding.fan.message.service.PushService.client;
 public class ChatActivity extends AppCompatActivity {
 
 
+
     //我的id
-    private int userId;
+    public static  int chatUserId;
 
     //接收消息者的id
-    private int receiverId;
+    public static int chatReceiverId = 0;
 
     private Toolbar toolbar;
 
@@ -50,6 +52,9 @@ public class ChatActivity extends AppCompatActivity {
 
     //发送消息
     private ImageButton send;
+
+    //聊天昵称
+    private PersonalInfo personalInfo;
 //
 //    //为了键盘弹出的时候将所有的全部顶上去
 //    private ScrollView scroller;
@@ -60,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
     PrivateLetter privateLetter = new PrivateLetter();
 
     public static List<Message> message1;
+
     private EditText input;
 
     public static MsgAdapter msgAdapter;
@@ -73,23 +79,45 @@ public class ChatActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
-        receiverId = sharedPreferences.getInt("id", 0);
         analysisJson();
         initData();
-
-        Log.d("嘿嘿嘿", receiverId + "");
+        Log.d("半夜4点", chatReceiverId + "");
     }
 
 
     public String send(int receiverId) {
-        Content content = new Content();
-        content.setMessage(message1.get(0));
-        content.setType(1);
-        content.setTime(System.currentTimeMillis());
-        content.setContent(input.getText() + "");
-        content.save();
-        contentList.add(content);
+        message1 = new Select().from(Message.class).where("userId = ? and senderId = ?", chatUserId, chatReceiverId).execute();
+        //如果是第一次发送本地不存在数据的话
+        if(message1.size() == 0) {
+            com.fansfunding.fan.message.model.Message message = new com.fansfunding.fan.message.model.Message();
+            message.setSenderId(chatReceiverId);
+            message.setUserId(chatUserId);
+            message.setTime(System.currentTimeMillis());
+            message.setRead(false);
+            message.setJson(getPersonJson(input.getText() + ""));
+            message.setWillDelete(false);
+            Content content = new Content();
+            content.setContent(input.getText() + "");
+            //1为我的消息，2为对方的消息
+            content.setType(1);
+            content.setTime(System.currentTimeMillis());
+            message.save();
+            content.setMessage(message);
+            content.save();
+            contentList.add(content);
+        }else {
+            //现在数据库里面已经有数据了
+
+            Content content = new Content();
+            if(message1.size() != 0) {
+                content.setMessage(message1.get(0));
+            }
+            content.setType(1);
+            content.setTime(System.currentTimeMillis());
+            content.setContent(input.getText() + "");
+            content.save();
+            contentList.add(content);
+        }
         msgAdapter.notifyDataSetChanged();
         return "{\"receiver\":" + receiverId  + "," + "\"content\":" +  "\"" + input.getText() + "" + "\"}";
     }
@@ -140,7 +168,7 @@ public class ChatActivity extends AppCompatActivity {
                 if(input.length() == 0) {
                     Toast.makeText(ChatActivity.this, "输入不能为空", Toast.LENGTH_SHORT).show();
                 }else {
-                    client.send(send(receiverId));
+                    client.send(send(chatReceiverId));
                     input.setText("");
                     listView.setSelection(contentList.size());
                 }
@@ -153,7 +181,12 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-        name.setText(privateLetter.getSender().getNickname());
+        if(privateLetter.getContent() == null) {
+            name.setText(personalInfo.getData().getNickname());
+        }else {
+            name.setText(privateLetter.getSender().getNickname());
+        }
+
         msgAdapter = new MsgAdapter(ChatActivity.this, R.layout.item_msg, contentList);
         listView.setAdapter(msgAdapter);
         listView.setSelection(contentList.size());
@@ -163,16 +196,48 @@ public class ChatActivity extends AppCompatActivity {
 
     public void analysisJson() {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("id", 0);
-        final Intent intent = getIntent();
-        int senderId = intent.getIntExtra("senderId", 0);
-        message1 = new Select().from(Message.class).where("userId = ? and senderId = ?", userId, senderId).execute();
-        if(message1.get(0).contents() != null) {
-            contentList = message1.get(0).contents();
+        chatUserId = sharedPreferences.getInt("id", 0);
+        Intent intent = getIntent();
+        chatReceiverId = intent.getIntExtra("senderId", 0);
+        personalInfo = (PersonalInfo) intent.getSerializableExtra("personalInfo");
+        message1 = new Select().from(Message.class).where("userId = ? and senderId = ?", chatUserId, chatReceiverId).execute();
+        if(message1.size() != 0) {
+            if(message1.get(0).contents() != null) {
+                contentList = message1.get(0).contents();
+                Gson gson = new GsonBuilder().create();
+                privateLetter = gson.fromJson(message1.get(0).getJson(), privateLetter.getClass());
+            }
+        }else{
+            contentList.clear();
+            msgAdapter.notifyDataSetChanged();
         }
-        Gson gson = new GsonBuilder().create();
-        privateLetter = gson.fromJson(message1.get(0).getJson(), privateLetter.getClass());
-        receiverId = privateLetter.getSender().getId();
     }
 
+    @Override
+    public void onBackPressed() {
+        this.finish();
+        super.onBackPressed();
+    }
+
+    public String getPersonJson(String content) {
+        return
+             "{" + "\"sender\":{" +
+                "\"head\":"  + "\"" + personalInfo.getData().getHead() +  "\"" + "," +
+                "\"intro\":" +  "\""  + personalInfo.getData().getIntro() +  "\""  + "," +
+                "\"nickname\":"  +  "\""  + personalInfo.getData().getNickname() + "\""  + "," +
+                        "\"id\":" + chatUserId +
+            "}," +
+            "\"content\":" +  "\"content\"" +  "," +
+                    "\"sendTime\":" + System.currentTimeMillis() + "}";
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //干掉当前的线程，销毁静态变量
+//        android.os.Process.killProcess(android.os.Process.myPid());
+        Log.d("半夜4点","我死了");
+    }
 }

@@ -1,11 +1,11 @@
 package com.fansfunding.internal;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
  * Created by 13616 on 2016/7/14.
  */
-public class PersonalInfo {
+public class PersonalInfo implements Serializable{
 
     //返回的结果
     private boolean result;
@@ -52,7 +52,7 @@ public class PersonalInfo {
     }
 
 
-    public class DataDetial {
+    public class DataDetial implements Serializable {
 
         //用户名
         private String name;
@@ -175,7 +175,7 @@ public class PersonalInfo {
         }
 
 
-        public class RealInfo{
+        public class RealInfo implements Serializable{
             //真实姓名
             private String realName;
 

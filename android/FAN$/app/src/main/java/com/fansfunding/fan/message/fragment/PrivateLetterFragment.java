@@ -48,7 +48,7 @@ public class PrivateLetterFragment extends Fragment {
     public static List<Message> messages = new ArrayList<>();
 
     //未读条数
-    private TextView unread;
+    public static TextView unreadMsg;
 
     //清空私聊
     private ImageButton imageButton;
@@ -64,7 +64,7 @@ public class PrivateLetterFragment extends Fragment {
             switch (msg.what) {
                 case UPDATE_UI:
                     int i  = new Select().from(Message.class).where("isRead = ? and userId  = ?", 0, userId).count();
-                    unread.setText(i + "");
+                    unreadMsg.setText(i + "");
                     letterAdapter.notifyDataSetChanged();
                     break;
                 default:
@@ -79,9 +79,9 @@ public class PrivateLetterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_private_letter, container, false);
-        unread = (TextView) rootView.findViewById(R.id.tv_message_letter_not_read);
+        unreadMsg = (TextView) rootView.findViewById(R.id.tv_message_letter_not_read);
         final int i  = new Select().from(Message.class).where("isRead = ? and userId = ?", 0, userId).count();
-        unread.setText(i + "");
+        unreadMsg.setText(i + "");
         listView = (ListView) rootView.findViewById(R.id.lv_messag_letter);
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_letter);
         letterAdapter = new LetterAdapter(getContext(), R.layout.item_letter, messages);
@@ -108,8 +108,13 @@ public class PrivateLetterFragment extends Fragment {
                             }
                             ActiveAndroid.setTransactionSuccessful();
                         }finally {
-
-                            app.getBadgeView().decrementBadgeCount(size);
+                            int d = 0;
+                            for(int i = 0; i < messages.size(); ++i) {
+                               if(!messages.get(i).getRead()) {
+                                   ++d;
+                               }
+                            }
+                            app.getBadgeView().decrementBadgeCount(d);
                             messages.clear();
                             handler.sendEmptyMessage(UPDATE_UI);
                             ActiveAndroid.endTransaction();

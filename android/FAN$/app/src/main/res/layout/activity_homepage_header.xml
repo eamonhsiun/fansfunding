@@ -9,6 +9,7 @@
         android:background="@drawable/homepag_background">
         <!--私聊按钮-->
         <Button
+            android:id="@+id/btn_homepage_chat"
             android:layout_width="60dp"
             android:layout_height="26dp"
             android:layout_gravity="right"

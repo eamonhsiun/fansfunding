@@ -2,18 +2,18 @@ package com.fansfunding.fan.user.info.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -106,6 +106,9 @@ public class HomepageActivity extends AppCompatActivity {
 
     //列表头部
     private RelativeLayout homepage_header;
+
+    //进入私聊按钮
+    private Button message;
 
     //适配器
     private UserProjectListAdapter adapter;
@@ -260,7 +263,6 @@ public class HomepageActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         homepage_header= (RelativeLayout)LayoutInflater.from(this).inflate(R.layout.activity_homepage_header,null);
-
         iv_homepage_user_head=(CircleImageView)homepage_header.findViewById(R.id.iv_homepage_user_head);
         tv_homepage_user_sign=(TextView)homepage_header.findViewById(R.id.tv_homepage_user_sign);
         tv_homepage_user_moment_number=(TextView)homepage_header.findViewById(R.id.tv_homepage_user_moment_number);
@@ -270,6 +272,7 @@ public class HomepageActivity extends AppCompatActivity {
         ll_homepage_user_following=(LinearLayout)homepage_header.findViewById(R.id.ll_homepage_user_following);
         ll_homepage_user_follower=(LinearLayout)homepage_header.findViewById(R.id.ll_homepage_user_follower);
         elv_homepage_project=(ExpandableListView)findViewById(R.id.elv_homepage_project);
+        message = (Button) homepage_header.findViewById(R.id.btn_homepage_chat);
         elv_homepage_project.addHeaderView(homepage_header);
     }
 
@@ -285,7 +288,7 @@ public class HomepageActivity extends AppCompatActivity {
         if(requestUserInfo.getPersonalInfo()==null){
             return;
         }
-        PersonalInfo personalInfo=requestUserInfo.getPersonalInfo();
+        final PersonalInfo personalInfo=requestUserInfo.getPersonalInfo();
         if(personalInfo.getData().getHead()!=null&&personalInfo.getData().getHead().equals("")==false){
             Picasso.with(this).load(getString(R.string.url_resources)+personalInfo.getData().getHead()).memoryPolicy(MemoryPolicy.NO_CACHE).into(iv_homepage_user_head);
         }
@@ -351,6 +354,29 @@ public class HomepageActivity extends AppCompatActivity {
                 intent.setAction(getString(R.string.activity_project_detail));
                 startActivity(intent);
                 return false;
+            }
+        });
+
+
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences share=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
+                boolean isLogin=share.getBoolean("isLogin",false);
+                Intent intent=new Intent();
+                //如果没有登陆，则先登陆
+                if(isLogin==false){
+                    intent.setAction(getString(R.string.activity_login));
+                    startActivity(intent);
+                    return;
+                }else {
+                    Intent intent1 = new Intent();
+                    intent1.setAction(getString(R.string.activity_chat));
+                    intent1.putExtra("senderId", target_userId);
+                    intent1.putExtra("personalInfo", personalInfo);
+                    startActivity(intent1);
+                }
+
             }
         });
 

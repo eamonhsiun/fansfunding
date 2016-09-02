@@ -1,0 +1,167 @@
+@@include('include/head.html',{"title": "个人空间 | FAN$","csstype": "space"})
+@@include('include/header.html',{"page": "space"})
+  <div class="container">
+    <div class="content-wrap" id="space">
+      <div class="block-title">用户空间</div>
+      <div class="space-wrap">
+        <div class="group-wrap" id="user-group">
+          <div class="kit-block" id="user-info">
+            <div class="user-header">
+              <div class="user-avatar"><img v-bind:src="spaceUserInfo.head | resource"  alt=""></div>
+              <div class="user-info">
+                <div class="user-name"><span v-text="spaceUserInfo.nickname"></span></div>
+                <div class="user-intro">{{ spaceUserInfo.intro }}</div>
+              </div>
+            </div>
+            <div class="kit-bottombar" v-if="!isSelf">
+              <div class="kit-bottombar-btn" :class="{'active': isFollowed}" @click.prevent="followUser" v-text='isFollowed ? "已关注" : "关注"'></div>
+            </div>
+          </div>
+          <div class="kit-block" id="user-data">
+            <div class="">
+               <ul>
+                  <li class="user-data-list">
+                    <div class="user-data-inner user-data-moment">动态<span v-text="spaceUserInfo.momentNum"></span></div>
+                    <div class="user-data-inner user-data-follow">关注<span v-text="spaceUserInfo.followingNum"></span></div>
+                    <div class="user-data-inner user-data-fans">粉丝<span v-text="spaceUserInfo.followerNum"></span></div>
+                  </li>
+                  <li class="user-data-list">
+                    支持的项目<span v-text="projectNum.support"></span>
+                  </li>
+                  <li class="user-data-list">
+                    发起的项目<span v-text="projectNum.sponsor"></span>
+                  </li>
+               </ul>
+            </div>
+          </div>
+        </div>
+        <div class="group-wrap" id="content-group">
+          <div class="kit-block">
+            <div class="kit-tabs FFtabs">
+              <ul>
+                <li class="kit-tab FFtab" @click.prevent="getAllProjects">最近项目</li>
+                <li class="kit-tab FFtab" v-show="isSelf"  @click.prevent="getFollowingMoment">我的关注</li>
+                <li class="kit-tab FFtab" @click.prevent="getRecentMoment">最近动态</li>
+                <li class="kit-tab FFtab" v-show="isSelf" @click.prevent="getAllOrders">我的订单</li>
+              </ul>
+            </div>
+          </div>
+          <div class="FFtab-contents">
+            <div class="kit-wrap FFtab-content">
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">发起</span>
+                  <span class="kit-title-right"><a href="initiation.html">发起新项目</a></span>
+                </div>
+                <div class="kit-content">
+                  <template id="space-project-list-template">
+                    <div>
+                      <ffloader></ffloader>
+                      <ul>
+                        <li class="space-project-list" v-for="project in list">
+                          <a href="project.html?categoryId={{project.categoryId}}&projectId={{project.id}}">
+                            <div class="project-cover">
+                              <img :src="project.cover | resource" alt="">
+                            </div>
+                            <div class="project-content">
+                              <div class="project-title">{{project.name}}</div>
+                              <div class="project-description">{{project.description}}</div>
+                              <div class="project-detail">
+                                <div class="project-detail-info project-lefttime">
+                                  剩余时间：<span>{{ getLeftTime(new Date(), project.targetDeadline) }}</span>
+                                </div>
+                                <div class="project-detail-info project-target">
+                                  目标金额：<span>{{project.targetMoney | currency '￥' 0}}</span>
+                                </div>
+                                <div class="project-detail-info project-progress">
+                                  已达成：<span>{{project.sum/project.targetMoney*100 | currency '' 2}}</span>%
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                      <pagination :pagination="pagination" :callback="getRecentProject" :distance="110"></pagination>
+                    </div>
+                  </template>
+                  <space-project-list type="sponsor" :space-id="spaceId" :num.sync="projectNum.sponsor">
+                  </space-project-list>
+                </div>
+              </div>
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">关注</span>
+                  <!-- <span class="kit-title-right"><a href="">更多</a></span> -->
+                </div>
+                <div class="kit-content">
+                  <space-project-list type="follow" :space-id="spaceId" :num.sync="projectNum.follow">
+                  </space-project-list>
+                </div>
+              </div>
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">支持</span>
+                  <!-- <span class="kit-title-right"><a href="">更多</a></span> -->
+                </div>
+                <div class="kit-content">
+                  <space-project-list type="support" :space-id="spaceId" :num.sync="projectNum.support">
+                  </space-project-list>
+                </div>
+              </div>
+            </div>
+            <div class="kit-wrap FFtab-content">
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">动态</span>
+                </div>
+                <moment v-ref:follower :is-self="isSelf" :show-input="false" :user-info="userInfo" :target-user-info="spaceUserInfo" moment-type="follower" show-like show-comment></moment>
+              </div>
+            </div>
+            <div class="kit-wrap FFtab-content">
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">动态</span>
+                </div>
+                <moment v-ref:recent :is-self="isSelf" :user-info="userInfo" :target-user-info="spaceUserInfo" show-like show-comment></moment>
+              </div>
+            </div>
+            <div class="kit-wrap FFtab-content">
+              <div class="kit-block">
+                <div class="kit-title">
+                  <span class="kit-title-left">订单</span>
+                </div>
+                <div class="kit-content">
+                  <template id="space-order-list-template">
+                    <ffloader></ffloader>
+                    <ul>
+                      <li class="space-order-list" v-for="order in list">
+                        <a href="order-detail.html?orderNo={{order.orderNo}}">
+                          <div class="order-cover" v-if="order.feedbackImages.length > 0">
+                            <img :src="order.feedbackImages[0] | resource" alt="">
+                          </div>
+                          <div class="order-content">
+                            <div class="order-title">{{order.projectName}}</div>
+                            <div class="order-feedback-title">{{order.feedbackTitle}}</div>
+                            <div class="order-detail">
+                              <div class="order-detail-status">订单状态：<span>{{order.orderStatus}}</span></div>
+                              <div class="order-detail-money">金额：<span>{{order.totalFee}}</span></div>
+                              <div class="order-detail-time">{{order.paidTime | time}}</div>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                    <pagination :pagination="pagination" :callback="getRecentOrder" :distance="110"></pagination>
+                  </template>
+                  <space-order-list></space-order-list>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ffviewer :status.sync="picViewer.status" :imgsrc="picViewer.src"></ffviewer>
+    </div>
+  </div>
+@@include('include/footer.html')
+@@include('include/script.html',{"jstype": "space"})

@@ -1,0 +1,495 @@
+@charset "UTF-8";
+#project-supporter .supporter-wrap .supporter-userinfo {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }
+
+#project-supporter .supporter-wrap .supporter-userinfo:hover {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5); }
+
+#project-supporter .supporter-wrap .supporter-userinfo {
+  border-radius: 8px; }
+
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.project-title {
+  font-size: 2.4rem;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: normal;
+  text-align: center; }
+
+.project-intro, .project-initiator {
+  height: 500px; }
+
+.project-wrap, .project-feedback {
+  height: auto; }
+
+.project-intro, .project-wrap {
+  width: 68%;
+  float: left;
+  margin-top: 0;
+  overflow: hidden; }
+
+.project-initiator, .project-feedback {
+  width: 30%;
+  float: right;
+  margin-top: 0;
+  overflow: hidden; }
+
+.project-intro {
+  position: relative; }
+  .project-intro .intro-content {
+    width: 100%;
+    height: 445px; }
+    .project-intro .intro-content .intro-left {
+      float: left;
+      width: 80%;
+      height: 100%;
+      overflow: hidden; }
+      .project-intro .intro-content .intro-left img {
+        min-width: 100%;
+        min-height: 100%;
+        max-width: 105%; }
+    .project-intro .intro-content .intro-right {
+      float: left;
+      width: 20%;
+      height: 100%; }
+    .project-intro .intro-content .intro-details .intro-detail {
+      height: 25%;
+      width: 100%;
+      padding: 25px;
+      box-sizing: border-box;
+      font-size: 1.2rem; }
+      .project-intro .intro-content .intro-details .intro-detail span {
+        font-size: 1.8rem; }
+    .project-intro .intro-content .intro-details .intro-status {
+      margin-top: 25px;
+      float: right;
+      text-align: center;
+      width: 100px;
+      height: 40px;
+      font-size: 1.2rem;
+      line-height: 40px;
+      box-sizing: border-box;
+      background-color: #ee554d;
+      color: #ffffff;
+      position: relative; }
+      .project-intro .intro-content .intro-details .intro-status:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 0;
+        height: 0;
+        border-top: 20px solid #ee554d;
+        border-left: 20px solid transparent; }
+      .project-intro .intro-content .intro-details .intro-status:after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: -20px;
+        width: 0;
+        height: 0;
+        border-bottom: 20px solid #ee554d;
+        border-left: 20px solid transparent; }
+      .project-intro .intro-content .intro-details .intro-status.successful {
+        background-color: #5aa133; }
+        .project-intro .intro-content .intro-details .intro-status.successful:before {
+          border-top-color: #5aa133; }
+        .project-intro .intro-content .intro-details .intro-status.successful:after {
+          border-bottom-color: #5aa133; }
+      .project-intro .intro-content .intro-details .intro-status.failure {
+        background-color: #ababab; }
+        .project-intro .intro-content .intro-details .intro-status.failure:before {
+          border-top-color: #ababab; }
+        .project-intro .intro-content .intro-details .intro-status.failure:after {
+          border-bottom-color: #ababab; }
+      .project-intro .intro-content .intro-details .intro-status.preparation {
+        background-color: #ee7419; }
+        .project-intro .intro-content .intro-details .intro-status.preparation:before {
+          border-top-color: #ee7419; }
+        .project-intro .intro-content .intro-details .intro-status.preparation:after {
+          border-bottom-color: #ee7419; }
+  .project-intro .intro-btns {
+    position: absolute;
+    bottom: 0;
+    left: 0; }
+    .project-intro .intro-btns .intro-btn {
+      width: 33.33333%; }
+      .project-intro .intro-btns .intro-btn:before {
+        font-family: "FontAwesome";
+        content: ""; }
+      .project-intro .intro-btns .intro-btn.followed, .project-intro .intro-btns .intro-btn.followed:hover {
+        color: #ee554d;
+        background-color: #ffffff; }
+    .project-intro .intro-btns #intro-btn-follow:before {
+      font-family: "FontAwesome";
+      content: ""; }
+    .project-intro .intro-btns #intro-btn-share {
+      height: 100% !important;
+      font-size: 1.4rem !important;
+      padding-left: 0 !important;
+      line-height: 55px !important;
+      background-image: none;
+      margin: 0 !important; }
+      .project-intro .intro-btns #intro-btn-share:before {
+        font-family: "FontAwesome";
+        content: ""; }
+      .project-intro .intro-btns #intro-btn-share:hover {
+        opacity: 1; }
+
+.project-initiator {
+  position: relative; }
+  .project-initiator .initiator-header .initiator-avatar {
+    padding-top: 45px;
+    width: 250px;
+    height: 250px;
+    margin: auto; }
+    .project-initiator .initiator-header .initiator-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%; }
+  .project-initiator .initiator-header .initiator-info {
+    height: 100%;
+    padding: 25px;
+    box-sizing: border-box; }
+    .project-initiator .initiator-header .initiator-info .initiator-name {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #505050; }
+    .project-initiator .initiator-header .initiator-info .initiator-intro {
+      color: #ababab;
+      font-size: 1.1rem;
+      height: 45px;
+      overflow: hidden;
+      padding-top: 15px; }
+  .project-initiator .initiator-content {
+    padding: 0 20px;
+    text-indent: 2em; }
+  .project-initiator .initiator-follow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 55px;
+    width: 100%;
+    line-height: 55px;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #ffffff;
+    background-color: #ee554d;
+    cursor: pointer;
+    z-index: 99;
+    transition: all 0.3s ease; }
+    .project-initiator .initiator-follow:before {
+      font-family: "FontAwesome";
+      content: "";
+      font-size: 1.4rem;
+      padding-right: 10px; }
+    .project-initiator .initiator-follow:hover {
+      background-color: #ec2c22; }
+    .project-initiator .initiator-follow.followed, .project-initiator .initiator-follow.followed:hover {
+      color: #ee554d;
+      background-color: #ffffff; }
+
+.project-feedback {
+  box-sizing: border-box;
+  padding: 20px; }
+  .project-feedback .kit-loader {
+    padding-top: 50px;
+    padding-bottom: 50px; }
+  .project-feedback .feedback-title {
+    font-size: 1.2rem;
+    line-height: 2rem; }
+  .project-feedback .feedback-num {
+    color: #ababab; }
+  .project-feedback .feedback-list {
+    margin-top: 5px;
+    width: 100%;
+    border-bottom: 1px solid #505050;
+    padding-bottom: 15px; }
+    .project-feedback .feedback-list:first-child {
+      margin-top: 0; }
+    .project-feedback .feedback-list:last-child {
+      border-bottom: 0;
+      padding-bottom: 0; }
+    .project-feedback .feedback-list .feedback-money {
+      font-size: 1.5rem; }
+      .project-feedback .feedback-list .feedback-money span {
+        padding-left: 5px;
+        padding-right: 5px; }
+    .project-feedback .feedback-list .feedback-detail {
+      width: 100%; }
+      .project-feedback .feedback-list .feedback-detail .feedback-detail-content {
+        font-size: 1.1rem; }
+        .project-feedback .feedback-list .feedback-detail .feedback-detail-content ul li {
+          list-style-type: disc;
+          list-style-position: inside; }
+      .project-feedback .feedback-list .feedback-detail .feedback-detail-pics .feedback-detail-pic {
+        margin-top: 10px;
+        float: left;
+        margin-right: 10px;
+        width: 100px;
+        height: 100px; }
+        .project-feedback .feedback-list .feedback-detail .feedback-detail-pics .feedback-detail-pic img {
+          width: 100%;
+          height: 100%; }
+      .project-feedback .feedback-list .feedback-detail .feedback-detail-pics:after {
+        content: "";
+        display: block;
+        clear: both; }
+    .project-feedback .feedback-list .feedback-btn {
+      margin-top: 10px; }
+
+.project-wrap .project-tabs {
+  border-bottom: 1px solid #ababab; }
+
+.project-wrap #project-detail-btn:before {
+  font-family: "FontAwesome";
+  content: ""; }
+
+.project-wrap #project-comment-btn:before {
+  font-family: "FontAwesome";
+  content: ""; }
+
+.project-wrap #project-moment-btn:before {
+  font-family: "FontAwesome";
+  content: ""; }
+
+.project-wrap #project-supporter-btn:before {
+  font-family: "FontAwesome";
+  content: ""; }
+
+.project-wrap .project-content {
+  padding: 20px;
+  display: none; }
+
+#project-detail #content-loader {
+  padding-top: 50px;
+  padding-bottom: 50px; }
+
+#project-detail #content-errormsg {
+  padding-top: 50px; }
+
+#project-comment #comment-loader {
+  padding-top: 50px;
+  padding-bottom: 30px; }
+
+#project-comment #comment-errormsg {
+  padding-top: 50px; }
+
+#supporter-errormsg, #moment-errormsg {
+  padding-top: 50px; }
+
+#project-supporter:after {
+  clear: both;
+  display: block;
+  content: ""; }
+
+#project-supporter .supporter-wrap {
+  width: 20%;
+  height: 205px;
+  box-sizing: border-box;
+  padding: 10px 5px;
+  float: left; }
+  #project-supporter .supporter-wrap .supporter-userinfo {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.3s ease; }
+  #project-supporter .supporter-wrap .supporter-avatar {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    margin-top: 15px; }
+    #project-supporter .supporter-wrap .supporter-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%; }
+  #project-supporter .supporter-wrap .supporter-userinfo-name {
+    margin-top: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #505050; }
+
+@media screen and (max-width: 1400px) {
+  .project-intro, .project-wrap {
+    width: 73%; }
+  .project-initiator, .project-feedback {
+    width: 25%; }
+  .project-initiator .initiator-header .initiator-avatar {
+    padding-top: 50px;
+    width: 190px;
+    height: 190px; }
+  .project-initiator .initiator-header .initiator-info {
+    padding: 30px; }
+    .project-initiator .initiator-header .initiator-info .initiator-intro {
+      padding-top: 15px; }
+  #project-supporter .supporter-wrap {
+    width: 25%; } }
+
+@media screen and (max-width: 1100px) {
+  .project-title {
+    font-size: 2.2rem; }
+  .project-intro, .project-wrap {
+    width: 100%; }
+  .project-initiator, .project-feedback {
+    width: 100%; }
+  .project-initiator {
+    position: relative;
+    height: 175px; }
+    .project-initiator .initiator-header .initiator-avatar {
+      padding-top: 25px;
+      padding-left: 25px;
+      width: 80px;
+      height: 80px;
+      margin: 0;
+      float: left; }
+    .project-initiator .initiator-header .initiator-info {
+      margin-left: 100px;
+      padding: 40px 40px; }
+      .project-initiator .initiator-header .initiator-info .initiator-name {
+        text-align: left; }
+      .project-initiator .initiator-header .initiator-info .initiator-intro {
+        padding-top: 5px; }
+    .project-initiator .initiator-follow {
+      bottom: 20px;
+      left: 15px;
+      height: 35px;
+      width: 95px;
+      line-height: 35px;
+      border-radius: 10px;
+      font-size: 1.2rem; }
+      .project-initiator .initiator-follow:before {
+        padding-right: 5px;
+        font-size: 1.2rem; }
+  #project-supporter .supporter-wrap {
+    width: 20%; } }
+
+@media screen and (max-width: 900px) {
+  .project-title {
+    font-size: 2rem; }
+  .project-intro {
+    height: auto; }
+    .project-intro .intro-content {
+      height: auto; }
+      .project-intro .intro-content .intro-left {
+        float: none;
+        width: 100%;
+        height: 450px; }
+      .project-intro .intro-content .intro-right {
+        float: none;
+        width: 100%;
+        height: auto; }
+      .project-intro .intro-content .intro-details .intro-detail {
+        float: left;
+        height: auto;
+        width: 25%;
+        padding: 15px;
+        font-size: 1.1rem; }
+        .project-intro .intro-content .intro-details .intro-detail span {
+          font-size: 1.4rem; }
+      .project-intro .intro-content .intro-details .intro-status {
+        margin-top: 22px; }
+    .project-intro .intro-btns {
+      clear: both;
+      position: static; }
+  #project-supporter .supporter-wrap {
+    width: 25%; } }
+
+@media screen and (max-width: 800px) {
+  .project-intro .intro-btns #intro-btn-share {
+    font-size: 1.2rem !important;
+    line-height: 50px !important; } }
+
+@media screen and (max-width: 700px) {
+  .project-wrap .project-tabs ul .project-tab {
+    width: 25%; }
+  #project-supporter .supporter-wrap {
+    height: 190px; }
+    #project-supporter .supporter-wrap .supporter-avatar {
+      width: 100px;
+      height: 100px; } }
+
+@media screen and (max-width: 600px) {
+  .project-title {
+    font-size: 1.8rem; }
+  .project-intro .intro-content .intro-left {
+    height: 350px; }
+  #project-supporter .supporter-wrap {
+    height: 160px; }
+    #project-supporter .supporter-wrap .supporter-avatar {
+      width: 80px;
+      height: 80px;
+      margin-top: 10px; } }
+
+@media screen and (max-width: 500px) {
+  .project-intro .intro-content .intro-left {
+    height: 300px; }
+  .project-intro .intro-content .intro-details .intro-detail {
+    width: 33.3%;
+    font-size: 1rem; }
+    .project-intro .intro-content .intro-details .intro-detail span {
+      font-size: 1.3rem; }
+  .project-intro .intro-content .intro-details .intro-status {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    margin-top: 0; }
+  .project-intro .intro-btns #intro-btn-share {
+    line-height: 45px !important; }
+  .project-wrap .project-tabs ul .project-tab:before {
+    font-size: 1.3rem;
+    padding-right: 6px; }
+  #project-supporter .supporter-wrap {
+    width: 33.333333%; } }
+
+@media screen and (max-width: 400px) {
+  .project-wrap .project-tabs ul .project-tab {
+    font-size: 1rem; }
+    .project-wrap .project-tabs ul .project-tab:before {
+      font-size: 1.1rem;
+      padding-right: 3px; }
+  .project-wrap .project-content {
+    padding: 20px 10px; }
+  #project-supporter .supporter-wrap {
+    width: 50%; } }

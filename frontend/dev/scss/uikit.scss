@@ -1,0 +1,792 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "theme/variables.scss";
+@import "import/font-awesome.scss";
+
+//------------通用kit样式--------------
+//容纳大多数kit的容器
+.content-wrap{
+  margin-top: 20px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+//分组容器
+.group-wrap{}
+//容纳kit的容器
+.kit-wrap{
+  clear: both;
+}
+//基本kit块
+.kit-block{
+  @extend %kit_style_default;
+  background-color: $color_background_light;
+  margin: 20px auto;
+  box-sizing: border-box;
+  position: relative;
+}
+//宽度为100%的kit块
+.content-block{
+  @extend .kit-block;
+  width: 100%;
+}
+//kit中的内容部分
+.kit-content{
+  box-sizing: border-box;
+  padding: 20px;
+}
+//块标题
+.block-title{
+  clear: both;
+  font-size: 2rem;
+  a{
+    color: $color_text_dark;
+    @include transition_all(0.2s);
+    &:hover{
+      color: $color_red_2;
+    }
+  }
+  &:before{
+    display: inline-block;
+    content: "";
+    width: 16px;
+    height: 28px;
+    background-image: url(../img/Title-01.png);
+    background-size: cover;
+    margin-right: 5px;
+    margin-bottom: -4px;
+  }
+}
+
+//loader
+.kit-loader{
+  height: 25px;
+  width: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin: auto;
+  &.loaded{
+    display: none;
+  }
+  .loader-inner{
+    width: 100%;
+    height: 100%;
+  }
+}
+.kit-errormsg{
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+//tab
+.kit-tabs{
+  ul{
+    width: 100%;
+    height: 55px;
+    line-height: 55px;
+    box-sizing: border-box;
+    .kit-tab{
+      font-size: 1.3rem;
+      text-align: center;
+      width: 140px;
+      float: left;
+      height: 100%;
+      cursor: pointer;
+      box-sizing: border-box;
+      border-bottom: 0;
+      overflow: hidden;
+      @include transition_all(0.15s);
+      &:before{
+        color: $color_red_1;
+        font-size: 1.4rem;
+        padding-right: 8px;
+      }
+      &:hover, &.FFtab-active{
+        border-bottom: 4px solid $color_red_1;
+      }
+    }
+  }
+}
+//kit有背景标题
+.kit-title{
+  height: 55px;
+  line-height: 55px;
+  width: 100%;
+  background-color: $color_red_1;
+  color: $color_text_light;
+  box-sizing: border-box;
+  padding: 0 25px;
+  .kit-title-left{
+    font-size: 1.4rem;
+    &:before{
+       @include font_icon_content($fa-var-list-ul);
+       padding-right: 10px;
+    }
+  }
+  .kit-title-right{
+    float: right;
+    font-size: 1.1rem;
+  }
+  a{
+    color: $color_text_light;
+  }
+}
+//kit底部按钮栏
+.kit-bottombar{
+  height: 55px;
+  width: 100%;
+  line-height: 55px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 1.4rem;
+  background-color: $color_red_1;
+  .kit-bottombar-btn{
+    width: 50%;
+    height: 100%;
+    color: $color_text_light;
+    background-color: $color_red_1;
+    cursor: pointer;
+    z-index: 99;
+    float: left;
+    display: block;
+    @include transition_all();
+    &:before{
+      @include font_icon_content($fa-var-heart);
+      padding-right: 10px;
+    }
+    &:hover {
+      background-color: $color_primary;
+      color: $color_text_light;
+    }
+    &.active,&.active:hover {
+      color: $color_red_1;
+      background-color: $color_background_light;
+    }
+  }
+}
+//kit进度tab
+.kit-progress-tab{
+  @extend %kit_style_default;
+  background-color: $color_background_light;
+  .kit-tab{
+    width: 25%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 1.4rem;
+    text-align: center;
+    float: left;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &.FFtab-visited{
+      color: $color_disabled;
+    }
+    &.FFtab-active{
+      background-color: $color_red_1;
+      color: $color_text_light;
+      &:before{
+        position: absolute;
+        left: -15px;
+        top: 0;
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 30px solid $color_red_1;
+        border-bottom: 30px solid $color_red_1;
+        border-left: 30px solid $color_background_light;
+      }
+      &:after{
+        position: absolute;
+        right: -15px;
+        top: 0;
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 30px solid $color_background_light;
+        border-bottom: 30px solid $color_background_light;
+        border-left: 30px solid $color_red_1;
+      }
+    }
+    &:first-child{
+      &:before{
+        display: none;
+      }
+    }
+    &:last-child{
+      &:after{
+        display: none;
+      }
+    }
+  }
+}
+//kit 普通按钮
+.FFbtn{
+  width: 120px;
+  display: block;
+  background-color: $color_red_1;
+  color: $color_text_light;
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  @include transition_all();
+  &:hover{
+    color: $color_text_light;
+    background-color: $color_red_2;
+  }
+  &.cancel{
+    background-color: $color_disabled;
+    &:hover{
+      background-color: darken($color_disabled,10%);
+    }
+  }
+  &.disabled, &:disabled{
+    background-color: $color_disabled;
+    cursor: default;
+  }
+}
+
+.kit-input{
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  border-bottom: 2px solid $color_text;
+  @include transition_all();
+  &:focus, &.error{
+    border-bottom-color: $color_red_1;
+  }
+  &.valid{
+    border-bottom-color: $color_green_1;
+  }
+  &.kit-input-short{
+    max-width: 400px;
+  }
+}
+
+
+//------------radio checkbox------------
+.kit-check{
+  &:after{
+    content: "";
+    clear: both;
+    display: block;
+  }
+  label{
+    position: relative;
+    font-size: 1.5rem;
+    float: left;
+    input{
+      display: none;
+      width: 16px;
+      height: 36px;
+      margin: 0;
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      z-index: -1;
+      left: 0;
+      visibility: hidden;
+    }
+    input:checked + .check-arrow{
+      border-bottom-color: $color_red_1;
+      &:after{
+        border-bottom-color: $color_red_1;
+      }
+    }
+    .check-arrow{
+      display: inline-block;
+      position: relative;
+      top: 5px;
+      width: 0;
+      height: 0;
+      border-radius: 0;
+      opacity: 1;
+      background: transparent;
+      border-right: 14px solid transparent;
+      border-left: 14px solid transparent;
+      border-bottom: 24px solid $color_text;
+      @include transition_all(0.2s);
+      &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 4px;
+        left: -10px;
+        opacity: 1;
+        background: transparent;
+        border-radius: 0;
+        width: 0;
+        height: 0;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        border-bottom: 18px solid $color_background_light;
+      }
+      &:after{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 8px;
+        left: -7px;
+        opacity: 1;
+        background: transparent;
+        border-radius: 0;
+        width: 0;
+        height: 0;
+        border-right: 7px solid transparent;
+        border-left: 7px solid transparent;
+        border-bottom: 12px solid $color_background_light;
+        @include transition_all(0.2s);
+      }
+    }
+  }
+}
+
+//------------地址选择器-----------
+.address-selector{
+  &:after{
+    content: "";
+    clear: both;
+    display: block;
+  }
+}
+.address-list{
+  width: 50%;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  float: left;
+  color: $color_text;
+  box-sizing: border-box;
+  @include transition_all();
+  &:nth-child(1), &:nth-child(2){
+    margin-top: 0;
+  }
+  &:nth-child(2n){
+    padding-left: 10px;
+  }
+  &:nth-child(2n+1){
+    clear: both;
+    padding-right: 10px;
+  }
+  &:hover{
+    .address-default{
+      display: block;
+    }
+    .address-alter{
+      display: block;
+    }
+  }
+  &.selected{
+    .address-block{
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 3px solid $color_red_1;
+      position: relative;
+      padding: 17px;
+      &:before{
+        position: absolute;
+        right: 3px;
+        bottom: 0;
+        font-size: 1.1rem;
+        @include font_icon_content($fa-var-check);
+        color: $color_text_light;
+        z-index: 10;
+      }
+      &:after{
+        position: absolute;
+        display: block;
+        content: "";
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 40px solid transparent;
+        border-right: 40px solid $color_red_1;
+      }
+    }
+    .address-default{
+      top: 7px;
+      right: 17px;
+    }
+    .address-alter{
+      top: 27px;
+      right: 17px;
+    }
+    .address-delete{
+      top: 47px;
+      right: 17px;
+    }
+  }
+  .address-block{
+    cursor: pointer;
+    margin-bottom: 0;
+    margin-top: 0;
+    box-sizing: border-box;
+    @include transition_all(0.3s, box-shadow);
+    &:hover{
+      box-shadow: 0 2px 8px 1px rgba(0,0,0,0.3);
+    }
+  }
+  .address-content{
+    padding-bottom: 5px;
+    &:last-child{
+      padding-bottom: 0;
+    }
+    .address-hint{
+      float: left;
+      display: block;
+      width: 100px;
+      text-align: right;
+    }
+    .address-inner{
+      display: block;
+      margin-left: 100px;
+      padding-left: 5px;
+    }
+  }
+  .address-editor{
+    display: none;
+    position: absolute;
+    font-size: 1rem;
+    cursor: pointer;
+    color: $color_disabled;
+    &:hover{
+      color: $color_orange_1;
+    }
+  }
+  .address-default{
+    top: 10px;
+    right: 20px;
+    &.default{
+      display: block;
+      cursor: default;
+      color: $color_orange_1;
+    }
+  }
+  .address-alter{
+    top: 30px;
+    right: 20px;
+  }
+  .address-delete{
+    top: 50px;
+    right: 20px;
+  }
+}
+.editor{
+  .address-editor {
+    display: block !important;
+  }
+}
+#address-add{
+  .address-block{
+    cursor: default;
+  }
+  .address-add-mask{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    background-color: $color_background_light;
+    text-align: center;
+    color: lighten($color_text, 5%);
+    &.active{
+      display: none;
+      & + .address-add-content{
+        display: block;
+      }
+    }
+    &:before{
+      display: block;
+      font-size: 7rem;
+      line-height: 120px;
+      margin: auto;
+      @include font_icon_content($fa-var-cube);
+    }
+    span{
+      display: block;
+      padding-top: 5px;
+      &:before{
+        padding-right: 10px;
+        @include font_icon_content($fa-var-plus-circle);
+      }
+    }
+  }
+  .address-add-content{
+    display: none;
+  }
+  .address-content{
+    padding-bottom: 10px;
+    .address-inner{
+      input{
+        width: 80%;
+        height: 100%;
+        border: 0;
+        box-sizing: border-box;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 1px solid $color_text;
+        @include transition_all();
+        &:focus{
+          border-bottom-color: $color_red_1;
+        }
+        &.valid{
+          border-bottom-color: $color_green_1;
+        }
+      }
+    }
+    select{
+      font: 14px/1.6 microsoft yahei,Helvetica,arial,sans-serif
+    }
+  }
+  .address-alert{
+    color: $color_red_1;
+    font-size: 1.1rem;
+    margin-left: 100px;
+    margin-bottom: 5px;
+  }
+  .address-add-btn{
+    margin-top: 5px;
+    float: left;
+  }
+  .address-cancel-btn{
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+}
+//---------------------地址选择器结束--------------
+
+
+//----------------分页器--------------
+.kit-pagination{
+  width: 100%;
+  text-align: center;
+  li{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 28px;
+    box-sizing: border-box;
+    border: 1px solid $color_disabled;
+    margin-right: 10px;
+    margin-top: 10px;
+    @include transition_all();
+    &:last-child{
+      margin-right: 0;
+    }
+    a{
+      display: block;
+      width: 100%;
+      height: 100%;
+      .prev-btn{
+        &:before{
+          font-size: 1.1rem;
+          @include font_icon_content($fa-var-angle-double-left);
+        }
+      }
+      .next-btn{
+        &:before{
+          font-size: 1.1rem;
+          @include font_icon_content($fa-var-angle-double-right);
+        }
+      }
+    }
+    &.active{
+      border-color: $color_red_1;
+    }
+    &.disabled{
+      a{
+        color: $color_disabled;
+        cursor: default;
+      }
+    }
+  }
+}
+//---------------分页器结束--------------
+//
+//----------------图片预览------------
+.zoom{
+  cursor: pointer;
+}
+#FFviewer{
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.92);
+  #FFviewer-close-btn{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    z-index: 99999;
+    &:before{
+      display: block;
+      width: 100%;
+      height: 100%;
+      font-size: 2rem;
+      color: $color_text_light;
+      @include font_icon_content($fa-var-close);
+      @include transition_all();
+    }
+    &:hover:before{
+      color: $color_red_1;
+    }
+  }
+  #FFviewer-img-wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #FFviewer-img{
+    position: absolute;
+    display: block;
+  }
+}
+//
+@media screen and (max-width: 1100px) {
+  .address-list{
+    width: 100%;
+    float: none;
+    &:nth-child(2){
+      margin-top: 20px;
+    }
+    &:nth-child(2n){
+      padding-left: 0;
+    }
+    &:nth-child(2n+1){
+      padding-right: 0;
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .kit-title{
+    height: 50px;
+    line-height: 50px;
+  }
+  .kit-progress-tab{
+    .kit-tab{
+      font-size: 1.2rem;
+      height: 50px;
+      line-height: 50px;
+      &.FFtab-active{
+        &:before{
+          left: -10px;
+          border-top: 25px solid $color_red_1;
+          border-bottom: 25px solid $color_red_1;
+          border-left: 25px solid $color_background_light;
+        }
+        &:after{
+          right: -10px;
+          border-top: 25px solid $color_background_light;
+          border-bottom: 25px solid $color_background_light;
+          border-left: 25px solid $color_red_1;
+        }
+      }
+    }
+  }
+  .kit-tabs{
+    ul{
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+  .kit-title{
+    height: 50px;
+    line-height: 50px;
+  }
+  .kit-bottombar{
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2rem;
+    .kit-bottombar-btn{
+      &:before{
+        padding-right: 5px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .kit-block{
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .kit-progress-tab{
+    .kit-tab{
+      height: 40px;
+      line-height: 40px;
+      &.FFtab-active{
+        &:before{
+          // left: -5px;
+          border-top: 20px solid $color_red_1;
+          border-bottom: 20px solid $color_red_1;
+          border-left: 20px solid $color_background_light;
+        }
+        &:after{
+          // right: -5px;
+          border-top: 20px solid $color_background_light;
+          border-bottom: 20px solid $color_background_light;
+          border-left: 20px solid $color_red_1;
+        }
+      }
+    }
+  }
+  .kit-tabs{
+    ul{
+      height: 45px;
+      line-height: 45px;
+      .kit-tab{
+        font-size: 1.2rem;
+      }
+    }
+  }
+  .kit-title{
+    height: 40px;
+    line-height: 40px;
+    padding: 0 25px;
+    .kit-title-left{
+      font-size: 1.2rem;
+    }
+  }
+  .address-list{
+    .address-block{
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .address-content{
+      .address-hint{
+        width: 90px;
+      }
+      .address-inner{
+        margin-left: 90px;
+      }
+    }
+  }
+  .kit-bottombar{
+    height: 45px;
+    line-height: 45px;
+    font-size: 1.1rem;
+    .kit-bottombar-btn{
+      &:before{
+        padding-right: 3px;
+      }
+    }
+  }
+}

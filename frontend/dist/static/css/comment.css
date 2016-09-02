@@ -1,0 +1,344 @@
+@charset "UTF-8";
+.inner-comment {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2); }
+
+.inner-comment {
+  border-radius: 8px; }
+
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+.comment-login {
+  font-size: 1.1rem;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ababab; }
+
+.comment-text {
+  border-bottom: 1px solid #ababab;
+  padding-bottom: 20px !important;
+  margin-top: 0 !important;
+  margin-bottom: 20px; }
+  .comment-text .comment-input {
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box; }
+    .comment-text .comment-input textarea {
+      width: 100%;
+      height: 90px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none;
+      border: 1px solid #ababab; }
+    .comment-text .comment-input .comment-input-more {
+      color: #ababab;
+      margin-top: 10px;
+      width: 100%; }
+      .comment-text .comment-input .comment-input-more:after {
+        display: block;
+        content: "";
+        clear: both; }
+      .comment-text .comment-input .comment-input-more .comment-hint {
+        width: 100px;
+        line-height: 30px;
+        float: left; }
+        .comment-text .comment-input .comment-input-more .comment-hint.overflow {
+          color: #ee554d; }
+      .comment-text .comment-input .comment-input-more .comment-submit {
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #ee554d;
+        text-align: center;
+        line-height: 30px;
+        transition: all 0.3s ease; }
+        .comment-text .comment-input .comment-input-more .comment-submit:hover {
+          background-color: #ec2c22; }
+
+.comment-wrap {
+  clear: both;
+  width: 100%;
+  min-height: 100px;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  border-bottom: 1px solid #ababab; }
+  .comment-wrap:first-child {
+    margin-top: 0; }
+  .comment-wrap:last-child {
+    border-bottom: 0;
+    padding-bottom: 5px; }
+  .comment-wrap .comment-userinfo {
+    width: 140px;
+    float: left; }
+    .comment-wrap .comment-userinfo:after {
+      content: "";
+      clear: both;
+      display: block; }
+    .comment-wrap .comment-userinfo .comment-avatar {
+      margin: auto;
+      width: 60px;
+      height: 60px; }
+      .comment-wrap .comment-userinfo .comment-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; }
+    .comment-wrap .comment-userinfo .comment-userinfo-name {
+      text-align: center;
+      font-size: 1.1rem;
+      padding-top: 10px; }
+    .comment-wrap .comment-userinfo .comment-userinfo-intro {
+      padding-top: 5px;
+      color: #ababab; }
+  .comment-wrap .comment-content {
+    margin-left: 140px;
+    padding: 0 20px;
+    box-sizing: border-box; }
+    .comment-wrap .comment-content .comment-inner {
+      font-size: 1.1rem;
+      min-height: 70px; }
+    .comment-wrap .comment-content .comment-images:after {
+      content: "";
+      display: block;
+      clear: both; }
+    .comment-wrap .comment-content .comment-images .comment-image {
+      width: 120px;
+      height: 120px;
+      float: left;
+      padding-top: 20px;
+      padding-right: 20px;
+      overflow: hidden; }
+      .comment-wrap .comment-content .comment-images .comment-image img {
+        width: 100%;
+        min-height: 100%; }
+    .comment-wrap .comment-content .comment-more {
+      color: #ababab;
+      margin-top: 10px;
+      width: 100%; }
+      .comment-wrap .comment-content .comment-more:after {
+        content: "";
+        clear: both;
+        display: block; }
+      .comment-wrap .comment-content .comment-more .comment-time {
+        width: 80px;
+        float: left; }
+      .comment-wrap .comment-content .comment-more .comment-btns {
+        float: right;
+        margin-right: 10px; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-btn {
+          margin-right: 15px;
+          float: right;
+          cursor: pointer; }
+          .comment-wrap .comment-content .comment-more .comment-btns .comment-btn:first-child {
+            margin-right: 0; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-reply {
+          color: #d65152; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-like:before {
+          font-size: 1.1rem;
+          padding-right: 2px;
+          font-family: "FontAwesome";
+          content: ""; }
+        .comment-wrap .comment-content .comment-more .comment-btns .comment-like.liked {
+          color: #d65152; }
+
+.inner-comment {
+  box-sizing: border-box;
+  padding: 15px 10px 0;
+  margin-top: 10px;
+  background-color: #f0f0f0;
+  position: relative; }
+  .inner-comment:before {
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10px;
+    right: 78px;
+    border-bottom: 10px solid #f0f0f0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent; }
+  .inner-comment .kit-loader {
+    padding-top: 15px;
+    padding-bottom: 25px; }
+  .inner-comment .kit-errormsg {
+    padding-top: 10px;
+    padding-bottom: 20px; }
+  .inner-comment .kit-pagination {
+    padding-bottom: 15px;
+    margin-top: 0; }
+  .inner-comment .comment-wrap {
+    min-height: auto;
+    padding-bottom: 10px;
+    margin-top: 10px; }
+    .inner-comment .comment-wrap:first-child {
+      margin-top: 0; }
+    .inner-comment .comment-wrap .comment-userinfo {
+      width: 100%;
+      float: none; }
+      .inner-comment .comment-wrap .comment-userinfo .comment-avatar {
+        margin: 0;
+        padding-left: 10px;
+        width: 35px;
+        height: 35px;
+        float: left;
+        padding-right: 10px; }
+      .inner-comment .comment-wrap .comment-userinfo .comment-userinfo-name {
+        text-align: left;
+        font-size: 1.1rem;
+        padding-top: 5px; }
+      .inner-comment .comment-wrap .comment-userinfo .comment-userinfo-intro {
+        display: none; }
+    .inner-comment .comment-wrap .comment-content {
+      margin-left: 0;
+      clear: both;
+      padding: 8px 15px 0; }
+      .inner-comment .comment-wrap .comment-content .comment-inner {
+        min-height: auto; }
+      .inner-comment .comment-wrap .comment-content .comment-more {
+        margin-top: 5px; }
+  .inner-comment .comment-text {
+    margin-bottom: 10px;
+    padding-bottom: 10px !important; }
+    .inner-comment .comment-text .comment-userinfo {
+      display: none; }
+    .inner-comment .comment-text .comment-input {
+      margin-left: 0;
+      margin-top: 0;
+      padding: 0 10px;
+      box-sizing: border-box; }
+      .inner-comment .comment-text .comment-input textarea {
+        height: 35px;
+        box-sizing: border-box;
+        padding: 5px 10px;
+        resize: none; }
+      .inner-comment .comment-text .comment-input .comment-input-more {
+        margin-top: 5px; }
+        .inner-comment .comment-text .comment-input .comment-input-more .comment-hint {
+          line-height: 30px; }
+        .inner-comment .comment-text .comment-input .comment-input-more .comment-submit {
+          width: 80px; }
+
+.reply-comment {
+  margin-top: 5px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #ababab;
+  background-color: #ffffff; }
+  .reply-comment .comment-text {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important; }
+
+@media screen and (max-width: 900px) {
+  .comment-text .comment-userinfo {
+    width: 100px; }
+  .comment-text .comment-input {
+    margin-left: 100px; }
+  .comment-wrap .comment-userinfo {
+    width: 100px; }
+  .comment-wrap .comment-content {
+    margin-left: 100px; } }
+
+@media screen and (max-width: 600px) {
+  .comment-text .comment-input {
+    clear: both;
+    margin-left: 0;
+    margin-top: 15px;
+    padding: 0 10px;
+    box-sizing: border-box; }
+    .comment-text .comment-input textarea {
+      width: 100%;
+      height: 120px;
+      box-sizing: border-box;
+      padding: 10px;
+      resize: none; }
+    .comment-text .comment-input .comment-input-more {
+      color: #ababab;
+      margin-top: 10px;
+      width: 100%; }
+      .comment-text .comment-input .comment-input-more:after {
+        display: block;
+        content: "";
+        clear: both; }
+      .comment-text .comment-input .comment-input-more .comment-hint {
+        width: 100px;
+        line-height: 30px;
+        float: left; }
+      .comment-text .comment-input .comment-input-more .comment-submit {
+        float: right;
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #ee554d;
+        text-align: center;
+        line-height: 30px;
+        transition: all 0.3s ease; }
+        .comment-text .comment-input .comment-input-more .comment-submit:hover {
+          background-color: #ec2c22; }
+  .comment-wrap {
+    min-height: auto;
+    padding-bottom: 10px; }
+    .comment-wrap:last-child {
+      padding-bottom: 0; }
+    .comment-wrap .comment-userinfo {
+      width: 100%;
+      float: none; }
+      .comment-wrap .comment-userinfo .comment-avatar {
+        margin: 0;
+        padding-left: 10px;
+        width: 50px;
+        height: 50px;
+        float: left;
+        padding-right: 20px; }
+      .comment-wrap .comment-userinfo .comment-userinfo-name {
+        text-align: left;
+        font-size: 1.1rem;
+        padding-top: 10px; }
+      .comment-wrap .comment-userinfo .comment-userinfo-intro {
+        padding-top: 0;
+        font-size: 1rem; }
+    .comment-wrap .comment-content {
+      margin-left: 0;
+      clear: both;
+      padding: 15px 15px 0; }
+      .comment-wrap .comment-content .comment-inner {
+        min-height: auto; }
+      .comment-wrap .comment-content .comment-more {
+        margin-top: 15px; } }

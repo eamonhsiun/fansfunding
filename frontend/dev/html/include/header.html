@@ -1,0 +1,45 @@
+  <div id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="static/img/fans.png" alt="">
+      </a>
+      <div class="profile">
+        <div class="profile-login" id="profile-login">
+          <div class="profile-avatar">
+            <a href="space.html"><img src="static/img/27.jpg" alt=""></a>
+          </div>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown-arrow"></div>
+            <ul>
+              <a href="space.html"><li>我的空间</li></a>
+              <!-- <a href="###"><li>我的钱包</li></a> -->
+              <a href="setting.html"><li>个人设置</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="profile-not-login" id="profile-not-login">
+          <a href="login.html">登录</a>
+          <a href="login.html?#signup">注册</a>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-dropdown-arrow"></div>
+        <ul>
+          <a href="index.html"><li @@if ( page === 'index' ) {class="active"}>首页</li>
+          </a>
+          <a href="project-list.html"><li  @@if ( page === 'project_list' ) {class="active"}>浏览项目</li></a>
+          <!-- <a href="initiation.html"><li @@if ( page === 'initiation' ) {class="active"}>发起项目</li></a> -->
+          <a href="download.html"><li @@if ( page === 'download' ) {class="active"}>下载APP</li></a>
+        </ul>
+      </div>
+      <div class="search">
+        <form action="project-list.html">
+          <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
+          <label for="search-text"></label>
+          <input type="submit" class="search-submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">

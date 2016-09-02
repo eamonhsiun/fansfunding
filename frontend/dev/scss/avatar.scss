@@ -1,0 +1,135 @@
+@charset "utf-8";
+@import "theme/color.scss";
+@import "import/font-awesome.scss";
+@import "import/cropper.min.scss";
+
+.setting-wrap{
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.setting-content{
+  clear: both;
+  padding: 30px 40px;
+}
+
+.setting-list{
+  margin-top: 40px;
+  clear: both;
+  width: 100%;
+  &:after{
+    clear: both;
+    display: block;
+    content: "";
+  }
+  .setting-hint{
+    font-size: 1.5rem;
+    display: block;
+    float: left;
+    text-align: right;
+    width: 120px;
+    height: 100%;
+    padding-right: 20px;
+  }
+  &:first-child{
+    margin-top: 20px;
+  }
+  .setting-inner{
+    float: left;
+  }
+}
+.setting-alert{
+  text-align: center;
+  color: $color_primary;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  display: none;
+}
+.setting-submit{
+  clear: both;
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.4rem;
+  border-radius: 10px;
+}
+#upload-avatar-submit{
+  &:before{
+    @include font_icon_content($fa-var-upload);
+    padding-right: 10px;
+  }
+}
+
+#setting-avatar{
+  position: relative;
+  .avatar-preview-wrap{
+    &:after{
+      content: "";
+      clear: both;
+      display: block;
+    }
+    >div{
+      border-radius: 50%;
+      overflow: hidden;
+      float: left;
+      margin-right: 30px;
+      &:last-child{
+        margin-right: 0;
+      }
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    #avatar-preview-large{
+      width: 180px;
+      height: 180px;
+    }
+    #avatar-preview-middle{
+      width: 100px;
+      height: 100px;
+    }
+    #avatar-preview-small{
+      width: 60px;
+      height: 60px;
+    }
+  }
+  .cropper-wrap{
+    width: 500px;
+    height: 300px;
+    display: none;
+    margin-top: 20px;
+    img{
+      display: block;
+      width: 200px;
+      height: 200px;
+    }
+  }
+  input[type="file"]{
+    display: none;
+  }
+  #upload-avatar-btn{
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .setting-contents{
+    .setting-content{
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+  .setting-list{
+    >span{
+      padding-left: 20px;
+    }
+  }
+  .setting-submit{
+    a{
+      margin: auto;
+    }
+  }
+}

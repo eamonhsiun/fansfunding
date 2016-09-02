@@ -1,0 +1,30 @@
+@@include('include/head.html',{"title": "修改头像 | FAN$","csstype": "setting"})
+@@include('include/header.html',{"page": "null"})
+  <div class="container">
+    <div class="setting-wrap">
+      <div class="block-title">修改头像</div>
+      <div class="kit-block">
+        <div class="kit-content setting-content">
+          <div class="setting-list">
+            <span class="setting-hint">头像：</span>
+            <div class="setting-inner" id="setting-avatar">
+              <div class="avatar-preview-wrap">
+                <div class="avatar-preview" id="avatar-preview-large"><img src="" alt=""></div>
+                <div class="avatar-preview" id="avatar-preview-middle"><img src="" alt=""></div>
+                <div class="avatar-preview" id="avatar-preview-small"><img src="" alt=""></div>
+              </div>
+              <div class="FFbtn" id="upload-avatar-btn">选择文件</div>
+              <div class="cropper-wrap">
+                <img id="new-avatar" src=""alt="">
+              </div>
+              <input type="file" accept="image/png,image/jpeg" name="file" id="upload-avatar-input">
+            </div>
+          </div>
+          <div class="setting-alert" id="upload-avatar-alert" style="display: none">上传成功</div>
+          <div class="setting-submit FFbtn" id="upload-avatar-submit">保存头像</div>
+        </div>
+      </div>
+    </div>
+  </div>
+@@include('include/footer.html')
+@@include('include/script.html',{"jstype": "avatar"})

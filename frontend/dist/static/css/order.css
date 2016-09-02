@@ -1,0 +1,207 @@
+@charset "UTF-8";
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/byscuits
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot?v=4.6.3");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.6.3") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.6.3") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.6.3") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+#order .kit-progress-tab .kit-tab {
+  width: 33.3%;
+  cursor: default; }
+
+.order-step {
+  padding-bottom: 40px;
+  text-align: center; }
+  .order-step .order-submit {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4rem;
+    border-radius: 10px; }
+    .order-step .order-submit:before {
+      font-family: "FontAwesome";
+      content: "";
+      padding-right: 10px; }
+  .order-step .order-step-two {
+    border-radius: 5px;
+    width: 40%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4rem;
+    display: inline-block; }
+    .order-step .order-step-two.order-success {
+      margin-right: 50px; }
+
+#order-project {
+  float: left;
+  width: 70%;
+  box-sizing: border-box;
+  padding-right: 10px; }
+
+#order-feedback {
+  float: right;
+  width: 30%;
+  box-sizing: border-box;
+  padding-left: 10px; }
+
+#order-money {
+  float: left;
+  width: 70%;
+  box-sizing: border-box;
+  padding-right: 10px; }
+  #order-money .kit-block {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.2rem;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    #order-money .kit-block span {
+      color: #ee554d;
+      font-size: 2rem;
+      padding-left: 5px;
+      padding-right: 5px; }
+
+#order-project-info {
+  width: 100%;
+  height: 140px; }
+  #order-project-info .project-cover {
+    width: 210px;
+    height: 100%;
+    float: left;
+    overflow: hidden; }
+    #order-project-info .project-cover img {
+      min-width: 210px;
+      max-width: 250px;
+      min-height: 140px; }
+  #order-project-info .project-content {
+    height: 100%;
+    margin-left: 210px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #505050;
+    position: relative; }
+    #order-project-info .project-content .project-title {
+      padding-top: 10px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden; }
+    #order-project-info .project-content .project-description {
+      font-size: 1.1rem;
+      padding-top: 15px;
+      height: 60px;
+      overflow: hidden; }
+
+#order-feedback .feedback-money {
+  font-size: 1.5rem; }
+  #order-feedback .feedback-money span {
+    padding-left: 5px;
+    padding-right: 5px; }
+
+#order-feedback .feedback-num {
+  padding-top: 5px;
+  color: #ababab; }
+
+#order-feedback .feedback-detail {
+  width: 100%;
+  padding-top: 5px; }
+  #order-feedback .feedback-detail .feedback-detail-content {
+    font-size: 1.1rem; }
+    #order-feedback .feedback-detail .feedback-detail-content ul li {
+      list-style-type: disc;
+      list-style-position: inside; }
+  #order-feedback .feedback-detail .feedback-detail-pics .feedback-detail-pic {
+    margin-top: 10px;
+    float: left;
+    margin-right: 10px;
+    width: 100px;
+    height: 100px; }
+    #order-feedback .feedback-detail .feedback-detail-pics .feedback-detail-pic img {
+      width: 100%;
+      height: 100%; }
+  #order-feedback .feedback-detail .feedback-detail-pics:after {
+    content: "";
+    display: block;
+    clear: both; }
+
+#order-address {
+  margin-bottom: 40px;
+  margin-top: 20px; }
+  #order-address:after {
+    content: "";
+    display: block;
+    clear: both; }
+
+#pay-confirm {
+  margin-bottom: 30px; }
+
+.pay-info {
+  font-size: 1.8rem;
+  text-align: center; }
+
+.pay-result {
+  width: 500px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px; }
+  .pay-result:after {
+    content: "";
+    display: block;
+    clear: both; }
+  .pay-result .pay-icon {
+    float: left;
+    width: 140px;
+    line-height: 140px;
+    height: 140px; }
+    .pay-result .pay-icon:before {
+      font-size: 160px;
+      color: #5aa133;
+      font-family: "FontAwesome";
+      content: ""; }
+    .pay-result .pay-icon.failure:before {
+      color: #ee554d;
+      font-family: "FontAwesome";
+      content: ""; }
+  .pay-result .pay-content {
+    margin-left: 160px; }
+    .pay-result .pay-content .pay-msg {
+      font-size: 2rem;
+      height: 60px;
+      line-height: 60px;
+      padding-left: 100px;
+      padding-top: 10px; }
+    .pay-result .pay-content .pay-btn {
+      float: left;
+      margin-left: 30px;
+      margin-top: 10px; }
+      .pay-result .pay-content .pay-btn:only-child {
+        margin-left: 100px; }

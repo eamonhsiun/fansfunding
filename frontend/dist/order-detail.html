@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-app-status-bar-style" content="#ec2c22" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ec2c22" />
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>订单详情 | FAN$</title>
+  <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
+  <!-- 公有css -->
+
+  <link rel="stylesheet" href="static/css/common.css">
+  <link rel="stylesheet" href="static/css/uikit.css">
+  <!-- 私有css -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <link rel="stylesheet" type="text/css" href="static/css/order-detail.css">
+  
+</head>
+<body>
+
+  <div id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="static/img/fans.png" alt="">
+      </a>
+      <div class="profile">
+        <div class="profile-login" id="profile-login">
+          <div class="profile-avatar">
+            <a href="space.html"><img src="static/img/27.jpg" alt=""></a>
+          </div>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown-arrow"></div>
+            <ul>
+              <a href="space.html"><li>我的空间</li></a>
+              <!-- <a href="###"><li>我的钱包</li></a> -->
+              <a href="setting.html"><li>个人设置</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="profile-not-login" id="profile-not-login">
+          <a href="login.html">登录</a>
+          <a href="login.html?#signup">注册</a>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-dropdown-arrow"></div>
+        <ul>
+          <a href="index.html"><li >首页</li>
+          </a>
+          <a href="project-list.html"><li  >浏览项目</li></a>
+          <!-- <a href="initiation.html"><li >发起项目</li></a> -->
+          <a href="download.html"><li >下载APP</li></a>
+        </ul>
+      </div>
+      <div class="search">
+        <form action="project-list.html">
+          <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
+          <label for="search-text"></label>
+          <input type="submit" class="search-submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+  <div class="container">
+    <div class="content-wrap" id="order-detail">
+      <div class="block-title">订单详情</div>
+      <div class="order-detail-wrap">
+        <div class="kit-block kit-content">
+          <div class="order-detail-list" id="order-status">
+            <div class="order-detail-hint">订单状态：</div>
+            <div class="order-detail-inner" v-text="orderStatus"></div>
+          </div>
+          <div class="order-info feedback-detail">
+            <div class="order-detail-title">项目</div>
+            <div class="feedback-wrap">
+              <div class="project-title"><a href="project.html?categoryId={{categoryId}}&projectId={{projectId}}" v-text="projectName"></a></div>
+              <div class="feedback-title" v-text="feedbackTitle"></div>
+              <div class="feedback-description" v-text="feedbackDesc"></div>
+              <div class="feedback-money">订单总价：<span v-text="totalFee"></span>元</div>
+              <div class="feedback-images">
+                <div class="feedback-image" v-for="image in feedbackImages" track-by="$index">
+                  <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="order-info order-detail">
+            <div class="order-detail-title">订单</div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">交易时间：</div>
+              <div class="order-detail-inner" v-text="paidTime | time"></div>
+            </div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">订单编号：</div>
+              <div class="order-detail-inner" v-text="orderNo"></div>
+            </div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">交易单号：</div>
+              <div class="order-detail-inner" v-text="tradeNo"></div>
+            </div>
+          </div>
+          <div class="order-info address-detail">
+            <div class="order-detail-title">地址</div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">收货人：</div>
+              <div class="order-detail-inner" v-text="address.name"></div>
+            </div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">收货地址：</div>
+              <div class="order-detail-inner" v-text="address.province + address.city + address.district + address.address"></div>
+            </div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">联系电话：</div>
+              <div class="order-detail-inner" v-text="address.phone"></div>
+            </div>
+            <div class="order-detail-list">
+              <div class="order-detail-hint">邮编：</div>
+              <div class="order-detail-inner" v-text="address.postCode"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ffviewer :status.sync="picViewer.status" :imgsrc="picViewer.src"></ffviewer>
+    </div>
+  </div>
+
+  </div>
+  <div id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-content-right">
+          <ul class="footer-logo">
+            <li><img src="static/img/fans.png" alt=""></li>
+            <li><img src="static/img/Icon_FansFunding.svg" alt=""></li>
+          </ul>
+        </div>
+        <div class="footer-content-left">
+          <div class="footer-copyright">Copyright ©1997-2016 FansFunding All Rights Reserved 武汉瑟瑟发抖公司</div>
+          <ul class="footer-link">
+            <li><a href="###">备案号</a></li>
+            <li><a href="###">认证</a></li>
+            <li><a href="###">获奖</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="back-to-top">TOP</div>
+
+
+  <script src="static/js/lib/vue.js"></script>
+  <script src="static/js/lib/ajax.min.js"></script>
+  <script src="static/js/account.js"></script>
+  <script src="static/js/module/FFloader.js"></script>
+  <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/vue-util.js"></script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+    <script src="static/js/lib/hammerjs/hammer.min.js"></script>
+    <script src="static/js/lib/vue-touch/vue-touch.min.js"></script>
+    <script src="static/js/module/FFviewer.js"></script>
+    <script src="static/js/order-detail.js"></script>
+  
+  
+  </body>
+</html>
+

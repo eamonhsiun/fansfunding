@@ -1,0 +1,87 @@
+@@include('include/head.html',{"title": "支付订单 | FAN$","csstype": "order"})
+@@include('include/header.html',{"page": "order"})
+  <div class="container" id="order">
+    <div class="kit-progress-tab">
+      <ul>
+        <li class="kit-tab FFtab">确认订单</li>
+        <li class="kit-tab FFtab">确认支付</li>
+        <li class="kit-tab FFtab">支付结果</li>
+      </ul>
+    </div>
+    <div class="order-progress">
+      <div class="FFtab-content"id="order-info">
+        <div class="block-title">订单信息</div>
+        <div class="kit-wrap">
+          <div class="kit-group" id="order-project">
+            <a href="project.html?categoryId={{categoryId}}&projectId={{projectId}}" target="_blank">
+              <div class="kit-block kit-content">
+                <div id="order-project-info">
+                  <div class="project-cover">
+                    <img :src="project.data.cover | resource" alt="">
+                  </div>
+                  <div class="project-content">
+                    <div class="project-title" v-text="project.data.name"></div>
+                    <div class="project-description" v-text="project.data.description"></div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="kit-group" id="order-feedback">
+            <div class="kit-block kit-content">
+              <div class="feedback-title" v-text="feedback.target.title"></div>
+              <div class="feedback-money">支持<span v-text="feedback.target.limitation"></span>元</div>
+              <div class="feedback-num">已支持<span v-text="feedback.target.supportTimes"></span>人<span v-if="feedback.target.ceiling>0">，最多<span v-text="feedback.target.ceiling"></span>人</span></div>
+              <div class="feedback-detail">
+                <div class="feedback-detail-content" v-text="feedback.target.description"></div>
+                <div class="feedback-detail-pics">
+                  <div class="feedback-detail-pic" v-for="image in feedback.target.images">
+                    <img class="zoom" v-bind:src="image | resource" @click.prevent="viewPic" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kit-group" id="order-money">
+            <div class="kit-block kit-content">
+              实际支付金额：<span v-text="order.money"></span>元
+            </div>
+          </div>
+        </div>
+        <div class="block-title">地址选择</div>
+        <div class="kit-wrap" id="order-address">
+          <address-selector type="selector-editor" :selectedid.sync="addressId"></address-selector>
+        </div>
+      </div>
+      <div class="FFtab-content">
+        <div class="block-title">支付信息</div>
+        <div class="kit-block kit-content" id="pay-confirm">
+          <div class="pay-info">在新窗口完成支付</div></div>
+      </div>
+      <div class="FFtab-content">
+        <div class="block-title">支付结果</div>
+        <div class="kit-block kit-content">
+          <div class="pay-result">
+            <div class="pay-icon" :class="{'failure': !orderStatus}"></div>
+            <div class="pay-content">
+              <div class="pay-msg">支付<span v-text="orderStatus ? '成功' : '失败'"></span></div>
+              <div>
+                <div class="FFbtn pay-btn" @click.prevent="redirect('project')">返回项目</div>
+                <div class="FFbtn pay-btn" v-if="orderStatus" @click.prevent="redirect('order')">查看订单</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-step">
+      <div class="order-submit FFbtn" @click.prevent="submitOrder" v-if="step == 1">确认订单</div>
+      <div class="order-success order-step-two FFbtn" v-if="step == 2" @click.prevent="redirect('project')">支付成功</div>
+      <div class="order-failure order-step-two FFbtn" v-if="step == 2" @click.prevent="cancelOrder()">支付失败</div>
+    </div>
+    <ffviewer :status.sync="picViewer.status" :imgsrc="picViewer.src"></ffviewer>
+  </div>
+
+
+@@include('include/footer.html')
+@@include('include/script.html',{"jstype": "order"})

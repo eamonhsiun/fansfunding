@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-app-status-bar-style" content="#ec2c22" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#ec2c22" />
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>设置 | FAN$</title>
+  <link rel="Shortcut Icon" href="static/img/Fansfounding.ico">
+  <!-- 公有css -->
+
+  <link rel="stylesheet" href="static/css/common.css">
+  <link rel="stylesheet" href="static/css/uikit.css">
+  <!-- 私有css -->
+  
+  
+  
+  
+    <link rel="stylesheet" type="text/css" href="static/css/setting.css">
+  
+  
+  
+  
+  
+  
+  
+  
+</head>
+<body>
+
+  <div id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="static/img/fans.png" alt="">
+      </a>
+      <div class="profile">
+        <div class="profile-login" id="profile-login">
+          <div class="profile-avatar">
+            <a href="space.html"><img src="static/img/27.jpg" alt=""></a>
+          </div>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown-arrow"></div>
+            <ul>
+              <a href="space.html"><li>我的空间</li></a>
+              <!-- <a href="###"><li>我的钱包</li></a> -->
+              <a href="setting.html"><li>个人设置</li></a>
+              <a href="" id="logoutbtn"><li>退出登录</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="profile-not-login" id="profile-not-login">
+          <a href="login.html">登录</a>
+          <a href="login.html?#signup">注册</a>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-dropdown-arrow"></div>
+        <ul>
+          <a href="index.html"><li >首页</li>
+          </a>
+          <a href="project-list.html"><li  >浏览项目</li></a>
+          <!-- <a href="initiation.html"><li >发起项目</li></a> -->
+          <a href="download.html"><li >下载APP</li></a>
+        </ul>
+      </div>
+      <div class="search">
+        <form action="project-list.html">
+          <input type="text" id="search-text" name="search" class="search-text" placeholder="搜索">
+          <label for="search-text"></label>
+          <input type="submit" class="search-submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+  <div class="container">
+    <div class="setting-wrap" id="setting">
+      <div class="block-title">个人设置</div>
+      <div class="kit-block">
+        <div class="kit-tabs">
+          <ul>
+            <li class="kit-tab FFtab">基本资料</li>
+            <li class="kit-tab FFtab">安全设置</li>
+            <li class="kit-tab FFtab">地址管理</li>
+          </ul>
+        </div>
+        <div class="setting-contents">
+          <div class="FFtab-content">
+            <div class="setting-content" id="setting-profile">
+              <div class="setting-list">
+                <span class="setting-hint">头像：</span>
+                <div class="setting-inner" id="setting-avatar">
+                  <div>
+                    <img id="now-avatar" :src="userInfo.head | resource" alt="">
+                  </div>
+                  <a href="avatar.html" class="FFbtn">修改头像</a>
+                </div>
+              </div>
+              <div class="setting-list">
+                <span class="setting-hint">昵称：</span>
+                <div class="setting-inner" id="setting-nickname">
+                  <input type="text" class="kit-input kit-input-short" id="nickname-input" v-model="userInfo.nickname">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-list">
+                <span class="setting-hint">性别：</span>
+                <div class="setting-inner kit-check" id="setting-sex">
+                  <label>
+                    <input type="radio" class="kit-check" value="1" name="sex" v-model="userInfo.realInfo.sex">
+                    <span class="check-arrow"></span>
+                    <span class="check-text">男</span>
+                  </label>
+                  <label>
+                    <input type="radio" class="kit-check" value="0" name="sex" v-model="userInfo.realInfo.sex">
+                    <span class="check-arrow"></span>
+                    <span class="check-text">女</span>
+                  </label>
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-list">
+                <span class="setting-hint">邮箱：</span>
+                <div class="setting-inner" id="setting-email">
+                  <input type="email" class="kit-input kit-input-short" id="email-input" v-model="userInfo.email">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-list">
+                <span class="setting-hint">个人简介：</span>
+                <div class="setting-inner" id="setting-intro">
+                  <input type="text" class="kit-input" id="intro-input" v-model="userInfo.intro">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-alert" id="profile-alert" v-show="profile.alert.show">{{profile.alert.text}}</div>
+              <div class="setting-submit FFbtn" id="profile-submit" @click.prevent="uploadProfile">保存信息</div>
+            </div>
+          </div>
+          <div class="FFtab-content">
+            <div class="setting-content" id="setting-security">
+<!--               <div class="setting-list">
+                <span class="setting-hint">旧密码：</span>
+                <div class="setting-inner" id="setting-oldpwd">
+                  <input type="password" class="kit-input kit-input-short" id="oldpwd-input" v-model="security.oldPwd">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div> -->
+              <div class="setting-list">
+                <span class="setting-hint">新密码：</span>
+                <div class="setting-inner" id="setting-newpwd">
+                  <input type="password" class="kit-input kit-input-short" id="newpwd-input" v-model="security.newPwd">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-list">
+                <span class="setting-hint">确认密码：</span>
+                <div class="setting-inner" id="setting-confirmpwd">
+                  <input type="password" class="kit-input kit-input-short" id="confirmpwd-input" v-model="security.confirmPwd">
+                  <div class="setting-input-hint"></div>
+                </div>
+              </div>
+              <div class="setting-alert" id="security-alert" v-show="security.alert.show">{{security.alert.text}}</div>
+              <div class="setting-submit FFbtn" id="security-submit" @click.prevent="changePassword">修改密码</div>
+            </div>
+          </div>
+          <div class="FFtab-content">
+            <div class="setting-content" id="setting-address">
+              <address-selector type="editor"></address-selector>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-content-right">
+          <ul class="footer-logo">
+            <li><img src="static/img/fans.png" alt=""></li>
+            <li><img src="static/img/Icon_FansFunding.svg" alt=""></li>
+          </ul>
+        </div>
+        <div class="footer-content-left">
+          <div class="footer-copyright">Copyright ©1997-2016 FansFunding All Rights Reserved 武汉瑟瑟发抖公司</div>
+          <ul class="footer-link">
+            <li><a href="###">备案号</a></li>
+            <li><a href="###">认证</a></li>
+            <li><a href="###">获奖</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="back-to-top">TOP</div>
+
+
+  <script src="static/js/lib/vue.js"></script>
+  <script src="static/js/lib/ajax.min.js"></script>
+  <script src="static/js/account.js"></script>
+  <script src="static/js/module/FFloader.js"></script>
+  <script src="static/js/module/FFtab.js"></script>
+  <script src="static/js/vue-util.js"></script>
+
+  
+
+  
+
+  
+
+  
+    <script src="static/js/lib/crypto-js/crypto-js.js"></script>
+    <script src="static/js/lib/vue-region-picker/vue-region-picker.js"></script>
+    <script src="static/js/module/address.js"></script>
+    <script src="static/js/setting.js"></script>
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+  </body>
+</html>
+

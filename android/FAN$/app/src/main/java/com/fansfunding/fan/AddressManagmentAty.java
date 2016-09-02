@@ -1,41 +1,24 @@
 package com.fansfunding.fan;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Selection;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.alibaba.fastjson.JSON;
 import com.fansfunding.internal.Address;
-
 import com.fansfunding.internal.SingleAddress;
 import com.fansfunding.pick.AssetsUtils;
 
-
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.qqtheme.framework.picker.AddressPicker;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by RJzz on 2016/7/19.
@@ -148,6 +131,7 @@ public class AddressManagmentAty extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AddressActivity.MSG_TYPE = AddressActivity.MSG_CANCEL;
                 finish();
             }
         });

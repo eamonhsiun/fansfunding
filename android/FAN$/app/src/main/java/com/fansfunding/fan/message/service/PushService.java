@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.activeandroid.query.Select;
 import com.fansfunding.app.App;
 import com.fansfunding.fan.MainActivity;
 import com.fansfunding.fan.R;
@@ -22,7 +23,9 @@ import com.fansfunding.fan.message.entity.CommentDynamic;
 import com.fansfunding.fan.message.entity.CommentsProject;
 import com.fansfunding.fan.message.entity.NotificationDynamic;
 import com.fansfunding.fan.message.entity.NotificationProject;
+import com.fansfunding.fan.message.entity.PrivateLetter;
 import com.fansfunding.fan.message.model.Comments;
+import com.fansfunding.fan.message.model.Content;
 import com.fansfunding.fan.message.model.Notifications;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,11 +38,17 @@ import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
+import static com.fansfunding.fan.message.activity.ChatActivity.contentList;
+import static com.fansfunding.fan.message.activity.ChatActivity.listView;
+import static com.fansfunding.fan.message.activity.ChatActivity.msgAdapter;
 import static com.fansfunding.fan.message.fragment.CommentFragment.commentsAdapter;
 import static com.fansfunding.fan.message.fragment.CommentFragment.commentses;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationAdapter;
 import static com.fansfunding.fan.message.fragment.NotifacationFragment.notificationses;
+import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.letterAdapter;
+import static com.fansfunding.fan.message.fragment.PrivateLetterFragment.messages;
 
 /**
  * Created by RJzz on 2016/8/25.
@@ -68,7 +77,7 @@ public class PushService extends Service {
 
     private final String TAG = "WebSocket";
     //连接客户端
-    private WebSocketClient client;
+    public static WebSocketClient client;
     //连接协议
     private Draft_17 draft_17 = new Draft_17();
 
@@ -102,11 +111,18 @@ public class PushService extends Service {
                     Log.d(TAG, "开始处理通知消息");
                     String dataNotificaition = (String) msg.obj;
                     notificationHandling(dataNotificaition);
+
                     break;
                 case TYPE_TWO:
                     Log.d(TAG, "开始处理评论消息");
                     String dataComment = (String) msg.obj;
                     commentHandling(dataComment);
+                    break;
+                case TYPE_ONE:
+                    Log.d(TAG, "开始处理私聊消息");
+                    String dataPrivateLetter = (String) msg.obj;
+                    privateLetterHanding(dataPrivateLetter);
+
                     break;
 
                 default:
@@ -115,6 +131,7 @@ public class PushService extends Service {
             super.handleMessage(msg);
         }
     };
+
 
 
 
@@ -138,6 +155,9 @@ public class PushService extends Service {
                         @Override
                         public void onMessage(String s) {
                             Log.d(TAG, "接收消息" + s);
+                            //重新获取id
+                            SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+                            id = share.getInt("id", 0);
                             analysisJson(s);
                         }
 
@@ -193,7 +213,7 @@ public class PushService extends Service {
 
         public void reConnection() {
             try {
-                WebSocketClient clientReconnection = new WebSocketClient(new URI("ws://api.immortalfans.com:8080/websocket?userId=" + id  + "&token=" + token), new Draft_17()) {
+                    client  = new WebSocketClient(new URI("ws://api.immortalfans.com:8080/websocket?userId=" + id  + "&token=" + token), new Draft_17()) {
                     @Override
                     public void onOpen(ServerHandshake serverHandshake) {
                         Log.d(TAG, "重新连接成功");
@@ -202,6 +222,9 @@ public class PushService extends Service {
                     @Override
                     public void onMessage(String s) {
                         Log.d(TAG, "接收消息" + s);
+                        //重新获取id
+                        SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
+                        id = share.getInt("id", 0);
                         analysisJson(s);
                     }
 
@@ -239,7 +262,7 @@ public class PushService extends Service {
                         }).start();
                     }
                 };
-                clientReconnection.connect();
+                client.connect();
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -272,6 +295,8 @@ public class PushService extends Service {
                         break;
                     //私聊消息
                     case 1:
+                        m.what = TYPE_ONE;
+                        handler.sendMessage(m);
                         break;
                     //评论消息
                     case 2:
@@ -294,6 +319,22 @@ public class PushService extends Service {
             e.printStackTrace();
         }
     }
+
+    /**
+      *处理私聊消息
+      *@author RJzz
+      *create at 2016/9/1 10:02
+      */
+    public void privateLetterHanding(String s) {
+        Gson gson = new GsonBuilder().create();
+        PrivateLetter pl = new PrivateLetter();
+        pl = gson.fromJson(s, pl.getClass());
+        String title = "FAN$";
+        String text = "您有新的私信消息";
+        insertToMessages(s);
+        push(title, text, 1, 1);
+    }
+
     /**
       *处理评论消息
      * type 1 项目评论
@@ -393,7 +434,11 @@ public class PushService extends Service {
     }
 
 
-
+    /**
+      *插入通知评论表中
+      *@author RJzz
+      *create at 2016/9/1 10:13
+      */
     public void insertToComment(String s) {
         JSONObject json = null;
         try {
@@ -404,9 +449,7 @@ public class PushService extends Service {
             String comment = json.getString("comment");
             String commenter = json.getString("commenter");
             String pointTo = json.getString("pointTo");
-            //重新获取id
-            SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
-            id = share.getInt("id", 0);
+
             Comments n = new Comments();
             n.setTime(time);
             n.setComment(comment);
@@ -431,8 +474,87 @@ public class PushService extends Service {
             e.printStackTrace();
         }
     }
+    
+    
+    /**
+      *插入私聊消息表中
+      *@author RJzz
+      *create at 2016/9/1 10:19
+      */
+    public void insertToMessages(String s) {
+        Gson gson = new GsonBuilder().create();
+        PrivateLetter p = new PrivateLetter();
+        p = gson.fromJson(s, p.getClass());
+       List<com.fansfunding.fan.message.model.Message> messageList =  new Select().from(com.fansfunding.fan.message.model.Message.class).where("userId = ? and senderId = ?", id, p.getSender().getId()).execute();
+
+        if(messageList.size() == 0) {
+            com.fansfunding.fan.message.model.Message message = new com.fansfunding.fan.message.model.Message();
+            message.setSenderId(p.getSender().getId());
+            message.setJson(s);
+            message.setUserId(id);
+            message.setTime(p.getSendTime());
+            message.setRead(false);
+            message.setWillDelete(false);
+            Content content = new Content();
+            content.setMessage(message);
+            content.setContent(p.getContent());
+            //1为我的消息，2为对方的消息
+            content.setType(2);
+            content.setTime(p.getSendTime());
+            message.save();
+            content.save();
+            //小红点嘿嘿嘿+1
+            App app = (App)getApplication();
+            //私信条目加一
+            messages.add(message);
+            app.getBadgeView().incrementBadgeCount(1);
+            if(letterAdapter != null) {
+                letterAdapter.notifyDataSetChanged();
+            }
+            if(msgAdapter != null) {
+                contentList.add(content);
+                msgAdapter.notifyDataSetChanged();
+                listView.setSelection(contentList.size());
+            }
+        }else {
+            //小红点嘿嘿嘿+1
+            App app = (App)getApplication();
 
 
+            //已经要被设置为被删的可怜的item了，别怕，哥哥来救你
+            if(messageList.get(0).getWillDelete() && messageList.get(0).getRead()) {
+                messageList.get(0).setWillDelete(false);
+                messages.add(0,  messageList.get(0));
+                app.getBadgeView().incrementBadgeCount(1);
+
+            } else if(messageList.get(0).getRead()){
+                //如果已经读过了但是没有被设置为删除小红点加一
+                app.getBadgeView().incrementBadgeCount(1);
+            }
+            Content content = new Content();
+            content.setMessage(messageList.get(0));
+            content.setContent(p.getContent());
+            //1为我的消息，2为对方的消息
+            content.setType(2);
+            content.setTime(p.getSendTime());
+            messageList.get(0).setTime(p.getSendTime());
+            messageList.get(0).setRead(false);
+            messageList.get(0).save();
+            content.save();
+
+            if(letterAdapter != null) {
+                letterAdapter.notifyDataSetChanged();
+            }
+            if(msgAdapter != null) {
+                contentList.add(content);
+                msgAdapter.notifyDataSetChanged();
+                listView.setSelection(contentList.size());
+            }
+        }
+
+
+    }
+ 
 
     /**
       *将接收到的未读通知插入表中
@@ -449,9 +571,6 @@ public class PushService extends Service {
             String causer = json.getString("causer");
             String reference = json.getString("reference");
             Notifications n = new Notifications();
-            //重新获取id
-            SharedPreferences share = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
-            id = share.getInt("id", 0);
             n.setTime(time);
             n.setCauser(causer);
             n.setReference(reference);
@@ -525,6 +644,12 @@ public class PushService extends Service {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        manager.notify((int) System.currentTimeMillis(), notification);
+        
+        if(typeFather == 1) {
+            manager.notify(id, notification);
+        }else {
+            manager.notify((int) System.currentTimeMillis(), notification);
+        }
+
     }
  }

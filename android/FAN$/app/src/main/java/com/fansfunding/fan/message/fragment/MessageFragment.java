@@ -59,7 +59,6 @@ public class MessageFragment extends Fragment {
 
         initContentView(viewContent);
         initData();
-        viewPager.setOffscreenPageLimit(3);
         if(mArgument == "notificaition") {
             viewPager.setCurrentItem(2);
         }

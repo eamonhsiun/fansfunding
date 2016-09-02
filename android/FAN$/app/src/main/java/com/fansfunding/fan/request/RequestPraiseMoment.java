@@ -57,7 +57,6 @@ public class RequestPraiseMoment {
                     msg.what=FANRequestCode.PRAISE_MOMENT_FAILURE;
                     msg.arg1=momentId;
                     handler.sendMessage(msg);
-                    Log.i("TAG","ERROR");
                     return;
                 }
                 Gson gson=new GsonBuilder().create();

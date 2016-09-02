@@ -52,10 +52,10 @@ public class RequestUserFollowing {
         return userList;
     }
 
-    public void requestUserFollowing(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int userId, final int viewId){
+    public void requestUserFollowing(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int viewId){
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_userbasic)+userId+"/following?viewId="+viewId+"&rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_userbasic)+"following?viewId="+viewId+"&rows="+rows+"&page="+page)
                 .build();
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {

@@ -136,7 +136,7 @@ public class SimpleCommonUtils {
                 }))
                 .setShowDelBtn(EmoticonPageEntity.DelBtnStatus.LAST)
                 //.setIconUri(ImageBase.Scheme.DRAWABLE.toUri("icon_emoji"))
-                .setIconUri(R.drawable.pjimagetest)
+                .setIconUri(R.drawable.input_emoji)
                 .build();
         pageSetAdapter.add(emojiPageSetEntity);
     }

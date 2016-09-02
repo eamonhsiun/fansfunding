@@ -130,7 +130,7 @@ public class HomepageActivity extends AppCompatActivity {
                         break;
                     }
                     //如果获取到的项目为空
-                    if(requestUserSponsorProject.getUserPublishProject().getData().getList().size()==0){
+                    if(requestUserSponsorProject.getUserPublishProject().getData().getList().size()==0&&requestUserSponsorProject.getUserPublishProject().getData().getTotal()!=0&&adapter.getChildrenCount(UserProjectListAdapter.sponsorPosition)<=1){
                         if(HomepageActivity.this.isFinishing()==false){
                             Toast.makeText(HomepageActivity.this,"已无更多项目",Toast.LENGTH_SHORT).show();
                         }
@@ -162,7 +162,7 @@ public class HomepageActivity extends AppCompatActivity {
                         break;
                     }
                     //如果返回的项目为空
-                    if(requestUserFollowProject.getUserFollowProject().getData().getList().size()==0){
+                    if(requestUserFollowProject.getUserFollowProject().getData().getList().size()==0&&requestUserFollowProject.getUserFollowProject().getData().getTotal()!=0&&adapter.getChildrenCount(UserProjectListAdapter.followPosition)<=1){
                         if(HomepageActivity.this.isFinishing()==false){
                             Toast.makeText(HomepageActivity.this,"已无更多项目",Toast.LENGTH_SHORT).show();
                         }
@@ -196,7 +196,7 @@ public class HomepageActivity extends AppCompatActivity {
                         break;
                     }
                     //如果返回的项目为空
-                    if(requestUserSupportProject.getUserSupportProject().getData().getList().size()==0){
+                    if(requestUserSupportProject.getUserSupportProject().getData().getList().size()==0&&requestUserSupportProject.getUserSupportProject().getData().getTotal()!=0&&adapter.getChildrenCount(UserProjectListAdapter.supportPosition)<=1){
                         if(HomepageActivity.this.isFinishing()==false){
                             Toast.makeText(HomepageActivity.this,"已无更多项目",Toast.LENGTH_SHORT).show();
                         }
@@ -275,16 +275,10 @@ public class HomepageActivity extends AppCompatActivity {
 
     private void loadData(){
         //请求用户个人信息
-        requestUserInfo.requestPersonalInfo(this,handler,httpClient,target_userId,target_userId);
-
-        isFinishRequestSponsorProject=false;
-        isFinishRequestFollowProject=false;
-        isFinishRequestSupportProject=false;
-
-        //请求项目信息
-        requestUserSponsorProject.requestUserSponsorProject(this,handler,httpClient,target_userId,target_userId);
-        requestUserFollowProject.requestUserFollowProject(this,handler,httpClient,target_userId,target_userId);
-        requestUserSupportProject.requestUserSupportProject(this,handler,httpClient,target_userId,target_userId);
+        requestUserInfo.requestPersonalInfo(this,handler,httpClient,target_userId);
+        getUserSponsorProject();
+        getUserFollowProject();
+        getUserSupportProject();
     }
 
     private void setUserInfo(){
@@ -304,6 +298,7 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
+                intent.putExtra(UserMomentListActivity.VIEWID,target_userId);
                 intent.setAction(getString(R.string.activity_homepage_user_moment_list));
                 startActivity(intent);
             }
@@ -371,7 +366,7 @@ public class HomepageActivity extends AppCompatActivity {
         switch (requestCode){
             case UserInfoActivity.REQUEST_CODE_START_USER_INFO_ACTIVITY:
                 if(resultCode==RESULT_OK){
-                    requestUserInfo.requestPersonalInfo(this,handler,httpClient,userId,target_userId);
+                    requestUserInfo.requestPersonalInfo(this,handler,httpClient,target_userId);
                 }
                 break;
         }
@@ -420,7 +415,7 @@ public class HomepageActivity extends AppCompatActivity {
             return;
         }
         isFinishRequestSponsorProject=false;
-        requestUserSponsorProject.requestUserSponsorProject(this,handler,httpClient,target_userId,target_userId);
+        requestUserSponsorProject.requestUserSponsorProject(this,handler,httpClient,target_userId);
 
 
     }
@@ -431,7 +426,7 @@ public class HomepageActivity extends AppCompatActivity {
             return;
         }
         isFinishRequestFollowProject=false;
-        requestUserFollowProject.requestUserFollowProject(this,handler,httpClient,target_userId,target_userId);
+        requestUserFollowProject.requestUserFollowProject(this,handler,httpClient,target_userId);
     }
 
     //请求获取个人支持项目
@@ -440,7 +435,7 @@ public class HomepageActivity extends AppCompatActivity {
             return;
         }
         isFinishRequestSupportProject=false;
-        requestUserSupportProject.requestUserSupportProject(this,handler,httpClient,target_userId,target_userId);
+        requestUserSupportProject.requestUserSupportProject(this,handler,httpClient,target_userId);
     }
 
 

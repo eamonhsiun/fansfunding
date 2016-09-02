@@ -61,6 +61,7 @@ public class RequestSendMomentComment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
+                Log.i("TAG","ERRPR"+str_response);
                 FeedbackCode sendComment=new FeedbackCode();
                 try {
 

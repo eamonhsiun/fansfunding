@@ -12,6 +12,7 @@
         app:theme="@style/toolbar_white_theme"
         android:title="圈子"
         android:titleTextColor="@color/colorWhite"
+        android:elevation="4dp"
         ></android.support.v7.widget.Toolbar>
 
     <!--动态展示-->

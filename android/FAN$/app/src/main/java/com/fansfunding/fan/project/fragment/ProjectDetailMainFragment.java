@@ -31,6 +31,7 @@ import com.fansfunding.fan.request.RequestProjectSupportInfo;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.fan.utils.MyGridView;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.ErrorCode;
 import com.fansfunding.internal.ProjectDetail;
 import com.fansfunding.internal.ProjectDetailComment;
@@ -313,12 +314,14 @@ public class ProjectDetailMainFragment extends Fragment {
         //项目发起人昵称
         TextView tv_project_detail_main_publisher_name=(TextView)rootView.findViewById(R.id.tv_project_detail_main_publisher_name);
         tv_project_detail_main_publisher_name.setText(projectDetail.getSponsorNickname());
+        tv_project_detail_main_publisher_name.setOnClickListener(new StartHomepage(getActivity(),projectDetail.getSponsor()));
 
         //项目发起人头像
         CircleImageView iv_project_detail_main_publisher_head=(CircleImageView)rootView.findViewById(R.id.iv_project_detail_main_publisher_head);
         if(this.getActivity()!=null&&projectDetail.getSponsorHead()!=null&&projectDetail.getSponsorHead().equals("")==false){
             Picasso.with(this.getActivity()).load(getString(R.string.url_resources)+projectDetail.getSponsorHead()).into(iv_project_detail_main_publisher_head);
         }
+        iv_project_detail_main_publisher_head.setOnClickListener(new StartHomepage(getActivity(),projectDetail.getSponsor()));
 
         //支持者人数
         tv_project_detail_main_support_number=(TextView)rootView.findViewById(R.id.tv_project_detail_main_support_number);

@@ -14,8 +14,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_social_publisher_head"
             android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/pjimagetest"/>
+            android:layout_height="40dp"/>
         <!--发起人昵称-->
         <TextView
             android:id="@+id/tv_social_publisher_nickname"
@@ -47,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="不错，很有前途"
+        android:text=""
         android:textSize="@dimen/subhead_text_size"
         android:paddingLeft="@dimen/layout_padding"
         android:paddingRight="@dimen/layout_padding"

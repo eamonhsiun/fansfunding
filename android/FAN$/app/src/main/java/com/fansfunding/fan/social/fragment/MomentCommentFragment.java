@@ -25,6 +25,7 @@ import com.fansfunding.fan.project.activity.ProjectCommentActivity;
 import com.fansfunding.fan.request.RequestMomentComment;
 import com.fansfunding.fan.social.activity.MomentActivity;
 import com.fansfunding.fan.social.adapter.MomentCommentAdapter;
+import com.fansfunding.fan.social.interfacetest.IInitNum;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.internal.social.MomentComment;
@@ -46,8 +47,11 @@ import okhttp3.OkHttpClient;
  */
 public class MomentCommentFragment extends Fragment implements ScrollableHelper.ScrollableContainer,MomentActivity.OnLoadListViewReset{
 
+    private IInitNum mListener;
 
     private final static String MOMENTID="MOMENTID";
+
+
 
     //用户id
     private int userId;
@@ -94,7 +98,7 @@ public class MomentCommentFragment extends Fragment implements ScrollableHelper.
                         }
                     }
                     adapter.notifyDataSetChanged();
-
+                    mListener.initNum(requestMomentComment.getMomentComment().getData().getTotal(),MomentActivity.RESET_COLUMN_NUM);
                     break;
                 case FANRequestCode.GET_MOMENT_COMMENT_DETAIL_FAILURE:
                     if(MomentCommentFragment.this.getActivity().isFinishing()==false){
@@ -176,7 +180,7 @@ public class MomentCommentFragment extends Fragment implements ScrollableHelper.
                     return;
                 }
                 isFinishRequest=false;
-                requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+                requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId);
             }
         });
 
@@ -201,7 +205,7 @@ public class MomentCommentFragment extends Fragment implements ScrollableHelper.
     }
 
     private void loadData(){
-        requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+        requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId);
         isFinishRequest=false;
     }
 
@@ -213,26 +217,10 @@ public class MomentCommentFragment extends Fragment implements ScrollableHelper.
         isFinishRequest=false;
         adapter.clear();
         requestMomentComment.setPage(1);
-        requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+        requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId);
 
     }
 
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
 
     @Override
@@ -248,7 +236,7 @@ public class MomentCommentFragment extends Fragment implements ScrollableHelper.
                 adapter.clear();
                 requestMomentComment.setPage(1);
                 isFinishRequest=false;
-                requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+                requestMomentComment.requestMomentComment(MomentCommentFragment.this.getActivity(),handler,httpClient,momentId);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -269,4 +257,22 @@ public class MomentCommentFragment extends Fragment implements ScrollableHelper.
         lv_moment_comment.stopLoadMore();
         lv_moment_comment.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IInitNum) {
+            mListener = (IInitNum) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 }

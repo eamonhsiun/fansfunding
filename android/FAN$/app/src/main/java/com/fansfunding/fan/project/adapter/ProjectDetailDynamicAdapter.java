@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.utils.MyGridView;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.ProjectDetailDynamic;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -85,6 +86,7 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
         //动态发起人的昵称
         TextView tv_project_detail_dynamic_name=(TextView)rootView.findViewById(R.id.tv_project_detail_dynamic_name);
 
+
         //动态发起时间
         TextView tv_project_detail_dynamic_time=(TextView)rootView.findViewById(R.id.tv_project_detail_dynamic_time);
 
@@ -101,6 +103,7 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
 
         if(list.get(position)==null) {
             return null;
+
         }
         else {
             //初始化头像
@@ -108,11 +111,12 @@ public class ProjectDetailDynamicAdapter extends BaseAdapter {
                 Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getSponsorHead()).into(iv_project_detail_dynamic_head);
 
             }
-
+            iv_project_detail_dynamic_head.setOnClickListener(new StartHomepage(context,list.get(position).getSponsor()));
             //初始化发起人昵称
             if(list.get(position).getSponsorNickname()!=null){
                 tv_project_detail_dynamic_name.setText(list.get(position).getSponsorNickname());
             }
+            tv_project_detail_dynamic_name.setOnClickListener( new StartHomepage(context,list.get(position).getSponsor()));
 
             //初始化动态发起时间
             tv_project_detail_dynamic_time.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(list.get(position).getUpdateTime())));

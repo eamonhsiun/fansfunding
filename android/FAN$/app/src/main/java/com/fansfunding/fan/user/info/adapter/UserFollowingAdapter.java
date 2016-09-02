@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.user.UserList;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -86,6 +87,8 @@ public class UserFollowingAdapter extends BaseAdapter{
         viewHodler.tv_search_people_name.setText(following.getNickname());
         viewHodler.tv_search_people_signature.setText(following.getIntro());
 
+
+        rootView.setOnClickListener(new StartHomepage(context,following.getId()));
         return rootView;
     }
 

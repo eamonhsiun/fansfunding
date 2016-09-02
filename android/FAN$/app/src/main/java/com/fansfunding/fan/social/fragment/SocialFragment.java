@@ -88,7 +88,6 @@ public class SocialFragment extends Fragment {
 
             switch (msg.what){
                 case FANRequestCode.GET_USER_FOLLOW_USER_MOMENT_SUCCESS:
-                    isFinishRequest=true;
                     endRefresh();
                     if(requestUserFollowUserMoment.getUserMoment().getData().getList().size()< requestUserFollowUserMoment.getRows()){
                         requestUserFollowUserMoment.setPage(1);
@@ -102,9 +101,9 @@ public class SocialFragment extends Fragment {
                     for(int i = 0; i< requestUserFollowUserMoment.getUserMoment().getData().getList().size(); i++){
                         adapter.addItem(requestUserFollowUserMoment.getUserMoment().getData().getList().get(i));
                     }
+                    adapter.notifyDataSetChanged();
                     break;
                 case FANRequestCode.GET_USER_FOLLOW_USER_MOMENT_FAILURE:
-                    isFinishRequest=true;
                     endRefresh();
                     if(SocialFragment.this.getActivity()!=null){
                         Toast.makeText(SocialFragment.this.getActivity(),"获取动态失败",Toast.LENGTH_LONG).show();

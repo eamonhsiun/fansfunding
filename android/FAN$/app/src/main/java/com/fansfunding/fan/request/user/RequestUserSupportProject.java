@@ -56,10 +56,10 @@ public class RequestUserSupportProject {
             this.page = page;
     }
 
-    public void requestUserSupportProject(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int userId, final int viewId){
+    public void requestUserSupportProject(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int viewId){
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_userbasic)+userId+"/projects?viewId="+viewId+"&type="+PROJECT_TYPE_SUPPORT+"&rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_userbasic)+"projects?viewId="+viewId+"&type="+PROJECT_TYPE_SUPPORT+"&rows="+rows+"&page="+page)
                 .build();
 
         Call call=httpClient.newCall(request);

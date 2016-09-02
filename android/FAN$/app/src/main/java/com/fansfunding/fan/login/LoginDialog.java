@@ -516,7 +516,7 @@ public class LoginDialog {
             String verificationCode=tiet_register_verification_verification_code.getText().toString();
 
             //如果验证码为空，则直接返回
-            if(tiet_register_verification_verification_code.equals("")){
+            if(verificationCode.equals("")){
                 InitRegisterVerification();
                 tiet_register_verification_account.setText(phone);
                 tiet_register_verification_verification_code.setError("请输入验证码");

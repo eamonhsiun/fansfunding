@@ -145,7 +145,9 @@ public class ListProjectAdapter extends BaseAdapter{
 
         //设置控件的值
         viewHolder.tv_PJ_publish_nickname.setText(detail.getSponsorNickname());
+        //点击进入个人主页
         viewHolder.tv_PJ_publish_nickname.setOnClickListener(new StartHomepage(context,detail.getSponsor()));
+        viewHolder.iv_PJ_publish_head.setOnClickListener(new StartHomepage(context,detail.getSponsor()));
 
         viewHolder.tv_PJ_name.setText(detail.getName());
         viewHolder.tv_PJ_intro.setText(detail.getDescription());

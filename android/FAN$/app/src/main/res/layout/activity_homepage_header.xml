@@ -4,9 +4,9 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="230dp"
         android:orientation="vertical"
-        android:background="@drawable/social_picture_test">
+        android:background="@drawable/homepag_background">
         <!--私聊按钮-->
         <Button
             android:layout_width="60dp"
@@ -22,12 +22,11 @@
             android:id="@+id/iv_homepage_user_head"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/pjimagetest"
             android:layout_gravity="center_horizontal"/>
         <!--签名-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="@dimen/layout_padding"
@@ -41,8 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_padding"
-                android:textColor="@color/colorWhite"
-                android:text="武汉大学国际"/>
+                android:textColor="@color/colorWhite"/>
         </LinearLayout>
         <!--用户信息-->
         <LinearLayout

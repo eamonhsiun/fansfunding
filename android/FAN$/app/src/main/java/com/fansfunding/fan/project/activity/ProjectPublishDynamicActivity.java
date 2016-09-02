@@ -195,12 +195,12 @@ public class ProjectPublishDynamicActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Looper.prepare();
-                Log.e("TEST2",response.toString());
+                Log.e("TEST2","动态图片"+response.toString());
                 if (response == null || response.isSuccessful() == false) {
                     handler.sendEmptyMessage(SERVER_ERROR);
                 } else {
                     String str_response = response.body().string();
-                    Log.e("TEST2",str_response);
+                    Log.e("TEST2","底部反"+str_response);
                     Gson gson = new GsonBuilder().create();
                     ResponseItem item = new ResponseItem();
                     item = gson.fromJson(str_response, item.getClass());

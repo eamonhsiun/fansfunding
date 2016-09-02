@@ -10,7 +10,7 @@
         android:id="@+id/iv_social_project_cover"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/bannertest1"/>
+        android:src="@drawable/bannertest"/>
 
     <!--项目名-->
     <TextView

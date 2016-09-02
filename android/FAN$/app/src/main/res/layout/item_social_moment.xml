@@ -34,13 +34,14 @@
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/pjimagetest"/>
+                android:src="@drawable/moment_comment"/>
             <!--评论数量-->
             <TextView
                 android:id="@+id/tv_social_comment_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorLabelGrey"
+                android:layout_marginLeft="8dp"
                 android:text="评论"/>
         </LinearLayout>
 
@@ -64,13 +65,14 @@
                 android:id="@+id/iv_social_praise_picture"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/pjimagetest"/>
+                android:src="@drawable/moment_praise"/>
             <!--赞数量-->
             <TextView
                 android:id="@+id/tv_social_praise_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorLabelGrey"
+                android:layout_marginLeft="8dp"
                 android:text="赞"/>
         </LinearLayout>
 

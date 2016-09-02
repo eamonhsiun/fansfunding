@@ -19,9 +19,12 @@ public class StartHomepage implements View.OnClickListener {
         this.target_userId=target_userId;
     }
 
+    public static void startHomePage(Activity activity,int target_userId){
+        HomepageActivity.startHomepageActivity(activity,target_userId);
+    }
     @Override
     public void onClick(View v) {
-        HomepageActivity.startHomepageActivity(activity,target_userId);
+        startHomePage(activity,target_userId);
     }
 
 

@@ -38,6 +38,8 @@ public class ErrorHandler extends Handler {
                 SharedPreferences share=context.getSharedPreferences(context.getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor=share.edit();
                 editor.putBoolean("isLogin",false);
+                editor.putInt("id",-1);
+                editor.putString("token"," ");
                 editor.commit();
                 if(context.isFinishing()==true){
                     break;

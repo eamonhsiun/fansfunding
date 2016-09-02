@@ -13,7 +13,7 @@
         android:background="@color/colorPrimary"
         android:titleTextColor="@color/colorWhite"
         app:theme="@style/toolbar_white_theme"
-        android:elevation="2dp">
+        android:elevation="4dp">
 
     </android.support.v7.widget.Toolbar>
 

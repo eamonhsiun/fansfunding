@@ -53,11 +53,11 @@ public class RequestMomentPraiseDetail {
             this.page = page;
     }
 
-    public void requestMomentPraiseDetail(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,final int momentId, final int userId, final String token){
+    public void requestMomentPraiseDetail(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,final int momentId){
 
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_user)+"moment/"+momentId+"/like?token="+token+"&rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_userbasic)+"moment/"+momentId+"/like?rows="+rows+"&page="+page)
                 .build();
 
         Call call=httpClient.newCall(request);

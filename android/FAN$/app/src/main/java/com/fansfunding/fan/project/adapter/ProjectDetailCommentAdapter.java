@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.ProjectDetailComment;
 import com.rockerhieu.emojicon.EmojiconTextView;
 import com.squareup.picasso.Picasso;
@@ -99,8 +100,12 @@ public class ProjectDetailCommentAdapter extends BaseAdapter {
             if(list.get(position).getCommenterHead()!=null&&list.get(position).getCommenterHead().equals("")==false){
                 Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getCommenterHead()).into(iv_project_detail_dynamic_head);
             }
+
+            iv_project_detail_dynamic_head.setOnClickListener(new StartHomepage(context,list.get(position).getCommenterId()));
+
             if(list.get(position).getCommenterNickname()!=null){
                 tv_news_detail_commenter_name.setText(list.get(position).getCommenterNickname());
+                tv_news_detail_commenter_name.setOnClickListener(new StartHomepage(context,list.get(position).getCommenterId()));
             }
             if(list.get(position).getContent()!=null){
                 if(list.get(position).getPointTo()==0){

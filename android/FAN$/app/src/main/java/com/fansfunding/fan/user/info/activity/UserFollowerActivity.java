@@ -132,7 +132,7 @@ public class UserFollowerActivity extends AppCompatActivity {
                     return;
                 }
                 isFinishRequest=false;
-                requestUserFollower.requestUserFollower(UserFollowerActivity.this,handler,httpClient,target_userId,target_userId);
+                requestUserFollower.requestUserFollower(UserFollowerActivity.this,handler,httpClient,target_userId);
 
             }
         });
@@ -142,7 +142,7 @@ public class UserFollowerActivity extends AppCompatActivity {
 
     private void loadData(){
         isFinishRequest=false;
-        requestUserFollower.requestUserFollower(UserFollowerActivity.this,handler,httpClient,target_userId,target_userId);
+        requestUserFollower.requestUserFollower(UserFollowerActivity.this,handler,httpClient,target_userId);
     }
 
     @Override

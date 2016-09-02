@@ -15,8 +15,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_moment_praise_people_head"
             android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/pjimagetest"/>
+            android:layout_height="36dp"/>
         <!--赞的用户的昵称-->
         <TextView
             android:id="@+id/tv_moment_praise_people_nickname"
@@ -25,7 +24,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorPublishGrey"
             android:layout_marginLeft="10dp"
-            android:text="我的名字就是这么的长"/>
+            android:text=""/>
     </LinearLayout>
     <!--分割线-->
     <include

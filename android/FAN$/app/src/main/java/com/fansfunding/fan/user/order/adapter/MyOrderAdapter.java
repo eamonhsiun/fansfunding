@@ -118,6 +118,8 @@ public class MyOrderAdapter extends BaseAdapter {
         //设置订单金额
         if(detail.getTotalFee()!=null){
             viewHolder.tv_order_price.setText(detail.getTotalFee().toString());
+        }else {
+            viewHolder.tv_order_price.setText("");
         }
         //设置交易时间
         viewHolder.tv_order_time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(detail.getPaidTime())));

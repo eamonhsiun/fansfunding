@@ -54,9 +54,9 @@ public class RequestMomentComment {
             this.page = page;
     }
 
-    public void requestMomentComment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,final int momentId, final int userId, final String token){
+    public void requestMomentComment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,final int momentId){
         Request request=new Request.Builder()
-                .url(activity.getString(R.string.url_user)+"moment/"+momentId+"/comment?token="+token+"&rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_userbasic)+"moment/"+momentId+"/comment?"+"rows="+rows+"&page="+page)
                 .get()
                 .build();
 

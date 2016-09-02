@@ -13,6 +13,7 @@
         android:background="@color/colorImpressionRed"
         android:titleTextColor="@color/colorWhite"
         app:theme="@style/toolbar_white_theme"
+        android:elevation="4dp"
         ></android.support.v7.widget.Toolbar>
     <!--标签展示-->
     <LinearLayout
@@ -53,8 +54,7 @@
         android:id="@+id/ll_PJ_support_next"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/layout_padding"
         android:paddingRight="@dimen/layout_padding"
@@ -76,6 +76,10 @@
             android:textColor="@color/colorSupportRed"
             android:text="23"
             />-->
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            layout="@layout/divider"/>
         <TextView
             android:id="@+id/tv_PJ_support_next"
             android:layout_width="match_parent"

@@ -19,8 +19,10 @@ import com.fansfunding.fan.R;
 import com.fansfunding.fan.request.RequestMomentPraiseDetail;
 import com.fansfunding.fan.social.activity.MomentActivity;
 import com.fansfunding.fan.social.adapter.MomentPraiseAdapter;
+import com.fansfunding.fan.social.interfacetest.IInitNum;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
+import com.fansfunding.fan.utils.StartHomepage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ import okhttp3.OkHttpClient;
  * create an instance of this fragment.
  */
 public class MomentPraiseFragment extends Fragment implements ScrollableHelper.ScrollableContainer,MomentActivity.OnLoadListViewReset {
+
+    private IInitNum mListener;
 
     private final static String MOMENTID="MOMENTID";
 
@@ -87,7 +91,7 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
                         }
                     }
                     adapter.notifyDataSetChanged();
-
+                    mListener.initNum(requestMomentPraiseDetail.getMomentPraise().getData().getTotal(),MomentActivity.RESET_PRAISE_NUM);
                     break;
                 case FANRequestCode.GET_MOMENT_PRAISE_DETAIL_FAILURE:
                     isFinishRequest=true;
@@ -169,7 +173,7 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
                     return;
                 }
                 isFinishRequest=false;
-                requestMomentPraiseDetail.requestMomentPraiseDetail(MomentPraiseFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+                requestMomentPraiseDetail.requestMomentPraiseDetail(MomentPraiseFragment.this.getActivity(),handler,httpClient,momentId);
             }
         });
 
@@ -193,7 +197,7 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
         isFinishRequest=false;
         adapter.clear();
         requestMomentPraiseDetail.setPage(1);
-        requestMomentPraiseDetail.requestMomentPraiseDetail(MomentPraiseFragment.this.getActivity(),handler,httpClient,momentId,userId,token);
+        requestMomentPraiseDetail.requestMomentPraiseDetail(MomentPraiseFragment.this.getActivity(),handler,httpClient,momentId);
     }
 
 
@@ -216,4 +220,21 @@ public class MomentPraiseFragment extends Fragment implements ScrollableHelper.S
         lv_moment_praise.stopLoadMore();
         lv_moment_praise.setRefreshTime(new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IInitNum) {
+            mListener = (IInitNum) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 }

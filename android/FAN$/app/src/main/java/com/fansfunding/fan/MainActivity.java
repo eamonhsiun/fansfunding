@@ -66,10 +66,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int UNSELECTED_MESSAGE = 2;
 
 
-    private final int[] tab_unselect = {R.drawable.dollar, R.drawable.pjimagetest, R.drawable.pjimagetest, R.drawable.more};
+    //启动登陆activity的请求码
+    public static final int REQUEST_CODE_LOGIN=LoginActivity.REQUEST_LOGIN_BY_PHONE;
+
+    //tablayout的tab没有被选中时的图标
+    private final int[] tab_unselect = {R.drawable.dollar, R.drawable.main_social, R.drawable.main_message, R.drawable.more};
 
     //tablayout的tab被选中时的图标
-    private final int[] tab_selected = {R.drawable.dollar_pressed, R.drawable.pjimagetest, R.drawable.pjimagetest, R.drawable.more_pressed};
+    private final int[] tab_selected = {R.drawable.dollar_pressed, R.drawable.main_social_pressed, R.drawable.main_message_pressed, R.drawable.more_pressed};
 
 
     //启动设置界面的activity的请求码
@@ -103,10 +107,10 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SELECTED_MESSAGE:
-                    imageView.setImageResource(R.drawable.dollar_pressed);
+                    imageView.setImageResource(R.drawable.main_message_pressed);
                     break;
                 case UNSELECTED_MESSAGE:
-                    imageView.setImageResource(R.drawable.dollar);
+                    imageView.setImageResource(R.drawable.main_message);
                     break;
                 default:
                     break;
@@ -224,7 +228,8 @@ public class MainActivity extends AppCompatActivity {
 //            app.getBadgeView() = new BadgeView(this);
             app.getBadgeView().setGravity(Gravity.TOP | Gravity.RIGHT);
             app.getBadgeView().setTargetView(imageView);
-            imageView.setImageResource(R.drawable.dollar);
+
+            imageView.setImageResource(R.drawable.main_message);
             SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharepreference_login_by_phone), MODE_PRIVATE);
             int id = sharedPreferences.getInt("id", 0);
             int count = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, id).count();

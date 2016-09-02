@@ -1,8 +1,10 @@
 package com.fansfunding.fan.request;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.DefaultValue;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
 import com.fansfunding.internal.ErrorCode;
@@ -24,6 +26,8 @@ import okhttp3.Response;
  * Created by 13616 on 2016/8/24.
  */
 public class RequestUserMoment {
+
+
 
     private UserMoment userMoment;
 
@@ -54,10 +58,14 @@ public class RequestUserMoment {
         return userMoment;
     }
 
-    public void requestUserMoment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,final int userId,final String token, final int categoryId, final int projectId){
+    public void requestUserMoment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient,int userId,final int viewId){
+        //如果不填userId，则设为默认的
+        if(userId< DefaultValue.DEFAULT_USERID){
+            userId= DefaultValue.DEFAULT_USERID;
+        }
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_user)+userId+"/moment?token="+token+"&rows="+rows+"&page="+page)
+                .url(activity.getString(R.string.url_userbasic)+userId+"/moment?viewId="+viewId+"&rows="+rows+"&page="+page)
                 .build();
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -74,6 +82,7 @@ public class RequestUserMoment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
+                Log.i("TAG","用户动态："+str_response);
                 userMoment=new UserMoment();
                 try {
 

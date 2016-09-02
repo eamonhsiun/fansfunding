@@ -18,11 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.login.LoginActivity;
 import com.fansfunding.fan.project.activity.ProjectCommentActivity;
 import com.fansfunding.fan.request.RequestPraiseMoment;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
+import com.fansfunding.fan.utils.LoginSituation;
 import com.fansfunding.fan.utils.MyGridView;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.social.UserMoment;
 import com.rockerhieu.emojicon.EmojiconTextView;
 import com.squareup.picasso.MemoryPolicy;
@@ -189,9 +192,11 @@ public class SocialListAdapter extends BaseAdapter {
         if(moment.getUser().getHead()!=null&&moment.getUser().getHead().equals("")==false){
             Picasso.with(context).load(context.getString(R.string.url_resources)+moment.getUser().getHead()).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.iv_social_publisher_head);
         }
-
+        viewHolder.iv_social_publisher_head.setOnClickListener(new StartHomepage(context,moment.getUser().getId()));
         //设置动态发起人昵称
         viewHolder.tv_social_publisher_nickname.setText(moment.getUser().getNickname());
+        viewHolder.tv_social_publisher_nickname.setOnClickListener(new StartHomepage(context,moment.getUser().getId()));
+
         //设置动态发起时间
         viewHolder.tv_social_publish_time.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(moment.getPostTime())));
         //设置动态内容
@@ -245,19 +250,25 @@ public class SocialListAdapter extends BaseAdapter {
             //设置用户关于该动态是否赞的情况
             if(moment.isIsLike()==false){
                 viewHolder.tv_social_praise_number.setTextColor(context.getResources().getColor(R.color.colorLabelGrey));
+                viewHolder.iv_social_praise_picture.setImageResource(R.drawable.moment_praise);
             }else {
                 viewHolder.tv_social_praise_number.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                viewHolder.iv_social_praise_picture.setImageResource(R.drawable.moment_praise_pressed);
             }
         }else {
             viewHolder.tv_social_praise_number.setText("赞");
             viewHolder.tv_social_praise_number.setTextColor(context.getResources().getColor(R.color.colorLabelGrey));
+            viewHolder.iv_social_praise_picture.setImageResource(R.drawable.moment_praise);
         }
 
         //发起评论
         viewHolder.ll_social_moment_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(LoginSituation.isLogin(context)==false){
+                    LoginActivity.login(context);
+                    return;
+                }
                 Intent intent=new Intent();
                 intent.setAction(context.getString(R.string.activity_project_comment));
                 intent.putExtra("momentId",moment.getMomentId());
@@ -275,6 +286,10 @@ public class SocialListAdapter extends BaseAdapter {
         viewHolder.ll_social_moment_praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(LoginSituation.isLogin(context)==false){
+                    LoginActivity.login(context);
+                    return;
+                }
                 if(isFinishRequest==false){
                     Toast.makeText(context,"正在处理，请稍后再试",Toast.LENGTH_SHORT).show();
                     return;

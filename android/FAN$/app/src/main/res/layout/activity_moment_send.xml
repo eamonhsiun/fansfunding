@@ -90,21 +90,21 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/iv_moment_send_add_photo"
-            android:layout_width="72dp"
-            android:layout_height="56dp"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
             android:paddingLeft="@dimen/layout_padding"
             android:paddingRight="@dimen/layout_padding"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:src="@drawable/pjimagetest"/>
+            android:src="@drawable/input_picture"/>
         <ImageView
             android:id="@+id/iv_moment_send_add_emoji"
-            android:layout_width="72dp"
-            android:layout_height="56dp"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
             android:paddingLeft="@dimen/layout_padding"
             android:paddingRight="@dimen/layout_padding"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:src="@drawable/pjimagetest"/>
+            android:src="@drawable/input_emoji"/>
     </LinearLayout>
 </RelativeLayout>

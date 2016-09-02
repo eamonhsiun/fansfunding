@@ -60,6 +60,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
 
 
+    public final static int REQUEST_CODE_START_USER_INFO_ACTIVITY=1004;
     //用户id
     private int userId;
 

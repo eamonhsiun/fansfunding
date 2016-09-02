@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.ProjectInfo;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -144,6 +145,10 @@ public class ListProjectAdapter extends BaseAdapter{
 
         //设置控件的值
         viewHolder.tv_PJ_publish_nickname.setText(detail.getSponsorNickname());
+        //点击进入个人主页
+        viewHolder.tv_PJ_publish_nickname.setOnClickListener(new StartHomepage(context,detail.getSponsor()));
+        viewHolder.iv_PJ_publish_head.setOnClickListener(new StartHomepage(context,detail.getSponsor()));
+
         viewHolder.tv_PJ_name.setText(detail.getName());
         viewHolder.tv_PJ_intro.setText(detail.getDescription());
         if(context!=null&&detail.getCover()!=null&&detail.getCover().equals("")==false){

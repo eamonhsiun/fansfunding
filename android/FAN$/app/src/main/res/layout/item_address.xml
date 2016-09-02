@@ -75,8 +75,8 @@
             android:gravity="right"
             android:weightSum="1">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/address_edit"/>
@@ -91,8 +91,8 @@
                 android:textColor="@color/colorGrey"
                 android:layout_weight="0.10" />
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/delete"
                 android:layout_marginLeft="10dp"

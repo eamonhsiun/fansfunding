@@ -24,16 +24,20 @@ import okhttp3.Response;
  */
 public class RequestSingleMoment {
 
+
+
     private SingleUserMoment singleUserMoment;
 
     public SingleUserMoment getSingleUserMoment(){
         return singleUserMoment;
     }
 
-    public void requestSingleMoment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int momentId, final int userId,final String token){
+    public void requestSingleMoment(Activity activity, final ErrorHandler handler, OkHttpClient httpClient, final int momentId, final int userId,final int viewId){
+
+
         Request request=new Request.Builder()
                 .get()
-                .url(activity.getString(R.string.url_user)+userId+"/moment/"+momentId+"?token="+token)
+                .url(activity.getString(R.string.url_userbasic)+userId+"/moment/"+momentId+"?viewId="+viewId)
                 .build();
         Call call=httpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -50,7 +54,7 @@ public class RequestSingleMoment {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
-                Log.i("TAG","SINGLE"+str_response);
+                Log.i("TAG","DADAW"+str_response);
                 singleUserMoment=new SingleUserMoment();
                 try {
 

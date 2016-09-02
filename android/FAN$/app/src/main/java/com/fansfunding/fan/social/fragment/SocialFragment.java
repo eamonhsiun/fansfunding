@@ -50,6 +50,10 @@ import okhttp3.OkHttpClient;
  */
 public class SocialFragment extends Fragment {
 
+
+    //目标id
+    private int target_userId;
+
     //动态列表
     private XListView lv_social;
 
@@ -84,7 +88,6 @@ public class SocialFragment extends Fragment {
 
             switch (msg.what){
                 case FANRequestCode.GET_USER_FOLLOW_USER_MOMENT_SUCCESS:
-                    isFinishRequest=true;
                     endRefresh();
                     if(requestUserFollowUserMoment.getUserMoment().getData().getList().size()< requestUserFollowUserMoment.getRows()){
                         requestUserFollowUserMoment.setPage(1);
@@ -98,9 +101,9 @@ public class SocialFragment extends Fragment {
                     for(int i = 0; i< requestUserFollowUserMoment.getUserMoment().getData().getList().size(); i++){
                         adapter.addItem(requestUserFollowUserMoment.getUserMoment().getData().getList().get(i));
                     }
+                    adapter.notifyDataSetChanged();
                     break;
                 case FANRequestCode.GET_USER_FOLLOW_USER_MOMENT_FAILURE:
-                    isFinishRequest=true;
                     endRefresh();
                     if(SocialFragment.this.getActivity()!=null){
                         Toast.makeText(SocialFragment.this.getActivity(),"获取动态失败",Toast.LENGTH_LONG).show();
@@ -129,11 +132,19 @@ public class SocialFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public static SocialFragment newInstance(int target_userId) {
+        SocialFragment fragment = new SocialFragment();
+        Bundle args = new Bundle();
+        args.putInt("target_userId",target_userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            target_userId=getArguments().getInt("target_userId");
         }
     }
 
@@ -165,6 +176,11 @@ public class SocialFragment extends Fragment {
 
     private void initViews(View rootView){
         fab_social_add_moment=(FloatingActionButton)rootView.findViewById(R.id.fab_social_add_moment);
+
+        //如果未登录，或者不是访问自己的动态，则隐藏发起动态按钮
+        if(LoginSituation.isLogin(SocialFragment.this.getActivity())==false||target_userId!=0){
+            fab_social_add_moment.setVisibility(View.INVISIBLE);
+        }
         fab_social_add_moment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +228,6 @@ public class SocialFragment extends Fragment {
         lv_social.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("TAG","inItemclick");
                 UserMoment.DataBean.ListBean data=(UserMoment.DataBean.ListBean)lv_social.getAdapter().getItem(position);
                 if(data==null){
                     Toast.makeText(SocialFragment.this.getActivity(),"发生异常，请尝试刷新动态",Toast.LENGTH_SHORT).show();

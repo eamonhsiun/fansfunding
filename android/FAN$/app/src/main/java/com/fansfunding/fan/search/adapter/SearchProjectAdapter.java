@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.AllProjectInCategory;
 import com.fansfunding.internal.ProjectInfo;
 import com.fansfunding.internal.SearchProject;
@@ -119,6 +120,8 @@ public class SearchProjectAdapter extends BaseAdapter {
 
         //设置控件的值
         viewHolder.tv_PJ_publish_nickname.setText(detail.getSponsorNickname());
+        viewHolder.tv_PJ_publish_nickname.setOnClickListener(new StartHomepage(context,detail.getSponsor()));
+
         viewHolder.tv_PJ_name.setText(detail.getName());
         viewHolder.tv_PJ_intro.setText(detail.getDescription());
         if(context!=null&&detail.getCover()!=null&&detail.getCover().equals("")==false){
@@ -131,6 +134,7 @@ public class SearchProjectAdapter extends BaseAdapter {
         if(context!=null&&detail.getSponsorHead()!=null&&detail.getSponsorHead().equals("")==false){
             Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getSponsorHead()).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.iv_PJ_publish_head);
         }
+        viewHolder.iv_PJ_publish_head.setOnClickListener(new StartHomepage(context,detail.getSponsor()));
         viewHolder.tv_PJ_time_start.setText(getStartTime(detail.getCreateTime()));
         viewHolder.tv_PJ_time_end.setText(getEndTime(detail.getTargetDeadline()));
         /*View rootView=View.inflate(context, R.layout.item_project,null);

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.cpoopc.scrollablelayoutlib.ScrollableHelper;
 import com.cpoopc.scrollablelayoutlib.ScrollableLayout;
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.login.LoginActivity;
 import com.fansfunding.fan.project.activity.ProjectCommentActivity;
 import com.fansfunding.fan.request.RequestPraiseMoment;
 import com.fansfunding.fan.request.RequestSingleMoment;
@@ -30,9 +31,13 @@ import com.fansfunding.fan.social.adapter.MomentPaperAdapter;
 import com.fansfunding.fan.social.adapter.SocialMomentPhotoAdapter;
 import com.fansfunding.fan.social.fragment.MomentCommentFragment;
 import com.fansfunding.fan.social.fragment.MomentPraiseFragment;
+import com.fansfunding.fan.social.interfacetest.IInitNum;
+import com.fansfunding.fan.utils.DefaultValue;
 import com.fansfunding.fan.utils.ErrorHandler;
 import com.fansfunding.fan.utils.FANRequestCode;
+import com.fansfunding.fan.utils.LoginSituation;
 import com.fansfunding.fan.utils.MyGridView;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.social.SingleUserMoment;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.nostra13.universalimageloader.utils.L;
@@ -51,10 +56,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class MomentActivity extends AppCompatActivity{
+public class MomentActivity extends AppCompatActivity implements IInitNum{
 
     public static final String MOMENTID="MOMENTID";
 
+
+    public static final int RESET_COLUMN_NUM=1;
+
+    public static final int RESET_PRAISE_NUM=2;
 
     private boolean isFinishRequest=true;
 
@@ -63,6 +72,7 @@ public class MomentActivity extends AppCompatActivity{
     protected TabLayout tab_moment;
 
     protected ScrollableLayout sl_moment;
+
 
     //用户id
     private int userId;
@@ -103,6 +113,9 @@ public class MomentActivity extends AppCompatActivity{
     //赞的展示内容
     private TextView tv_moment_praise_text;
 
+    //赞的图标
+    private ImageView iv_moment_praise;
+
     //动态id
     private int momentId;
 
@@ -125,6 +138,7 @@ public class MomentActivity extends AppCompatActivity{
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case FANRequestCode.GET_SINGLE_USER_MOMENT_SUCCESS:
+                    isFinishRequest=true;
                     setMomentView();
                     break;
                 case FANRequestCode.GET_SINGLE_USER_MOMENT_FAILURE:
@@ -136,11 +150,12 @@ public class MomentActivity extends AppCompatActivity{
                     isFinishRequest=true;
                     //设置是否赞了该动态
                     if(requestSingleMoment.getSingleUserMoment().getData().isIsLike()==false){
-                        requestSingleMoment.getSingleUserMoment().getData().setLikeNum(requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+1);
+                        //requestSingleMoment.getSingleUserMoment().getData().setLikeNum(requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+1);
                     }
                     requestSingleMoment.getSingleUserMoment().getData().setIsLike(true);
                     tv_moment_praise_text.setText("已赞");
-                    tab_moment.getTabAt(1).setText("赞("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
+                    iv_moment_praise.setImageResource(R.drawable.moment_praise_pressed);
+                    //tab_moment.getTabAt(1).setText("赞("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
                     ((MomentPraiseFragment)fragmentList.get(1)).refreshPraiseList();
 
                     break;
@@ -154,11 +169,12 @@ public class MomentActivity extends AppCompatActivity{
                     isFinishRequest=true;
                     //设置是否赞了该动态
                     if(requestSingleMoment.getSingleUserMoment().getData().isIsLike()==true){
-                        requestSingleMoment.getSingleUserMoment().getData().setLikeNum(requestSingleMoment.getSingleUserMoment().getData().getLikeNum()-1);
+                        //requestSingleMoment.getSingleUserMoment().getData().setLikeNum(requestSingleMoment.getSingleUserMoment().getData().getLikeNum()-1);
                     }
                     requestSingleMoment.getSingleUserMoment().getData().setIsLike(false);
                     tv_moment_praise_text.setText("赞");
-                    tab_moment.getTabAt(1).setText("赞("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
+                    iv_moment_praise.setImageResource(R.drawable.moment_praise);
+                    //tab_moment.getTabAt(1).setText("赞("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
                     ((MomentPraiseFragment)fragmentList.get(1)).refreshPraiseList();
                     break;
                 case FANRequestCode.CANCEL_PRAISE_MOMENT_FAILURE:
@@ -188,6 +204,9 @@ public class MomentActivity extends AppCompatActivity{
         userId=share.getInt("id",-1);
         token=share.getString("token"," ");
 
+        if(userId<0|| LoginSituation.isLogin(this)==false){
+            userId= DefaultValue.DEFAULT_USERID;
+        }
 
         //获取动态相关信息
         Intent intent=getIntent();
@@ -229,7 +248,7 @@ public class MomentActivity extends AppCompatActivity{
 
         ll_moment_send_comment=(LinearLayout)findViewById(R.id.ll_moment_send_comment);
         ll_moment_praise=(LinearLayout)findViewById(R.id.ll_moment_praise);
-
+        iv_moment_praise=(ImageView)findViewById(R.id.iv_moment_praise);
         vp_moment=(ViewPager)findViewById(R.id.vp_moment);
         vp_moment.setAdapter(momentPaperAdapter);
         vp_moment.setOffscreenPageLimit(3);
@@ -281,7 +300,7 @@ public class MomentActivity extends AppCompatActivity{
     }
 
     protected void loadData(){
-        requestSingleMoment.requestSingleMoment(this,handler,httpClient,momentId,userId,token);
+        requestSingleMoment.requestSingleMoment(this,handler,httpClient,momentId,userId,userId);
     }
 
     private void setMomentView(){
@@ -294,6 +313,7 @@ public class MomentActivity extends AppCompatActivity{
         }
         //设置动态发起人昵称
         tv_social_publisher_nickname.setText(moment.getUser().getNickname());
+        tv_social_publisher_nickname.setOnClickListener(new StartHomepage(this,requestSingleMoment.getSingleUserMoment().getData().getUser().getId()));
         //设置动态发送时间
         tv_social_publish_time.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(moment.getPostTime())));
         //设置动态内容
@@ -302,7 +322,7 @@ public class MomentActivity extends AppCompatActivity{
         if(moment.getUser().getHead()!=null&&moment.getUser().getHead().equals("")==false){
             Picasso.with(this).load(getString(R.string.url_resources)+moment.getUser().getHead()).memoryPolicy(MemoryPolicy.NO_CACHE).into(iv_social_publisher_head);
         }
-
+        iv_social_publisher_head.setOnClickListener(new StartHomepage(this,requestSingleMoment.getSingleUserMoment().getData().getUser().getId()));
         //设置动态图片
         if(moment.getImages()!=null){
             SocialMomentPhotoAdapter adapter=new SocialMomentPhotoAdapter(this);
@@ -341,6 +361,10 @@ public class MomentActivity extends AppCompatActivity{
         ll_moment_send_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(LoginSituation.isLogin(MomentActivity.this)==false){
+                    LoginActivity.loginForResult(MomentActivity.this,LoginActivity.REQUEST_LOGIN_BY_PHONE);
+                    return;
+                }
                 //如果尚未返回动态信息，则直接返回
                 if(requestSingleMoment.getSingleUserMoment()==null){
                     return;
@@ -357,6 +381,10 @@ public class MomentActivity extends AppCompatActivity{
         ll_moment_praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(LoginSituation.isLogin(MomentActivity.this)==false){
+                    LoginActivity.loginForResult(MomentActivity.this,LoginActivity.REQUEST_LOGIN_BY_PHONE);
+                    return;
+                }
                 //如果尚未返回动态信息，则直接返回
                 if(requestSingleMoment.getSingleUserMoment()==null){
                     return;
@@ -386,8 +414,10 @@ public class MomentActivity extends AppCompatActivity{
         //设置是否赞了该动态
         if(requestSingleMoment.getSingleUserMoment().getData().isIsLike()==false){
             tv_moment_praise_text.setText("赞");
+            iv_moment_praise.setImageResource(R.drawable.moment_praise);
         }else {
             tv_moment_praise_text.setText("已赞");
+            iv_moment_praise.setImageResource(R.drawable.moment_praise_pressed);
         }
 
 
@@ -407,6 +437,21 @@ public class MomentActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    public void initNum(int num,int mode) {
+        if(requestSingleMoment.getSingleUserMoment()==null||requestSingleMoment.getSingleUserMoment().getData()==null){
+            return;
+        }
+        if(mode==RESET_COLUMN_NUM){
+            requestSingleMoment.getSingleUserMoment().getData().setCommentNum(num);
+            tab_moment.getTabAt(0).setText("评论("+requestSingleMoment.getSingleUserMoment().getData().getCommentNum()+")");
+        }else if(mode==RESET_PRAISE_NUM){
+            requestSingleMoment.getSingleUserMoment().getData().setLikeNum(num);
+            tab_moment.getTabAt(1).setText("赞("+requestSingleMoment.getSingleUserMoment().getData().getLikeNum()+")");
+        }
+
+    }
+
     public interface OnLoadListViewReset {
         // TODO: Update argument type and name
         void resetLoadListView();
@@ -420,11 +465,17 @@ public class MomentActivity extends AppCompatActivity{
                     if(requestSingleMoment.getSingleUserMoment()==null){
                         break;
                     }
-                    requestSingleMoment.getSingleUserMoment().getData().setCommentNum(requestSingleMoment.getSingleUserMoment().getData().getCommentNum()+1);
-                    tab_moment.getTabAt(0).setText("评论("+requestSingleMoment.getSingleUserMoment().getData().getCommentNum()+")");
+                    //requestSingleMoment.getSingleUserMoment().getData().setCommentNum(requestSingleMoment.getSingleUserMoment().getData().getCommentNum()+1);
+                    //tab_moment.getTabAt(0).setText("评论("+requestSingleMoment.getSingleUserMoment().getData().getCommentNum()+")");
                     ((MomentCommentFragment)fragmentList.get(0)).resetCommentList();
                 }
                 break;
+            case LoginActivity.REQUEST_LOGIN_BY_PHONE:
+                if(resultCode==RESULT_OK){
+                    userId=LoginSituation.getUserId(this);
+                    token=LoginSituation.getUserToken(this);
+                    requestSingleMoment.requestSingleMoment(this,handler,httpClient,momentId,userId,userId);
+                }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

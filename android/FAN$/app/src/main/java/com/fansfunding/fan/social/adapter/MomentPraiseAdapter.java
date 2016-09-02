@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.social.MomentPraise;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -90,7 +91,7 @@ public class MomentPraiseAdapter extends BaseAdapter {
         //设置昵称
         viewHodler.tv_people_nickname.setText(praise.getNickname());
 
-
+        rootView.setOnClickListener(new StartHomepage(context,praise.getId()));
         return rootView;
     }
 

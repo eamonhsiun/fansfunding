@@ -51,7 +51,7 @@
             android:layout_height="76dp"
             android:layout_marginRight="@dimen/layout_padding"
             android:layout_marginLeft="@dimen/layout_padding"
-            android:src="@drawable/icontest"/>
+            android:src="@drawable/pjimagetest"/>
 
         <!--修改用户头像按钮-->
         <Button

@@ -40,12 +40,12 @@
         android:layout_alignParentBottom="true">
         <ImageView
             android:id="@+id/iv_PJ_comment_show_emojicon"
-            android:layout_width="72dp"
-            android:layout_height="56dp"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
             android:paddingLeft="@dimen/layout_padding"
             android:paddingRight="@dimen/layout_padding"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:src="@drawable/pjimagetest"/>
+            android:src="@drawable/input_emoji"/>
     </LinearLayout>
 </RelativeLayout>

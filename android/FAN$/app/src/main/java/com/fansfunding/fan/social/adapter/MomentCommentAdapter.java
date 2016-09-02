@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.project.ProjectSupportsInfo;
 import com.fansfunding.internal.social.MomentComment;
 import com.rockerhieu.emojicon.EmojiconTextView;
@@ -95,8 +96,11 @@ public class MomentCommentAdapter extends BaseAdapter {
         if(comment.getUser().getHead()!=null&&comment.getUser().getHead().equals("")==false){
             Picasso.with(context).load(context.getString(R.string.url_resources)+comment.getUser().getHead()).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.iv_project_detail_dynamic_head);
         }
+        viewHolder.iv_project_detail_dynamic_head.setOnClickListener(new StartHomepage(context,comment.getUser().getId()));
         //设置评论人昵称
         viewHolder.tv_news_detail_commenter_name.setText(comment.getUser().getNickname());
+        viewHolder.tv_news_detail_commenter_name.setOnClickListener(new StartHomepage(context,comment.getUser().getId()));
+
         //设置评论时间
         viewHolder.tv_news_detail_comment_time.setText(new SimpleDateFormat("MM-dd HH:mm").format(new Date(comment.getPostTime())));
         //设置评论的内容

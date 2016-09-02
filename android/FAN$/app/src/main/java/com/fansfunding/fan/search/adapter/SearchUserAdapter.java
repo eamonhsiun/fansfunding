@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.SearchProject;
 import com.fansfunding.internal.SearchUser;
 import com.squareup.picasso.MemoryPolicy;
@@ -113,6 +114,7 @@ public class SearchUserAdapter extends BaseAdapter {
         if(detail.getIntro()!=null){
             tv_search_people_signature.setText(detail.getIntro());
         }
+        rootView.setOnClickListener(new StartHomepage(context,detail.getId()));
         return rootView;
     }
 }

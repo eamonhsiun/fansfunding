@@ -319,6 +319,8 @@ public class SettingActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor=share.edit();
                         editor.putBoolean("result",logout.isResult());
                         editor.putInt("errCode",logout.getErrCode());
+                        editor.putInt("id",-1);
+                        editor.putString("token"," ");
                         editor.commit();
 
 
@@ -327,6 +329,7 @@ public class SettingActivity extends AppCompatActivity {
                         SharedPreferences share_is_login=getSharedPreferences(getString(R.string.sharepreference_login_by_phone),MODE_PRIVATE);
                         SharedPreferences.Editor editor_is_login=share_is_login.edit();
                         editor_is_login.putBoolean("isLogin",false);
+                        editor_is_login.putInt("id",-1);
                         editor_is_login.commit();
 
 

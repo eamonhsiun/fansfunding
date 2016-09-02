@@ -14,4 +14,14 @@ public class LoginSituation {
         SharedPreferences share=activity.getSharedPreferences(activity.getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
         return share.getBoolean("isLogin",false);
     }
+
+    public static int getUserId(Activity activity){
+        SharedPreferences share=activity.getSharedPreferences(activity.getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        return share.getInt("id",-1);
+    }
+
+    public static String getUserToken(Activity activity){
+        SharedPreferences share=activity.getSharedPreferences(activity.getString(R.string.sharepreference_login_by_phone), Context.MODE_PRIVATE);
+        return share.getString("token","");
+    }
 }

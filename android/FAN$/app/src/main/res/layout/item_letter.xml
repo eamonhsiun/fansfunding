@@ -15,7 +15,7 @@
 
 
     <LinearLayout
-        android:layout_marginTop="@dimen/layout_padding"
+        android:layout_marginTop="12dp"
         android:id="@+id/ll_message_letter_father"
         android:layout_width="0dp"
         android:layout_weight="1"

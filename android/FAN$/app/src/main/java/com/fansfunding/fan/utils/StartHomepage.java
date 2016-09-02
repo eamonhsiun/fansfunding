@@ -28,4 +28,8 @@ public class StartHomepage implements View.OnClickListener {
     }
 
 
+    public class startHomePage {
+        public startHomePage(Activity context, int id) {
+        }
+    }
 }

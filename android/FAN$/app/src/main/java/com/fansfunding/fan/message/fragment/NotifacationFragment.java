@@ -1,5 +1,6 @@
 package com.fansfunding.fan.message.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import com.fansfunding.fan.message.entity.NotificationDynamic;
 import com.fansfunding.fan.message.entity.NotificationProject;
 import com.fansfunding.fan.message.model.Notifications;
 import com.fansfunding.fan.social.activity.MomentActivity;
+import com.fansfunding.fan.utils.StartHomepage;
 import com.fansfunding.internal.ProjectInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +62,7 @@ public class NotifacationFragment extends Fragment {
     public static List<Notifications> notificationses = new ArrayList<>();
 
     //当前未读的通知
-    public static TextView unread;
+    public static TextView unreadNt;
 
     //全部标记为已读
     private ImageButton imageButton;
@@ -77,7 +79,7 @@ public class NotifacationFragment extends Fragment {
 //                        ActiveAndroid.endTransaction();
 //                    }
                     int i  = new Select().from(Notifications.class).where("isRead = ? and userId  = ?", 0, userId).count();
-                    unread.setText(i + "");
+                    unreadNt.setText(i + "");
                     notificationAdapter.notifyDataSetChanged();
                     Log.d("PushService", "fucking");
                     break;
@@ -92,7 +94,7 @@ public class NotifacationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
-        unread = (TextView) rootView.findViewById(R.id.tv_message_notification_not_read);
+        unreadNt = (TextView) rootView.findViewById(R.id.tv_message_notification_not_read);
 
         listView = (ListView) rootView.findViewById(R.id.lv_message_notification);
         notificationAdapter = new NotificationAdapter(getContext(), R.layout.item_notification, notificationses);
@@ -100,7 +102,7 @@ public class NotifacationFragment extends Fragment {
         app = (App)getActivity().getApplication();
         //设置未读push的数量
         int i  = new Select().from(Notifications.class).where("isRead = ? and userId = ?", 0, userId).count();
-        unread.setText(i + "");
+        unreadNt.setText(i + "");
         notificationAdapter.notifyDataSetChanged();
         imageButton = (ImageButton) rootView.findViewById(R.id.ib_message_notification);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -214,7 +216,21 @@ public class NotifacationFragment extends Fragment {
                         break;
                         //用户关注.跳转个人主页
                     case 5:
+                        StartHomepage startHomepage = new StartHomepage((Activity) getContext(), notificationProject.getCauser().getId());
 
+                        startHomepage.startHomePage((Activity) getContext(), notificationProject.getCauser().getId());
+                        //如果没有读过小红点数量减1
+                        if(!notifications.getRead()) {
+                            notifications.setRead(true);
+                            app.getBadgeView().decrementBadgeCount(1);
+                            view.setBackgroundResource(R.color.colorDividerGrey);
+                            //更新数据库
+                            Notifications nb = Notifications.load(Notifications.class, notifications.getId());
+                            nb.setRead(true);
+                            nb.save();
+//                            notificationses.get(position).setRead(true);
+                            handler.sendEmptyMessage(UPDATE_UI);
+                        }
                         break;
 
                     default:
@@ -234,11 +250,8 @@ public class NotifacationFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1003) {
-            super.onActivityResult(requestCode, resultCode, data);
-            handler.sendEmptyMessage(UPDATE_UI);
-        }
-
+        super.onActivityResult(requestCode, resultCode, data);
+        handler.sendEmptyMessage(UPDATE_UI);
     }
 
     @Override

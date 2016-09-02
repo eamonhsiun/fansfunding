@@ -137,6 +137,7 @@ public class MessageFragment extends Fragment {
                 Intent intent = getActivity().getIntent();
                 int i = intent.getIntExtra("page", 0);
                 viewPager.setCurrentItem(i);
+
                 break;
             default:
                 break;

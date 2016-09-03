@@ -513,7 +513,7 @@ public class PushService extends Service {
             //小红点嘿嘿嘿+1
             App app = (App)getApplication();
             //私信条目加一
-            messages.add(message);
+            messages.add(0, message);
             app.getBadgeView().incrementBadgeCount(1);
             if(letterAdapter != null) {
                 int i  = new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId  = ?", 0, id).count();
@@ -555,6 +555,11 @@ public class PushService extends Service {
 
             //通知的界面
             if(letterAdapter != null) {
+                //私信条目加一
+                if(!messages.contains(messageList.get(0))) {
+                    messages.add(0, messageList.get(0));
+                }
+
                 int i  = new Select().from(com.fansfunding.fan.message.model.Message.class).where("isRead = ? and userId  = ?", 0, id).count();
                 unreadMsg.setText(i + "");
                 letterAdapter.notifyDataSetChanged();

@@ -168,9 +168,15 @@ public class ChatActivity extends AppCompatActivity {
                 if(input.length() == 0) {
                     Toast.makeText(ChatActivity.this, "输入不能为空", Toast.LENGTH_SHORT).show();
                 }else {
-                    client.send(send(chatReceiverId));
-                    input.setText("");
-                    listView.setSelection(contentList.size());
+                    if(client != null && client.getConnection() != null) {
+                        client.send(send(chatReceiverId));
+                        input.setText("");
+                        listView.setSelection(contentList.size());
+                    }
+                        else {
+                            Toast.makeText(ChatActivity.this, "网络好像不稳定呢", Toast.LENGTH_SHORT).show();
+                        }
+
                 }
 //                handler.postDelayed(new Runnable() {
 //                    @Override
@@ -208,8 +214,10 @@ public class ChatActivity extends AppCompatActivity {
                 privateLetter = gson.fromJson(message1.get(0).getJson(), privateLetter.getClass());
             }
         }else{
-            contentList.clear();
-            msgAdapter.notifyDataSetChanged();
+            if(msgAdapter != null) {
+                contentList.clear();
+                msgAdapter.notifyDataSetChanged();
+            }
         }
     }
 

@@ -208,8 +208,10 @@ public class ChatActivity extends AppCompatActivity {
                 privateLetter = gson.fromJson(message1.get(0).getJson(), privateLetter.getClass());
             }
         }else{
-            contentList.clear();
-            msgAdapter.notifyDataSetChanged();
+            if(msgAdapter != null) {
+                contentList.clear();
+                msgAdapter.notifyDataSetChanged();
+            }
         }
     }
 

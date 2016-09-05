@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
@@ -17,27 +18,28 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insert" parameterType="com.fansfunding.project.entity.Category" >
-    insert into category (name, description, create_by, create_time,
+    insert into category (name, description, icon, create_by, create_time,
     update_by, update_time)
-    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
       #{createBy,jdbcType=VARCHAR}, NOW(), #{updateBy,jdbcType=VARCHAR}, NOW())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.fansfunding.project.entity.Category" >
     update category
     set name = #{name,jdbcType=VARCHAR},
+      icon=#{icon,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       update_by = #{updateBy,jdbcType=VARCHAR},
       update_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, name, description, create_by, create_time, update_by, update_time, del_flag
+    select id, name,icon, description, create_by, create_time, update_by, update_time, del_flag
     from category
     where id = #{id,jdbcType=INTEGER}
     and del_flag='0'
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, name, description, create_by, create_time, update_by, update_time, del_flag
+    select id, name,icon, description, create_by, create_time, update_by, update_time, del_flag
     from category
     where del_flag='0'
   </select>

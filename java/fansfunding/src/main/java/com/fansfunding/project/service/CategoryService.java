@@ -25,6 +25,7 @@ public class CategoryService {
 			Map<String,Object> catagory=new HashMap<>();
 			catagory.put("id", e.getId());
 			catagory.put("name", e.getName());
+			catagory.put("icon", e.getIcon());
 			catagory.put("description",e.getDescription());
 			catagorys.add(catagory);
 		});

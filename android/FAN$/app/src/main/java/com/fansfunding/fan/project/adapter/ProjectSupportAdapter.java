@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fansfunding.fan.R;
 import com.fansfunding.fan.utils.MyGridView;
@@ -95,6 +97,13 @@ public class ProjectSupportAdapter extends BaseAdapter{
         //回报内容
         TextView tv_project_detail_reward_information=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_information);
 
+
+        LinearLayout ll_project_detail_reward_support_limit=(LinearLayout)rootView.findViewById(R.id.ll_project_detail_reward_support_limit);
+        TextView tv_project_detail_reward_support_times=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support_times);
+        TextView tv_project_detail_reward_support_ceiling=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support_ceiling);
+
+
+
         //图片展示适配器
         ProjectDetailDynamicPhotoAdapter photoAdapter=new ProjectDetailDynamicPhotoAdapter(context);
 
@@ -116,9 +125,14 @@ public class ProjectSupportAdapter extends BaseAdapter{
         if(list.get(position).getDescription()!=null){
             tv_project_detail_reward_information.setText(list.get(position).getDescription());
         }
-        //设置回报图像
-        if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0&&list.get(position).getImages().get(0).equals("")==false){
-            //Picasso.with(context).load(context.getString(R.string.url_resources)+list.get(position).getImages().get(0)).into(iv_project_detail_reward_image);
+
+        //设置回报限制
+        if(list.get(position).getCeiling()==-1){
+            ll_project_detail_reward_support_limit.setVisibility(View.GONE);
+        }else {
+            ll_project_detail_reward_support_limit.setVisibility(View.VISIBLE);
+            tv_project_detail_reward_support_ceiling.setText(""+list.get(position).getCeiling());
+            tv_project_detail_reward_support_times.setText(""+list.get(position).getSupportTimes());
         }
         if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0){
             for(int i=0;i<list.get(position).getImages().size();i++){
@@ -161,6 +175,10 @@ public class ProjectSupportAdapter extends BaseAdapter{
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(list.get(position).getCeiling()!=-1&&list.get(position).getSupportTimes()>=list.get(position).getCeiling()){
+                    Toast.makeText(context,"该回报已满额，请选择其他回报",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(iv_project_detail_reward_select.isChecked()==true){
                     iv_project_detail_reward_select.setChecked(false);
                     if(select.get(position)!=null){
@@ -175,13 +193,20 @@ public class ProjectSupportAdapter extends BaseAdapter{
                         select.set(position,true);
                     }
                 }
-                //ProjectSupportAdapter.this.notifyDataSetChanged();
+                ProjectSupportAdapter.this.notifyDataSetChanged();
             }
         });
         //使得checkbox只有一个有效
         iv_project_detail_reward_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(list.get(position).getCeiling()!=-1&&list.get(position).getSupportTimes()>=list.get(position).getCeiling()){
+                    Toast.makeText(context,"该回报已满额，请选择其他回报",Toast.LENGTH_SHORT).show();
+                    if(iv_project_detail_reward_select.isChecked()==true){
+                        iv_project_detail_reward_select.setChecked(false);
+                    }
+                    return;
+                }
                 if(iv_project_detail_reward_select.isChecked()==false){
                     iv_project_detail_reward_select.setChecked(false);
                     if(select.get(position)!=null){
@@ -196,7 +221,7 @@ public class ProjectSupportAdapter extends BaseAdapter{
                         select.set(position,true);
                     }
                 }
-                //ProjectSupportAdapter.this.notifyDataSetChanged();
+                ProjectSupportAdapter.this.notifyDataSetChanged();
             }
         });
         return rootView;

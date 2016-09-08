@@ -2,8 +2,10 @@ package com.fansfunding.fan.project.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
@@ -59,8 +61,15 @@ public class ProjectDetailDynamicPhotoAdapter extends BaseAdapter {
         if(position<0||position>=paths.size()){
             return null;
         }
-        View rootView=View.inflate(context, R.layout.item_project_detail_dynamic_image_272,null);
-        ImageView iv_project_detail_dynamic_image=(ImageView) rootView.findViewById(R.id.iv_project_detail_dynamic_image);
+        ImageView rootView=(ImageView) LayoutInflater.from(context).inflate(R.layout.adapter_photo_list_item,null);
+        setHeight(rootView);
+        if(paths.get(position)!=null&&paths.get(position).equals("")==false){
+            final String url=context.getString(R.string.url_resources)+paths.get(position);
+            Picasso.with(context).load(url)
+                    //.resizeDimen(R.dimen.dynamic_photo_one_width,R.dimen.dynamic_photo_one_height).centerCrop()
+                    .memoryPolicy(MemoryPolicy.NO_CACHE).into(rootView);
+        }
+        /*ImageView iv_project_detail_dynamic_image=(ImageView) rootView.findViewById(R.id.iv_project_detail_dynamic_image);
 
         if(paths.get(position)!=null&&paths.get(position).equals("")==false){
             final String url=context.getString(R.string.url_resources)+paths.get(position);
@@ -114,8 +123,31 @@ public class ProjectDetailDynamicPhotoAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-        }
+        }*/
 
         return rootView;
+    }
+
+    private void setHeight(final View convertView){
+        int height=0;
+        switch (paths.size()){
+            case 1:
+                 height= context.getResources().getDimensionPixelOffset(R.dimen.dynamic_photo_one_height);
+                convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+                return;
+            case 2:
+                height = context.getResources().getDimensionPixelOffset(R.dimen.dynamic_photo_two_height);
+                convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+                return;
+            case 3:
+                height = context.getResources().getDimensionPixelOffset(R.dimen.dynamic_photo_three_height);
+                convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+                return;
+            case 4:
+                height = context.getResources().getDimensionPixelOffset(R.dimen.dynamic_photo_four_height);
+                convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+                return;
+
+        }
     }
 }

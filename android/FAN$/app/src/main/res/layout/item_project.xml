@@ -81,11 +81,12 @@
     <ImageView
         android:id="@+id/iv_PJ_image_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:adjustViewBounds="true"
         android:layout_marginTop="@dimen/layout_padding"
         android:layout_below="@id/rl_PJ_publish_detail"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/project_default_cover"/>
 
     <!--项目名称-->
     <TextView

@@ -79,6 +79,7 @@ public class RequestProjectDetailReward {
                 }
                 Gson gson=new GsonBuilder().create();
                 String str_response=response.body().string();
+                Log.i("TAG","回报："+str_response);
                 reward=new ProjectDetailReward();
                 try {
                     //用Gson进行解析，并判断结果是否为空

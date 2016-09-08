@@ -73,6 +73,12 @@ public class ProjectDetailReward {
         //图片
         private List<String> images;
 
+        //最多支持次数
+        private int ceiling;
+
+        //已支持次数
+        private int supportTimes;
+
 
         public int getId() {
             return id;
@@ -120,6 +126,23 @@ public class ProjectDetailReward {
 
         public void setImages( List<String> images) {
             this.images = images;
+        }
+
+
+        public int getCeiling() {
+            return ceiling;
+        }
+
+        public void setCeiling(int ceiling) {
+            this.ceiling = ceiling;
+        }
+
+        public int getSupportTimes() {
+            return supportTimes;
+        }
+
+        public void setSupportTimes(int supportTimes) {
+            this.supportTimes = supportTimes;
         }
     }
 }

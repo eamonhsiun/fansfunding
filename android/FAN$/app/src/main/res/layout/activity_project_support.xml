@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_PJ_support"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorImpressionRed"
+        android:background="@color/colorPrimary"
         android:titleTextColor="@color/colorWhite"
         app:theme="@style/toolbar_white_theme"
         android:elevation="4dp"

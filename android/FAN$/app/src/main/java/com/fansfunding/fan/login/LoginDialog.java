@@ -982,7 +982,6 @@ public class LoginDialog {
                     Toast.makeText(context,"网络异常，请检查网络",Toast.LENGTH_LONG).show();
                     InitLoginByPhone();
                     Looper.loop();
-
                     //可能是网络原因导致的问题
                 }
 

@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".CategoryActivity">
 
     <!--标题栏-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_category"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:titleTextColor="@color/colorWhite"
+        app:theme="@style/toolbar_white_theme"
+        android:elevation="4dp">
 
     </android.support.v7.widget.Toolbar>
 
     <!--项目列表-->
-    <ListView
-        android:id="@+id/lv_PJ_SingleType"
+    <com.fansfunding.PullListView.XListView
+        android:id="@+id/lv_single_category_project"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_category">
-    </ListView>
-</RelativeLayout>
+        android:layout_height="match_parent">
+        android:dividerHeight="5dp"
+        android:divider="@color/transparent"
+        android:headerDividersEnabled="false"
+        android:listSelector="@color/transparent"
+
+    </com.fansfunding.PullListView.XListView>
+</LinearLayout>

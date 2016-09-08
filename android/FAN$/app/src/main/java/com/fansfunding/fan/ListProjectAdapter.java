@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fansfunding.fan.utils.StartHomepage;
@@ -25,6 +27,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import cn.finalteam.toolsfinal.DeviceUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -152,7 +155,7 @@ public class ListProjectAdapter extends BaseAdapter{
         viewHolder.tv_PJ_name.setText(detail.getName());
         viewHolder.tv_PJ_intro.setText(detail.getDescription());
         if(context!=null&&detail.getCover()!=null&&detail.getCover().equals("")==false){
-            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getCover()).resize(720,400).centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.iv_PJ_image_1);
+            Picasso.with(context).load(context.getString(R.string.url_resources)+detail.getCover()).resize(720,400).centerCrop().memoryPolicy(MemoryPolicy.NO_CACHE).error(R.drawable.project_default_cover).into(viewHolder.iv_PJ_image_1);
         }
         viewHolder.tv_PJ_get_money.setText(new java.text.DecimalFormat("0.00").format(detail.getSum()));
         viewHolder. tv_PJ_target_money.setText(detail.getTargetMoney().toString());

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fansfunding.fan.R;
@@ -87,6 +88,9 @@ public class ProjectDetailRewardAdapter extends BaseAdapter {
             viewHolder.tv_project_detail_reward_support=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support);
             viewHolder.tv_project_detail_reward_information=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_information);
             viewHolder.gv_project_detail_reward_photo_list=(MyGridView)rootView.findViewById(R.id.gv_project_detail_reward_photo_list);
+            viewHolder.ll_project_detail_reward_support_limit=(LinearLayout)rootView.findViewById(R.id.ll_project_detail_reward_support_limit);
+            viewHolder.tv_project_detail_reward_support_times=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support_times);
+            viewHolder.tv_project_detail_reward_support_ceiling=(TextView)rootView.findViewById(R.id.tv_project_detail_reward_support_ceiling);
             rootView.setTag(viewHolder);
 
         }else {
@@ -98,11 +102,20 @@ public class ProjectDetailRewardAdapter extends BaseAdapter {
             return null;
         }
         else {
+
             ProjectDetailDynamicPhotoAdapter photoAdapter=new ProjectDetailDynamicPhotoAdapter(context);
 
             viewHolder.tv_project_detail_reward_support.setText(list.get(position).getLimitation().toString());
             viewHolder.tv_project_detail_reward_information.setText(list.get(position).getDescription());
             viewHolder.gv_project_detail_reward_photo_list.setAdapter(photoAdapter);
+            if(list.get(position).getCeiling()==-1){
+                viewHolder.ll_project_detail_reward_support_limit.setVisibility(View.GONE);
+            }else {
+                viewHolder.ll_project_detail_reward_support_limit.setVisibility(View.VISIBLE);
+                viewHolder.tv_project_detail_reward_support_ceiling.setText(""+list.get(position).getCeiling());
+                viewHolder.tv_project_detail_reward_support_times.setText(""+list.get(position).getSupportTimes());
+            }
+
 
             if(list.get(position).getImages()!=null&&list.get(position).getImages().size()>0){
                 for(int i=0;i<list.get(position).getImages().size();i++){
@@ -171,6 +184,15 @@ public class ProjectDetailRewardAdapter extends BaseAdapter {
         TextView tv_project_detail_reward_information;
         //图片展示
         MyGridView gv_project_detail_reward_photo_list;
+
+        //回报已支持次数
+        TextView tv_project_detail_reward_support_times;
+
+        //回报限制
+        TextView tv_project_detail_reward_support_ceiling;
+
+        //回报限制显示区域
+        LinearLayout ll_project_detail_reward_support_limit;
     }
 
 

@@ -183,4 +183,16 @@ public class FANRequestCode {
     //获取用户的粉丝失败
     public final static int GET_USER_FOLLOWER_FAILURE=178;
 
+    //请求项目分类信息成功
+    public final static int GET_PROJECT_CATEGORY_SUCCESS=179;
+
+    //请求项目分类信息失败
+    public final static int GET_PROJECT_CATEGORY_FAILURE=180;
+
+    //获取分类下的项目的信息成功
+    public final static int GET_PROJECT_IN_CATEGORY_SUCCESS=181;
+
+    //获取分类下的项目的信息失败
+    public final static int GET_PROJECT_IN_CATEGORY_FAILURE=182;
+
 }

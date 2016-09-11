@@ -208,7 +208,6 @@ public class CreateProjectFragment extends Fragment {
                 if(resultList.size()==0){
                     mPhotoList.clear();
                 }
-                mPhotoList.addAll(resultList);
                 mChoosePhotoListAdapter.notifyDataSetChanged();
             }
         }

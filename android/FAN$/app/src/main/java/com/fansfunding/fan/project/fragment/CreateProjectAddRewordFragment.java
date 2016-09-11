@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fansfunding.fan.R;
@@ -38,6 +41,10 @@ public class CreateProjectAddRewordFragment extends Fragment{
 
     private AppCompatEditText etSupportMoney;
     private AppCompatEditText etRewardContent;
+    private AppCompatEditText etRewardCeiling;
+    private SwitchCompat swOpenCeiling;
+    private LinearLayout llCeiling;
+    private int ceiling;
 
     private List<PhotoInfo> mPhotoList;
     private ChoosePhotoListAdapter mChoosePhotoListAdapter;
@@ -68,6 +75,18 @@ public class CreateProjectAddRewordFragment extends Fragment{
 
         return et;
     }
+
+    public int getCeiling(){
+        String et = etRewardCeiling.getText().toString();
+        if(ceiling>=0){
+            if(!et.equals("")){
+                ceiling=Integer.parseInt(et);
+            }
+        }
+
+        return ceiling;
+    }
+
 
     public static CreateProjectAddRewordFragment createProjectAddRewordFragment;
 
@@ -109,6 +128,25 @@ public class CreateProjectAddRewordFragment extends Fragment{
 
         etSupportMoney = (AppCompatEditText) rootView.findViewById(R.id.et_support_money);
         etRewardContent = (AppCompatEditText) rootView.findViewById(R.id.et_reward_content);
+        etRewardCeiling=(AppCompatEditText) rootView.findViewById(R.id.et_create_project_reword_ceiling);
+        swOpenCeiling =(SwitchCompat)rootView.findViewById(R.id.sw_create_project_reword_ceiling_open);
+        llCeiling=(LinearLayout)rootView.findViewById(R.id.ll_create_project_reword_ceiling);
+        llCeiling.setVisibility(View.INVISIBLE);
+
+
+        swOpenCeiling.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    llCeiling.setVisibility(View.VISIBLE);
+                    ceiling=0;
+                }else{
+                    llCeiling.setVisibility(View.INVISIBLE);
+                    ceiling=-1;
+                }
+            }
+        });
+
 
         mLvPhoto=(HorizontalListView)rootView.findViewById(R.id.lv_imageView);
         mPhotoList = new ArrayList<>();

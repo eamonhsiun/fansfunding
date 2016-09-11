@@ -83,11 +83,11 @@
 
     <string name="url_project">http://api.immortalfans.com:8080/project/</string>
 
-    <string name="url_add_project">http://api.immortalfans.com:8080/project/1/</string>
+    <string name="url_add_project">http://api.immortalfans.com:8080/project/</string>
 
-    <string name="url_add_feedback">http://api.immortalfans.com:8080/project/1/</string>
+    <string name="url_add_feedback">http://api.immortalfans.com:8080/project</string>
 
-    <string name="url_project_image">http://api.immortalfans.com:8080/project/1/</string>
+    <string name="url_project_image">http://api.immortalfans.com:8080/project</string>
 
     <string name="url_search_project">http://api.immortalfans.com:8080/search/project</string>
 

@@ -70,7 +70,13 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
     private MyDialog dialog;
 
     private static CreateProjectActivity createProjectActivity;
+
+    private int categoryId=1;
     private int projectId;
+
+    public void setCategoryId(int categoryId){
+        this.categoryId=categoryId;
+    }
 
     public static CreateProjectActivity getInstance(){
         return createProjectActivity;
@@ -141,6 +147,7 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
                     Map<String,Object> mapItem = new HashMap<>();
                     String supportMoney=CreateProjectAddRewordFragment.getInstance().getSupportMoney();
                     String content=CreateProjectAddRewordFragment.getInstance().getRewardContent();
+                    int ceiling =CreateProjectAddRewordFragment.getInstance().getCeiling();
                     Reward reward = new Reward();
                     reward.setPhotoList(CreateProjectAddRewordFragment.getInstance().getPhotoList());
                     if(supportMoney.equals("")||content.equals("")||(reward.getPhotoList().size()==0)){
@@ -151,6 +158,7 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
                         CreateProjectAddRewordFragment.getInstance().getAndClearPhotoList();
                         reward.setSupportMoney(Double.parseDouble(supportMoney));
                         reward.setContent(content);
+                        reward.setCeiling(ceiling);
                         mapItem.put("msg_name","支持金额： "+ supportMoney);
                         mapItem.put("msg_content", content);
                         mapItem.put("msg_extra",reward);
@@ -256,12 +264,13 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
         FormBody formBody=new FormBody.Builder()
                 .add("title", "支持金额： "+targetMoney)
                 .add("description",content)
+                .add("ceiling",reword.getCeiling()+"")
                 .add("limitation",targetMoney+"")
                 .add("images",rewardPhoto)
                 .build();
         Request request = new Request.Builder()
                 .post(formBody)
-                .url(CreateProjectActivity.this.getString(R.string.url_add_feedback)+projectId+"/feedbacks/")
+                .url(CreateProjectActivity.this.getString(R.string.url_add_feedback)+"/"+categoryId+"/"+projectId+"/feedbacks/")
                 .build();
 
         httpClient = new OkHttpClient();
@@ -306,13 +315,11 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
 
             RequestBody requestBody = FormBody.create(MediaType.parse("image/jpeg"), file);
             builder.addFormDataPart("files",file.getName(),requestBody);
-            Log.e("TEST2","ADD "+p.getPhotoPath());
         }
-        Log.e("TEST2",getString(R.string.url_project_image)+projectId + "/feedback/images");
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .post(requestBody)
-                .url(getString(R.string.url_project_image)+projectId + "/feedback/images")
+                .url(getString(R.string.url_project_image)+"/"+categoryId+"/"+projectId + "/feedback/images")
                 .build();
 
         Call call = httpClient.newCall(request);
@@ -367,7 +374,7 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
         FormBody formBody = formBuilder.build();
         Request request = new Request.Builder()
                 .post(formBody)
-                .url(CreateProjectActivity.this.getString(R.string.url_add_project))
+                .url(CreateProjectActivity.this.getString(R.string.url_add_project)+"/"+categoryId)
                 .build();
 
         Call call = httpClient.newCall(request);
@@ -387,13 +394,11 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
                     Gson gson=new GsonBuilder().create();
                     ResponseItem item = new ResponseItem();
                     item=gson.fromJson(str_response,item.getClass());
-                    Log.e("TEST2","onResponse "+str_response);
                     if(item.getErrCode()!=200){
                         handler.sendEmptyMessage(SERVER_ERROR);
                     }else{
                         double d=Double.valueOf(item.getData().toString());
                         projectId=(int)d;
-                        Log.e("TEST2",projectId+"");
                         //完成时调用
                         handler.sendEmptyMessage(PUBLISH_PROJECT_FINISHED);
                     }
@@ -417,7 +422,7 @@ public class CreateProjectActivity extends CreateProjectActivityBase {
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .post(requestBody)
-                .url(getString(R.string.url_project_image) + "/images")
+                .url(getString(R.string.url_project_image) +"/"+categoryId+ "/images")
                 .build();
 
         Call call = httpClient.newCall(request);

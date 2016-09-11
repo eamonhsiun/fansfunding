@@ -11,6 +11,7 @@ public class Reward {
     private double mSupportMoney;
     private String mContent;
     private List<PhotoInfo> mPhotoList;
+    private int ceiling;
 
 
     public List<PhotoInfo> getPhotoList() {
@@ -35,5 +36,14 @@ public class Reward {
 
     public void setSupportMoney(double mSupportMoney) {
         this.mSupportMoney = mSupportMoney;
+    }
+
+
+    public int getCeiling() {
+        return ceiling;
+    }
+
+    public void setCeiling(int ceiling) {
+        this.ceiling = ceiling;
     }
 }

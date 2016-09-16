@@ -42,7 +42,7 @@ public class TokenService {
 	 * 请求Token
 	 * @return
 	 */
-	public Token requestToken(int permission,User user){
+	public Token requestToken(int permission,User user,int type){
 		Token token = new Token();
 		token.setValue(UUID.randomUUID().toString().replace("-", ""));
 		token.setPermission(permission);
@@ -50,8 +50,15 @@ public class TokenService {
 		tokenDao.insertNewToken(token);
 		token.setPermission(0);
 		
-		user.setToken(token.getId());
-		userDao.updateToken(user);
+		
+		if(type==0){
+			user.setToken(token.getId());
+			userDao.updateToken(user);
+		}else if (type==1){
+			user.setToken_web(token.getId());
+			userDao.updateWebToken(user);
+		}
+		
 		
 		
 		return token;

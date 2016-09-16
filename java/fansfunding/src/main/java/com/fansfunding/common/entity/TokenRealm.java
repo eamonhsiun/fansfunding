@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fansfunding.common.interceptor.StatelessToken;
 import com.fansfunding.common.service.TokenService;
+import com.fansfunding.user.entity.User;
 import com.fansfunding.user.service.UserService;
 import com.fansfunding.utils.response.PermissionCode;
 
@@ -44,7 +45,8 @@ public class TokenRealm extends AuthorizingRealm{
 			if(myToken.getPermission()<PermissionCode.PERMISSION_NORMAL){
 				throw new AuthenticationException();
 			}
-			if(userService.getUserByName(myToken.getPhone()).getToken()==tokenId){
+			User user =userService.getUserByName(myToken.getPhone());
+			if(user.getToken()==tokenId||(user.getToken_web()==tokenId)){
 				return new SimpleAuthenticationInfo(tokenId,tokenId,getName());
 			}
 		}		

@@ -24,6 +24,7 @@
 		<result column="id_wb" property="id_wb" jdbcType="VARCHAR" />
 		<result column="id_qq" property="id_qq" jdbcType="VARCHAR" />
 		<result column="intro" property="intro" jdbcType="VARCHAR" />
+		<result column="token_web" property="token_web" jdbcType="INTEGER" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="BaseResultMap">
@@ -113,6 +114,14 @@
 		set token = #{token}
 		where id = #{id}
 	</update>
+	
+	
+	<update id="updateWebToken" parameterType="int">
+		update user
+		set token_web = #{token_web}
+		where id = #{id}
+	</update>
+	
 	<update id="updatePwd" parameterType="com.fansfunding.user.entity.User">
 		update user
 		set password = #{password}

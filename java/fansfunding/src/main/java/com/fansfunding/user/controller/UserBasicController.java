@@ -56,7 +56,12 @@ public class UserBasicController {
 	 */
 	@RequestMapping(path = "newUser")
 	@ResponseBody
-	public Status newUser(@RequestParam int checker, @RequestParam String password, @RequestParam String token)
+	public Status newUser(
+			@RequestParam int checker, 
+			@RequestParam String password, 
+			@RequestParam String token,
+			@RequestParam(required=false,defaultValue="0") int web
+			)
 			throws Exception {
 //		if (password.length() < 6 || password.length() > 16) {
 //			return new Status(false, StatusCode.PASSWORD_LENGTH_ERROR, "密码长度错误", null);
@@ -86,7 +91,7 @@ public class UserBasicController {
 
 		}
 		checkerService.deleteById(cid);
-		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
+		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user,web);
 
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
 				AESUtils.Encrypt(newToken.getId() + "", AESUtils.ENCRYPT_KEY).replace("+", "%ADD_ADD"));
@@ -102,7 +107,12 @@ public class UserBasicController {
 	 */
 	@RequestMapping(path = "forgetPwd")
 	@ResponseBody
-	public Status forgetPwd(@RequestParam int checker, @RequestParam String password, @RequestParam String token)
+	public Status forgetPwd(
+			@RequestParam int checker, 
+			@RequestParam String password,
+			@RequestParam String token,
+			@RequestParam(required=false,defaultValue="0") int web
+			)
 			throws Exception {
 		int cid;
 		if (password.length() < 6 || password.length() > 16) {
@@ -131,7 +141,7 @@ public class UserBasicController {
 
 		user = userService.getUserByPhone(c.getPhone());
 
-		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
+		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user,web);
 		if (user == null)
 			return new Status(false, StatusCode.USER_NULL, null, null);
 		user.setPassword(password);
@@ -156,7 +166,11 @@ public class UserBasicController {
 	 */
 	@RequestMapping(path = "login")
 	@ResponseBody
-	public Status login(@RequestParam String name, @RequestParam String password) throws Exception {
+	public Status login(
+			@RequestParam String name, 
+			@RequestParam String password,
+			@RequestParam(required=false,defaultValue="0") int web
+			) throws Exception {
 		User user = userService.getUserByName(name);
 		if (user == null) {
 			return new Status(false, StatusCode.USER_NULL, null, null);
@@ -166,7 +180,7 @@ public class UserBasicController {
 		}
 
 		// 权限控制
-		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user);
+		Token newToken = tokenService.requestToken(PermissionCode.PERMISSION_NORMAL, user,0);
 
 		user.setPassword("");
 		return new Status(true, StatusCode.SUCCESS, userService.getUserBasicMap(user),
@@ -389,7 +403,6 @@ public class UserBasicController {
 	@ResponseBody
 	public Status getMomentById(
 			@PathVariable int userId,
-			@RequestParam int viewId,
 			@PathVariable int momentId
 			) throws Exception{
 		if(!userMomentService.isExist(momentId)){

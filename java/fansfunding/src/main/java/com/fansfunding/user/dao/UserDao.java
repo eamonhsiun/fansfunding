@@ -17,6 +17,7 @@ public interface UserDao {
 	User selectByEmail(String email);
 	void insertNewUser(User user);
 	void updateToken(User user);
+	void updateWebToken(User user);
 	void updatePwd(User user);
 	void updateHead(User user);
 	void updateUser(User user);

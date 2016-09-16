@@ -213,7 +213,7 @@ public class UserMomentService {
 			// 推送点赞通知
 			//push.pushLike(userMomentDao.selectById(momentId).getUserId(), userId, this.getMomentById(momentId));
 		} catch (Exception e) {
-			return false;
+			return true;
 		}
 		return true;
 	}

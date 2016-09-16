@@ -55,6 +55,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/linearlayout_padding"
                 android:layout_margin="@dimen/layout_padding"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="项目分类"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/subhead_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_project_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:clickable="true"
+                    android:gravity="end"
+                    android:text="美食"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/subhead_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linearlayout_padding"
+                android:layout_margin="@dimen/layout_padding"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -75,53 +102,54 @@
             </LinearLayout>
 
             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/linearlayout_padding"
-                android:layout_margin="@dimen/layout_padding"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="筹款金额"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal"
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
+                >
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_target_money"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/linearlayout_padding"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="筹款金额"
-                    android:textColor="@color/colorBlack"
+
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:gravity="center_vertical|right"
+                    android:hint="填写目标金额"
+                    android:inputType="number"
                     android:textSize="@dimen/subhead_text_size" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:orientation="horizontal"
-
-                    >
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/et_target_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/linearlayout_padding"
-
-                        android:background="@null"
-                        android:cursorVisible="false"
-                        android:gravity="center_vertical|right"
-                        android:hint="填写目标金额"
-                        android:inputType="number"
-                        android:textSize="@dimen/subhead_text_size" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/linearlayout_padding"
-                        android:gravity="center_vertical"
-                        android:text=" 元"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/subhead_text_size" />
-                </LinearLayout>
-
-
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+                    android:gravity="center_vertical"
+                    android:text=" 元"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/subhead_text_size" />
             </LinearLayout>
+
+
+        </LinearLayout>
+
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_project_title"

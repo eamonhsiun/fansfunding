@@ -2,6 +2,7 @@ package com.fansfunding.fan.project.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
@@ -17,6 +18,9 @@ import com.fansfunding.fan.project.activity.CreateProjectActivity;
 import com.fansfunding.fan.project.adapter.ChoosePhotoListAdapter;
 import com.fansfunding.fan.project.listener.ChooseImageListener;
 import com.fansfunding.fan.project.utils.DatePicker;
+import com.fansfunding.fan.request.RequestCategory;
+import com.fansfunding.fan.utils.ErrorHandler;
+import com.fansfunding.fan.utils.FANRequestCode;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -24,11 +28,16 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import cn.finalteam.galleryfinal.widget.HorizontalListView;
+import cn.qqtheme.framework.picker.OptionPicker;
+import okhttp3.OkHttpClient;
 
 
 public class CreateProjectFragment extends Fragment {
@@ -36,9 +45,13 @@ public class CreateProjectFragment extends Fragment {
     public static CreateProjectFragment createProjectFragment;
     //Views
     private AppCompatTextView tvProjectCreateTime;
+    private AppCompatTextView tvProjectCategory;
+
     private AppCompatEditText etTargetMoney;
     private AppCompatEditText etProjectTitle;
     private AppCompatEditText etProjectDesc;
+
+    private RequestCategory requestCategory;
     //Constans
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
@@ -70,12 +83,17 @@ public class CreateProjectFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if(v.getId()==tvProjectCreateTime.getId()){
-                startPicker();
+                startTimePicker();
             }
+            if(v.getId()==tvProjectCategory.getId()){
+                OkHttpClient httpClient=new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+                requestCategory.requestCategory(CreateProjectFragment.this.getActivity(),handler,httpClient);
+            }
+
         }
     };
 
-    private void startPicker() {
+    private void startTimePicker() {
         DatePicker picker = new DatePicker(CreateProjectFragment.this.getActivity(), DatePicker.YEAR_MONTH_DAY);
         picker.setRange(2015, 2050);//年份范围
         Calendar c = Calendar.getInstance();
@@ -104,6 +122,24 @@ public class CreateProjectFragment extends Fragment {
         picker.show();
     }
 
+    private void startCategoryPicker() {
+        OptionPicker picker = new OptionPicker(this.getActivity(),categoryList);
+
+        picker.setOffset(2);
+        picker.setSelectedIndex(1);
+        picker.setTextSize(11);
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+
+            @Override
+            public void onOptionPicked(int position, String option) {
+                tvProjectCategory.setText(option);
+                ((CreateProjectActivity)CreateProjectFragment.this.getActivity()).setCategoryId(categoryHash.get(option));
+            }
+        });
+        picker.show();
+    }
+
+
     private void initBaseView(View rootView) {
         initTime(rootView);
         initEditText(rootView);
@@ -117,6 +153,8 @@ public class CreateProjectFragment extends Fragment {
 
     private void initTime(View rootView) {
         tvProjectCreateTime = (AppCompatTextView)rootView.findViewById(R.id.tv_project_create_time);
+        tvProjectCategory = (AppCompatTextView)rootView.findViewById(R.id.tv_project_category);
+        tvProjectCategory.setOnClickListener(clickListener);
         tvProjectCreateTime.setOnClickListener(clickListener);
         Calendar c = Calendar.getInstance();
         tvProjectCreateTime.setText(c.get(Calendar.YEAR)+"-"+(c.get(Calendar.MONTH)+1)+"-"+(c.get(Calendar.DAY_OF_MONTH)+1));
@@ -136,6 +174,8 @@ public class CreateProjectFragment extends Fragment {
         mOpenGallery.setOnClickListener(new ChooseImageListener(CreateProjectActivity.getInstance(),mOnHanlderResultCallback,mPhotoList));
 
         initImageLoader(CreateProjectFragment.this.getActivity());
+
+        requestCategory=new RequestCategory();
 
         return rootView;
     }
@@ -217,5 +257,35 @@ public class CreateProjectFragment extends Fragment {
             Toast.makeText(CreateProjectFragment.this.getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
         }
     };
+
+
+    //消息处理
+    private ErrorHandler handler=new ErrorHandler(getActivity()){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+
+                case FANRequestCode.GET_PROJECT_CATEGORY_SUCCESS:
+                    categoryHash.clear();
+                    categoryList.clear();
+                    for(int i=1;i<requestCategory.getCategoryInfo().getData().size();i++){
+                        categoryHash.put(
+                                requestCategory.getCategoryInfo().getData().get(i).getName(),
+                                requestCategory.getCategoryInfo().getData().get(i).getId()
+                                );
+                        categoryList.add(requestCategory.getCategoryInfo().getData().get(i).getName());
+                    }
+                    startCategoryPicker();
+                    break;
+
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
+
+    private Map<String,Integer> categoryHash = new HashMap<>();
+    private ArrayList<String> categoryList = new ArrayList<>();
+
 
 }

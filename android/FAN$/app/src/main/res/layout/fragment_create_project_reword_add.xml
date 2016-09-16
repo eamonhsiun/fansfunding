@@ -102,54 +102,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_create_project_reword_ceiling"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/linearlayout_padding"
-                android:layout_margin="@dimen/layout_padding"
-                android:orientation="horizontal">
-
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/linearlayout_padding"
-                    android:layout_weight="1"
-
-                    android:gravity="center_vertical"
-                    android:text="人数限制"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/subhead_text_size" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/et_create_project_reword_ceiling"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/linearlayout_padding"
-                        android:background="@null"
-                        android:cursorVisible="false"
-                        android:gravity="center_vertical|right"
-                        android:hint="请输入人数"
-                        android:inputType="numberDecimal"
-                        android:textSize="@dimen/subhead_text_size" />
-
-                    <android.support.v7.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/linearlayout_padding"
-
-                        android:text="人"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/subhead_text_size" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_reward_content"
@@ -162,6 +114,55 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/subhead_text_size" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_create_project_reword_ceiling"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linearlayout_padding"
+            android:layout_margin="@dimen/layout_padding"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linearlayout_padding"
+                android:layout_weight="1"
+
+                android:gravity="center_vertical"
+                android:text="人数限制"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/subhead_text_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_create_project_reword_ceiling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:gravity="center_vertical|right"
+                    android:hint="请输入人数"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/subhead_text_size" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/linearlayout_padding"
+
+                    android:text="人"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/subhead_text_size" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
         <cn.finalteam.galleryfinal.widget.HorizontalListView
             android:id="@+id/lv_imageView"

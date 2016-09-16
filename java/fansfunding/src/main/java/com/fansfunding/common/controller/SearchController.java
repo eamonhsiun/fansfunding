@@ -31,7 +31,7 @@ public class SearchController {
 	public Status searchUser(@RequestParam String keyword,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
-		return new Status(true,StatusCode.SUCCESS,userService.search(keyword,page,rows),null);
+		return new Status(true,StatusCode.SUCCESS,userService.search(keyword.replaceAll("%", "\\\\%").replaceAll("_", "\\\\_"),page,rows),null);
 	}
 	/**
 	 * 项目搜索
@@ -45,6 +45,6 @@ public class SearchController {
 	public Status searchProject(@RequestParam String keyword,
 			@RequestParam(required = false, defaultValue = "1") Integer page,
 			@RequestParam(required = false, defaultValue = "10") Integer rows){
-		return new Status(true,StatusCode.SUCCESS,projectService.search(keyword,page,rows),null);
+		return new Status(true,StatusCode.SUCCESS,projectService.search(keyword.replaceAll("%", "\\\\%").replaceAll("_", "\\\\_"),page,rows),null);
 	}
 }

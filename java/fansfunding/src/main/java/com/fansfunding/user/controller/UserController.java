@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fansfunding.common.entity.Token;
 import com.fansfunding.common.service.TokenService;
+import com.fansfunding.pay.dao.OrderDao;
 import com.fansfunding.project.service.CategoryService;
 import com.fansfunding.project.service.ProjectService;
 import com.fansfunding.user.entity.User;
@@ -37,6 +38,8 @@ public class UserController {
 	private ProjectService projectService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private OrderDao orderDao;
 	/**
 	 * 登出
 	 * 
@@ -126,6 +129,9 @@ public class UserController {
 	public Status userOrderByOrderNo(@PathVariable int userId,@PathVariable String orderNo){
 		if(!userService.isExist(userId)){
 			return new Status(false, StatusCode.USER_NULL, "用户不存在", null);
+		}
+		if(orderDao.selectByOrderNo(orderNo)==null){
+			return new Status(false, StatusCode.NOT_ILLEGEL_ORDER, "订单不存在", null);
 		}
 		return new Status(true,StatusCode.SUCCESS,userService.paidOrder(orderNo),null);
 	}

@@ -80,7 +80,7 @@ public class Dispatcher {
 	 * @return
 	 */
 	public static boolean comment(int receiver,CommentMessage comment){
-		return Dispatcher.send(receiver,new SocketResponse(true,3,StatusCode.SUCCESS,comment));
+		return Dispatcher.send(receiver,new SocketResponse(true,2,StatusCode.SUCCESS,comment));
 	}
 	/**
 	 * 发送

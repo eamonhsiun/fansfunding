@@ -254,7 +254,7 @@ public class ProjectService {
 					userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getNickname());
 			moment.put("sponsorHead", 
 					userDao.selectById(projectDao.selectByProjectId(projectId).getSponsor()).getHead());
-			List<Resource> images=resourceDao.selectMomentImages(e.getId());
+			List<Resource> images=resourceDao.selectProjectMomentImages(e.getId());
 			String[] paths=new String[images.size()];
 			for(int i=0;i<images.size();i++){
 				paths[i]=images.get(i).getPath();

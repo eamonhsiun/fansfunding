@@ -50,7 +50,7 @@ public class UserMomentService {
 		moment.put("content", u.getContent());
 		moment.put("postTime", u.getCreateTime());
 
-		List<Resource> images = resourceDao.selectMomentImages(u.getId());
+		List<Resource> images = resourceDao.selectUserMomentImages(u.getId());
 		String[] paths = new String[images.size()];
 		for (int i = 0; i < images.size(); i++) {
 			paths[i] = images.get(i).getPath();
@@ -169,6 +169,9 @@ public class UserMomentService {
 		Map<String, Object> pointTo = this.getMomentById(userId,momentId);
 		int receiver = userMomentDao.selectById(momentId).getUserId();
 		push.pushMommentComment(receiver, userMomentComment.getUserId(), pointTo, content);
+		if(replyTo!=0){
+			push.pushMommentComment(replyTo, userMomentComment.getUserId(), pointTo, content);
+		}
 		return true;
 	}
 
@@ -196,10 +199,7 @@ public class UserMomentService {
 		List<UserMomentLike> momentLike = userMomentLikeDao.selectByMomentId(momentId);
 		PageInfo<UserMomentLike> info = new PageInfo<>(momentLike);
 		for (UserMomentLike l : momentLike) {
-			Map<String, Object> like = new HashMap<>();
-			like.put("userId", l.getUserId());
-			like.put("nickName", l.getNickname());
-			momentMap.add(like);
+			momentMap.add(userService.getUserBasicMap(l.getUserId()));
 		}
 		return PageAdapter.adapt(info, momentMap);
 	}
@@ -211,7 +211,8 @@ public class UserMomentService {
 			userMomentLike.setUserId(userId);
 			userMomentLikeDao.insert(userMomentLike);
 			// 推送点赞通知
-			//push.pushLike(userMomentDao.selectById(momentId).getUserId(), userId, this.getMomentById(momentId));
+			UserMoment moment=userMomentDao.selectById(momentId);
+			push.pushLike(moment.getUserId(), userId, this.getMomentById(moment.getUserId(),momentId));
 		} catch (Exception e) {
 			return true;
 		}
@@ -239,7 +240,7 @@ public class UserMomentService {
 			moment.put("content", u.getContent());
 			moment.put("postTime", u.getCreateTime());
 
-			List<Resource> images = resourceDao.selectMomentImages(u.getId());
+			List<Resource> images = resourceDao.selectUserMomentImages(u.getId());
 			String[] paths = new String[images.size()];
 			for (int i = 0; i < images.size(); i++) {
 				paths[i] = images.get(i).getPath();
